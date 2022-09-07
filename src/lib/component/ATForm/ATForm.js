@@ -9,6 +9,9 @@ import * as FormBuilder from './FormBuilder/FormBuilder';
 import { types } from './UITypeUtils/UITypeUtils';
 //Validation
 import Ajv from "ajv"
+//DatePicker
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
 class ATForm extends PureComponent {
     constructor(props) {
@@ -176,7 +179,7 @@ class ATForm extends PureComponent {
         if (String(inputType).toLowerCase() === 'submit' && onClick && this.ajvValidate) {
             newOnClick = (event, props) => {
                 const isValid = this.ajvValidate(this.formDataKeyValue)
-                const newValidationErrors = this.normalizeErrors(this.ajvValidate?.errors)                
+                const newValidationErrors = this.normalizeErrors(this.ajvValidate?.errors)
 
                 this.setState({
                     validationErrors: newValidationErrors,
@@ -221,7 +224,9 @@ class ATForm extends PureComponent {
 
         return (
             <React.Fragment>
-                {validChildren}
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                    {validChildren}
+                </LocalizationProvider>
             </React.Fragment>
         )
     }

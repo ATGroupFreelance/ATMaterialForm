@@ -1,5 +1,6 @@
-import ComboBox from "../ComboBox/ComboBox";
+import React from 'react';
 
+import ComboBox from "../ComboBox/ComboBox";
 //Facts about autocomplete:
 //If "multiple" is false, value/initvalue must be string or null
 //If "multiple" is true,  value/initvalue must be an array

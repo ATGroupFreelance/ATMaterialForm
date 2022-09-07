@@ -1,9 +1,8 @@
 {
   "name": "atmaterialform",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "private": false,
   "dependencies": {
-    "@babel/polyfill": "^7.12.1",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@mui/icons-material": "^5.10.2",
@@ -23,6 +22,14 @@
     "type": "git",
     "url": "https://github.com/ATGroupFreelance/ATMaterialForm"
   },
+  "author": {
+    "name": "ATGroupFreelance"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "license": "ISC",
+  "keywords": ["react", "components", "ui", "form", "atmaterialform"],
+  "description": "a very fast and ready to use material form with a lot of handy features",
   "scripts": {
     "start": "react-scripts start",
     "prebuild": "rimraf dist",
