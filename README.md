@@ -1,13 +1,27 @@
-#Introduction 
-This is a JSON based form where instead of JSX elements you can pass built in JSON functions, The goal is to make a super easy to use form that doesn't use <form/> and manages everything manually.
-Right now the form uses MaterialUI for the UI and AJV for the validation.
-A few features:
-+The form controlls the elements inside their own component.
-+Changes in the elements doesn't trigger rerender of the form to increase performance.
-+The form uses split coding to dynamiclly load the elements.
-I have just began this repostory and I intend to add more features and more specific UIs as time goes on to really understand why this package is fast to use you should see the examples.
+<h1>Introduction MaterialATForm</h1>
+This is a form with production speed at its goal. Having flexibility is not a bad thing, but in most small to medium websites, what we need from forms is very specific. We need to create certain forms with certain elements, and on each page, we repeat this process. This usually requires you to create a lot of JSX elements and handle their on change or use html form and handle its submit, create loading, and many other small details that are required, but almost all the time, these small details are the same, and our goal here is to create a form that handles all that.
+<h1> Primary Focus</h1>
+Our form will use Material UI to create its ready-to-use elements. We add much-needed features to some of these elements and keep in mind our form's performance. Right now, the form is super fast with very little need for rerendering.
+<h1>Main Features</h1>
+<b>* The form can use JSON to create elements. It's handy if you want to make a bunch of forms using database columns.
+<br>
+* The form can handle perfect save and load without any issues.
+<br>
+* You don't need to lookup Material UI options, all basics are filled, and of course, you can add to them or even overwrite them, but basically, you can say "createTextBox({id: name, xs: 12})" and you are done!
+</b>
+<h1>Getting Started</h1>
+<h2>A simple example of create a textbox!</h2>
 
-#Getting Started 
+```
+<ATForm >
+        {[
+          formBuilder.createTextBox({ id: 'Name'}),            
+        ]}
+</ATForm>
+
+```
+<h2> Here is a full example that show a lot of the features</h2>
+
 ```
 import { Grid } from '@mui/material';
 import { useRef, useState } from 'react';
@@ -71,6 +85,6 @@ function App() {
     </div>
   );
 }
-
 export default App;
+
 ```
