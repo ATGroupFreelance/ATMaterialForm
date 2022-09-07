@@ -17,8 +17,6 @@ function App() {
     }
 
     setFormDataForView(formDataKeyValue)
-
-    console.log('onFormChange', mFormData.current)
   }
 
   const onSetDefaultValueClick = (event, { startLoading, stopLoading }) => {
