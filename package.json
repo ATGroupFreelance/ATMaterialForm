@@ -1,6 +1,6 @@
 {
-  "name": "materialatform",
-  "version": "0.3.4",
+  "name": "atmaterialform",
+  "version": "0.1.0",
   "private": false,
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ATGroupFreelance/MaterialATForm"
+    "url": "https://github.com/ATGroupFreelance/ATMaterialForm"
   },
   "scripts": {
     "start": "react-scripts start",
