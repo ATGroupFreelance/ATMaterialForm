@@ -65,19 +65,24 @@ export const createUploadButton = ({ id, md = 3, ...restProps }) => {
     })
 }
 
-export const createCascadeComboBox = ({ id, ...restProps }) => {
+export const createCascadeComboBox = ({ id, md = 12, ...restProps }) => {
     return create({
         id,
         type: 'CascadeComboBox',
+        md: md,
+        gridContainer: true,
+        gridSpacing: 2,
         ...restProps,
     })
 }
 
-export const createGrid = ({ id, ...restProps }) => {
+export const createGrid = ({ id, container, spacing, ...restProps }) => {
     return create({
         id,
         type: 'Grid',
         skipRender: true,
+        gridSpacing: container,
+        gridContainer: container,
         ...restProps,
     })
 }

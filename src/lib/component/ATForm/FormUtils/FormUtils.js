@@ -13,16 +13,23 @@ export const convertToKeyValue = (formData) => {
 }
 
 export const getFlexGrid = (props) => {
-    const { xs, md, lg, xl } = (props || {})
+    const { xs, md, lg, xl, gridContainer = false, gridSpacing = 0 } = (props || {})
     const newXS = xs === undefined ? 12 : xs
     const newMD = md
     const newLG = lg
     const newXL = xl
 
-    return {
+    const result = {
         xs: newXS,
         md: newMD,
         lg: newLG,
-        xl: newXL,
+        xl: newXL,        
     }
+
+    if (gridContainer)
+        result.container = gridContainer
+    if (gridContainer && gridSpacing)
+        result.spacing = gridSpacing
+
+    return result
 }

@@ -3,7 +3,6 @@ import moment from 'moment';
 export const getTypeInfo = (type) => {
     return types.find(item => item.type === type)
 }
-
 //Facts:
 //1- Because values are controlled, Initial value CAN NOT BE UNDEFINED
 //2- If initialValue is not inside an object it means the object is uncontrolled
@@ -37,5 +36,20 @@ export const types = [
     {
         type: 'CascadeComboBox',
         initialValue: null,
+        convertToKeyValue: (event) => {
+            if (!event.target.value)
+                return event.target.value
+
+            const result = {}
+
+            for (let key in event.target.value) {
+                if (Array.isArray(event.target.value[key]))
+                    result[key] = event.target.value[key].map(item => item.ID)
+                else
+                    result[key] = event.target.value[key] ? event.target.value[key].ID : null
+            }
+
+            return result
+        }
     }
 ]

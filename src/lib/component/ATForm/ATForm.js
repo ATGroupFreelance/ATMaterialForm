@@ -185,7 +185,7 @@ class ATForm extends PureComponent {
                     validationErrors: newValidationErrors,
                 }, () => {
                     if (isValid) {
-                        onClick(event, { ...props, formData: this.formData })
+                        onClick(event, { ...props, formData: this.formData, formDataKeyValue: this.formDataKeyValue })
                     }
                     else {
                         //Show a notification      
@@ -220,7 +220,7 @@ class ATForm extends PureComponent {
             const props = React.isValidElement(item) ? item.props : item
             const { skipRender } = props
 
-            return <Grid key={props.id} item {...FormUtils.getFlexGrid(props)}> {!skipRender && this.getRenderableItem(item)} </Grid>
+            return <Grid key={props.id} item {...FormUtils.getFlexGrid(props)} > {!skipRender && this.getRenderableItem(item)} </Grid>
         })
 
         return (

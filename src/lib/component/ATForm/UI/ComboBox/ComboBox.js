@@ -12,7 +12,6 @@ import TextField from '@mui/material/TextField';
 //['uk', 'us']
 //[{label: 'uk'}, {label: 'us'}]
 const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'disabled', error, helperText, ...restProps }) => {
-
     const onInternalChange = (event, newValue) => {
         if (onChange)
             onChange({ target: { value: newValue } })
@@ -23,7 +22,8 @@ const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'disab
         fullWidth={true}
         options={options || []}
         onChange={onInternalChange}
-        isOptionEqualToValue={(option, value) => option.value === value.value}        
+        getOptionLabel={(option) => option.Title}
+        isOptionEqualToValue={(option, value) => option.ID === value.ID}
         renderInput={(params) => <TextField {...params} error={error} helperText={helperText} label={label} inputProps={{ ...params.inputProps, autoComplete: autoComplete }} />}
         {...restProps}
     />
