@@ -21,10 +21,7 @@ function App() {
 
   const onSetDefaultValueClick = (event, { startLoading, stopLoading }) => {
     startLoading()
-    formRef.current.reset({
-      'Name': null,
-      'Countries': null,
-    })
+    formRef.current.reset()
     setTimeout(() => {
       stopLoading()
     }, 300)
@@ -52,6 +49,11 @@ function App() {
             formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', options: [{ label: 'UK', value: 1 }, { label: 'US', value: 2 }], validation: { required: true, type: 'array', minItems: 1 } }),
             formBuilder.createDatePicker({ id: 'DatePicker' }),
             formBuilder.createUploadButton({ id: 'UploadButton' }),
+            formBuilder.createCascadeComboBox({ id: 'CascadeComboBox' }),
+            formBuilder.createGrid({
+              id: 'grid01',
+              md: 12,
+            }),
             formBuilder.createButton({ id: 'SetDefaultValue', onClick: onSetDefaultValueClick }),
             formBuilder.createButton({ id: 'SubmitButton', onClick: onSubmitClick, inputType: 'submit' }),
           ]}

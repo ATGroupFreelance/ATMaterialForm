@@ -59,7 +59,7 @@ class ATForm extends PureComponent {
 
     reset = (newDefaultValue) => {
         this.setState({
-            defaultValue: newDefaultValue
+            defaultValue: newDefaultValue || {}
         }, () => {
             for (let key in this.childrenRefs) {
                 if (this.childrenRefs[key].reset)
@@ -218,8 +218,9 @@ class ATForm extends PureComponent {
     render() {
         const validChildren = this.getFlatChildren().map(item => {
             const props = React.isValidElement(item) ? item.props : item
+            const { skipRender } = props
 
-            return <Grid key={props.id} item {...FormUtils.getFlexGrid(props)}> {this.getRenderableItem(item)} </Grid>
+            return <Grid key={props.id} item {...FormUtils.getFlexGrid(props)}> {!skipRender && this.getRenderableItem(item)} </Grid>
         })
 
         return (

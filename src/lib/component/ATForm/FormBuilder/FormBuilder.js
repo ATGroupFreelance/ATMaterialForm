@@ -64,3 +64,20 @@ export const createUploadButton = ({ id, md = 3, ...restProps }) => {
         ...restProps,
     })
 }
+
+export const createCascadeComboBox = ({ id, ...restProps }) => {
+    return create({
+        id,
+        type: 'CascadeComboBox',
+        ...restProps,
+    })
+}
+
+export const createGrid = ({ id, ...restProps }) => {
+    return create({
+        id,
+        type: 'Grid',
+        skipRender: true,
+        ...restProps,
+    })
+}

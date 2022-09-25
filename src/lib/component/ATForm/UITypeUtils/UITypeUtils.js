@@ -34,4 +34,8 @@ export const types = [
         type: 'UploadButton',
         initialValue: [],
     },
+    {
+        type: 'CascadeComboBox',
+        initialValue: null,
+    }
 ]
