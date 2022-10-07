@@ -83,6 +83,7 @@ function App() {
             formBuilder.createDatePicker({ id: 'DatePicker' }),
             formBuilder.createUploadButton({ id: 'UploadButton' }),
             formBuilder.createCheckBox({ id: 'CheckBox' }),
+            formBuilder.createSlider({ id: 'Slider' }),
             formBuilder.createCascadeComboBox({ id: 'CascadeComboBox', design: cascadeDesign }),
             formBuilder.createGrid({
               id: 'grid01',

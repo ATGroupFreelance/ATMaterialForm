@@ -7,6 +7,7 @@ const DatePicker = React.lazy(() => import('../../UI/DatePicker/DatePicker'));
 const UploadButton = React.lazy(() => import('../../UI/UploadButton/UploadButton'));
 const CascadeComboBox = React.lazy(() => import('../../UI/CascadeComboBox/CascadeComboBox'));
 const CheckBox = React.lazy(() => import('../../UI/CheckBox/CheckBox'));
+const Slider = React.lazy(() => import('../../UI/Slider/Slider'));
 
 const getInitialValue = (typeInfo, defaultValue) => {
     const { initialValue, isNullValueValid } = typeInfo
@@ -79,6 +80,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         {type === 'UploadButton' && <UploadButton {...commonProps} />}
         {type === 'CascadeComboBox' && <CascadeComboBox {...commonProps} />}
         {type === 'CheckBox' && <CheckBox {...commonProps} />}
+        {type === 'Slider' && <Slider {...commonProps} />}
     </Suspense>
 }
 

@@ -3,11 +3,26 @@ import React from 'react';
 import BaseComboBox from './BaseComboBox/BaseComboBox';
 
 const CascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComplete = 'disabled', error, helperText, ...restProps }) => {
-    const onInternalChange = (id, event) => {
+    const onInternalChange = (id, event, children) => {
         const newValue = {
             ...(value || {}),
             [id]: event.target.value,
         }
+
+        const resetChildrenValue = (childList) => {
+            for (let i = 0; i < childList.length; i++) {
+                if (newValue.hasOwnProperty(childList[i].id)) {
+                    newValue[childList[i].id] = null
+
+                    if (childList[i].children) {
+                        resetChildrenValue(childList[i].children)
+                    }
+                }
+            }
+        }
+
+        if (children)
+            resetChildrenValue(children)
 
         onChange({ target: { value: newValue } })
     }
@@ -21,7 +36,7 @@ const CascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComp
                 ...restItem,
                 value: value,
                 parentID: parentID,
-                onChange: (event) => onInternalChange(id, event)
+                onChange: (event) => onInternalChange(id, event, children)
             })
 
             if (children) {

@@ -9,6 +9,7 @@ export const UITypes = {
     UploadButton: 'UploadButton',
     CascadeComboBox: 'CascadeComboBox',
     CheckBox: 'CheckBox',
+    Slider: 'Slider',
 }
 
 export const getTypeInfo = (type) => {
@@ -66,5 +67,9 @@ export const types = [
     {
         type: 'CheckBox',
         initialValue: false,
+    },
+    {
+        type: 'Slider',
+        initialValue: null,
     },
 ]

@@ -96,3 +96,12 @@ export const createCheckBox = ({ id, md = 3, ...restProps }) => {
         ...restProps,
     })
 }
+
+export const createSlider = ({ id, md = 3, ...restProps }) => {
+    return create({
+        id,
+        type: 'Slider',
+        md,
+        ...restProps,
+    })
+}
