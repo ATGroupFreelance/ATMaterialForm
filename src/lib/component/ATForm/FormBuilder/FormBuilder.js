@@ -86,3 +86,13 @@ export const createGrid = ({ id, container, spacing, ...restProps }) => {
         ...restProps,
     })
 }
+
+export const createCheckBox = ({ id, md = 3, ...restProps }) => {
+    return create({
+        id,
+        type: 'CheckBox',
+        md,
+        labelPlacement: 'end',
+        ...restProps,
+    })
+}

@@ -1,5 +1,16 @@
 import moment from 'moment';
 
+export const UITypes = {
+    Button: 'Button',
+    TextBox: 'TextBox',
+    ComboBox: 'ComboBox',
+    MultiComboBox: 'MultiComboBox',
+    DatePicker: 'DatePicker',
+    UploadButton: 'UploadButton',
+    CascadeComboBox: 'CascadeComboBox',
+    CheckBox: 'CheckBox',
+}
+
 export const getTypeInfo = (type) => {
     return types.find(item => item.type === type)
 }
@@ -51,5 +62,9 @@ export const types = [
 
             return result
         }
-    }
+    },
+    {
+        type: 'CheckBox',
+        initialValue: false,
+    },
 ]

@@ -171,25 +171,38 @@ class ATForm extends PureComponent {
         return result
     }
 
+    checkValidation = (onValid) => {
+        if (this.ajvValidate) {
+            const isValid = this.ajvValidate(this.formDataKeyValue)
+            const newValidationErrors = this.normalizeErrors(this.ajvValidate?.errors)
+
+            this.setState({
+                validationErrors: newValidationErrors,
+            }, () => {
+                if (isValid) {
+                    if (onValid)
+                        onValid()
+                }
+                else {
+                    //Show a notification      
+                }
+            })
+        }
+        else {
+            if (onValid)
+                onValid()
+        }
+    }
+
     getChildProps = ({ id, type, defaultValue, inputType, onClick, ...restProps }) => {
         const { childrenProps } = this.props
         const formDefaultValue = this.props.defaultValue ? this.props.defaultValue : this.state.defaultValue
         const newDefaultValue = formDefaultValue[id] === undefined ? defaultValue : formDefaultValue[id]
         let newOnClick = onClick
-        if (String(inputType).toLowerCase() === 'submit' && onClick && this.ajvValidate) {
+        if (String(inputType).toLowerCase() === 'submit' && onClick) {
             newOnClick = (event, props) => {
-                const isValid = this.ajvValidate(this.formDataKeyValue)
-                const newValidationErrors = this.normalizeErrors(this.ajvValidate?.errors)
-
-                this.setState({
-                    validationErrors: newValidationErrors,
-                }, () => {
-                    if (isValid) {
-                        onClick(event, { ...props, formData: this.formData, formDataKeyValue: this.formDataKeyValue })
-                    }
-                    else {
-                        //Show a notification      
-                    }
+                this.checkValidation(() => {
+                    onClick(event, { ...props, formData: this.formData, formDataKeyValue: this.formDataKeyValue })
                 })
             }
         }

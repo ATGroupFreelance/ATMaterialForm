@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { useRef, useState } from 'react';
 import './App.css';
 import ATForm, { formBuilder } from './lib/component/ATForm/ATForm';
@@ -62,6 +62,13 @@ function App() {
     }
   ]
 
+  const onExternalSubmit = () => {
+    console.log('on External Submit')
+    formRef.current.checkValidation(() => {
+      console.log('Its valid', mFormData.current)
+    })
+  }
+
   return (
     <div className='App'>
       <Grid container spacing={3}>
@@ -70,11 +77,12 @@ function App() {
         </Grid>
         <ATForm onChange={onFormChange} ref={formRef} serviceManager={ServiceManager} >
           {[
-            // formBuilder.createTextBox({ id: 'Name', validation: { required: true, type: 'string', minLength: 1 } }),
-            // formBuilder.createComboBox({ id: 'Countries', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }], validation: { required: true, type: 'object' } }),
-            // formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }], validation: { required: true, type: 'array', minItems: 1 } }),
-            // formBuilder.createDatePicker({ id: 'DatePicker' }),
-            // formBuilder.createUploadButton({ id: 'UploadButton' }),
+            formBuilder.createTextBox({ id: 'Name', validation: { required: true, type: 'string', minLength: 1 } }),
+            formBuilder.createComboBox({ id: 'Countries', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }], validation: { required: true, type: 'object' } }),
+            formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }], validation: { required: true, type: 'array', minItems: 1 } }),
+            formBuilder.createDatePicker({ id: 'DatePicker' }),
+            formBuilder.createUploadButton({ id: 'UploadButton' }),
+            formBuilder.createCheckBox({ id: 'CheckBox' }),
             formBuilder.createCascadeComboBox({ id: 'CascadeComboBox', design: cascadeDesign }),
             formBuilder.createGrid({
               id: 'grid01',
@@ -84,6 +92,9 @@ function App() {
             formBuilder.createButton({ id: 'SubmitButton', onClick: onSubmitClick, inputType: 'submit' }),
           ]}
         </ATForm>
+        <Grid item xs={12}>
+          <Button onClick={onExternalSubmit}>Submit from outside the form</Button>
+        </Grid>
       </Grid>
     </div>
   );
