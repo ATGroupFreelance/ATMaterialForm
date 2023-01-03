@@ -1,8 +1,9 @@
 {
   "name": "atmaterialform",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": false,
   "dependencies": {
+    "@date-io/date-fns-jalali": "^2.16.0",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@mui/icons-material": "^5.10.2",
@@ -12,6 +13,7 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "ajv": "^8.11.0",
+    "date-fns-jalali": "^2.13.0-0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -28,7 +30,13 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "license": "ISC",
-  "keywords": ["react", "components", "ui", "form", "atmaterialform"],
+  "keywords": [
+    "react",
+    "components",
+    "ui",
+    "form",
+    "atmaterialform"
+  ],
   "description": "a very fast and ready to use material form with a lot of handy features",
   "scripts": {
     "start": "react-scripts start",

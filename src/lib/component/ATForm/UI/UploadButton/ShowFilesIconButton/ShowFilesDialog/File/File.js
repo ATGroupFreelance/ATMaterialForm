@@ -6,13 +6,18 @@ import Tooltip from '@mui/material/Tooltip';
 import StyleClasses from './File.module.css';
 //Components
 import Button from '../../../../Button/Button';
+//Context
+import { useContext } from 'react';
+import ATFormContext from '../../../../../ATFormContext/ATFormContext';
 
-const File = ({ id, name, size, onRemove, showRemoveIcon, serviceManager }) => {
+const File = ({ id, name, size, onRemove, showRemoveIcon }) => {
+    const { getFile } = useContext(ATFormContext)
+
     const onOpenClick = (event, { startLoading, stopLoading }) => {
         startLoading()
 
-        if (serviceManager) {
-            serviceManager.getFile(id)
+        if (getFile) {
+            getFile(id)
                 .then(res => {
                     const a = document.createElement("a");
                     document.body.appendChild(a);
@@ -28,7 +33,7 @@ const File = ({ id, name, size, onRemove, showRemoveIcon, serviceManager }) => {
         }
         else {
             stopLoading()
-            console.error('No serviceManager was found')
+            console.error('No getFile was found, please provider it using ATFormContextProvider')
         }
 
     }

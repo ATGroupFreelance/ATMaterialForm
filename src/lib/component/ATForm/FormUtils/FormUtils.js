@@ -23,7 +23,7 @@ export const getFlexGrid = (props) => {
         xs: newXS,
         md: newMD,
         lg: newLG,
-        xl: newXL,        
+        xl: newXL,
     }
 
     if (gridContainer)

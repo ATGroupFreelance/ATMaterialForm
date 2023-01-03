@@ -6,12 +6,11 @@ import UIBuilder from './UIBuilder/UIBuilder';
 // //Utils
 import * as FormUtils from './FormUtils/FormUtils';
 import * as FormBuilder from './FormBuilder/FormBuilder';
-import { types } from './UITypeUtils/UITypeUtils';
+import { getTypeInfo } from './UITypeUtils/UITypeUtils';
 //Validation
 import Ajv from "ajv"
-//DatePicker
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+//Context
+import ATFormContext from './ATFormContext/ATFormContext';
 
 class ATForm extends PureComponent {
     constructor(props) {
@@ -33,7 +32,7 @@ class ATForm extends PureComponent {
     }
 
     onChildChange = ({ id, type, event }) => {
-        const found = types.find(item => item.type === type)
+        const found = getTypeInfo(type)
 
         this.formData = {
             ...this.formData,
@@ -57,12 +56,41 @@ class ATForm extends PureComponent {
         this.childrenRefs[id] = api
     }
 
-    reset = (newDefaultValue) => {
+    reset = (inputDefaultValue, reverseConvertToKeyValueEnabled = true) => {
+        const { getEnums } = this.context
+        //If default value is not key value just use it!
+        let newDefaultValue = inputDefaultValue
+
+        //If default value is a key value, process it so it becomes a formData format
+        if (reverseConvertToKeyValueEnabled && inputDefaultValue) {
+            const reverseConvertToKeyValueDefaultValue = {}
+            const flatChildren = this.getFlatChildren()
+
+            for (let key in inputDefaultValue) {
+                //Find the elemenet of the value using id match
+                const found = flatChildren.find((item) => item.id === key)
+                if (found) {
+                    //Find the element's type inside types which is inisde UITypeUtils, using this type we can do a reverseConvertToKeyValue
+                    const foundType = getTypeInfo(found.type)
+
+                    //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
+                    if (foundType.reverseConvertToKeyValue)
+                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToKeyValue({ value: inputDefaultValue[key], element: found, getEnums })
+                    else
+                        reverseConvertToKeyValueDefaultValue[key] = inputDefaultValue[key]
+                }
+                else
+                    reverseConvertToKeyValueDefaultValue[key] = inputDefaultValue[key]
+            }
+
+            newDefaultValue = reverseConvertToKeyValueDefaultValue
+        }
+
         this.setState({
             defaultValue: newDefaultValue || {}
         }, () => {
             for (let key in this.childrenRefs) {
-                if (this.childrenRefs[key].reset)
+                if (this.childrenRefs[key] && this.childrenRefs[key].reset)
                     this.childrenRefs[key].reset()
             }
         })
@@ -103,33 +131,37 @@ class ATForm extends PureComponent {
     }
 
     compileAJV = () => {
-        const flatChildren = this.getFlatChildren()
+        if (!this.props.validationDisabled) {
+            const flatChildren = this.getFlatChildren()
 
-        const properties = {}
-        const requiredList = []
+            const properties = {}
+            const requiredList = []
 
-        flatChildren.forEach(item => {
-            const props = React.isValidElement(item) ? item.props : item
-            const { id, validation } = props
+            flatChildren.forEach(item => {
+                const props = React.isValidElement(item) ? item.props : item
+                const { id, validation } = props
 
-            if (validation) {
-                const { required, ...restValidation } = validation
-                if (required)
-                    requiredList.push(id)
-                properties[id] = restValidation
+                if (validation) {
+                    const { required, ...restValidation } = validation
+                    if (required)
+                        requiredList.push(id)
+                    properties[id] = restValidation
+                }
+            })
+
+            const schema = {
+                type: 'object',
+                properties: properties,
+                required: requiredList,
+                // additionalProperties: false,
             }
-        })
 
-        const schema = {
-            type: 'object',
-            properties: properties,
-            required: requiredList,
-            // additionalProperties: false,
+
+            if (requiredList.length || Object.keys(properties).length)
+                this.ajvValidate = this.ajv.compile(schema)
+            else
+                this.ajvValidate = null
         }
-
-
-        if (requiredList.length || Object.keys(properties).length)
-            this.ajvValidate = this.ajv.compile(schema)
         else
             this.ajvValidate = null
     }
@@ -216,7 +248,9 @@ class ATForm extends PureComponent {
                 isFormOnLockdown: this.state.isFormOnLockdown,
                 inputType: inputType,
                 errors: this.state.validationErrors,
-                serviceManager: this.props.serviceManager
+                localization: (text) => {
+                    return this.props.localization ? this.props.localization(text) : text
+                }
             },
             id,
             type,
@@ -238,9 +272,7 @@ class ATForm extends PureComponent {
 
         return (
             <React.Fragment>
-                <LocalizationProvider dateAdapter={AdapterMoment}>
-                    {validChildren}
-                </LocalizationProvider>
+                {validChildren}
             </React.Fragment>
         )
     }
@@ -248,4 +280,5 @@ class ATForm extends PureComponent {
 
 export const formBuilder = FormBuilder;
 
+ATForm.contextType = ATFormContext
 export default ATForm;

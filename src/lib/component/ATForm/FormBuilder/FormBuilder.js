@@ -87,7 +87,7 @@ export const createGrid = ({ id, container, spacing, ...restProps }) => {
     })
 }
 
-export const createCheckBox = ({ id, md = 3, ...restProps }) => {
+export const createCheckBox = ({ id, md = 2, ...restProps }) => {
     return create({
         id,
         type: 'CheckBox',

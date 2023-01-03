@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -11,7 +11,24 @@ import TextField from '@mui/material/TextField';
 //Option can be like this: 
 //['uk', 'us']
 //[{label: 'uk'}, {label: 'us'}]
+const isFunction = (obj) => {
+    return !!(obj && obj.constructor && obj.call && obj.apply);
+}
+
 const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'disabled', error, helperText, ...restProps }) => {
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        if (isFunction(options))
+            options()
+                .then(res => {
+                    setData(res)
+                })
+        else
+            setData(options)
+
+    }, [options])
+
     const onInternalChange = (event, newValue) => {
         if (onChange)
             onChange({ target: { value: newValue } })
@@ -20,13 +37,13 @@ const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'disab
     return <Autocomplete
         disablePortal
         fullWidth={true}
-        options={options || []}
+        options={data || []}
         onChange={onInternalChange}
         getOptionLabel={(option) => option.Title}
-        isOptionEqualToValue={(option, value) => option.ID === value.ID}
+        isOptionEqualToValue={(option, value) => String(option.ID) === String(value.ID)}
         renderInput={(params) => <TextField {...params} error={error} helperText={helperText} label={label} inputProps={{ ...params.inputProps, autoComplete: autoComplete }} />}
         {...restProps}
-    />
+    />  
 }
 
 export default ComboBox;

@@ -1,14 +1,26 @@
-import { Button, Grid } from '@mui/material';
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
+
 import './App.css';
-import ATForm, { formBuilder } from './lib/component/ATForm/ATForm';
+import { Button, Grid } from '@mui/material';
+//Context
+import ATFormContext from './lib/component/ATForm/ATFormContext/ATFormContext';
 //services
 import ServiceManager from 'serviceManager/serviceManager';
+//DatePicker Provider
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import AdapterJalali from '@date-io/date-fns-jalali';
+//Examples
+import BasicForm from 'examples/BasicForm/BasicForm';
+import ExternalComponentIntegration from 'examples/ExternalComponentIntegration/ExternalComponentIntegration';
+
+const RTL = true
 
 function App() {
-  const mFormData = useRef(null)
   const formRef = useRef(null)
-  const [formDataForView, setFormDataForView] = useState(null)
+  const mFormData = useRef(null)
+  const [savedFormData, setSavedFormData] = useState(null)
+  const [realTimeFormData, setRealtimeFormData] = useState(null)
 
   const onFormChange = ({ formData, formDataKeyValue }) => {
     mFormData.current = {
@@ -16,87 +28,52 @@ function App() {
       formDataKeyValue: formDataKeyValue,
     }
 
-    console.log('mFormData.current', mFormData.current)
-    setFormDataForView(formDataKeyValue)
+    setRealtimeFormData(formDataKeyValue)
   }
 
-  const onSetDefaultValueClick = (event, { startLoading, stopLoading }) => {
-    startLoading()
+  const onSetDefaultValueClick = (event) => {
     formRef.current.reset()
-    setTimeout(() => {
-      stopLoading()
-    }, 300)
   }
 
-  //formData and formDataKeyValue is only filled if validation is used, this is to improve performance
-  const onSubmitClick = (event, { formData, formDataKeyValue, startLoading, stopLoading }) => {
-    startLoading()
-
-    setTimeout(() => {
-      console.log('Submitting...', formData, formDataKeyValue)
-      stopLoading()
-    }, 1000)
+  const onLoadLastSubmitClick = (event) => {
+    console.log('savedFormData', savedFormData)
+    if (savedFormData)
+      formRef.current.reset(savedFormData)
   }
 
-  const cascadeDesign = [
-    {
-      id: 'layerA',
-      data: ServiceManager.getData_layerA,
-      children: [
-        {
-          id: 'layerAB',
-          data: ServiceManager.getData_layerAB,
-          children: [
-            {
-              id: 'layerABC1',
-              data: ServiceManager.getData_layerABC1,
-            },
-            {
-              id: 'layerABC2',
-              data: ServiceManager.getData_layerABC2,
-              multiple: true,
-            }
-          ]
-        },
-      ]
-    }
-  ]
-
-  const onExternalSubmit = () => {
+  const onSubmitClick = (event) => {
     console.log('on External Submit')
     formRef.current.checkValidation(() => {
-      console.log('Its valid', mFormData.current)
+      setTimeout(() => {
+        console.log('Submitting...', mFormData.current.formData, mFormData.current.formDataKeyValue)
+        setSavedFormData(mFormData.current.formDataKeyValue)
+      }, 1000)
     })
   }
 
+  const activeExample = 'ExternalComponentIntegration'
+
   return (
     <div className='App'>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          {JSON.stringify(formDataForView)}
-        </Grid>
-        <ATForm onChange={onFormChange} ref={formRef} serviceManager={ServiceManager} >
-          {[
-            formBuilder.createTextBox({ id: 'Name', validation: { required: true, type: 'string', minLength: 1 } }),
-            formBuilder.createComboBox({ id: 'Countries', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }], validation: { required: true, type: 'object' } }),
-            formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }], validation: { required: true, type: 'array', minItems: 1 } }),
-            formBuilder.createDatePicker({ id: 'DatePicker' }),
-            formBuilder.createUploadButton({ id: 'UploadButton' }),
-            formBuilder.createCheckBox({ id: 'CheckBox' }),
-            formBuilder.createSlider({ id: 'Slider' }),
-            formBuilder.createCascadeComboBox({ id: 'CascadeComboBox', design: cascadeDesign }),
-            formBuilder.createGrid({
-              id: 'grid01',
-              md: 12,
-            }),
-            formBuilder.createButton({ id: 'SetDefaultValue', onClick: onSetDefaultValueClick }),
-            formBuilder.createButton({ id: 'SubmitButton', onClick: onSubmitClick, inputType: 'submit' }),
-          ]}
-        </ATForm>
-        <Grid item xs={12}>
-          <Button onClick={onExternalSubmit}>Submit from outside the form</Button>
-        </Grid>
-      </Grid>
+      <ATFormContext.Provider value={{ rtl: true, getEnums: ServiceManager.getEnums, uploadFilesToServer: ServiceManager.uploadFilesToServer }}>
+        <LocalizationProvider dateAdapter={RTL ? AdapterJalali : AdapterMoment}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <div>
+                Form data key value :
+              </div>
+              {JSON.stringify(realTimeFormData || {})}
+            </Grid>
+            {activeExample === 'BasicForm' && <BasicForm ref={formRef} onChange={onFormChange} />}
+            {activeExample === 'ExternalComponentIntegration' && <ExternalComponentIntegration ref={formRef} onChange={onFormChange} />}
+            <Grid item xs={12}>
+              <Button onClick={onLoadLastSubmitClick}>load last submit</Button>
+              <Button onClick={onSetDefaultValueClick}>set default value </Button>
+              <Button onClick={onSubmitClick}>Submit from outside the form</  Button>
+            </Grid>
+          </Grid>
+        </LocalizationProvider>
+      </ATFormContext.Provider>
     </div>
   );
 }

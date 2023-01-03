@@ -5,6 +5,8 @@ import { Grid } from "@mui/material";
 
 const BaseComboBox = ({ id, value, parentID, data, multiple, xs, md, lg, xl, ...restProps }) => {
     const [options, setOptions] = useState(null)
+    const [parentPrevValue, setParentPrevValue] = useState(null)
+    const [forceDisabled, setForceDisabled] = useState(false)
 
     //Handle root elements
     useEffect(() => {
@@ -21,7 +23,7 @@ const BaseComboBox = ({ id, value, parentID, data, multiple, xs, md, lg, xl, ...
     }, [])
 
     useEffect(() => {
-        if (parentID && value && value[parentID]) {
+        if (parentID && value && value[parentID] && (parentPrevValue !== value[parentID])) {
             const keyValue = {}
             for (let key in value) {
                 if (Array.isArray(value[key]))
@@ -30,12 +32,18 @@ const BaseComboBox = ({ id, value, parentID, data, multiple, xs, md, lg, xl, ...
                     keyValue[key] = value[key] ? value[key].ID : null
             }
 
+            setParentPrevValue(value[parentID])
+            setForceDisabled(true)
+
             data(keyValue)
                 .then(res => {
                     setOptions(res)
                 })
                 .catch(error => {
                     setOptions([])
+                })
+                .finally(() => {
+                    setForceDisabled(false)
                 })
         }
         // eslint-disable-next-line
@@ -48,7 +56,7 @@ const BaseComboBox = ({ id, value, parentID, data, multiple, xs, md, lg, xl, ...
 
     return <Grid item xs={12} md={md || 3} lg={lg} xl={xl}>
         {
-            <ComboBox options={options} value={newValue} disabled={disabled || !options} multiple={multiple} {...restProps} />
+            <ComboBox options={options} value={newValue} disabled={disabled || !options || forceDisabled} multiple={multiple} {...restProps} />
         }
     </Grid>
 }

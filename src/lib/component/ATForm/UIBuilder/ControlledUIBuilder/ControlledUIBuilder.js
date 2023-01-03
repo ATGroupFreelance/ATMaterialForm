@@ -50,7 +50,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
 
     const internalOnChange = (event) => {
         setLocalValue(event.target.value)
-        //This onChange must be gived outsideo of the form to the element, the goal is total control
+        //This onChange must be given outside of the form to the element, the goal is total control
         if (onChange)
             onChange(event)
         //This onChange is used to update form's FormData
