@@ -8,6 +8,12 @@ const ExternalComponentIntegration = React.forwardRef(({ onChange }, forwardRef)
             {
                 [
                     formBuilder.createTextBox({ id: 'Form Text Box' }),
+                    {
+                        id: 'CustomComponentTextField',
+                        type: 'MyTextField',
+                        md: 3,
+                        label: 'CustomComponentTextField'
+                    }
                 ]
             }
         </ATForm>

@@ -10,6 +10,8 @@ import ServiceManager from 'serviceManager/serviceManager';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import AdapterJalali from '@date-io/date-fns-jalali';
+//CustomComponents
+import MyTextField from 'CustomComponents/MyTextField/MyTextField';
 //Examples
 import BasicForm from 'examples/BasicForm/BasicForm';
 import ExternalComponentIntegration from 'examples/ExternalComponentIntegration/ExternalComponentIntegration';
@@ -55,7 +57,7 @@ function App() {
 
   return (
     <div className='App'>
-      <ATFormContext.Provider value={{ rtl: true, getEnums: ServiceManager.getEnums, uploadFilesToServer: ServiceManager.uploadFilesToServer }}>
+      <ATFormContext.Provider value={{ rtl: true, getEnums: ServiceManager.getEnums, uploadFilesToServer: ServiceManager.uploadFilesToServer, customComponents: [{ component: MyTextField, typeInfo: { type: 'MyTextField', initialValue: '' } }] }}>
         <LocalizationProvider dateAdapter={RTL ? AdapterJalali : AdapterMoment}>
           <Grid container spacing={3}>
             <Grid item xs={12}>

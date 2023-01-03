@@ -1,13 +1,18 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 
 //Components
 import ControlledUIBuilder from './ControlledUIBuilder/ControlledUIBuilder';
 import UncontrolledUIBuilder from './UncontrolledUIBuilder/UncontrolledUIBuilder';
 //Utils
 import * as UITypeUtils from '../UITypeUtils/UITypeUtils';
+//Context
+import ATFormContext from '../ATFormContext/ATFormContext';
 
 const UIBuilder = ({ _formProps_, id, label, type, ...restProps }) => {
-    const _typeInfo_ = useRef(UITypeUtils.getTypeInfo(type))
+    const { customComponents } = useContext(ATFormContext)
+
+    const _typeInfo_ = useRef(UITypeUtils.getTypeInfo(type) || (customComponents && customComponents.find(item => item.typeInfo.type === type).typeInfo))
+
     const { innerRef } = _formProps_
 
     const newLabel = label || id

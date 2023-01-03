@@ -32,7 +32,7 @@ class ATForm extends PureComponent {
     }
 
     onChildChange = ({ id, type, event }) => {
-        const found = getTypeInfo(type)
+        const found = getTypeInfo(type) || (this.context.customComponents && this.context.customComponents.find(item => item.typeInfo.type === type))
 
         this.formData = {
             ...this.formData,
@@ -71,7 +71,7 @@ class ATForm extends PureComponent {
                 const found = flatChildren.find((item) => item.id === key)
                 if (found) {
                     //Find the element's type inside types which is inisde UITypeUtils, using this type we can do a reverseConvertToKeyValue
-                    const foundType = getTypeInfo(found.type)
+                    const foundType = getTypeInfo(found.type) || (this.context.customComponents && this.context.customComponents.find(item => item.typeInfo.type === found.type))
 
                     //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
                     if (foundType.reverseConvertToKeyValue)

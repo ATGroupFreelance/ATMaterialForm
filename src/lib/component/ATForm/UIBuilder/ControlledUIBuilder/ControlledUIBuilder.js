@@ -1,4 +1,6 @@
-import React, { Suspense, useState, useImperativeHandle, forwardRef, useEffect } from 'react';
+import React, { Suspense, useState, useImperativeHandle, forwardRef, useEffect, useContext } from 'react';
+//Context
+import ATFormContext from '../../ATFormContext/ATFormContext';
 
 const TextBox = React.lazy(() => import('../../UI/TextBox/TextBox'));
 const ComboBox = React.lazy(() => import('../../UI/ComboBox/ComboBox'));
@@ -23,6 +25,8 @@ const getInitialValue = (typeInfo, defaultValue) => {
 }
 
 const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, defaultValue, onChange, ...restProps }, forwardedRef) => {
+    const { customComponents } = useContext(ATFormContext)
+
     const { onChildChange, errors } = _formProps_
     const [localValue, setLocalValue] = useState(getInitialValue(_typeInfo_, defaultValue))
 
@@ -72,6 +76,12 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         helperText: helperText,
     }
 
+    let CustomComponent = null
+    if (customComponents) {
+        const found = customComponents.find(item => item.typeInfo.type === type)
+        CustomComponent = found ? found.component : null
+    }    
+
     return <Suspense fallback={<div>Loading...</div>}>
         {type === 'TextBox' && <TextBox {...commonProps} />}
         {type === 'ComboBox' && <ComboBox {...commonProps} />}
@@ -81,6 +91,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         {type === 'CascadeComboBox' && <CascadeComboBox {...commonProps} />}
         {type === 'CheckBox' && <CheckBox {...commonProps} />}
         {type === 'Slider' && <Slider {...commonProps} />}
+        {CustomComponent && <CustomComponent {...commonProps} />}
     </Suspense>
 }
 
