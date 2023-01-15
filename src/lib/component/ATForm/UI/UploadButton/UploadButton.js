@@ -10,13 +10,15 @@ import Button from '../Button/Button';
 import ShowFilesIconButton from './ShowFilesIconButton/ShowFilesIconButton';
 //Context
 import ATFormContext from '../../ATFormContext/ATFormContext';
+//Dialog
+import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
 
-const UploadButton = ({ _formProps_, label, onChange, defaultValue, disabled }) => {
+const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept }) => {
     const { onLockdownChange, localization } = _formProps_
     const { uploadFilesToServer } = useContext(ATFormContext)
 
     const [loading, setLoading] = useState(false)
-    const [files, setFiles] = useState(defaultValue || [])
+    const [dialog, setDialog] = useState(null)
 
     const onInternalChange = (event) => {
         //selectedFiles is an object
@@ -43,16 +45,12 @@ const UploadButton = ({ _formProps_, label, onChange, defaultValue, disabled }) 
             if (uploadFilesToServer) {
                 uploadFilesToServer(formData)
                     .then(res => {
-                        setFiles((prevFiles) => {
-                            const newFiles = [
-                                ...prevFiles,
-                                ...res,
-                            ]
+                        const newValue = [
+                            ...value,
+                            ...res,
+                        ]
 
-                            onChange({ target: { value: newFiles } })
-
-                            return newFiles
-                        })
+                        onChange({ target: { value: newValue } })
                     })
                     .finally(() => {
                         setLoading(false)
@@ -69,31 +67,41 @@ const UploadButton = ({ _formProps_, label, onChange, defaultValue, disabled }) 
         }
     }
 
-    const onRemoveSingleFileClick = (id) => {
-        setFiles((prevFiles) => {
-            return prevFiles.filter(item => item.id !== id)
-        })
-    }
 
     const onRemoveFilesClick = () => {
-        setFiles([])
         onChange({ target: { value: [] } })
+    }
+
+    const onShowFilesClick = () => {
+        setDialog(<ShowFilesDialog
+            files={value}
+            readOnly={disabled}
+            onSave={onShowFilesDialogSaveChangesClick}
+            onClose={() => setDialog(null)}
+        />)
+    }
+
+    const onShowFilesDialogSaveChangesClick = (event, { startLoading, stopLoading, removeIDList }) => {
+        onChange({ target: { value: value.filter(item => !removeIDList.includes(item.id)) } })
+
+        setDialog(null)
     }
 
     return <div style={{ flex: 1, display: 'flex' }}>
         <Button sx={{ height: '50px', marginTop: '4px', width: '38%' }} variant="contained" component="label" loading={loading} disabled={disabled}>
             {loading ? localization('Uploading') : localization('Add Files')}
-            <input hidden multiple type="file" accept={'.pdf'} onChange={onInternalChange} />
+            <input hidden multiple type="file" accept={accept} onChange={onInternalChange} />
         </Button>
-        <TextField label={label} sx={{ width: '38%', paddingLeft: '6px' }} value={`${files.length} ${localization('files')}`} />
-        <ShowFilesIconButton sx={{ width: '10%' }} files={files} onRemove={disabled ? null : onRemoveSingleFileClick} />
+        <TextField label={label} sx={{ width: '38%', paddingLeft: '6px' }} value={`${value.length} ${localization('files')}`} />
+        <ShowFilesIconButton sx={{ width: '10%' }} files={value} onClick={onShowFilesClick} />
         <Tooltip title={localization('Delete All')} sx={{ width: '10%' }}  >
             <span>
-                <IconButton disabled={files.length === 0 || disabled} sx={{ color: '#e91e63' }} onClick={onRemoveFilesClick}>
+                <IconButton disabled={value.length === 0 || disabled} sx={{ color: '#e91e63' }} onClick={onRemoveFilesClick}>
                     <DeleteForeverTwoToneIcon />
                 </IconButton>
             </span>
         </Tooltip>
+        {dialog}
     </div>
 }
 

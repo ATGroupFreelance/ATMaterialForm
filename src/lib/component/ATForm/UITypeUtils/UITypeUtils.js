@@ -150,4 +150,16 @@ export const types = [
         type: 'Slider',
         initialValue: null,
     },
+    {
+        type: 'PasswordTextBox',
+        initialValue: '',
+    },
+    {
+        type: 'DoublePasswordTextBox',
+        initialValue: null,
+    },
+    {
+        type: 'Avatar',
+        initialValue: null,
+    },
 ]

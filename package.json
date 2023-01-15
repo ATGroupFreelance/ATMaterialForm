@@ -1,6 +1,6 @@
 {
   "name": "atmaterialform",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": false,
   "dependencies": {
     "@date-io/date-fns-jalali": "^2.16.0",
@@ -17,6 +17,7 @@
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-image-file-resizer": "^0.4.8",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },

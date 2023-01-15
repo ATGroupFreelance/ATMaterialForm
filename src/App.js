@@ -15,6 +15,7 @@ import MyTextField from 'CustomComponents/MyTextField/MyTextField';
 //Examples
 import BasicForm from 'examples/BasicForm/BasicForm';
 import ExternalComponentIntegration from 'examples/ExternalComponentIntegration/ExternalComponentIntegration';
+import FormDialog from 'examples/FormDialog/FormDialog';
 
 const RTL = true
 
@@ -53,7 +54,7 @@ function App() {
     })
   }
 
-  const activeExample = 'ExternalComponentIntegration'
+  const activeExample = 'BasicForm'
 
   return (
     <div className='App'>
@@ -68,6 +69,7 @@ function App() {
             </Grid>
             {activeExample === 'BasicForm' && <BasicForm ref={formRef} onChange={onFormChange} />}
             {activeExample === 'ExternalComponentIntegration' && <ExternalComponentIntegration ref={formRef} onChange={onFormChange} />}
+            {activeExample === 'FormDialog' && <FormDialog />}
             <Grid item xs={12}>
               <Button onClick={onLoadLastSubmitClick}>load last submit</Button>
               <Button onClick={onSetDefaultValueClick}>set default value </Button>

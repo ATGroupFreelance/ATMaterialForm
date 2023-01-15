@@ -10,6 +10,9 @@ const UploadButton = React.lazy(() => import('../../UI/UploadButton/UploadButton
 const CascadeComboBox = React.lazy(() => import('../../UI/CascadeComboBox/CascadeComboBox'));
 const CheckBox = React.lazy(() => import('../../UI/CheckBox/CheckBox'));
 const Slider = React.lazy(() => import('../../UI/Slider/Slider'));
+const PasswordTextBox = React.lazy(() => import('../../UI/PasswordTextBox/PasswordTextBox'));
+const DoublePasswordTextBox = React.lazy(() => import('../../UI/DoublePasswordTextBox/DoublePasswordTextBox'));
+const Avatar = React.lazy(() => import('../../UI/Avatar/Avatar'));
 
 const getInitialValue = (typeInfo, defaultValue) => {
     const { initialValue, isNullValueValid } = typeInfo
@@ -80,7 +83,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
     if (customComponents) {
         const found = customComponents.find(item => item.typeInfo.type === type)
         CustomComponent = found ? found.component : null
-    }    
+    }
 
     return <Suspense fallback={<div>Loading...</div>}>
         {type === 'TextBox' && <TextBox {...commonProps} />}
@@ -91,6 +94,9 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         {type === 'CascadeComboBox' && <CascadeComboBox {...commonProps} />}
         {type === 'CheckBox' && <CheckBox {...commonProps} />}
         {type === 'Slider' && <Slider {...commonProps} />}
+        {type === 'PasswordTextBox' && <PasswordTextBox {...commonProps} />}
+        {type === 'DoublePasswordTextBox' && <DoublePasswordTextBox {...commonProps} />}
+        {type === 'Avatar' && <Avatar {...commonProps} />}
         {CustomComponent && <CustomComponent {...commonProps} />}
     </Suspense>
 }

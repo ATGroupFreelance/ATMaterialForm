@@ -45,7 +45,11 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
     return (
         <ATForm ref={forwardRef} onChange={onChange} validationDisabled={true}>
             {[
+                formBuilder.createAvatar({ id: 'Avatar1', md: 12, size: 128 }),
                 formBuilder.createTextBox({ id: 'Name', validation: { required: true, type: 'string', minLength: 1 } }),
+                formBuilder.createPasswordTextBox({ id: 'Password' }),
+                formBuilder.createDoublePasswordTextBox({ id: 'Double Password', md: 6 }),
+                formBuilder.createAvatar({ id: 'Avatar2' }),
                 formBuilder.createComboBox({ id: 'Countries', options: ServiceManager.getCountries, validation: { required: true, type: 'object' } }),
                 formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }], validation: { required: true, type: 'array', minItems: 1 } }),
                 formBuilder.createDatePicker({ id: 'DatePicker' }),

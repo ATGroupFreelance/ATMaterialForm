@@ -2,10 +2,10 @@ import React from 'react';
 
 import TextField from '@mui/material/TextField';
 
-const TextBox = ({ _formProps_, id, ...restProps }) => {
+const Avatar = ({ _formProps_, id, ...restProps }) => {
 
 
     return <TextField fullWidth={true} {...restProps} />
 }
 
-export default TextBox;
+export default Avatar;

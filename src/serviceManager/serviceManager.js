@@ -9,6 +9,11 @@ class ServiceManager {
                         id: '10004912230',
                         name: 'Test.pdf',
                         size: 17856,
+                    },
+                    {
+                        id: '10004912232',
+                        name: 'image.jpg',
+                        size: 17456,
                     }
                 ])
             }, 1000)

@@ -5,10 +5,10 @@ import Tooltip from '@mui/material/Tooltip';
 //Style
 import StyleClasses from './File.module.css';
 //Components
-import Button from '../../../../Button/Button';
+import Button from '../../../Button/Button';
 //Context
 import { useContext } from 'react';
-import ATFormContext from '../../../../../ATFormContext/ATFormContext';
+import ATFormContext from '../../../../ATFormContext/ATFormContext';
 
 const File = ({ id, name, size, onRemove, showRemoveIcon }) => {
     const { getFile } = useContext(ATFormContext)

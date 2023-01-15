@@ -105,3 +105,31 @@ export const createSlider = ({ id, md = 3, ...restProps }) => {
         ...restProps,
     })
 }
+
+export const createPasswordTextBox = ({ id, md = 3, ...restProps }) => {
+    return create({
+        id,
+        type: 'PasswordTextBox',
+        md,
+        ...restProps,
+    })
+}
+
+export const createDoublePasswordTextBox = ({ id, md = 3, ...restProps }) => {
+    return create({
+        id,
+        type: 'DoublePasswordTextBox',
+        md,
+        ...restProps,
+    })
+}
+
+export const createAvatar = ({ id, md = 3, size = 42, ...restProps }) => {
+    return create({
+        id,
+        type: 'Avatar',
+        md,
+        size,
+        ...restProps,
+    })
+}
