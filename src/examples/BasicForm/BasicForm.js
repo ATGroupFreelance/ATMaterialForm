@@ -29,6 +29,8 @@ const cascadeDesign = [
 
 const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
     const [hideElements, setHideElements] = useState(false)
+    const [A, setA] = useState(0)
+    const [B, setB] = useState(0)
 
     const onSubmitClick = (event, { startLoading, stopLoading }) => {
         startLoading()
@@ -46,6 +48,11 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
         <ATForm ref={forwardRef} onChange={onChange} validationDisabled={true}>
             {[
                 formBuilder.createAvatar({ id: 'Avatar1', md: 12, size: 128 }),
+                formBuilder.createTextBox({ id: 'A', onChange: (event) => setA(event.target.value), value: A }),
+                formBuilder.createTextBox({ id: 'B', onChange: (event) => setB(event.target.value), value: B }),
+                formBuilder.createTextBox({ id: 'A + B', value: Number(A) + Number(B) }),
+                formBuilder.createButton({ id: 'Random A', onClick: () => setA(Math.random() * 10) }),
+                formBuilder.createLabel({ id: 'Label', label: 'Hi im a label' }),
                 formBuilder.createTextBox({ id: 'Name', validation: { required: true, type: 'string', minLength: 1 } }),
                 formBuilder.createPasswordTextBox({ id: 'Password' }),
                 formBuilder.createDoublePasswordTextBox({ id: 'Double Password', md: 6 }),

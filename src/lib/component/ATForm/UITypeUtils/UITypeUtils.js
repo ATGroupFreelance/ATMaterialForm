@@ -10,6 +10,10 @@ export const UITypes = {
     CascadeComboBox: 'CascadeComboBox',
     CheckBox: 'CheckBox',
     Slider: 'Slider',
+    PasswordTextBox: 'PasswordTextBox',
+    DoublePasswordTextBox: 'DoublePasswordTextBox',
+    Avatar: 'Avatar',
+    Label: 'Label',
 }
 
 export const getTypeInfo = (type) => {
@@ -162,4 +166,11 @@ export const types = [
         type: 'Avatar',
         initialValue: null,
     },
+    {
+        type: 'Label',
+    },
+    {
+        type: 'ContainerWithTable',
+        initialValue: null,
+    }
 ]

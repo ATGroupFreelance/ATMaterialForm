@@ -133,3 +133,23 @@ export const createAvatar = ({ id, md = 3, size = 42, ...restProps }) => {
         ...restProps,
     })
 }
+
+export const createLabel = ({ id, md = 3, label, ...restProps }) => {
+    return create({
+        id,
+        type: 'Label',
+        md,
+        label,
+        ...restProps,
+    })
+}
+
+export const createContainerWithTable = ({ id, md = 12, label, ...restProps }) => {
+    return create({
+        id,
+        type: 'ContainerWithTable',
+        md,
+        label,
+        ...restProps,
+    })
+}

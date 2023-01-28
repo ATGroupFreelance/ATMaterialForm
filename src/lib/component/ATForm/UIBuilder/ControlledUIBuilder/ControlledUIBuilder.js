@@ -13,6 +13,7 @@ const Slider = React.lazy(() => import('../../UI/Slider/Slider'));
 const PasswordTextBox = React.lazy(() => import('../../UI/PasswordTextBox/PasswordTextBox'));
 const DoublePasswordTextBox = React.lazy(() => import('../../UI/DoublePasswordTextBox/DoublePasswordTextBox'));
 const Avatar = React.lazy(() => import('../../UI/Avatar/Avatar'));
+const ContainerWithTable = React.lazy(() => import('../../UI/ContainerWithTable/ContainerWithTable'));
 
 const getInitialValue = (typeInfo, defaultValue) => {
     const { initialValue, isNullValueValid } = typeInfo
@@ -41,8 +42,13 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
     }, [])
 
     useEffect(() => {
-        if (value !== undefined)
+        if (value !== undefined) {
             setLocalValue(value)
+            //This onChange is used to update form's FormData
+            if (onChildChange)
+                onChildChange({ event: { target: { value: value } } })
+        }
+        // eslint-disable-next-line
     }, [value])
 
     useImperativeHandle(forwardedRef, () => {
@@ -97,6 +103,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         {type === 'PasswordTextBox' && <PasswordTextBox {...commonProps} />}
         {type === 'DoublePasswordTextBox' && <DoublePasswordTextBox {...commonProps} />}
         {type === 'Avatar' && <Avatar {...commonProps} />}
+        {type === 'ContainerWithTable' && <ContainerWithTable {...commonProps} />}        
         {CustomComponent && <CustomComponent {...commonProps} />}
     </Suspense>
 }

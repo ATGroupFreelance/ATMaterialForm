@@ -3,6 +3,7 @@ import React, { Suspense, useContext } from 'react';
 import ATFormContext from '../../ATFormContext/ATFormContext';
 
 const Button = React.lazy(() => import('../../UI/Button/Button'));
+const Label = React.lazy(() => import('../../UI/Label/Label'));
 
 const UncontrolledUIBuilder = ({ _formProps_, _typeInfo_, type, value, defaultValue, onChange, ...restProps }) => {
     const { customComponents } = useContext(ATFormContext)
@@ -20,6 +21,7 @@ const UncontrolledUIBuilder = ({ _formProps_, _typeInfo_, type, value, defaultVa
 
     return <Suspense fallback={<div>Loading...</div>}>
         {type === 'Button' && <Button {...commonProps} />}
+        {type === 'Label' && <Label {...commonProps} />}
         {CustomComponent && <CustomComponent {...commonProps} />}
     </Suspense>
 }

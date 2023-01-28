@@ -9,7 +9,7 @@ import ATForm from './ATForm';
 import Button from './UI/Button/Button';
 import { Grid } from '@mui/material';
 
-const ATFormDialog = React.forwardRef(({ title, onClose, onCancelClick, onSubmitClick, onChange, children, ...restProps }, forwardedRef) => {
+const ATFormDialog = React.forwardRef(({ title, onClose, onCancelClick, onSubmitClick, onChange, children, submitLoading, cancelLoading, ...restProps }, forwardedRef) => {
     const mFormData = useRef({ formData: null, formDataKeyValue: null })
 
     const onFormChange = ({ formData, formDataKeyValue }) => {
@@ -47,10 +47,10 @@ const ATFormDialog = React.forwardRef(({ title, onClose, onCancelClick, onSubmit
         <DialogActions>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={2}>
-                    <Button label={'Cancel'} onClick={onInternalCancelClick} variant={'outlined'} color={'secondary'} />
+                    <Button label={'Cancel'} onClick={onInternalCancelClick} variant={'outlined'} color={'secondary'} disabled={submitLoading} />
                 </Grid>
                 <Grid item xs={12} md={2}>
-                    <Button label={'Submit'} onClick={onInternalSubmitClick} variant={'outlined'} />
+                    <Button label={'Submit'} onClick={onInternalSubmitClick} variant={'outlined'} disabled={cancelLoading} />
                 </Grid>
             </Grid>
         </DialogActions>

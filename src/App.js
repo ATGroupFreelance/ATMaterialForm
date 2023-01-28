@@ -16,6 +16,7 @@ import MyTextField from 'CustomComponents/MyTextField/MyTextField';
 import BasicForm from 'examples/BasicForm/BasicForm';
 import ExternalComponentIntegration from 'examples/ExternalComponentIntegration/ExternalComponentIntegration';
 import FormDialog from 'examples/FormDialog/FormDialog';
+import ContainerWithTable from 'examples/ContainerWithTable/ContainerWithTable';
 
 const RTL = true
 
@@ -54,7 +55,7 @@ function App() {
     })
   }
 
-  const activeExample = 'BasicForm'
+  const activeExample = 'ContainerWithTable'
 
   return (
     <div className='App'>
@@ -70,6 +71,7 @@ function App() {
             {activeExample === 'BasicForm' && <BasicForm ref={formRef} onChange={onFormChange} />}
             {activeExample === 'ExternalComponentIntegration' && <ExternalComponentIntegration ref={formRef} onChange={onFormChange} />}
             {activeExample === 'FormDialog' && <FormDialog />}
+            {activeExample === 'ContainerWithTable' && <ContainerWithTable />}
             <Grid item xs={12}>
               <Button onClick={onLoadLastSubmitClick}>load last submit</Button>
               <Button onClick={onSetDefaultValueClick}>set default value </Button>
