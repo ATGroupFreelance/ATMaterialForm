@@ -1,11 +1,97 @@
-const create = ({ id, label, ...restProps }) => {
-    const newLabel = label === undefined ? id : label
-
+const create = ({ id, ...restProps }) => {
     return {
         id,
-        label: newLabel,
         ...restProps,
     }
+}
+
+// export const splitCapitalBySpace = (id) => {
+//     return id.match(/[A-Z][a-z]*|[0-9]+/g).join(" ")
+// }
+
+// export const splitCapitalBySpace = (id) => {
+//     return id.match(/(?:[A-Z]|[a-z])(?:[a-z]+|[A-Z]+)|[0-9]+/g).join(" ")
+// }
+
+class ColumnBuilder {
+    constructor(columns) {
+        this.columns = columns.map((item, index) => {
+            return {
+                id: item.id,
+                label: item.label,
+                md: 3,
+                ...(item.uiProps ? item.uiProps : item)
+            }
+        })
+    }
+
+    build() {
+        return this.columns
+    }
+
+    override(columnsOverride) {
+        this.columns = this.columns.map(item => {
+            const found = columnsOverride[item.id]
+
+            return {
+                ...item,
+                ...(found || {})
+            }
+        })
+
+        return this
+    }
+
+    overwrite(columnsOverwrite) {
+        this.columns = this.columns.map(item => {
+            const found = columnsOverwrite[item.id]
+
+            return found ? found : item
+        })
+
+        return this
+    }
+
+    add(arrayOfObjects) {
+        const sortByIndex = arrayOfObjects.sort((a, b) => a.index - b.index)
+
+        sortByIndex.forEach(item => {
+            const { index, ...restProps } = item
+
+            if (index === undefined)
+                this.columns.push({ ...restProps })
+            else
+                this.columns.splice(index, 0, { ...restProps })
+        })
+
+        return this
+    }
+
+    sort(arrayOfID) {
+        this.columns.sort((a, b) => {
+            const indexA = arrayOfID.indexOf(a.id)
+            const indexB = arrayOfID.indexOf(b.id)
+
+            if (indexA !== -1 && indexB !== -1)
+                return indexA - indexB
+            if (indexA === -1 && indexB !== -1)
+                return 1
+            else if (indexA !== -1 && indexB === -1)
+                return -1
+            else if (indexA === -1 && indexB === -1)
+                return 0
+
+            return 0
+        })
+
+        return this
+    }
+}
+
+export const createColumnBuilder = (columns) => {
+    const columnBuilder = new ColumnBuilder(columns)
+
+    return columnBuilder
 }
 
 export const createTextBox = ({ id, md = 3, ...restProps }) => {
@@ -144,12 +230,16 @@ export const createLabel = ({ id, md = 3, label, ...restProps }) => {
     })
 }
 
-export const createContainerWithTable = ({ id, md = 12, label, ...restProps }) => {
+export const createContainerWithTable = ({ id, elements, md = 12, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, ...restProps }) => {
     return create({
         id,
         type: 'ContainerWithTable',
         md,
         label,
+        addInterface,
+        addButtonOrigin,
+        showHeader,
+        elements,
         ...restProps,
     })
 }

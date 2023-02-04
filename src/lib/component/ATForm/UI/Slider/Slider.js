@@ -13,7 +13,6 @@ const Slider = ({ _formProps_, id, label, helperText, ...restProps }) => {
             {...restProps}
         />
     </div>
-
 }
 
 export default Slider;

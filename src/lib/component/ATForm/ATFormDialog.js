@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 //MUI
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -8,8 +8,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import ATForm from './ATForm';
 import Button from './UI/Button/Button';
 import { Grid } from '@mui/material';
+//Context
+import ATFormContext from './ATFormContext/ATFormContext';
 
-const ATFormDialog = React.forwardRef(({ title, onClose, onCancelClick, onSubmitClick, onChange, children, submitLoading, cancelLoading, ...restProps }, forwardedRef) => {
+const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelClick, onSubmitClick, onChange, children, submitLoading, cancelLoading, ...restProps }, forwardedRef) => {
+    const { localText } = useContext(ATFormContext)
+
     const mFormData = useRef({ formData: null, formDataKeyValue: null })
 
     const onFormChange = ({ formData, formDataKeyValue }) => {
@@ -36,7 +40,7 @@ const ATFormDialog = React.forwardRef(({ title, onClose, onCancelClick, onSubmit
     }
 
     return <Dialog open={true} onClose={onClose} fullWidth={true} maxWidth={'800'}>
-        <DialogTitle>{title}</DialogTitle>
+        <DialogTitle sx={{ ...(titleStyle || {}) }}>{title}</DialogTitle>
         <DialogContent>
             <Grid container spacing={2} sx={{ marginTop: '5px', marginBottom: '5px' }}>
                 <ATForm ref={forwardedRef} onChange={onFormChange} {...restProps}>
@@ -47,10 +51,10 @@ const ATFormDialog = React.forwardRef(({ title, onClose, onCancelClick, onSubmit
         <DialogActions>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={2}>
-                    <Button label={'Cancel'} onClick={onInternalCancelClick} variant={'outlined'} color={'secondary'} disabled={submitLoading} />
+                    <Button label={localText['Cancel']} onClick={onInternalCancelClick} variant={'outlined'} color={'secondary'} disabled={submitLoading} />
                 </Grid>
                 <Grid item xs={12} md={2}>
-                    <Button label={'Submit'} onClick={onInternalSubmitClick} variant={'outlined'} disabled={cancelLoading} />
+                    <Button label={localText['Submit']} onClick={onInternalSubmitClick} variant={'outlined'} disabled={cancelLoading} />
                 </Grid>
             </Grid>
         </DialogActions>

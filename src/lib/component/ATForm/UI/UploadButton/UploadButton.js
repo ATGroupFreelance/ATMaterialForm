@@ -14,8 +14,8 @@ import ATFormContext from '../../ATFormContext/ATFormContext';
 import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
 
 const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept }) => {
-    const { onLockdownChange, localization } = _formProps_
-    const { uploadFilesToServer } = useContext(ATFormContext)
+    const { onLockdownChange} = _formProps_
+    const { uploadFilesToServer, localText } = useContext(ATFormContext)
 
     const [loading, setLoading] = useState(false)
     const [dialog, setDialog] = useState(null)
@@ -35,7 +35,7 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept })
         if (selectedFiles.length > 0) {
             const formData = new FormData()
             selectedFiles.forEach((file, index) => {
-                formData.append(`${localization('file')}${index}`, file)
+                formData.append(`${localText['file']}${index}`, file)
             })
 
             setLoading(true)
@@ -89,12 +89,12 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept })
 
     return <div style={{ flex: 1, display: 'flex' }}>
         <Button sx={{ height: '50px', marginTop: '4px', width: '38%' }} variant="contained" component="label" loading={loading} disabled={disabled}>
-            {loading ? localization('Uploading') : localization('Add Files')}
+            {loading ? localText['Uploading'] : localText['Add Files']}
             <input hidden multiple type="file" accept={accept} onChange={onInternalChange} />
         </Button>
-        <TextField label={label} sx={{ width: '38%', paddingLeft: '6px' }} value={`${value.length} ${localization('files')}`} />
+        <TextField label={label} sx={{ width: '38%', paddingLeft: '6px' }} value={`${value.length} ${localText['files']}`} />
         <ShowFilesIconButton sx={{ width: '10%' }} files={value} onClick={onShowFilesClick} />
-        <Tooltip title={localization('Delete All')} sx={{ width: '10%' }}  >
+        <Tooltip title={localText['Delete All']} sx={{ width: '10%' }}  >
             <span>
                 <IconButton disabled={value.length === 0 || disabled} sx={{ color: '#e91e63' }} onClick={onRemoveFilesClick}>
                     <DeleteForeverTwoToneIcon />

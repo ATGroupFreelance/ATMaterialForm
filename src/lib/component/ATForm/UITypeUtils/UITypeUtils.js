@@ -20,20 +20,16 @@ export const getTypeInfo = (type) => {
     return types.find(item => item.type === type)
 }
 
-//Title must always be an string
-export const getTitleByEnums = (getEnums, id, value) => {
-    if (!getEnums)
-        return String(value)
-
-    //Make sure getEnums is offline to avoid unnecessary api calls
-    const enums = getEnums()
+export const getTitleByEnums = (enums, id, value) => {
+    if (!enums)
+        return value
 
     if (!enums[id])
-        return String(value)
+        return value
 
     const found = enums[id].find(item => String(item.ID) === String(value))
 
-    return found ? String(found.Title) : String(value)
+    return found ? String(found.Title) : value
 }
 
 //Facts:
@@ -57,15 +53,15 @@ export const types = [
 
             return event.target.value.ID
         },
-        reverseConvertToKeyValue: ({ value, element, getEnums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }) => {            
             if (value === null || value === undefined)
                 return null
             else
                 return {
                     ID: value,
-                    Title: getTitleByEnums(getEnums, element.id, value)
+                    Title: String(getTitleByEnums(enums, element.id, value))
                 }
-        }
+        },
     },
     {
         type: 'MultiComboBox',
@@ -73,7 +69,7 @@ export const types = [
         convertToKeyValue: (event) => {
             return event.target.value.map(item => item.ID).join(',')
         },
-        reverseConvertToKeyValue: ({ value, element, getEnums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
             if (!value)
                 return []
             else {
@@ -82,7 +78,7 @@ export const types = [
                 return valueArray.map(item => {
                     return {
                         ID: item,
-                        Title: getTitleByEnums(getEnums, element.id, item)
+                        Title: String(getTitleByEnums(enums, element.id, item))
                     }
                 })
             }
@@ -92,7 +88,7 @@ export const types = [
         type: 'DatePicker',
         initialValue: null,
         convertToKeyValue: (event) => moment(event.target.value).isValid() ? moment(event.target.value).format('YYYY-MM-DD') : null,
-        reverseConvertToKeyValue: ({ value, element, getEnums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
             if (value === undefined || value === null)
                 return null
             else
@@ -121,7 +117,7 @@ export const types = [
 
             return JSON.stringify(result)
         },
-        reverseConvertToKeyValue: ({ value, element, getEnums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
             if (value === undefined || value === null)
                 return null
 
@@ -135,11 +131,11 @@ export const types = [
                 }
 
                 if (Array.isArray(parsedValue[key]))
-                    result[key] = parsedValue[key].map(item => ({ ID: item, Title: getTitleByEnums(getEnums, key, item) }))
+                    result[key] = parsedValue[key].map(item => ({ ID: item, Title: String(getTitleByEnums(enums, key, item)) }))
                 else
                     result[key] = {
                         ID: parsedValue[key],
-                        Title: getTitleByEnums(getEnums, key, parsedValue[key])
+                        Title: String(getTitleByEnums(enums, key, parsedValue[key]))
                     }
             }
 
@@ -171,6 +167,15 @@ export const types = [
     },
     {
         type: 'ContainerWithTable',
-        initialValue: null,
+        initialValue: [],
+        convertToKeyValue: (event) => {
+            return JSON.stringify(event.target.value)
+        },
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
+            if (value === undefined || value === null)
+                return []
+
+            return JSON.parse(value)
+        }
     }
 ]

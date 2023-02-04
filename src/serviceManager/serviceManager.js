@@ -97,14 +97,18 @@ class ServiceManager {
         })
     }
 
-    getEnums = () => {                
-        const enums = {
-            "Countries": [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }],
-            "CountriesIDVALUE": [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }],
-            "layerA": [{ ID: 'A1_1', Title: 'A1_1' }, { ID: 'A1_2', Title: 'A1_2' }]
-        }
+    getEnums = () => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const enums = {
+                    "Countries": [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }],
+                    "CountriesIDVALUE": [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }],
+                    "layerA": [{ ID: 'A1_1', Title: 'A1_1' }, { ID: 'A1_2', Title: 'A1_2' }]
+                }
 
-        return enums
+                resolve(enums)
+            }, 5000)
+        })
     }
 }
 

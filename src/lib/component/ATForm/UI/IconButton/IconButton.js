@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import MUIButton from '@mui/material/Button';
+import MUIIconButton from '@mui/material/IconButton';
 import { useSnackbar } from 'notistack';
 
-const Button = ({ _formProps_, onClick, loading = false, color = 'primary', label, disabled, children, confirmationMessage, ...restProps }) => {
+const IconButton = ({ _formProps_, onClick, loading = false, disabled, icon, confirmationMessage, children, ...restProps }) => {
     const { enqueueSnackbar } = useSnackbar()
     const [internalLoading, setInternalLoading] = useState(loading)
 
@@ -22,7 +22,7 @@ const Button = ({ _formProps_, onClick, loading = false, color = 'primary', labe
             onClick(event, { startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
     }
 
-    return <MUIButton fullWidth={true} disabled={internalLoading || disabled} onClick={internalOnClick} color={color} {...restProps}>{label}{children}</MUIButton>
+    return <MUIIconButton disabled={internalLoading || disabled} onClick={internalOnClick} {...restProps}>{icon}{children}</MUIIconButton>
 }
 
-export default Button;
+export default IconButton;

@@ -43,7 +43,7 @@ const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'disab
         isOptionEqualToValue={(option, value) => String(option.ID) === String(value.ID)}
         renderInput={(params) => <TextField {...params} error={error} helperText={helperText} label={label} inputProps={{ ...params.inputProps, autoComplete: autoComplete }} />}
         {...restProps}
-    />  
+    />
 }
 
 export default ComboBox;

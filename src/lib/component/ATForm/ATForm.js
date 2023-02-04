@@ -25,6 +25,11 @@ class ATForm extends PureComponent {
         this.compileAJV()
     }
 
+    componentDidMount() {
+        if (this.props.defaultValue)
+            this.reset(this.props.defaultValue)
+    }
+
     state = {
         defaultValue: {},
         isFormOnLockdown: false,
@@ -57,7 +62,8 @@ class ATForm extends PureComponent {
     }
 
     reset = (inputDefaultValue, reverseConvertToKeyValueEnabled = true) => {
-        const { getEnums } = this.context
+        const { enums } = this.context
+        console.log('enums', enums)
         //If default value is not key value just use it!
         let newDefaultValue = inputDefaultValue
 
@@ -75,7 +81,7 @@ class ATForm extends PureComponent {
 
                     //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
                     if (foundType.reverseConvertToKeyValue)
-                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToKeyValue({ value: inputDefaultValue[key], element: found, getEnums })
+                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToKeyValue({ value: inputDefaultValue[key], element: found, enums })
                     else
                         reverseConvertToKeyValueDefaultValue[key] = inputDefaultValue[key]
                 }
@@ -85,6 +91,8 @@ class ATForm extends PureComponent {
 
             newDefaultValue = reverseConvertToKeyValueDefaultValue
         }
+
+        console.log('newDefaultValue', newDefaultValue)
 
         this.setState({
             defaultValue: newDefaultValue || {}
@@ -226,10 +234,10 @@ class ATForm extends PureComponent {
         }
     }
 
-    getChildProps = ({ id, type, defaultValue, inputType, onClick, ...restProps }) => {
+    getChildProps = ({ id, type, defaultValue, inputType, onClick, label, ...restProps }) => {
         const { childrenProps } = this.props
-        const formDefaultValue = this.props.defaultValue ? this.props.defaultValue : this.state.defaultValue
-        const newDefaultValue = formDefaultValue[id] === undefined ? defaultValue : formDefaultValue[id]
+        const newDefaultValue = this.state.defaultValue[id] === undefined ? defaultValue : this.state.defaultValue[id]
+
         let newOnClick = onClick
         if (String(inputType).toLowerCase() === 'submit' && onClick) {
             newOnClick = (event, props) => {
@@ -248,13 +256,11 @@ class ATForm extends PureComponent {
                 isFormOnLockdown: this.state.isFormOnLockdown,
                 inputType: inputType,
                 errors: this.state.validationErrors,
-                localization: (text) => {
-                    return this.props.localization ? this.props.localization(text) : text
-                }
             },
             id,
             type,
             defaultValue: newDefaultValue,
+            label: this.context.getLocalText(id, label),
             //This is an object of props passed to form itself, the goal is to give a certain props to all the children
             ...(childrenProps || {}),
             ...restProps,

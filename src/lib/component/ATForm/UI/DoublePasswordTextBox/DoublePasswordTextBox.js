@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import PasswordTextBox from '../PasswordTextBox/PasswordTextBox';
+//Context
+import ATFormContext from '../../ATFormContext/ATFormContext';
 
 const DoublePasswordTextBox = ({ _formProps_, id, showPassword = false, onChange, value, error, helperText, label, ...restProps }) => {
-    const { localization } = _formProps_
+    const { localText } = useContext(ATFormContext)
 
     const [valueA, setValueA] = useState('')
     const [valueB, setValueB] = useState('')
@@ -44,7 +46,7 @@ const DoublePasswordTextBox = ({ _formProps_, id, showPassword = false, onChange
         onToggleShowPasswordClick: onToggleShowPasswordClick,
         showPassword: lShowPassword,
         error: ((valueA !== valueB) && valueA !== '') || error,
-        helperText: ((valueA !== valueB) && valueA !== '') ? localization('Passwords do not match') : helperText
+        helperText: ((valueA !== valueB) && valueA !== '') ? localText['Passwords do not match'] : helperText
     }
 
     return <div style={{ width: '100%', margin: 0, padding: 0 }}>
@@ -55,7 +57,7 @@ const DoublePasswordTextBox = ({ _formProps_, id, showPassword = false, onChange
 
         </div>
         <div style={{ width: '49.5%', display: 'inline-block', margin: 0, padding: 0 }}>
-            <PasswordTextBox {...commonProps} onChange={internalOnChangeB} value={valueB} label={`${localization('Confirm')} ${label}`} {...restProps} />
+            <PasswordTextBox {...commonProps} onChange={internalOnChangeB} value={valueB} label={`${localText['Confirm']} ${label}`} {...restProps} />
         </div>
     </div>
 }
