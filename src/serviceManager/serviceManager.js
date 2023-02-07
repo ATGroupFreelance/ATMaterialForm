@@ -93,7 +93,15 @@ class ServiceManager {
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve([{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }])
-            })
+            }, 3000)
+        })
+    }
+
+    getCountriesLabelOnly = () => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(['UK', 'US'])
+            }, 3000)
         })
     }
 

@@ -53,7 +53,7 @@ export const types = [
 
             return event.target.value.ID
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {            
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
             if (value === null || value === undefined)
                 return null
             else

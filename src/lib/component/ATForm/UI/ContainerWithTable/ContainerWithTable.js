@@ -7,7 +7,7 @@ import ATForm from '../../ATForm';
 import ATFormDialog from '../../ATFormDialog';
 //AgGrid
 import ATAgGrid from '../../../ATAgGrid/ATAgGrid';
-import { getColumnDefsByATFormElements } from '../../../ATAgGrid/ATAgGridUtils/ATAgGridUtils';
+import { getColumnDefsByATFormElements } from '../.././../ATAgGrid/ATAgGridUtils/ATAgGridUtils';
 import { ColumnDefTemplates } from '../../../ATAgGrid/ColumnDefTemplates/ColumnDefTemplates';
 //Context
 import ATFormContext from '../../ATFormContext/ATFormContext';
@@ -21,7 +21,7 @@ const INTERFACE_TYPES = {
     form: 'form',
 }
 
-const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400 }) => {
+const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400 }) => {
     const { enums, rtl, localText } = useContext(ATFormContext)
 
     const gridRef = useRef(null)
@@ -161,7 +161,7 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
                 </Typography>
             </div>
         }
-        <div className={classesArray.join(' ')} >
+        <div className={classesArray.join(' ')} style={{ width: !rtl && showHeader ? '98%' : '100%' }}>
             <Grid container spacing={2} sx={{ marginBottom: '5px' }}>
                 {
                     recordDialog.show &&
@@ -221,4 +221,4 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
     </div >
 }
 
-export default ContainerWithTable;
+export default ContainerWithTableDefault;

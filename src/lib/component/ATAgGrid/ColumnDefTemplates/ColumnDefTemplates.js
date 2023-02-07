@@ -10,7 +10,7 @@ const createButton = ({ onClick, field, confirmationMessage, ...overWriteProps }
             confirmationMessage,
         },
         field,
-        width: 80,
+        width: 160,
         ...(overWriteProps || {})
     }
 }

@@ -239,7 +239,7 @@ export const createContainerWithTable = ({ id, elements, md = 12, label, addInte
         addInterface,
         addButtonOrigin,
         showHeader,
-        elements,
+        elements,        
         ...restProps,
     })
 }

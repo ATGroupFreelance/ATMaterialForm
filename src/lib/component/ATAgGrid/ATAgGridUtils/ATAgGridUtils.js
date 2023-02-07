@@ -1,9 +1,9 @@
 import { getTypeInfo } from "../../ATForm/UITypeUtils/UITypeUtils"
+import { ColumnDefTemplates } from "../ColumnDefTemplates/ColumnDefTemplates"
 
 export const createAgGridColumnDefs = ({ field, headerName = null, sortable = true, filter = true, ...restProps }) => {
     return {
-        field,
-        headerName: headerName ? headerName : field,
+        field,        
         sortable,
         filter,
         ...restProps,
@@ -21,7 +21,11 @@ export const getColumnDefsByATFormElements = ({ formElements, enums }) => {
         return createAgGridColumnDefs({
             ...(getAgGridColumnDef ? getAgGridColumnDef({ enums }) : {}),
             field: item.id,
-            headerName: item.label === undefined ? item.id : item.label,
+            headerName: item.label,
         })
     })
 }
+
+export const createEdit = ColumnDefTemplates.createEdit
+export const createRemove = ColumnDefTemplates.createRemove
+export const createButton = ColumnDefTemplates.createButton

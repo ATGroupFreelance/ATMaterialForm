@@ -34,7 +34,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
     const { onChildChange, errors } = _formProps_
     const [localValue, setLocalValue] = useState(getInitialValue(_typeInfo_, defaultValue))
 
-    useEffect(() => {
+    useEffect(() => {        
         //We call this to initialize the formData
         if (onChildChange)
             onChildChange({ event: { target: { value: localValue } } })

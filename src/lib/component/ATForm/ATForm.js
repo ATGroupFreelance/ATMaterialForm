@@ -39,7 +39,9 @@ class ATForm extends PureComponent {
     onChildChange = ({ id, type, event }) => {
         const found = getTypeInfo(type) || (this.context.customComponents && this.context.customComponents.find(item => item.typeInfo.type === type))
 
-        this.formData = {
+        //If we don't copy the object and directly mutate it everything will seem okay but outside the component when set state is called it will not cause reRender !, it seems even hook sestate does a casual compare 
+        //and if it can't detect object change it will not render.
+        const newFormData = {
             ...this.formData,
             [id]: {
                 value: event.target.value,
@@ -47,13 +49,18 @@ class ATForm extends PureComponent {
             }
         }
 
-        this.formDataKeyValue = {
+        //If we don't copy the object and directly mutate it everything will seem okay but outside the component when set state is called it will not cause reRender !, it seems even hook sestate does a casual compare 
+        //and if it can't detect object change it will not render.
+        const newFormDataKeyValue = {
             ...this.formDataKeyValue,
             [id]: found.convertToKeyValue ? found.convertToKeyValue(event) : event.target.value
         }
 
+        this.formData = newFormData
+        this.formDataKeyValue = newFormDataKeyValue
+
         if (this.props.onChange) {
-            this.props.onChange({ formData: this.formData, formDataKeyValue: this.formDataKeyValue })
+            this.props.onChange({ formData: newFormData, formDataKeyValue: newFormDataKeyValue })
         }
     }
 

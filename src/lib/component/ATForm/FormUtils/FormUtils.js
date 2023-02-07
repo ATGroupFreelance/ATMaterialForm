@@ -33,3 +33,39 @@ export const getFlexGrid = (props) => {
 
     return result
 }
+
+export const isLiteralObject = (a) => {
+    return (!!a) && (a.constructor === Object);
+};
+
+export const groupKeyValueToArray = (formDataKeyValue, groupID, idList) => {
+    const result = {}
+    const groupedValues = {}
+
+    let counter = 0
+
+    idList.forEach(item => {
+        if (Object.hasOwn(formDataKeyValue, item)) {
+            counter = counter + 1
+            groupedValues[item] = formDataKeyValue[item]
+        }
+
+        else
+            result[item] = formDataKeyValue[item]
+    })
+
+    if (counter !== 0) {
+        result[groupID] = [groupedValues]
+    }
+
+    return result
+}
+
+export const reverseGroupKeyValueToArray = (formDataKeyValue, groupID) => {
+    const { [groupID]: groupObject, ...rest } = formDataKeyValue
+
+    return {
+        ...rest,
+        ...(groupObject || {}),
+    }
+}
