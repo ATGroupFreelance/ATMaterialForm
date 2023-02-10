@@ -14,6 +14,7 @@ const PasswordTextBox = React.lazy(() => import('../../UI/PasswordTextBox/Passwo
 const DoublePasswordTextBox = React.lazy(() => import('../../UI/DoublePasswordTextBox/DoublePasswordTextBox'));
 const Avatar = React.lazy(() => import('../../UI/Avatar/Avatar'));
 const ContainerWithTable = React.lazy(() => import('../../UI/ContainerWithTable/ContainerWithTable'));
+const MultiSelectTextBox = React.lazy(() => import('../../UI/MultiSelectTextBox/MultiSelectTextBox'));
 
 const getInitialValue = (typeInfo, defaultValue) => {
     const { initialValue, isNullValueValid } = typeInfo
@@ -104,6 +105,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         {type === 'DoublePasswordTextBox' && <DoublePasswordTextBox {...commonProps} />}
         {type === 'Avatar' && <Avatar {...commonProps} />}
         {type === 'ContainerWithTable' && <ContainerWithTable {...commonProps} />}        
+        {type === 'MultiSelectTextBox' && <MultiSelectTextBox {...commonProps} />}                
         {CustomComponent && <CustomComponent {...commonProps} />}
     </Suspense>
 }

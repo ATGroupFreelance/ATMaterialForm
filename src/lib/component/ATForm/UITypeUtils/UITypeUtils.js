@@ -14,6 +14,8 @@ export const UITypes = {
     DoublePasswordTextBox: 'DoublePasswordTextBox',
     Avatar: 'Avatar',
     Label: 'Label',
+    ContainerWithTable: 'ContainerWithTable',
+    MultiSelectTextBox: 'MultiSelectTextBox',
 }
 
 export const getTypeInfo = (type) => {
@@ -177,5 +179,18 @@ export const types = [
 
             return JSON.parse(value)
         }
-    }
+    },
+    {
+        type: 'MultiSelectTextBox',
+        initialValue: [],
+        convertToKeyValue: (event) => {
+            return JSON.stringify(event.target.value)
+        },
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
+            if (value === null || value === undefined)
+                return []
+            else
+                return JSON.parse(value)
+        },
+    },
 ]

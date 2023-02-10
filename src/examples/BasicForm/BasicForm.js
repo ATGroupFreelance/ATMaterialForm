@@ -47,6 +47,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
     return (
         <ATForm ref={forwardRef} onChange={onChange} validationDisabled={true}>
             {[
+                formBuilder.createMultiSelectTextBox({ id: 'MultiSelectTextBox' }),
                 formBuilder.createAvatar({ id: 'Avatar1', md: 12, size: 128 }),
                 formBuilder.createTextBox({ id: 'A', onChange: (event) => setA(event.target.value), value: A }),
                 formBuilder.createTextBox({ id: 'B', onChange: (event) => setB(event.target.value), value: B }),

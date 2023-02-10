@@ -230,16 +230,37 @@ export const createLabel = ({ id, md = 3, label, ...restProps }) => {
     })
 }
 
-export const createContainerWithTable = ({ id, elements, md = 12, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, ...restProps }) => {
+export const createContainerWithTable = ({ id, elements, md = 12, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, editOnly = false, ...restProps }) => {
     return create({
         id,
         type: 'ContainerWithTable',
         md,
         label,
+        //How are the fields and elements added to the table, a "form" at the top or by "formDialog" which opens a dialog by clicking on add?
         addInterface,
         addButtonOrigin,
         showHeader,
-        elements,        
+        //It will remove add button and only allows edit and remove, this is used if you want to load a data inside a table and edit it or maybe even add to it!
+        editOnly,
+        //This is the children of containerWithTable which is shown inside the add interface, you can use formBuilder to create these elements
+        elements,
+        ...restProps,
+    })
+}
+
+export const createConditionalInsert = ({ condition, elements }) => {
+    if (!condition)
+        return []
+    else
+        return elements
+}
+
+export const createMultiSelectTextBox = ({ id, md = 3, label, ...restProps }) => {
+    return create({
+        id,
+        type: 'MultiSelectTextBox',
+        md,
+        label,
         ...restProps,
     })
 }

@@ -15,7 +15,7 @@ const isFunction = (obj) => {
     return !!(obj && obj.constructor && obj.call && obj.apply);
 }
 
-const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'disabled', error, helperText, ...restProps }) => {
+const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'off', error, helperText, ...restProps }) => {
     const [data, setData] = useState([])
 
     useEffect(() => {

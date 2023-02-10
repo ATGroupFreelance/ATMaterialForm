@@ -38,34 +38,41 @@ export const isLiteralObject = (a) => {
     return (!!a) && (a.constructor === Object);
 };
 
-export const groupKeyValueToArray = (formDataKeyValue, groupID, idList) => {
+export const groupKeyValueAsTableData = (formDataKeyValue, groupID, idList) => {
     const result = {}
     const groupedValues = {}
 
     let counter = 0
 
-    idList.forEach(item => {
-        if (Object.hasOwn(formDataKeyValue, item)) {
+
+    for (let key in formDataKeyValue) {
+        const found = idList.find(item => item === key)
+
+        if (found) {
             counter = counter + 1
-            groupedValues[item] = formDataKeyValue[item]
+            groupedValues[key] = formDataKeyValue[key]
         }
-
-        else
-            result[item] = formDataKeyValue[item]
-    })
-
-    if (counter !== 0) {
-        result[groupID] = [groupedValues]
+        else {
+            result[key] = formDataKeyValue[key]
+        }
     }
+
+    if (counter !== 0)
+        result[groupID] = JSON.stringify([groupedValues])
 
     return result
 }
 
-export const reverseGroupKeyValueToArray = (formDataKeyValue, groupID) => {
+export const reverseGroupKeyValueAsTableData = (formDataKeyValue, groupID) => {
     const { [groupID]: groupObject, ...rest } = formDataKeyValue
+
+    let parsedGroupObject = []
+    if (groupObject) {
+        parsedGroupObject = JSON.parse(groupObject)
+    }
 
     return {
         ...rest,
-        ...(groupObject || {}),
+        ...(parsedGroupObject.length ? parsedGroupObject[0] : {}),
     }
 }

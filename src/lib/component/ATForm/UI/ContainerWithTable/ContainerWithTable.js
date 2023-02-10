@@ -21,7 +21,7 @@ const INTERFACE_TYPES = {
     form: 'form',
 }
 
-const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400 }) => {
+const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, editOnly = false, height = 400 }) => {
     const { enums, rtl, localText } = useContext(ATFormContext)
 
     const gridRef = useRef(null)
@@ -212,8 +212,8 @@ const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridCo
                 height={height}
                 columnDefs={[
                     ...(gridColumnDefs || []),
-                    ColumnDefTemplates.createEdit({ onClick: onEditClick }),
-                    ColumnDefTemplates.createRemove({ onClick: onRemoveClick })
+                    ColumnDefTemplates.createEdit({ onClick: onEditClick, pinned: 'left' }),
+                    ColumnDefTemplates.createRemove({ onClick: onRemoveClick, pinned: 'left' })
                 ]}
                 getRowId={getRowId ? getRowId() : (params) => params.data[DEFAULT_ROW_ID_KEY]}
             />

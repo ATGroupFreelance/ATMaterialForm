@@ -19,7 +19,7 @@ const Button = ({ _formProps_, onClick, loading = false, color = 'primary', labe
         if (confirmationMessage)
             enqueueSnackbar(confirmationMessage, { onYesClick: onYesClick, variant: 'areYouSure', persist: true })
         else if (onClick)
-            onClick(event, { startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
+            onClick(event, { startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false), enqueueSnackbar })
     }
 
     return <MUIButton fullWidth={true} disabled={internalLoading || disabled} onClick={internalOnClick} color={color} {...restProps}>{label}{children}</MUIButton>

@@ -1,8 +1,30 @@
 import ATButton from "lib/component/ATForm/UI/Button/Button";
 
-const Button = ({ data, colDef, onClick, getLocalText, disabled, variant = 'outlined' }) => {
+const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, variant = 'outlined' }) => {
+    let props = {}
 
-    return <ATButton onClick={(event, { ...props }) => onClick(event, { ...props, data })} disabled={disabled} fullWidth={true} variant={variant}>{getLocalText ? getLocalText(data) : colDef.headerName}</ATButton>
+    if (getCellRendererParams) {
+        props = getCellRendererParams(data)
+    }
+
+    // eslint-disable-next-line
+    const { headerName, ["onClick"]: getCellRendererParamsOnClick, ...restProps } = props
+
+    return <ATButton
+        onClick={(event, { ...props }) => {
+            if (onClick)
+                onClick(event, { ...props, data })
+
+            if (getCellRendererParamsOnClick)
+                getCellRendererParamsOnClick(event, { ...props, data })
+        }}
+        disabled={disabled}
+        fullWidth={true}
+        variant={variant}
+        {...(restProps || {})}
+    >
+        {headerName === undefined ? colDef.headerName : headerName}
+    </ATButton>
 }
 
 export default Button;

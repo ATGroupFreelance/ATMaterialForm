@@ -26,14 +26,14 @@ import { SnackbarUtilsConfigurator } from 'lib/component/Notistack/ClasslessSnac
 //Notistack Provider
 import { SnackbarProvider } from 'notistack';
 
-const RTL = true
+const RTL = false
 
 function App() {
   const formRef = useRef(null)
   const mFormData = useRef(null)
   const [savedFormData, setSavedFormData] = useState(null)
   const [realTimeFormData, setRealtimeFormData] = useState(null)
-  const [enums, setEnums] = useState(null)  
+  const [enums, setEnums] = useState(null)
 
   useEffect(() => {
     ServiceManager.getEnums()
@@ -46,7 +46,7 @@ function App() {
     mFormData.current = {
       formData: formData,
       formDataKeyValue: formDataKeyValue,
-    }    
+    }
 
     setRealtimeFormData(formDataKeyValue)
   }
@@ -71,7 +71,7 @@ function App() {
     })
   }
 
-  const activeExample = 'HowToUseContainerWithTable'
+  const activeExample = 'FormDialog'
 
   const atFormLocalText = {
     'Add': 'Local text Add'
@@ -83,7 +83,7 @@ function App() {
 
   return (
     <div className='App'>
-      <ATFormContextProvider value={{ rtl: false, enums: enums, uploadFilesToServer: ServiceManager.uploadFilesToServer, localText: atFormLocalText, agGridLocalText: agGridLocalText, customComponents: [{ component: MyTextField, typeInfo: { type: 'MyTextField', initialValue: '' } }] }}>
+      <ATFormContextProvider value={{ rtl: RTL, enums: enums, uploadFilesToServer: ServiceManager.uploadFilesToServer, localText: atFormLocalText, agGridLocalText: agGridLocalText, customComponents: [{ component: MyTextField, typeInfo: { type: 'MyTextField', initialValue: '' } }] }}>
         <SnackbarProvider
           maxSnack={3}
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
