@@ -53,7 +53,7 @@ const CascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComp
     return <React.Fragment>
         {
             elementList.map(item => {
-                return <BaseComboBox key={item.id} label={item.label || item.id}  {...item} />
+                return <BaseComboBox key={item.id} label={item.label || item.id} error={error} helperText={helperText} {...item} />
             })
         }
     </React.Fragment>

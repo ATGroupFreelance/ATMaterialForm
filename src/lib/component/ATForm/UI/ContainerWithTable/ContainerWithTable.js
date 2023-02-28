@@ -77,17 +77,19 @@ const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridCo
         }
     }
 
-    const onFormChange = ({ formData, formDataKeyValue }) => {
+    const onFormChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }) => {
         formDataRef.current = {
             formData,
-            formDataKeyValue
+            formDataKeyValue,
+            formDataSemiKeyValue
         }
     }
 
-    const onFormDialogChange = ({ formData, formDataKeyValue }) => {
+    const onFormDialogChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }) => {
         formDialogDataRef.current = {
             formData,
-            formDataKeyValue
+            formDataKeyValue,
+            formDataSemiKeyValue
         }
     }
 
@@ -204,7 +206,7 @@ const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridCo
             </Grid>
             <Grid container sx={{ marginBottom: '4px', justifyContent: addButtonOrigin === 'right' ? 'end' : 'start' }}>
                 <Grid item md={2}>
-                    <Button label={localText['Add']} onClick={onAddClick} variant={'outlined'} />
+                    <Button label={localText['Add']} onClick={onAddClick} />
                 </Grid>
             </Grid>
             <ATAgGrid

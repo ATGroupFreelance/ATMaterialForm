@@ -17,7 +17,7 @@ const UIBuilder = ({ _formProps_, id, label, type, ...restProps }) => {
 
     const newLabel = label || id
 
-    if (_typeInfo_.current.hasOwnProperty('initialValue'))
+    if (_typeInfo_.current.isControlledUI)
         return <ControlledUIBuilder id={id} _formProps_={_formProps_} label={newLabel} ref={innerRef} type={type} _typeInfo_={_typeInfo_.current} {...restProps} />
     else
         return <UncontrolledUIBuilder id={id} _formProps_={_formProps_} label={newLabel} type={type} _typeInfo_={_typeInfo_.current} {...restProps} />

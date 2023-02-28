@@ -16,6 +16,12 @@ export const ATFormContextProvider = ({ children, value, ...restProps }) => {
         if (label !== undefined)
             return label
 
+
+        if (id === null || id === undefined) {
+            console.error(`getLocalText input id parameter was undefined for id: ${id} and label: ${label}`)
+            return 'Error, Undefined ID!'
+        }
+
         const found = newLocalText[id] || newLocalText[id.toUpperCase()] || newLocalText[id.toLowerCase()]
 
         if (found !== undefined)

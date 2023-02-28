@@ -45,7 +45,7 @@ function App() {
   const formRef = useRef(null)
   const [formDataForView, setFormDataForView] = useState(null)
 
-  const onFormChange = ({ formData, formDataKeyValue }) => {
+  const onFormChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }) => {
     mFormData.current = {
       formData: formData,
       formDataKeyValue: formDataKeyValue,

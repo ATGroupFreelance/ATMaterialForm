@@ -47,7 +47,7 @@ const DoublePasswordTextBox = ({ _formProps_, id, showPassword = false, onChange
         showPassword: lShowPassword,
         error: ((valueA !== valueB) && valueA !== '') || error,
         helperText: ((valueA !== valueB) && valueA !== '') ? localText['Passwords do not match'] : helperText
-    }
+    }    
 
     return <div style={{ width: '100%', margin: 0, padding: 0 }}>
         <div style={{ width: '49.5%', display: 'inline-block', margin: 0, padding: 0 }}>

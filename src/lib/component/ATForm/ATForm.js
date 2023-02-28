@@ -19,8 +19,9 @@ class ATForm extends PureComponent {
         this.childrenRefs = {}
         this.formData = {}
         this.formDataKeyValue = {}
+        this.formDataSemiKeyValue = {}
         this.lockdown = {}
-        this.ajv = new Ajv({ allErrors: true, coerceTypes: true })
+        this.ajv = new Ajv({ allErrors: true })
         this.ajvValidate = null
         this.compileAJV()
     }
@@ -56,11 +57,23 @@ class ATForm extends PureComponent {
             [id]: found.convertToKeyValue ? found.convertToKeyValue(event) : event.target.value
         }
 
+        const newFormDataSemiKeyValue = {
+            ...this.formDataSemiKeyValue,
+            [id]: found.convertToSemiKeyValue ? found.convertToSemiKeyValue(event) : event.target.value
+        }
+
         this.formData = newFormData
         this.formDataKeyValue = newFormDataKeyValue
+        this.formDataSemiKeyValue = newFormDataSemiKeyValue
+
+        console.log('onChange', {
+            newFormData,
+            newFormDataKeyValue,
+            newFormDataSemiKeyValue
+        })
 
         if (this.props.onChange) {
-            this.props.onChange({ formData: newFormData, formDataKeyValue: newFormDataKeyValue })
+            this.props.onChange({ formData: newFormData, formDataKeyValue: newFormDataKeyValue, formDataSemiKeyValue: newFormDataSemiKeyValue })
         }
     }
 
@@ -68,7 +81,7 @@ class ATForm extends PureComponent {
         this.childrenRefs[id] = api
     }
 
-    reset = (inputDefaultValue, reverseConvertToKeyValueEnabled = true) => {
+    reset = (inputDefaultValue, reverseConvertToKeyValueEnabled = true, isInputSemiKeyValue = false) => {
         const { enums } = this.context
         console.log('enums', enums)
         //If default value is not key value just use it!
@@ -87,8 +100,10 @@ class ATForm extends PureComponent {
                     const foundType = getTypeInfo(found.type) || (this.context.customComponents && this.context.customComponents.find(item => item.typeInfo.type === found.type))
 
                     //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
-                    if (foundType.reverseConvertToKeyValue)
+                    if (!isInputSemiKeyValue && foundType.reverseConvertToKeyValue)
                         reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToKeyValue({ value: inputDefaultValue[key], element: found, enums })
+                    else if (isInputSemiKeyValue && foundType.reverseConvertToSemiKeyValue)
+                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToSemiKeyValue({ value: inputDefaultValue[key], element: found, enums })
                     else
                         reverseConvertToKeyValueDefaultValue[key] = inputDefaultValue[key]
                 }
@@ -154,13 +169,27 @@ class ATForm extends PureComponent {
 
             flatChildren.forEach(item => {
                 const props = React.isValidElement(item) ? item.props : item
-                const { id, validation } = props
+                const { id, validation, type } = props
+                const typeInfo = getTypeInfo(type)
+
+                //skip the validation if a UI is not controlled
+                if (!typeInfo.isControlledUI)
+                    return;
 
                 if (validation) {
                     const { required, ...restValidation } = validation
                     if (required)
                         requiredList.push(id)
-                    properties[id] = restValidation
+
+                    const restValidationLength = Object.keys(restValidation).length
+
+                    //if no validation properties are found try the type validation but only if an object is required
+                    if (required && restValidationLength === 0) {
+                        if (typeInfo.validation)
+                            properties[id] = typeInfo.validation
+                    }
+                    else
+                        properties[id] = restValidation
                 }
             })
 
@@ -171,6 +200,7 @@ class ATForm extends PureComponent {
                 // additionalProperties: false,
             }
 
+            console.log('schema', schema)
 
             if (requiredList.length || Object.keys(properties).length)
                 this.ajvValidate = this.ajv.compile(schema)
@@ -200,6 +230,8 @@ class ATForm extends PureComponent {
             const { instancePath } = item
             const regexResult = instancePath.match(/\/(\w*)/)
 
+            console.log('regexResult', item, regexResult)
+
             return regexResult.length > 1 ? regexResult[1] : null
         }
 
@@ -215,12 +247,23 @@ class ATForm extends PureComponent {
             })
         }
 
+        console.log('errors', {
+            errors,
+            normalizedErrors: result,
+            formData: this.formData,
+            formDataKeyValue: this.formDataKeyValue,
+            formDataSemiKeyValue: this.formDataSemiKeyValue,
+        })
+
         return result
     }
 
     checkValidation = (onValid) => {
         if (this.ajvValidate) {
-            const isValid = this.ajvValidate(this.formDataKeyValue)
+            //! Important !, avjVaidate which equels the result of "this.ajv.compile(schema)" will change your input! 
+            //This means this.formDataSemiKeyValue will change! and gets mutated, so make sure you copy the object and don't pass a refrence!
+            const isValid = this.ajvValidate({ ...this.formDataSemiKeyValue })
+            console.log('this.ajvValidate', this.ajvValidate, isValid)
             const newValidationErrors = this.normalizeErrors(this.ajvValidate?.errors)
 
             this.setState({
@@ -241,7 +284,7 @@ class ATForm extends PureComponent {
         }
     }
 
-    getChildProps = ({ id, type, defaultValue, inputType, onClick, label, ...restProps }) => {
+    getChildProps = ({ id, type, defaultValue, inputType, onClick, label, flexGridProps, ...restProps }) => {
         const { childrenProps } = this.props
         const newDefaultValue = this.state.defaultValue[id] === undefined ? defaultValue : this.state.defaultValue[id]
 
@@ -249,7 +292,7 @@ class ATForm extends PureComponent {
         if (String(inputType).toLowerCase() === 'submit' && onClick) {
             newOnClick = (event, props) => {
                 this.checkValidation(() => {
-                    onClick(event, { ...props, formData: this.formData, formDataKeyValue: this.formDataKeyValue })
+                    onClick(event, { ...props, formData: this.formData, formDataKeyValue: this.formDataKeyValue, formDataSemiKeyValue: this.formDataSemiKeyValue })
                 })
             }
         }

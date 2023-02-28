@@ -18,6 +18,7 @@ import ExternalComponentIntegration from 'examples/ExternalComponentIntegration/
 import FormDialog from 'examples/FormDialog/FormDialog';
 import HowToUseContainerWithTable from 'examples/HowToUseContainerWithTable/HowToUseContainerWithTable';
 import UserManager from 'examples/UserManager/UserManager';
+import BasicValidation from 'examples/BasicValidation/BasicValidation';
 //Notistack
 //Notistack custom variations
 import AreYouSure from 'lib/component/Notistack/CustomVariations/AreYouSure/AreYouSure';
@@ -25,8 +26,21 @@ import AreYouSure from 'lib/component/Notistack/CustomVariations/AreYouSure/AreY
 import { SnackbarUtilsConfigurator } from 'lib/component/Notistack/ClasslessSnackbar/ClasslessSnackbar';
 //Notistack Provider
 import { SnackbarProvider } from 'notistack';
+//MUI Theme provider
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Table from 'examples/Table/Table';
 
 const RTL = false
+
+const theme = createTheme({
+  components: {
+    MuiButton: {
+      defaultProps: {
+        variant: 'contained'
+      }
+    }
+  }
+});
 
 function App() {
   const formRef = useRef(null)
@@ -42,10 +56,11 @@ function App() {
       })
   }, [])
 
-  const onFormChange = ({ formData, formDataKeyValue }) => {
+  const onFormChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }) => {
     mFormData.current = {
       formData: formData,
       formDataKeyValue: formDataKeyValue,
+      formDataSemiKeyValue: formDataSemiKeyValue,
     }
 
     setRealtimeFormData(formDataKeyValue)
@@ -65,13 +80,15 @@ function App() {
     console.log('on External Submit')
     formRef.current.checkValidation(() => {
       setTimeout(() => {
-        console.log('Submitting...', mFormData.current.formData, mFormData.current.formDataKeyValue)
+        console.log('Submitting...', {
+          ...(mFormData.current || {}),
+        })
         setSavedFormData(mFormData.current.formDataKeyValue)
       }, 1000)
     })
   }
 
-  const activeExample = 'FormDialog'
+  const activeExample = 'BasicForm'
 
   const atFormLocalText = {
     'Add': 'Local text Add'
@@ -83,37 +100,41 @@ function App() {
 
   return (
     <div className='App'>
-      <ATFormContextProvider value={{ rtl: RTL, enums: enums, uploadFilesToServer: ServiceManager.uploadFilesToServer, localText: atFormLocalText, agGridLocalText: agGridLocalText, customComponents: [{ component: MyTextField, typeInfo: { type: 'MyTextField', initialValue: '' } }] }}>
-        <SnackbarProvider
-          maxSnack={3}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          Components={{
-            areYouSure: AreYouSure
-          }}
-        >
-          <LocalizationProvider dateAdapter={RTL ? AdapterJalali : AdapterMoment}>
-            <SnackbarUtilsConfigurator />
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <div>
-                  Form data key value :
-                </div>
-                {JSON.stringify(realTimeFormData || {})}
+      <ThemeProvider theme={theme}>
+        <ATFormContextProvider value={{ rtl: RTL, enums: enums, uploadFilesToServer: ServiceManager.uploadFilesToServer, localText: atFormLocalText, agGridLocalText: agGridLocalText, customComponents: [{ component: MyTextField, typeInfo: { type: 'MyTextField', initialValue: '' } }] }}>
+          <SnackbarProvider
+            maxSnack={3}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            Components={{
+              areYouSure: AreYouSure
+            }}
+          >
+            <LocalizationProvider dateAdapter={RTL ? AdapterJalali : AdapterMoment}>
+              <SnackbarUtilsConfigurator />
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <div>
+                    Form data key value :
+                  </div>
+                  {JSON.stringify(realTimeFormData || {})}
+                </Grid>
+                {activeExample === 'BasicForm' && <BasicForm ref={formRef} onChange={onFormChange} />}
+                {activeExample === 'ExternalComponentIntegration' && <ExternalComponentIntegration ref={formRef} onChange={onFormChange} />}
+                {activeExample === 'FormDialog' && <FormDialog />}
+                {activeExample === 'HowToUseContainerWithTable' && <HowToUseContainerWithTable ref={formRef} onChange={onFormChange} />}
+                {activeExample === 'UserManager' && <UserManager />}
+                {activeExample === 'BasicValidation' && <BasicValidation />}
+                {activeExample === 'Table' && <Table />}
+                <Grid item xs={12}>
+                  <Button onClick={onLoadLastSubmitClick}>load last submit</Button>
+                  <Button onClick={onSetDefaultValueClick}>set default value </Button>
+                  <Button onClick={onSubmitClick}>Submit from outside the form</  Button>
+                </Grid>
               </Grid>
-              {activeExample === 'BasicForm' && <BasicForm ref={formRef} onChange={onFormChange} />}
-              {activeExample === 'ExternalComponentIntegration' && <ExternalComponentIntegration ref={formRef} onChange={onFormChange} />}
-              {activeExample === 'FormDialog' && <FormDialog />}
-              {activeExample === 'HowToUseContainerWithTable' && <HowToUseContainerWithTable ref={formRef} onChange={onFormChange} />}
-              {activeExample === 'UserManager' && <UserManager />}
-              <Grid item xs={12}>
-                <Button onClick={onLoadLastSubmitClick}>load last submit</Button>
-                <Button onClick={onSetDefaultValueClick}>set default value </Button>
-                <Button onClick={onSubmitClick}>Submit from outside the form</  Button>
-              </Grid>
-            </Grid>
-          </LocalizationProvider>
-        </SnackbarProvider>
-      </ATFormContextProvider>
+            </LocalizationProvider>
+          </SnackbarProvider>
+        </ATFormContextProvider>
+      </ThemeProvider>
     </div>
   );
 }

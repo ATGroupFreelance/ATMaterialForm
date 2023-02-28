@@ -1,6 +1,6 @@
 import ATButton from "lib/component/ATForm/UI/Button/Button";
 
-const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, variant = 'outlined' }) => {
+const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, variant }) => {
     let props = {}
 
     if (getCellRendererParams) {

@@ -6,7 +6,7 @@ import { Button } from '@mui/material';
 //Resizer
 import Resizer from "react-image-file-resizer";
 
-const Avatar = ({ _formProps_, id, helperText, value, accept, size = 42, width = 128, height = 128, readOnly, onChange, ...restProps }) => {
+const Avatar = ({ _formProps_, id, value, accept, size = 42, width = 128, height = 128, readOnly, onChange, error, helperText, ...restProps }) => {
     const { onLockdownChange } = _formProps_
 
     const resizeImage = (file) => {
@@ -50,8 +50,14 @@ const Avatar = ({ _formProps_, id, helperText, value, accept, size = 42, width =
         }
     }
 
-    return <Button component="label" >
+    return <Button component="label" variant={error ? 'outlined' : 'Text'} color={error ? 'error' : 'primary'}>
         <MUIAvatar alt={'Avatar'} src={value}  {...restProps} sx={{ width: size, height: size }} />
+        {
+            error && helperText &&
+            <div style={{ position: 'absolute' }}>
+                {helperText}
+            </div>
+        }
         {!readOnly && <input hidden type="file" accept={accept || "image/png, image/gif, image/jpeg"} onChange={onInternalChange} />}
     </Button>
 }

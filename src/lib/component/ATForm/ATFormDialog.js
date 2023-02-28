@@ -14,21 +14,21 @@ import ATFormContext from './ATFormContext/ATFormContext';
 const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelClick, onSubmitClick, onChange, children, submitLoading, cancelLoading, getActions, ...restProps }, forwardedRef) => {
     const { localText } = useContext(ATFormContext)
 
-    const mFormData = useRef({ formData: null, formDataKeyValue: null })
+    const mFormData = useRef({ formData: null, formDataKeyValue: null, formDataSemiKeyValue: null })
 
-    const onFormChange = ({ formData, formDataKeyValue }) => {
+    const onFormChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }) => {
         mFormData.current = {
-            formData, formDataKeyValue
+            formData, formDataKeyValue, formDataSemiKeyValue
         }
 
         if (onChange) {
-            onChange({ formData, formDataKeyValue })
+            onChange({ formData, formDataKeyValue, formDataSemiKeyValue })
         }
     }
 
     const onInternalSubmitClick = (event, { ...buttonProps }) => {
         if (onSubmitClick) {
-            onSubmitClick(event, { ...buttonProps, formData: mFormData.current.formData, formDataKeyValue: mFormData.current.formDataKeyValue })
+            onSubmitClick(event, { ...buttonProps, formData: mFormData.current.formData, formDataKeyValue: mFormData.current.formDataKeyValue, formDataSemiKeyValue: mFormData.current.formDataSemiKeyValue })
         }
     }
 
@@ -45,7 +45,6 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
             label: localText['Cancel'],
             onClick: onInternalCancelClick,
             color: 'secondary',
-            variant: 'outlined',
             disabled: cancelLoading,
             grid: {
                 md: 2
@@ -59,7 +58,6 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
                 id: 'Submit',
                 label: localText['Submit'],
                 onClick: onInternalSubmitClick,
-                variant: 'outlined',
                 disabled: submitLoading,
                 grid: {
                     md: 2
@@ -85,7 +83,7 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
                     newActions.map(item => {
                         const { grid, id, label, onClick, ...restItem } = item
                         return <Grid key={id} item {...(grid ? grid : { xs: 12, md: 2 })}>
-                            <Button label={label ? label : id} onClick={(event, { ...buttonProps }) => onClick(event, { ...buttonProps, formData: mFormData.current.formData, formDataKeyValue: mFormData.current.formDataKeyValue })} {...restItem} />
+                            <Button label={label ? label : id} onClick={(event, { ...buttonProps }) => onClick(event, { ...buttonProps, formData: mFormData.current.formData, formDataKeyValue: mFormData.current.formDataKeyValue, formDataSemiKeyValue: mFormData.current.formDataSemiKeyValue })} {...restItem} />
                         </Grid>
                     })
                 }

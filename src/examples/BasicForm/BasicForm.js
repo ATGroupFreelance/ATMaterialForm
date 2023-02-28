@@ -46,40 +46,51 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
 
     return (
         <ATForm ref={forwardRef} onChange={onChange} validationDisabled={true}>
-            {[
-                formBuilder.createMultiSelectTextBox({ id: 'MultiSelectTextBox' }),
-                formBuilder.createAvatar({ id: 'Avatar1', md: 12, size: 128 }),
-                formBuilder.createTextBox({ id: 'A', onChange: (event) => setA(event.target.value), value: A }),
-                formBuilder.createTextBox({ id: 'B', onChange: (event) => setB(event.target.value), value: B }),
-                formBuilder.createTextBox({ id: 'A + B', value: Number(A) + Number(B) }),
-                formBuilder.createButton({ id: 'Random A', onClick: () => setA(Math.random() * 10) }),
-                formBuilder.createLabel({ id: 'Label', label: 'Hi im a label' }),
-                formBuilder.createTextBox({ id: 'Name', validation: { required: true, type: 'string', minLength: 1 }, defaultValue: 'Name' }),
-                formBuilder.createPasswordTextBox({ id: 'Password' }),
-                formBuilder.createDoublePasswordTextBox({ id: 'Double Password', md: 6 }),
-                formBuilder.createAvatar({ id: 'Avatar2' }),
-                formBuilder.createComboBox({ id: 'Countries', options: ServiceManager.getCountries, validation: { required: true, type: 'object' }, defaultValue: { ID: 1, Title: 'UK' } }),
-                formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }], validation: { required: true, type: 'array', minItems: 1 } }),
-                formBuilder.createDatePicker({ id: 'DatePicker' }),
-                formBuilder.createUploadButton({ id: 'UploadButton' }),
-                formBuilder.createCheckBox({ id: 'CheckBox' }),
-                ...(
-                    !hideElements
-                        ?
-                        [
-                            formBuilder.createSlider({ id: 'Slider' }),
-                        ]
-                        :
-                        []
-                ),
-                formBuilder.createCascadeComboBox({ id: 'CascadeComboBox', design: cascadeDesign }),
-                formBuilder.createGrid({
-                    id: 'grid01',
-                    md: 12,
-                }),
-                formBuilder.createButton({ id: 'Hide some elements', onClick: onHideSmoeElementsClick }),
-                formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
-            ]}
+            {
+                formBuilder.createColumnBuilder(
+                    [
+                        formBuilder.createMultiSelectTextBox({ id: 'MultiSelectTextBox' }),
+                        formBuilder.createAvatar({ id: 'Avatar1', md: 12, size: 128 }),
+                        formBuilder.createTextBox({ id: 'A', onChange: (event) => setA(event.target.value), value: A }),
+                        formBuilder.createTextBox({ id: 'B', onChange: (event) => setB(event.target.value), value: B }),
+                        formBuilder.createTextBox({ id: 'A + B', value: Number(A) + Number(B) }),
+                        formBuilder.createButton({ id: 'Random A', onClick: () => setA(Math.random() * 10) }),
+                        formBuilder.createLabel({ id: 'Label', label: 'Hi im a label' }),
+                        formBuilder.createTextBox({ id: 'Name', validation: { required: true } }),
+                        formBuilder.createPasswordTextBox({ id: 'Password' }),
+                        formBuilder.createDoublePasswordTextBox({ id: 'DoublePassword', md: 6 }),
+                        formBuilder.createAvatar({ id: 'Avatar2' }),
+                        formBuilder.createComboBox({ id: 'Countries', options: ServiceManager.getCountries, validation: { required: true } }),
+                        formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }], validation: { required: true } }),
+                        formBuilder.createDatePicker({ id: 'DatePicker', }),
+                        formBuilder.createUploadButton({ id: 'UploadButton' }),
+                        formBuilder.createCheckBox({ id: 'CheckBox' }),
+                        ...(
+                            !hideElements
+                                ?
+                                [
+                                    formBuilder.createSlider({ id: 'Slider' }),
+                                ]
+                                :
+                                []
+                        ),
+                        formBuilder.createCascadeComboBox({ id: 'CascadeComboBox', design: cascadeDesign }),
+                        formBuilder.createGrid({
+                            id: 'grid01',
+                            md: 12,
+                        }),
+                        formBuilder.createButton({ id: 'Hide some elements', onClick: onHideSmoeElementsClick }),
+                        formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
+                    ]
+                )
+                    .map(item => {
+                        return {
+                            ...item,
+                            validation: { required: true }
+                        }
+                    })
+                    .build()
+            }
         </ATForm>
     )
 })

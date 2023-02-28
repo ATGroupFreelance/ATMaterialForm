@@ -13,7 +13,7 @@ export const convertToKeyValue = (formData) => {
 }
 
 export const getFlexGrid = (props) => {
-    const { xs, md, lg, xl, gridContainer = false, gridSpacing = 0 } = (props || {})
+    const { xs, md, lg, xl, gridContainer = false, gridSpacing = 0, flexGridProps } = (props || {})
     const newXS = xs === undefined ? 12 : xs
     const newMD = md
     const newLG = lg
@@ -24,6 +24,7 @@ export const getFlexGrid = (props) => {
         md: newMD,
         lg: newLG,
         xl: newXL,
+        ...(flexGridProps || {}),
     }
 
     if (gridContainer)
@@ -75,4 +76,9 @@ export const reverseGroupKeyValueAsTableData = (formDataKeyValue, groupID) => {
         ...rest,
         ...(parsedGroupObject.length ? parsedGroupObject[0] : {}),
     }
+}
+
+//Used for knowing if option or data is function or a real data!
+export const isFunction = (obj) => {
+    return !!(obj && obj.constructor && obj.call && obj.apply);
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { isFunction } from '../../FormUtils/FormUtils';
 
 //Facts about autocomplete:
 //If "multiple" is false, value/initvalue must be string or null, if initvalue is set to "" it throws a warning that no match was found
@@ -11,9 +12,7 @@ import TextField from '@mui/material/TextField';
 //Option can be like this: 
 //['uk', 'us']
 //[{label: 'uk'}, {label: 'us'}]
-const isFunction = (obj) => {
-    return !!(obj && obj.constructor && obj.call && obj.apply);
-}
+
 
 const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'off', error, helperText, ...restProps }) => {
     const [data, setData] = useState([])

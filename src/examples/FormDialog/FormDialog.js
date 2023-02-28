@@ -6,7 +6,7 @@ import { ATFormDialog, formBuilder } from "lib";
 const FormDialog = React.forwardRef((props, forwardRef) => {
     const [dialog, setDialog] = useState(null)
 
-    const onDialogSubmit = (event, { startLoading, stopLoading, formData, formDataKeyValue }) => {
+    const onDialogSubmit = (event, { startLoading, stopLoading, formData, formDataKeyValue, formDataSemiKeyValue }) => {
         stopLoading()
         console.log('onDialogSubmit formDataKeyValue', formDataKeyValue)
 

@@ -9,6 +9,7 @@
 /coverage
 /.history
 /dist
+/backup
 
 # production
 /build

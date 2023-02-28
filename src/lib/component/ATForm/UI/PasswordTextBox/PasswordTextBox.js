@@ -7,7 +7,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 import './PasswordTextBox.css';
 
-const Password = ({ _formProps_, id, showPassword = false, onToggleShowPasswordClick, ...restProps }) => {
+const Password = ({ _formProps_, id, showPassword = false, onToggleShowPasswordClick, error, helperText, ...restProps }) => {
     const [lShowPassword, setLShowPassword] = useState(showPassword)
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const Password = ({ _formProps_, id, showPassword = false, onToggleShowPasswordC
         else {
             setLShowPassword(!lShowPassword)
         }
-    }
+    }    
 
     return <TextField
         fullWidth={true}
@@ -30,6 +30,8 @@ const Password = ({ _formProps_, id, showPassword = false, onToggleShowPasswordC
             endAdornment: <InputAdornment position="end"><IconButton onClick={internalOnToggleShowPasswordClick}>{showPassword ? <VisibilityOff /> : <Visibility />}</IconButton></InputAdornment>,
 
         }}
+        error={error}
+        helperText={helperText}
         {...restProps}        
     />
 }

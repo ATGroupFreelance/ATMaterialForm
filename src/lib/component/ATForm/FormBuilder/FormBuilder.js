@@ -5,13 +5,10 @@ const create = ({ id, ...restProps }) => {
     }
 }
 
-// export const splitCapitalBySpace = (id) => {
-//     return id.match(/[A-Z][a-z]*|[0-9]+/g).join(" ")
-// }
-
-// export const splitCapitalBySpace = (id) => {
-//     return id.match(/(?:[A-Z]|[a-z])(?:[a-z]+|[A-Z]+)|[0-9]+/g).join(" ")
-// }
+export const splitCapitalBySpace = (input) => {
+    const result = input.replace(/([A-Z]+)/g, ",$1").replace(/^,/, "");
+    return result.split(",").join(' ');
+}
 
 class ColumnBuilder {
     constructor(columns) {
@@ -86,12 +83,52 @@ class ColumnBuilder {
 
         return this
     }
+
+    map(mapFunction) {
+        this.columns = this.columns.map(mapFunction)
+
+        return this
+    }
+
+    filter(filterFunction) {
+        this.columns = this.columns.filter(filterFunction)
+
+        return this
+    }
+
+    remove(arrayOfIDToRemove) {
+        this.columns = this.columns.filter((item) => !arrayOfIDToRemove.includes(item.id))
+
+        return this
+    }
 }
 
+/**
+ * @example
+ * formBuilder
+    .createColumnBuilder(Columns)
+    .remove(['B'])    
+    .override(
+        {
+            A: { onChange: (event) => setA(event.target.value) },            
+        }
+    )
+    .build()
+ * @param {columns} columns: Array of {id, label, gridProps, uiProps}
+ */
 export const createColumnBuilder = (columns) => {
     const columnBuilder = new ColumnBuilder(columns)
 
     return columnBuilder
+}
+
+export const createColumn = ({ id, label, uiProps, gridProps }) => {
+    return {
+        id,
+        label,
+        uiProps,
+        gridProps
+    }
 }
 
 export const createTextBox = ({ id, md = 3, ...restProps }) => {
@@ -262,5 +299,32 @@ export const createMultiSelectTextBox = ({ id, md = 3, label, ...restProps }) =>
         md,
         label,
         ...restProps,
+    })
+}
+
+/**
+ * @example
+    //You only need to supply the data for the table to show.
+    const data = [{a: 10, b: 20}]
+    //If you don't supply the columns which is any array of texts, it will use the first object of data to create it.
+    const columns = ['a', 'b']
+    //You can style the each cell of the columns using "columnCellStyle"
+    //You can style the each cell of the row using "cellStyle"
+    //You can style the label or title using "labelStyle"
+    //Use this component only for showing simple data in a tablur manner and nothing more.
+  * @param {id, md = 12, data, columns = null, label = null, cellStyle = null, labelStyle = null, columnCellStyle = null, hideColumns = false}
+ */
+export const createTable = ({ id, md = 12, data, columns = null, label = null, cellStyle = null, labelStyle = null, columnCellStyle = null, hideColumns = false }) => {
+    return create({
+        id,
+        type: 'Table',
+        md,
+        data,
+        columns,
+        label,
+        cellStyle,
+        labelStyle,
+        columnCellStyle,
+        hideColumns
     })
 }

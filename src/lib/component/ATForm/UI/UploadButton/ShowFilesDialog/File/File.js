@@ -42,7 +42,7 @@ const File = ({ id, name, size, onRemove, showRemoveIcon }) => {
         <div className={StyleClasses.Name}>
             {name}
         </div>
-        <Button onClick={onOpenClick}>
+        <Button onClick={onOpenClick} variant={'text'}>
             download
             {`(${Math.ceil(size / 1024)} kB)`}
 
