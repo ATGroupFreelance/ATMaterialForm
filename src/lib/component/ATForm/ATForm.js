@@ -9,6 +9,7 @@ import * as FormBuilder from './FormBuilder/FormBuilder';
 import { getTypeInfo } from './UITypeUtils/UITypeUtils';
 //Validation
 import Ajv from "ajv"
+import AVJErrors from 'ajv-errors';
 //Context
 import ATFormContext from './ATFormContext/ATFormContext';
 
@@ -22,6 +23,28 @@ class ATForm extends PureComponent {
         this.formDataSemiKeyValue = {}
         this.lockdown = {}
         this.ajv = new Ajv({ allErrors: true })
+        AVJErrors(this.ajv)
+
+        this.ajv.addKeyword({
+            keyword: "eachPropIsValid",
+            type: "object",
+            schemaType: "boolean",
+            compile: () => data => {
+                let result = true
+
+                for (let key in data) {
+                    if (data[key] === null || data[key] === undefined || data[key] === '') {
+                        result = false
+                        break;
+                    }
+                }
+
+                console.log('eachPropIsValid', result, data)
+
+                return result
+            }
+        });
+
         this.ajvValidate = null
         this.compileAJV()
     }
@@ -37,7 +60,8 @@ class ATForm extends PureComponent {
         validationErrors: null,
     }
 
-    onChildChange = ({ id, type, event }) => {
+    onChildChange = ({ id, type, event, element }) => {
+        const { enums } = this.context
         const found = getTypeInfo(type) || (this.context.customComponents && this.context.customComponents.find(item => item.typeInfo.type === type))
 
         //If we don't copy the object and directly mutate it everything will seem okay but outside the component when set state is called it will not cause reRender !, it seems even hook sestate does a casual compare 
@@ -54,12 +78,12 @@ class ATForm extends PureComponent {
         //and if it can't detect object change it will not render.
         const newFormDataKeyValue = {
             ...this.formDataKeyValue,
-            [id]: found.convertToKeyValue ? found.convertToKeyValue(event) : event.target.value
+            [id]: found.convertToKeyValue ? found.convertToKeyValue(event, element, enums) : event.target.value
         }
 
         const newFormDataSemiKeyValue = {
             ...this.formDataSemiKeyValue,
-            [id]: found.convertToSemiKeyValue ? found.convertToSemiKeyValue(event) : event.target.value
+            [id]: found.convertToSemiKeyValue ? found.convertToSemiKeyValue(event, element, enums) : event.target.value
         }
 
         this.formData = newFormData
@@ -94,7 +118,7 @@ class ATForm extends PureComponent {
 
             for (let key in inputDefaultValue) {
                 //Find the elemenet of the value using id match
-                const found = flatChildren.find((item) => item.id === key)
+                const found = flatChildren.find((item) => String(item.id) === String(key))
                 if (found) {
                     //Find the element's type inside types which is inisde UITypeUtils, using this type we can do a reverseConvertToKeyValue
                     const foundType = getTypeInfo(found.type) || (this.context.customComponents && this.context.customComponents.find(item => item.typeInfo.type === found.type))
@@ -299,7 +323,7 @@ class ATForm extends PureComponent {
 
         return {
             _formProps_: {
-                onChildChange: ({ event }) => this.onChildChange({ id, type, event }),
+                onChildChange: ({ event }) => this.onChildChange({ id, type, event, element: restProps }),
                 onLockdownChange: (state) => this.onLockdownChange(id, state),
                 // ref: (node) => this.onGetChildRef(id, node),
                 innerRef: (node) => this.onGetChildRef(id, node),

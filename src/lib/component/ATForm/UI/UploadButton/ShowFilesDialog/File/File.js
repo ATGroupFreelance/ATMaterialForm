@@ -7,22 +7,38 @@ import StyleClasses from './File.module.css';
 //Components
 import Button from '../../../Button/Button';
 //Context
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ATFormContext from '../../../../ATFormContext/ATFormContext';
 
-const File = ({ id, name, size, onRemove, showRemoveIcon }) => {
-    const { getFile } = useContext(ATFormContext)
+function isImage(url) {
+    return /\.(jpg|jpeg|png|webp)$/.test(url);
+}
+
+const File = ({ id, name, size, onRemove, showRemoveIcon, authToken }) => {
+    const { getFile, localText } = useContext(ATFormContext)
+    const [thumbnail, setThumbnail] = useState('')
+
+    useEffect(() => {
+        if (id && name && getFile && isImage(name))
+            getFile(id, authToken, 128, 128)
+                .then(res => {
+                    const objectURL = window.URL.createObjectURL(res)
+
+                    setThumbnail(objectURL)
+                })
+
+    }, [id, name, authToken, getFile])
 
     const onOpenClick = (event, { startLoading, stopLoading }) => {
         startLoading()
 
         if (getFile) {
-            getFile(id)
+            getFile(id, authToken)
                 .then(res => {
                     const a = document.createElement("a");
                     document.body.appendChild(a);
                     a.style = "display: none";
-                    const _url = window.URL.createObjectURL(res.data);
+                    const _url = window.URL.createObjectURL(res);
                     a.href = _url;
                     a.download = name;
                     a.click();
@@ -42,13 +58,17 @@ const File = ({ id, name, size, onRemove, showRemoveIcon }) => {
         <div className={StyleClasses.Name}>
             {name}
         </div>
+        {
+            isImage(name)
+            &&
+            <img style={{ width: '128px', height: '128px' }} src={thumbnail} alt={name} />
+        }
         <Button onClick={onOpenClick} variant={'text'}>
-            download
+            {localText['Download']}
             {`(${Math.ceil(size / 1024)} kB)`}
-
         </Button>
         {showRemoveIcon &&
-            <Tooltip title={'Delete'} onClick={() => onRemove(id)}  >
+            <Tooltip title={localText['Delete']} onClick={() => onRemove(id)}  >
                 <IconButton sx={{ color: '#e91e63', display: 'inline-block' }}>
                     <DeleteForeverTwoToneIcon />
                 </IconButton>

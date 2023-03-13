@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
 //services
 import ServiceManager from 'serviceManager/serviceManager';
+import ATFormContext from 'lib/component/ATForm/ATFormContext/ATFormContext';
 
-const cascadeDesign = [
+const multiLeafCascadeDesign = [
     {
         id: 'layerA',
         data: ServiceManager.getData_layerA,
@@ -16,18 +17,43 @@ const cascadeDesign = [
                         id: 'layerABC1',
                         data: ServiceManager.getData_layerABC1,
                     },
-                    {
-                        id: 'layerABC2',
-                        data: ServiceManager.getData_layerABC2,
-                        multiple: true,
-                    }
                 ]
             },
         ]
-    }
+    },
 ]
 
 const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
+    const { enums } = useContext(ATFormContext)
+
+    const singleLeafCascadeDesign = [
+        {
+            id: 'Country',
+            enumKey: 'Countries',
+            data: ServiceManager.getCountries,
+            children: [
+                {
+                    id: 'State',
+                    enumKey: 'StateAndCapitals',
+                    enumParentKey: 'Country',
+                    data: ({ Country }) => new Promise((resolve) => {
+                        resolve(enums?.StateAndCapitals.filter(item => !item.ParentID && item.Country === Country))
+                    }),
+                    children: [
+                        {
+                            id: 'Capital',
+                            enumKey: 'StateAndCapitals',
+                            enumParentKey: 'ParentID',
+                            data: ({ State }) => new Promise((resolve) => {
+                                resolve(enums?.StateAndCapitals.filter(item => item.ParentID === State))
+                            }),
+                        },
+                    ]
+                },
+            ]
+        },
+    ]
+
     const [hideElements, setHideElements] = useState(false)
     const [A, setA] = useState(0)
     const [B, setB] = useState(0)
@@ -45,7 +71,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
     }
 
     return (
-        <ATForm ref={forwardRef} onChange={onChange} validationDisabled={true}>
+        <ATForm ref={forwardRef} onChange={onChange} validationDisabled={false}>
             {
                 formBuilder.createColumnBuilder(
                     [
@@ -74,7 +100,8 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                                 :
                                 []
                         ),
-                        formBuilder.createCascadeComboBox({ id: 'CascadeComboBox', design: cascadeDesign }),
+                        formBuilder.createCascadeComboBox({ id: 'cascadeComboBox', design: singleLeafCascadeDesign }),
+                        formBuilder.createMultiValueCascadeComboBox({ id: 'MultiValueCascadeComboBox', design: multiLeafCascadeDesign }),
                         formBuilder.createGrid({
                             id: 'grid01',
                             md: 12,
@@ -83,12 +110,8 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
                     ]
                 )
-                    .map(item => {
-                        return {
-                            ...item,
-                            validation: { required: true }
-                        }
-                    })
+                    .filter(item => item.id === 'UploadButton' || false)
+                    .required()
                     .build()
             }
         </ATForm>

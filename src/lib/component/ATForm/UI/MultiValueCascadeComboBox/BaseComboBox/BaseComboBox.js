@@ -4,7 +4,6 @@ import ComboBox from '../../ComboBox/ComboBox';
 import { Grid } from "@mui/material";
 
 const BaseComboBox = ({ id, value, parentID, data, multiple, xs, md, lg, xl, ...restProps }) => {
-    const [localValue, setLocalValue] = useState(value)
     const [options, setOptions] = useState(null)
     const [parentPrevValue, setParentPrevValue] = useState(null)
     const [forceDisabled, setForceDisabled] = useState(false)
@@ -24,13 +23,6 @@ const BaseComboBox = ({ id, value, parentID, data, multiple, xs, md, lg, xl, ...
     }, [])
 
     useEffect(() => {
-        //Why ? because if options is set before the value is set it can cause a warning that "value can't be found" which is why we make sure the options is set first.
-        setLocalValue(value)
-
-        // eslint-disable-next-line
-    }, [options])
-
-    useEffect(() => {
         if (parentID && value && value[parentID] && (parentPrevValue !== value[parentID])) {
             const keyValue = {}
             for (let key in value) {
@@ -42,7 +34,7 @@ const BaseComboBox = ({ id, value, parentID, data, multiple, xs, md, lg, xl, ...
 
             setParentPrevValue(value[parentID])
             setForceDisabled(true)
-            
+
             data(keyValue)
                 .then(res => {
                     setOptions(res)
@@ -54,14 +46,11 @@ const BaseComboBox = ({ id, value, parentID, data, multiple, xs, md, lg, xl, ...
                     setForceDisabled(false)
                 })
         }
-        else
-            setLocalValue(value)
-
         // eslint-disable-next-line
     }, [value])
 
-    const disabled = parentID ? (localValue ? !localValue[parentID] : true) : false
-    let newValue = localValue ? localValue[id] : undefined
+    const disabled = parentID ? (value ? !value[parentID] : true) : false
+    let newValue = value ? value[id] : undefined
     if (!newValue)
         newValue = multiple ? [] : null
 

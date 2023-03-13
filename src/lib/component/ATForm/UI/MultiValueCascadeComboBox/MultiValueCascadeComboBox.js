@@ -2,7 +2,7 @@ import React from 'react';
 
 import BaseComboBox from './BaseComboBox/BaseComboBox';
 
-const CascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComplete = 'disabled', error, helperText, ...restProps }) => {
+const MultiValueCascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComplete = 'disabled', error, helperText, ...restProps }) => {
     const onInternalChange = (id, event, children) => {
         const newValue = {
             ...(value || {}),
@@ -30,7 +30,7 @@ const CascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComp
     const getRenderableComboBoxFlatList = (designLayer, parentID = null) => {
         const result = []
 
-        designLayer.forEach(({ id, children, enumKey, enumParentKey,...restItem }) => {
+        designLayer.forEach(({ id, children, ...restItem }) => {
             result.push({
                 id: id,
                 ...restItem,
@@ -59,4 +59,4 @@ const CascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComp
     </React.Fragment>
 }
 
-export default CascadeComboBox;
+export default MultiValueCascadeComboBox;

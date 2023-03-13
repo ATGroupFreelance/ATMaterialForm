@@ -1,4 +1,5 @@
 import moment from 'moment';
+import localText from '../ATFormContext/LocalText';
 
 export const UITypes = {
     Button: 'Button',
@@ -8,6 +9,7 @@ export const UITypes = {
     DatePicker: 'DatePicker',
     UploadButton: 'UploadButton',
     CascadeComboBox: 'CascadeComboBox',
+    MultiValueCascadeComboBox: 'MultiValueCascadeComboBox',
     CheckBox: 'CheckBox',
     Slider: 'Slider',
     PasswordTextBox: 'PasswordTextBox',
@@ -17,6 +19,7 @@ export const UITypes = {
     ContainerWithTable: 'ContainerWithTable',
     MultiSelectTextBox: 'MultiSelectTextBox',
     Table: 'Table',
+    Grid: 'Grid',
 }
 
 export const getTypeInfo = (type) => {
@@ -40,6 +43,13 @@ export const getTitleByEnums = (enums, id, value) => {
     return found ? String(found.Title) : value
 }
 
+const createValidation = ({ errorMessage, ...props }) => {
+    return {
+        ...props,
+        errorMessage: errorMessage ? errorMessage : localText['This field can not be empty']
+    }
+}
+
 //Facts:
 //1- Because values are controlled, Initial value CAN NOT BE UNDEFINED
 //2- If initialValue is not inside an object it means the object is uncontrolled
@@ -59,6 +69,42 @@ const createType = ({ type, initialValue, isNullValueValid, convertToKeyValue, r
     }
 }
 
+const getLeafNodes = (nodes, result = []) => {
+    for (var i = 0, length = nodes.length; i < length; i++) {
+        if (!nodes[i].children || nodes[i].children.length === 0) {
+            result.push(nodes[i]);
+        } else {
+            result = getLeafNodes(nodes[i].children, result);
+        }
+    }
+    return result;
+}
+
+const getParentNode = (tree, node) => {
+    let result = null
+
+    for (let i = 0; i < tree.length; i++) {
+        if (tree[i].children || tree[i].children.length) {
+            for (let j = 0; j < tree[i].children.length; j++) {
+                const child = tree[i].children[j]
+                if (child.id === node.id)
+                    result = tree[i]
+                else {
+                    result = getParentNode([child], node)
+                }
+
+                if (result)
+                    break;
+            }
+
+            if (result)
+                break;
+        }
+    }
+
+    return result
+}
+
 const types = [
     createType({
         type: 'Button',
@@ -66,12 +112,12 @@ const types = [
     createType({
         type: 'TextBox',
         initialValue: '',
-        validation: { anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] },
+        validation: createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
     }),
     createType({
         type: 'ComboBox',
         initialValue: null,
-        validation: { type: 'integer' },
+        validation: createValidation({ type: 'integer' }),
         convertToKeyValue: (event) => {
             console.log('event.target.value', event.target.value)
             if (!event.target.value)
@@ -92,7 +138,7 @@ const types = [
     createType({
         type: 'MultiComboBox',
         initialValue: [],
-        validation: { type: 'array', minItems: 1 },
+        validation: createValidation({ type: 'array', minItems: 1 }),
         convertToKeyValue: (event) => {
             return event.target.value.map(item => item.ID).join(',')
         },
@@ -129,7 +175,7 @@ const types = [
     createType({
         type: 'DatePicker',
         initialValue: null,
-        validation: { type: 'string', minLength: 1 },
+        validation: createValidation({ type: 'string', minLength: 1 }),
         convertToKeyValue: (event) => moment(event.target.value).isValid() ? moment(event.target.value).format('YYYY-MM-DD') : null,
         reverseConvertToKeyValue: ({ value, element, enums }) => {
             if (value === undefined || value === null)
@@ -141,7 +187,7 @@ const types = [
     createType({
         type: 'UploadButton',
         initialValue: [],
-        validation: { type: 'array', minItems: 1 },
+        validation: createValidation({ type: 'array', minItems: 1 }),
         convertToKeyValue: (event) => {
             return JSON.stringify(event.target.value)
         },
@@ -164,7 +210,82 @@ const types = [
     createType({
         type: 'CascadeComboBox',
         initialValue: null,
-        validation: { type: 'object' },
+        validation: createValidation({ type: 'object', eachPropIsValid: true }),
+        convertToKeyValue: (event, element) => {
+            if (!event.target.value)
+                return event.target.value
+
+            const result = {}
+
+            const leafs = getLeafNodes(element.design)
+
+            if (leafs.length > 1) {
+                console.error('Design can not have more than 1 leaf!!!, if you want multiple leafs use MultiValueCascadeComboBox! leafs: ', leafs)
+                return event.target.value
+            }
+            else if (leafs.length === 0) {
+                console.error('You need to have at least one leaf!! leafs: ', leafs)
+                return event.target.value
+            }
+
+            const leaf = leafs[0]
+
+            for (let key in event.target.value) {
+                if (Array.isArray(event.target.value[key]))
+                    result[key] = event.target.value[key].map(item => item.ID)
+                else
+                    result[key] = event.target.value[key] ? event.target.value[key].ID : null
+            }
+
+            return result[leaf.id]
+        },
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
+            if (value === undefined || value === null)
+                return null
+
+            const leafs = getLeafNodes(element.design)
+
+            if (leafs.length > 1) {
+                console.error('Design can not have more than 1 leaf!!!, if you want multiple leafs use MultiValueCascadeComboBox! leafs: ', leafs)
+                return null
+            }
+            else if (leafs.length === 0) {
+                console.error('You need to have at least one leaf!! leafs: ', leafs)
+                return null
+            }
+
+            const getLeafCascadeValue = (leaf, value) => {
+                if (!leaf)
+                    return {}
+
+                const found = enums[leaf.enumKey].find(item => String(item.ID) === String(value))
+
+                if (leaf.enumParentKey) {
+                    const parentValueResult = getLeafCascadeValue(getParentNode(element.design, leaf), found[leaf.enumParentKey])
+                    console.log('parentValueResult', found, parentValueResult, leaf)
+
+                    return {
+                        [leaf.id]: found,
+                        ...parentValueResult,
+                    }
+                }
+                else
+                    return {
+                        [leaf.id]: found
+                    }
+            }
+
+            const leaf = leafs[0]
+
+            const res = getLeafCascadeValue(leaf, value)
+            console.log('getLeafCascadeValue', res)
+            return res
+        },
+    }),
+    createType({
+        type: 'MultiValueCascadeComboBox',
+        initialValue: null,
+        validation: createValidation({ type: 'object', eachPropIsValid: true, errorMessage: 'This field can not be empty' }),
         convertToKeyValue: (event) => {
             if (!event.target.value)
                 return event.target.value
@@ -255,17 +376,17 @@ const types = [
     createType({
         type: 'PasswordTextBox',
         initialValue: '',
-        validation: { type: 'string', minLength: 1 },
+        validation: createValidation({ type: 'string', minLength: 1 }),
     }),
     createType({
         type: 'DoublePasswordTextBox',
         initialValue: null,
-        validation: { type: 'string', minLength: 1 },
+        validation: createValidation({ type: 'string', minLength: 1 }),
     }),
     createType({
         type: 'Avatar',
         initialValue: null,
-        validation: { type: 'string', minLength: 1 },
+        validation: createValidation({ type: 'string', minLength: 1 }),
     }),
     createType({
         type: 'Label',
@@ -273,7 +394,7 @@ const types = [
     createType({
         type: 'ContainerWithTable',
         initialValue: [],
-        validation: { type: 'array', minItems: 1 },
+        validation: createValidation({ type: 'array', minItems: 1 }),
         convertToKeyValue: (event) => {
             return JSON.stringify(event.target.value)
         },
@@ -296,7 +417,7 @@ const types = [
     createType({
         type: 'MultiSelectTextBox',
         initialValue: [],
-        validation: { type: 'array', minItems: 1 },
+        validation: createValidation({ type: 'array', minItems: 1 }),
         convertToKeyValue: (event) => {
             return JSON.stringify(event.target.value)
         },

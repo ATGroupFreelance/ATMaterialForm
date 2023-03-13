@@ -13,7 +13,7 @@ import ATFormContext from '../../ATFormContext/ATFormContext';
 //Dialog
 import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
 
-const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText }) => {
+const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText, authToken }) => {
     const { onLockdownChange } = _formProps_
     const { uploadFilesToServer, localText } = useContext(ATFormContext)
 
@@ -43,7 +43,7 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
                 onLockdownChange(true)
 
             if (uploadFilesToServer) {
-                uploadFilesToServer(formData)
+                uploadFilesToServer(formData, authToken)
                     .then(res => {
                         const newValue = [
                             ...value,
@@ -76,6 +76,7 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
         setDialog(<ShowFilesDialog
             files={value}
             readOnly={disabled}
+            authToken={authToken}
             onSave={onShowFilesDialogSaveChangesClick}
             onClose={() => setDialog(null)}
         />)
@@ -93,7 +94,7 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
             <input hidden multiple type="file" accept={accept} onChange={onInternalChange} />
         </Button>
         <TextField label={label} sx={{ width: '38%', paddingLeft: '6px' }} value={`${value.length} ${localText['files']}`} error={error} helperText={helperText} />
-        <ShowFilesIconButton sx={{ width: '10%' }} files={value} onClick={onShowFilesClick} />
+        <ShowFilesIconButton sx={{ width: '10%' }} files={value} onClick={onShowFilesClick} label={localText['Show Files']} />
         <Tooltip title={localText['Delete All']} sx={{ width: '10%' }}  >
             <span>
                 <IconButton disabled={value.length === 0 || disabled} sx={{ color: '#e91e63' }} onClick={onRemoveFilesClick}>

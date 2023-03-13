@@ -93,7 +93,7 @@ class ServiceManager {
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve([{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }])
-            }, 3000)
+            }, 500)
         })
     }
 
@@ -110,12 +110,13 @@ class ServiceManager {
             setTimeout(() => {
                 const enums = {
                     "Countries": [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }],
+                    "StateAndCapitals": [{ ID: 0, Title: "England2", Country: 1 }, { ID: 1, Title: "England", Country: 1 }, { ID: 2, Title: "Alabama", Country: 2 }, { ID: 3, Title: "EnglandCapital", ParentID: 1 }, { ID: 4, Title: "AlabamaCapital", ParentID: 2 }],
                     "CountriesIDVALUE": [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }],
-                    "layerA": [{ ID: 'A1_1', Title: 'A1_1' }, { ID: 'A1_2', Title: 'A1_2' }]
+                    "layerA": [{ ID: 'A1_1', Title: 'A1_1' }, { ID: 'A1_2', Title: 'A1_2' }],
                 }
 
                 resolve(enums)
-            }, 5000)
+            }, 1000)
         })
     }
 }

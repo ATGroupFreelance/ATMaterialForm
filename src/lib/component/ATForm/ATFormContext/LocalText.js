@@ -13,6 +13,12 @@ const localText = {
     'Submit': 'Submit',
     'Edit': 'Edit',
     'Remove': 'Remove',
+    'Download': 'Download',
+    'Delete': 'Delete',
+    'View Uploaded Files': 'View Uploaded Files',
+    'Save': 'Save',
+    'Show Files': 'Show Files',
+    'This field can not be empty': 'This field can not be empty'
 }
 
 export default localText

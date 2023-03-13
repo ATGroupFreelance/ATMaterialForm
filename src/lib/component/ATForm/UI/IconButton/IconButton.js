@@ -11,7 +11,7 @@ const IconButton = ({ _formProps_, onClick, loading = false, disabled, icon, con
         handleCloseSnackbar()
 
         if (onClick) {
-            onClick(event, { startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
+            onClick(event, { enqueueSnackbar, startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
         }
     }
 
@@ -19,7 +19,7 @@ const IconButton = ({ _formProps_, onClick, loading = false, disabled, icon, con
         if (confirmationMessage)
             enqueueSnackbar(confirmationMessage, { onYesClick: onYesClick, variant: 'areYouSure', persist: true })
         else if (onClick)
-            onClick(event, { startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
+            onClick(event, { enqueueSnackbar, startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
     }
 
     return <MUIIconButton disabled={internalLoading || disabled} onClick={internalOnClick} {...restProps}>{icon}{children}</MUIIconButton>

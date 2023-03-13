@@ -101,6 +101,39 @@ class ColumnBuilder {
 
         return this
     }
+
+    /**
+     * @example
+     * required(['FirstName', 'LastName'])
+     * use null to target all the fields
+    * @param {idList} idList: Array of id [id1, id2]
+    */
+    required(idList) {
+        this.columns = this.columns.map(item => {
+            const conditionalProps = {}
+
+            if (item.validation) {
+                conditionalProps['validation'] = {
+                    ...item.validation,
+                }
+            }
+            else {
+                conditionalProps['validation'] = {}
+            }
+
+            if (!idList)
+                conditionalProps['validation']['required'] = true
+            else if (Array.isArray(idList) && idList.find(id => item.id === id))
+                conditionalProps['validation']['required'] = true
+
+            return {
+                ...item,
+                ...conditionalProps
+            }
+        })
+
+        return this
+    }
 }
 
 /**
@@ -192,6 +225,17 @@ export const createCascadeComboBox = ({ id, md = 12, ...restProps }) => {
     return create({
         id,
         type: 'CascadeComboBox',
+        md: md,
+        gridContainer: true,
+        gridSpacing: 2,
+        ...restProps,
+    })
+}
+
+export const createMultiValueCascadeComboBox = ({ id, md = 12, ...restProps }) => {
+    return create({
+        id,
+        type: 'MultiValueCascadeComboBox',
         md: md,
         gridContainer: true,
         gridSpacing: 2,

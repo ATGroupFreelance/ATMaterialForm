@@ -14,7 +14,7 @@ import { isFunction } from '../../FormUtils/FormUtils';
 //[{label: 'uk'}, {label: 'us'}]
 
 
-const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'off', error, helperText, ...restProps }) => {
+const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'off', error, helperText, value, ...restProps }) => {
     const [data, setData] = useState([])
 
     useEffect(() => {
@@ -33,6 +33,9 @@ const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'off',
             onChange({ target: { value: newValue } })
     }
 
+    if (value)
+        console.log('#ComboBox', value, JSON.stringify(options))
+
     return <Autocomplete
         disablePortal
         fullWidth={true}
@@ -41,6 +44,7 @@ const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'off',
         getOptionLabel={(option) => option.Title}
         isOptionEqualToValue={(option, value) => String(option.ID) === String(value.ID)}
         renderInput={(params) => <TextField {...params} error={error} helperText={helperText} label={label} inputProps={{ ...params.inputProps, autoComplete: autoComplete }} />}
+        value={value}
         {...restProps}
     />
 }
