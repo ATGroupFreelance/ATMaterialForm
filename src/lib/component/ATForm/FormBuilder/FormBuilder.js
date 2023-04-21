@@ -310,8 +310,7 @@ export const createLabel = ({ id, md = 3, label, ...restProps }) => {
         ...restProps,
     })
 }
-
-export const createContainerWithTable = ({ id, elements, md = 12, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, editOnly = false, ...restProps }) => {
+export const createContainerWithTable = ({ id, elements, md = 12, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, editOnly = false, resetFormAfterAdd = false, ...restProps }) => {
     return create({
         id,
         type: 'ContainerWithTable',
@@ -325,6 +324,8 @@ export const createContainerWithTable = ({ id, elements, md = 12, label, addInte
         editOnly,
         //This is the children of containerWithTable which is shown inside the add interface, you can use formBuilder to create these elements
         elements,
+        //reset the add panel after add is done
+        resetFormAfterAdd,
         ...restProps,
     })
 }

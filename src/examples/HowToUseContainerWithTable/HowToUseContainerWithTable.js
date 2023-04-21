@@ -12,7 +12,7 @@ const HowToUseContainerWithTable = React.forwardRef(({ onChange }, forwardedRef)
             {[
                 formBuilder.createTextBox({ id: 'OutsideContainer_TextBox1', md: 12 }),
                 formBuilder.createContainerWithTable({
-                    id: 'ContainerWithTable',
+                    id: 'ContainerWithTable',                    
                     elements: [
                         formBuilder.createTextBox({ id: 'Name' }),
                         formBuilder.createComboBox({ id: 'Countries', options: ServiceManager.getCountries }),

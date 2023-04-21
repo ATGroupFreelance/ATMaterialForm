@@ -21,10 +21,10 @@ const INTERFACE_TYPES = {
     form: 'form',
 }
 
-const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, editOnly = false, height = 400, actionPanelStyle, addButtonProps }) => {
+const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false }) => {
     const { enums, rtl, localText } = useContext(ATFormContext)
 
-    const gridRef = useRef(null)
+    const [currentGridRef, setCurrentGridRef] = useState(null)
     const formRef = useRef(null)
     const formDataRef = useRef(null)
     const formDialogDataRef = useRef(null)
@@ -33,11 +33,8 @@ const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridCo
 
     const gridRefCallback = useCallback((ref) => {
         if (ref) {
-            gridRef.current = ref
-            setTimeout(() => {
-                if (ref.api)
-                    ref.api.showNoRowsOverlay()
-            }, 10)
+            setCurrentGridRef(ref)
+            ref.api.showNoRowsOverlay()
         }
     }, [])
 
@@ -48,7 +45,7 @@ const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridCo
     }, [])
 
     useEffect(() => {
-        if (gridRef && gridRef.current && gridRef.current.api) {
+        if (currentGridRef && currentGridRef.api) {
             let newValue = value
 
             if (value && Array.isArray(value)) {
@@ -61,14 +58,14 @@ const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridCo
                 })
             }
 
-            gridRef.current.api.setRowData(newValue)
+            currentGridRef.api.setRowData(newValue)
         }
-    }, [value])
+    }, [value, currentGridRef])
 
     const onInternalChange = () => {
-        if (onChange && gridRef && gridRef.current) {
+        if (onChange && currentGridRef) {
             const gridData = []
-            gridRef.current.api.forEachNode((node) => {
+            currentGridRef.api.forEachNode((node) => {
                 const { [DEFAULT_ROW_ID_KEY]: id, ...restData } = node.data
                 gridData.push({ ...restData })
             })
@@ -99,16 +96,20 @@ const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridCo
     }
 
     const addRow = ({ formDataKeyValue }) => {
-        if (gridRef && gridRef.current) {
-            gridRef.current.api.applyTransaction({ add: [{ [DEFAULT_ROW_ID_KEY]: getNewRowID(), ...formDataKeyValue }] });
+        if (currentGridRef) {
+            currentGridRef.api.applyTransaction({ add: [{ [DEFAULT_ROW_ID_KEY]: getNewRowID(), ...formDataKeyValue }] });
+
+            if (resetFormAfterAdd && formRef) {
+                formRef.current.reset()
+            }
 
             onInternalChange()
         }
     }
 
     const editRow = ({ data, formDataKeyValue }) => {
-        if (gridRef && gridRef.current) {
-            gridRef.current.api.applyTransaction({ update: [{ ...data, ...formDataKeyValue }] });
+        if (currentGridRef) {
+            currentGridRef.api.applyTransaction({ update: [{ ...data, ...formDataKeyValue }] });
 
             onInternalChange()
         }
@@ -138,8 +139,8 @@ const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridCo
     }
 
     const onRemoveClick = (event, { data, startLoading, stopLoading }) => {
-        if (gridRef && gridRef.current) {
-            gridRef.current.api.applyTransaction({ remove: [data] });
+        if (currentGridRef) {
+            currentGridRef.api.applyTransaction({ remove: [data] });
 
             onInternalChange()
         }
@@ -206,11 +207,11 @@ const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridCo
             </Grid>
             <Grid container sx={{ marginBottom: '4px', justifyContent: addButtonOrigin === 'right' ? 'end' : 'start', ...(actionPanelStyle || {}) }}>
                 <Grid item md={2}>
-                    <Button label={localText['Add']} onClick={onAddClick} {...addButtonProps ||{}} />
+                    <Button label={localText['Add']} onClick={onAddClick} {...addButtonProps || {}} />
                 </Grid>
             </Grid>
             <ATAgGrid
-                ref={gridRefCallback}
+                onGridReady={gridRefCallback}
                 height={height}
                 columnDefs={[
                     ...(gridColumnDefs || []),
