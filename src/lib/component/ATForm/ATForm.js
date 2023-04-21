@@ -39,8 +39,6 @@ class ATForm extends PureComponent {
                     }
                 }
 
-                console.log('eachPropIsValid', result, data)
-
                 return result
             }
         });
@@ -51,7 +49,23 @@ class ATForm extends PureComponent {
 
     componentDidMount() {
         if (this.props.defaultValue)
-            this.reset(this.props.defaultValue)
+            this.reset(this.props.defaultValue, true, this.props.isDefaultValueSemiKeyValue)
+    }
+
+    componentDidUpdate(prevProps) {
+        const oldFlatChildren = this.getFlatChildren(prevProps.children)
+        const newFlatChildren = this.getFlatChildren(this.props.children)
+
+        if (oldFlatChildren.length !== newFlatChildren.length)
+            this.compileAJV()
+        else {
+            for (let i = 0; i < oldFlatChildren.length; i++) {
+                if (oldFlatChildren[i].id !== newFlatChildren[i].id) {
+                    this.compileAJV()
+                    break;
+                }
+            }
+        }
     }
 
     state = {
@@ -114,7 +128,7 @@ class ATForm extends PureComponent {
         //If default value is a key value, process it so it becomes a formData format
         if (reverseConvertToKeyValueEnabled && inputDefaultValue) {
             const reverseConvertToKeyValueDefaultValue = {}
-            const flatChildren = this.getFlatChildren()
+            const flatChildren = this.getFlatChildren(this.props.children)
 
             for (let key in inputDefaultValue) {
                 //Find the elemenet of the value using id match
@@ -186,7 +200,7 @@ class ATForm extends PureComponent {
 
     compileAJV = () => {
         if (!this.props.validationDisabled) {
-            const flatChildren = this.getFlatChildren()
+            const flatChildren = this.getFlatChildren(this.props.children)
 
             const properties = {}
             const requiredList = []
@@ -235,13 +249,13 @@ class ATForm extends PureComponent {
             this.ajvValidate = null
     }
 
-    getFlatChildren = () => {
+    getFlatChildren = (children) => {
         let arrayChildren = []
-        if (this.props.children) {
-            if (Array.isArray(this.props.children))
-                arrayChildren = this.props.children
+        if (children) {
+            if (Array.isArray(children))
+                arrayChildren = children
             else
-                arrayChildren.push(this.props.children)
+                arrayChildren.push(children)
         }
 
         return arrayChildren.flat(1)
@@ -266,6 +280,7 @@ class ATForm extends PureComponent {
                     result[getID(item)] = {
                         error: true,
                         ...item,
+                        message: item.message ? (this?.context?.localText[item.message] || item.message) : item.message
                     }
                 }
             })
@@ -343,7 +358,7 @@ class ATForm extends PureComponent {
     }
 
     render() {
-        const validChildren = this.getFlatChildren().map(item => {
+        const validChildren = this.getFlatChildren(this.props.children).map(item => {
             const props = React.isValidElement(item) ? item.props : item
             const { skipRender } = props
 

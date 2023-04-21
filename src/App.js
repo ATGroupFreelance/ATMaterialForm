@@ -17,6 +17,7 @@ import BasicForm from 'examples/BasicForm/BasicForm';
 import ExternalComponentIntegration from 'examples/ExternalComponentIntegration/ExternalComponentIntegration';
 import FormDialog from 'examples/FormDialog/FormDialog';
 import HowToUseContainerWithTable from 'examples/HowToUseContainerWithTable/HowToUseContainerWithTable';
+import ContainerWithTablePlayground from 'examples/ContainerWithTablePlayground/ContainerWithTablePlayground';
 import UserManager from 'examples/UserManager/UserManager';
 import BasicValidation from 'examples/BasicValidation/BasicValidation';
 //Notistack
@@ -88,10 +89,11 @@ function App() {
     })
   }
 
-  const activeExample = 'BasicForm'
+  const activeExample = 'ContainerWithTablePlayground'
 
   const atFormLocalText = {
-    'Add': 'Local text Add'
+    'Add': 'Local text Add',
+    'This field can not be empty': 'My local validation text'
   }
 
   const agGridLocalText = {
@@ -122,6 +124,7 @@ function App() {
                 {activeExample === 'ExternalComponentIntegration' && <ExternalComponentIntegration ref={formRef} onChange={onFormChange} />}
                 {activeExample === 'FormDialog' && <FormDialog />}
                 {activeExample === 'HowToUseContainerWithTable' && <HowToUseContainerWithTable ref={formRef} onChange={onFormChange} />}
+                {activeExample === 'ContainerWithTablePlayground' && <ContainerWithTablePlayground onChange={onFormChange} />}
                 {activeExample === 'UserManager' && <UserManager />}
                 {activeExample === 'BasicValidation' && <BasicValidation />}
                 {activeExample === 'Table' && <Table />}

@@ -1,5 +1,4 @@
 import moment from 'moment';
-import localText from '../ATFormContext/LocalText';
 
 export const UITypes = {
     Button: 'Button',
@@ -46,7 +45,7 @@ export const getTitleByEnums = (enums, id, value) => {
 const createValidation = ({ errorMessage, ...props }) => {
     return {
         ...props,
-        errorMessage: errorMessage ? errorMessage : localText['This field can not be empty']
+        errorMessage: errorMessage ? errorMessage : 'This field can not be empty'
     }
 }
 
@@ -118,8 +117,7 @@ const types = [
         type: 'ComboBox',
         initialValue: null,
         validation: createValidation({ type: 'integer' }),
-        convertToKeyValue: (event) => {
-            console.log('event.target.value', event.target.value)
+        convertToKeyValue: (event) => {            
             if (!event.target.value)
                 return event.target.value
 
@@ -192,7 +190,7 @@ const types = [
             return JSON.stringify(event.target.value)
         },
         reverseConvertToKeyValue: ({ value, element, enums }) => {
-            if (value === undefined || value === null)
+            if (!value)
                 return []
 
             return JSON.parse(value)
@@ -201,7 +199,7 @@ const types = [
             return event.target.value
         },
         reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
-            if (value === undefined || value === null)
+            if (!value)
                 return []
 
             return value
@@ -210,7 +208,7 @@ const types = [
     createType({
         type: 'CascadeComboBox',
         initialValue: null,
-        validation: createValidation({ type: 'object', eachPropIsValid: true }),
+        validation: createValidation({ type: 'integer' }),
         convertToKeyValue: (event, element) => {
             if (!event.target.value)
                 return event.target.value
@@ -399,7 +397,7 @@ const types = [
             return JSON.stringify(event.target.value)
         },
         reverseConvertToKeyValue: ({ value, element, enums }) => {
-            if (value === undefined || value === null)
+            if (!value)
                 return []
 
             return JSON.parse(value)
@@ -408,7 +406,7 @@ const types = [
             return event.target.value
         },
         reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
-            if (value === undefined || value === null)
+            if (!value)
                 return []
 
             return value
@@ -422,7 +420,7 @@ const types = [
             return JSON.stringify(event.target.value)
         },
         reverseConvertToKeyValue: ({ value, element, enums }) => {
-            if (value === null || value === undefined)
+            if (!value)
                 return []
             else
                 return JSON.parse(value)
@@ -431,7 +429,7 @@ const types = [
             return event.target.value
         },
         reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
-            if (value === null || value === undefined)
+            if (!value)
                 return []
             else
                 return value

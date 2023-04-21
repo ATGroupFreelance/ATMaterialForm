@@ -2,13 +2,15 @@ import { DeleteForeverOutlined, EditOutlined } from "@mui/icons-material"
 import Button from '../CellRenderers/Button/Button';
 import IconButton from '../CellRenderers/IconButton/IconButton';
 
-const createButton = ({ onClick, field, confirmationMessage, getCellRendererParams, ...overWriteProps } = {}) => {
+const createButton = ({ onClick, field, confirmationMessage, getCellRendererParams, color, variant, ...overWriteProps } = {}) => {
     return {
         cellRenderer: Button,
         cellRendererParams: {
             onClick,
             confirmationMessage,
-            getCellRendererParams
+            getCellRendererParams,
+            color, 
+            variant
         },
         field,
         width: 160,

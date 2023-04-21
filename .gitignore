@@ -13,6 +13,7 @@
 
 # production
 /build
+lib.rar
 
 # misc
 .DS_Store

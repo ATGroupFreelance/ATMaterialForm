@@ -1,6 +1,6 @@
 import ATButton from "lib/component/ATForm/UI/Button/Button";
 
-const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, variant }) => {
+const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, variant, color }) => {
     let props = {}
 
     if (getCellRendererParams) {
@@ -21,6 +21,7 @@ const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, varian
         disabled={disabled}
         fullWidth={true}
         variant={variant}
+        color={color}
         {...(restProps || {})}
     >
         {headerName === undefined ? colDef.headerName : headerName}
