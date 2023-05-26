@@ -89,7 +89,7 @@ function App() {
     })
   }
 
-  const activeExample = 'HowToUseContainerWithTable'
+  const activeExample = 'BasicForm'
 
   const atFormLocalText = {
     'Add': 'Local text Add',

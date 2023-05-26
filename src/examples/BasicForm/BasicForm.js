@@ -110,7 +110,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
                     ]
                 )
-                    .filter(item => item.id === 'UploadButton' || false)
+                    // .filter(item => item.id === 'UploadButton' || false)
                     .required()
                     .build()
             }

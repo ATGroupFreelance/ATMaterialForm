@@ -10,8 +10,7 @@ const ContainerWithTablePlayground = ({ onChange }) => {
     const [round, setRound] = useState(null)
 
     useEffect(() => {
-        if (formRef && round) {
-            console.log('data.current[round]', data.current[round.ID])
+        if (formRef && round) {            
             formRef.current.reset(data.current[round.ID], true, true)
         }
     }, [round])

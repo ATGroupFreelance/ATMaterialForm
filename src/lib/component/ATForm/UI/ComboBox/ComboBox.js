@@ -36,8 +36,7 @@ const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'off',
     if (value)
         console.log('#ComboBox', value, JSON.stringify(options))
 
-    return <Autocomplete
-        disablePortal
+    return <Autocomplete        
         fullWidth={true}
         options={data || []}
         onChange={onInternalChange}
