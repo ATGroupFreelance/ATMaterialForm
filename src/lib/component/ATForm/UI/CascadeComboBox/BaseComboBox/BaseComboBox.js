@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ComboBox from '../../ComboBox/ComboBox';
 import { Grid } from "@mui/material";
 
-const BaseComboBox = ({ id, value, parentID, data, multiple, xs, md, lg, xl, ...restProps }) => {
+const BaseComboBox = ({ id, value, parentID, data, multiple, xs = 12, md = 3, lg, xl, ...restProps }) => {
     const [localValue, setLocalValue] = useState(value)
     const [options, setOptions] = useState(null)
     const [parentPrevValue, setParentPrevValue] = useState(null)
@@ -65,7 +65,7 @@ const BaseComboBox = ({ id, value, parentID, data, multiple, xs, md, lg, xl, ...
     if (!newValue)
         newValue = multiple ? [] : null
 
-    return <Grid item xs={12} md={md || 3} lg={lg} xl={xl}>
+    return <Grid item xs={xs} md={md} lg={lg} xl={xl}>
         {
             <ComboBox options={options} value={newValue} disabled={disabled || !options || forceDisabled} multiple={multiple} {...restProps} />
         }

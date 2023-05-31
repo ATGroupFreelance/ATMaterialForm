@@ -30,16 +30,23 @@ export const getTypeInfo = (type) => {
     return found
 }
 
-export const getTitleByEnums = (enums, id, value) => {
-    if (!enums)
-        return value
+export const getTitleByEnums = ({ id, enumsID, options, enums, value }) => {
+    const searchID = enumsID || id
+    const stringValue = String(value)
+    let result = stringValue
 
-    if (!enums[id])
-        return value
+    if (options && Array.isArray(options)) {
+        const found = options.find(item => String(item.ID) === stringValue)
+        if (found)
+            result = String(found.Title)
+    }
+    else if (enums && enums[searchID]) {
+        const found = enums[searchID].find(item => String(item.ID) === stringValue)
+        if (found)
+            result = String(found.Title)
+    }
 
-    const found = enums[id].find(item => String(item.ID) === String(value))
-
-    return found ? String(found.Title) : value
+    return result
 }
 
 const createValidation = ({ errorMessage, ...props }) => {
@@ -117,19 +124,20 @@ const types = [
         type: 'ComboBox',
         initialValue: null,
         validation: createValidation({ type: 'integer' }),
-        convertToKeyValue: (event) => {            
+        convertToKeyValue: (event) => {
             if (!event.target.value)
                 return event.target.value
 
             return event.target.value.ID
         },
         reverseConvertToKeyValue: ({ value, element, enums }) => {
+            console.log('element', value, element)
             if (value === null || value === undefined)
                 return null
             else
                 return {
                     ID: value,
-                    Title: String(getTitleByEnums(enums, element.id, value))
+                    Title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value })
                 }
         },
     }),
@@ -149,7 +157,7 @@ const types = [
                 return valueArray.map(item => {
                     return {
                         ID: item,
-                        Title: String(getTitleByEnums(enums, element.id, item))
+                        Title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value: item })
                     }
                 })
             }
@@ -164,7 +172,7 @@ const types = [
                 return value.map(item => {
                     return {
                         ID: item,
-                        Title: String(getTitleByEnums(enums, element.id, item))
+                        Title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value: item })
                     }
                 })
             }
@@ -313,11 +321,11 @@ const types = [
                 }
 
                 if (Array.isArray(parsedValue[key]))
-                    result[key] = parsedValue[key].map(item => ({ ID: item, Title: String(getTitleByEnums(enums, key, item)) }))
+                    result[key] = parsedValue[key].map(item => ({ ID: item, Title: getTitleByEnums({ id: key, enums, value: item }) }))
                 else
                     result[key] = {
                         ID: parsedValue[key],
-                        Title: String(getTitleByEnums(enums, key, parsedValue[key]))
+                        Title: getTitleByEnums({ id: key, enums, value: parsedValue[key] })
                     }
             }
 
@@ -352,11 +360,11 @@ const types = [
                 }
 
                 if (Array.isArray(parsedValue[key]))
-                    result[key] = parsedValue[key].map(item => ({ ID: item, Title: String(getTitleByEnums(enums, key, item)) }))
+                    result[key] = parsedValue[key].map(item => ({ ID: item, Title: getTitleByEnums({ id: key, enums, value: item }) }))
                 else
                     result[key] = {
                         ID: parsedValue[key],
-                        Title: String(getTitleByEnums(enums, key, parsedValue[key]))
+                        Title: getTitleByEnums({ id: key, enums, value: parsedValue[key] })
                     }
             }
 

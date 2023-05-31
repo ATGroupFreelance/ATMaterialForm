@@ -87,6 +87,8 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createDoublePasswordTextBox({ id: 'DoublePassword', md: 6 }),
                         formBuilder.createAvatar({ id: 'Avatar2' }),
                         formBuilder.createComboBox({ id: 'Countries', options: ServiceManager.getCountries, validation: { required: true } }),
+                        formBuilder.createComboBox({ id: 'ComboBoxWithEnumsID', enumsID: 'Countries', options: ServiceManager.getCountries }),
+                        formBuilder.createComboBox({ id: 'ComboBoxEnumsless', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }] }),
                         formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }], validation: { required: true } }),
                         formBuilder.createDatePicker({ id: 'DatePicker', }),
                         formBuilder.createUploadButton({ id: 'UploadButton' }),
@@ -110,8 +112,8 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
                     ]
                 )
-                    // .filter(item => item.id === 'UploadButton' || false)
-                    .required()
+                    // .filter(item => ['cascadeComboBox'].includes(item.id))
+                    .required(['ComboBoxWithEnumsID'])
                     .build()
             }
         </ATForm>

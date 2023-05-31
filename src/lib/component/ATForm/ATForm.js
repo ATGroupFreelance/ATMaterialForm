@@ -227,7 +227,10 @@ class ATForm extends PureComponent {
                             properties[id] = typeInfo.validation
                     }
                     else
-                        properties[id] = restValidation
+                        properties[id] = {
+                            errorMessage: 'This field can not be empty',
+                            ...restValidation,
+                        }
                 }
             })
 
@@ -265,12 +268,15 @@ class ATForm extends PureComponent {
         const result = {}
 
         const getID = (item) => {
-            const { instancePath } = item
+            const { instancePath, params } = item
             const regexResult = instancePath.match(/\/(\w*)/)
 
-            console.log('regexResult', item, regexResult)
-
-            return regexResult.length > 1 ? regexResult[1] : null
+            if (regexResult && Array.isArray(regexResult) && (regexResult.length > 1))
+                return regexResult[1]
+            else if (params && params.missingProperty)
+                return params && params.missingProperty
+            else
+                return null
         }
 
         if (errors) {
@@ -323,7 +329,7 @@ class ATForm extends PureComponent {
         }
     }
 
-    getChildProps = ({ id, type, defaultValue, inputType, onClick, label, flexGridProps, ...restProps }) => {
+    getChildProps = ({ id, enumsID, type, defaultValue, inputType, onClick, label, flexGridProps, ...restProps }) => {
         const { childrenProps } = this.props
         const newDefaultValue = this.state.defaultValue[id] === undefined ? defaultValue : this.state.defaultValue[id]
 

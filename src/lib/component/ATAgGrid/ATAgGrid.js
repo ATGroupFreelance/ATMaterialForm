@@ -33,7 +33,7 @@ const ATAgGrid = React.forwardRef(({ rowData, columnDefs, height, ...restProps }
             enableRtl={rtl}
             defaultColDef={{
                 valueFormatter: (params) => {
-                    return getTitleByEnums(enums, params.colDef.field, params.value)
+                    return getTitleByEnums({ id: params.colDef.field, enums, value: params.value })
                 },
             }}
             {...restProps}
