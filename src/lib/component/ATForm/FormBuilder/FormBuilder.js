@@ -221,6 +221,15 @@ export const createUploadButton = ({ id, md = 3, ...restProps }) => {
     })
 }
 
+export const createUploadImageButton = ({ id, md = 3, ...restProps }) => {
+    return create({
+        id,
+        type: 'UploadImageButton',
+        md,
+        ...restProps,
+    })
+}
+
 export const createCascadeComboBox = ({ id, md = 12, ...restProps }) => {
     return create({
         id,

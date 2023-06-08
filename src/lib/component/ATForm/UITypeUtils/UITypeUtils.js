@@ -7,6 +7,7 @@ export const UITypes = {
     MultiComboBox: 'MultiComboBox',
     DatePicker: 'DatePicker',
     UploadButton: 'UploadButton',
+    UploadImageButton: 'UploadImageButton',
     CascadeComboBox: 'CascadeComboBox',
     MultiValueCascadeComboBox: 'MultiValueCascadeComboBox',
     CheckBox: 'CheckBox',
@@ -210,6 +211,17 @@ const types = [
             if (!value)
                 return []
 
+            return value
+        },
+    }),
+    createType({
+        type: 'UploadImageButton',
+        initialValue: null,
+        validation: createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
+        convertToKeyValue: (event) => {
+            return event.target.value
+        },
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
             return value
         },
     }),

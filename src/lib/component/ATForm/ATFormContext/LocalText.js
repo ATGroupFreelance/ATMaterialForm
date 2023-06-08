@@ -18,7 +18,8 @@ const localText = {
     'View Uploaded Files': 'View Uploaded Files',
     'Save': 'Save',
     'Show Files': 'Show Files',
-    'This field can not be empty': 'This field can not be empty'
+    'This field can not be empty': 'This field can not be empty',
+    'Upload Here': 'Upload Here',
 }
 
 export default localText

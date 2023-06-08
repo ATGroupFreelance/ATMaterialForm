@@ -92,6 +92,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }], validation: { required: true } }),
                         formBuilder.createDatePicker({ id: 'DatePicker', }),
                         formBuilder.createUploadButton({ id: 'UploadButton' }),
+                        formBuilder.createUploadImageButton({ id: 'UploadImageButton', validation: { required: true }  }),
                         formBuilder.createCheckBox({ id: 'CheckBox' }),
                         ...(
                             !hideElements
@@ -112,7 +113,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
                     ]
                 )
-                    // .filter(item => ['cascadeComboBox'].includes(item.id))
+                    // .filter(item => ['UploadImageButton'].includes(item.id))
                     .required(['ComboBoxWithEnumsID'])
                     .build()
             }
