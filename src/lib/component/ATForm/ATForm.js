@@ -1,8 +1,6 @@
 import { Grid } from '@mui/material';
 import React, { PureComponent } from 'react';
 
-//Components
-import UIBuilder from './UIBuilder/UIBuilder';
 // //Utils
 import * as FormUtils from './FormUtils/FormUtils';
 import * as FormBuilder from './FormBuilder/FormBuilder';
@@ -12,6 +10,9 @@ import Ajv from "ajv"
 import AVJErrors from 'ajv-errors';
 //Context
 import ATFormContext from './ATFormContext/ATFormContext';
+//Components
+import UIBuilder from './UIBuilder/UIBuilder';
+import TabView from './TabView/TabView';
 
 class ATForm extends PureComponent {
     constructor(props) {
@@ -72,6 +73,7 @@ class ATForm extends PureComponent {
         defaultValue: {},
         isFormOnLockdown: false,
         validationErrors: null,
+        currentTabIndex: 0,
     }
 
     onChildChange = ({ id, type, event, element }) => {
@@ -329,7 +331,7 @@ class ATForm extends PureComponent {
         }
     }
 
-    getChildProps = ({ id, enumsID, type, defaultValue, inputType, onClick, label, flexGridProps, ...restProps }) => {
+    getChildProps = ({ id, enumsID, type, defaultValue, inputType, onClick, label, flexGridProps, tabIndex, ...restProps }) => {
         const { childrenProps } = this.props
         const newDefaultValue = this.state.defaultValue[id] === undefined ? defaultValue : this.state.defaultValue[id]
 
@@ -366,13 +368,14 @@ class ATForm extends PureComponent {
     render() {
         const validChildren = this.getFlatChildren(this.props.children).map(item => {
             const props = React.isValidElement(item) ? item.props : item
-            const { skipRender } = props
+            const { skipRender, tabIndex } = props
 
-            return <Grid key={props.id} item {...FormUtils.getFlexGrid(props)} > {!skipRender && this.getRenderableItem(item)} </Grid>
+            return < Grid key={props.id} item sx={{ ...(!this.props.tabs || (this.state.currentTabIndex === tabIndex) ? {} : { display: 'none' }) }} {...FormUtils.getFlexGrid(props)}  > {!skipRender && this.getRenderableItem(item)} </Grid >
         })
 
         return (
             <React.Fragment>
+                {this.props.tabs && <Grid item md={12}><TabView tabs={this.props.tabs} activeTabIndex={this.state.currentTabIndex} onTabChange={(event, newIndex) => this.setState({ currentTabIndex: newIndex })} /></Grid>}
                 {validChildren}
             </React.Fragment>
         )

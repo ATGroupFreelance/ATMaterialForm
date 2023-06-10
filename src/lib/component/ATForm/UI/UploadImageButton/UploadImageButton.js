@@ -20,9 +20,12 @@ const UploadImageButton = ({ _formProps_, label, onChange, value, disabled, acce
                         setSrc(objectURL)
                     })
             else {
-                console.error('Please profile a getFile to the Form provider')
+                console.error('Please provide a getFile to the Form provider')
             }
         }
+        // else {
+        //     setSrc(null)
+        // }
         // eslint-disable-next-line
     }, [value])
 

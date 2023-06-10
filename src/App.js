@@ -12,14 +12,6 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import AdapterJalali from '@date-io/date-fns-jalali';
 //CustomComponents
 import MyTextField from 'CustomComponents/MyTextField/MyTextField';
-//Examples
-import BasicForm from 'examples/BasicForm/BasicForm';
-import ExternalComponentIntegration from 'examples/ExternalComponentIntegration/ExternalComponentIntegration';
-import FormDialog from 'examples/FormDialog/FormDialog';
-import HowToUseContainerWithTable from 'examples/HowToUseContainerWithTable/HowToUseContainerWithTable';
-import ContainerWithTablePlayground from 'examples/ContainerWithTablePlayground/ContainerWithTablePlayground';
-import UserManager from 'examples/UserManager/UserManager';
-import BasicValidation from 'examples/BasicValidation/BasicValidation';
 //Notistack
 //Notistack custom variations
 import AreYouSure from 'lib/component/Notistack/CustomVariations/AreYouSure/AreYouSure';
@@ -29,7 +21,16 @@ import { SnackbarUtilsConfigurator } from 'lib/component/Notistack/ClasslessSnac
 import { SnackbarProvider } from 'notistack';
 //MUI Theme provider
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+//Examples
+import BasicForm from 'examples/BasicForm/BasicForm';
+import ExternalComponentIntegration from 'examples/ExternalComponentIntegration/ExternalComponentIntegration';
+import FormDialog from 'examples/FormDialog/FormDialog';
+import HowToUseContainerWithTable from 'examples/HowToUseContainerWithTable/HowToUseContainerWithTable';
+import ContainerWithTablePlayground from 'examples/ContainerWithTablePlayground/ContainerWithTablePlayground';
+import UserManager from 'examples/UserManager/UserManager';
+import BasicValidation from 'examples/BasicValidation/BasicValidation';
 import Table from 'examples/Table/Table';
+import TabsInForm from 'examples/TabsInForm/TabsInForm';
 
 const RTL = false
 
@@ -128,6 +129,7 @@ function App() {
                 {activeExample === 'UserManager' && <UserManager />}
                 {activeExample === 'BasicValidation' && <BasicValidation />}
                 {activeExample === 'Table' && <Table />}
+                {activeExample === 'TabsInForm' && <TabsInForm ref={formRef} onChange={onFormChange} />}
                 <Grid item xs={12}>
                   <Button onClick={onLoadLastSubmitClick}>load last submit</Button>
                   <Button onClick={onSetDefaultValueClick}>set default value </Button>
