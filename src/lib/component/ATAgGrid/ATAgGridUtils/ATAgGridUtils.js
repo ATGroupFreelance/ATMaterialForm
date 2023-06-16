@@ -17,7 +17,7 @@ export const getColumnDefsByATFormElements = ({ formElements, enums }) => {
     return formElements.map(item => {
         const typeInfo = getTypeInfo(item.type)
         const { getAgGridColumnDef } = typeInfo        
-
+        
         return createAgGridColumnDefs({
             ...(getAgGridColumnDef ? getAgGridColumnDef({ enums }) : {}),
             field: item.id,

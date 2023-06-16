@@ -21,6 +21,8 @@ const localText = {
     'This field can not be empty': 'This field can not be empty',
     'Upload Here': 'Upload Here',
     'Apply Changes': 'Apply Changes',
+    'View Files': 'View Files',
+    'There are no files to view': 'There are no files to view',
 }
 
 export default localText

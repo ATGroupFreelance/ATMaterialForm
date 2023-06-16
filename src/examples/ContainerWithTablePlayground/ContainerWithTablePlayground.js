@@ -10,7 +10,7 @@ const ContainerWithTablePlayground = ({ onChange }) => {
     const [round, setRound] = useState(null)
 
     useEffect(() => {
-        if (formRef && round) {            
+        if (formRef && round) {
             formRef.current.reset(data.current[round.ID], true, true)
         }
     }, [round])
@@ -41,6 +41,7 @@ const ContainerWithTablePlayground = ({ onChange }) => {
                             formBuilder.createContainerWithTable({
                                 id: 'ContainerWithTable',
                                 elements: [
+                                    formBuilder.createUploadButton({ id: 'UploadFiles' }),
                                     formBuilder.createTextBox({ id: 'Name' }),
                                 ],
                             }),

@@ -6,7 +6,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 //Components
 import File from './File/File';
@@ -15,6 +15,8 @@ import ATFormContext from 'lib/component/ATForm/ATFormContext/ATFormContext';
 
 const ShowFilesDialog = ({ onSave, onClose, files, readOnly, authToken }) => {
     const { localText } = useContext(ATFormContext)
+
+    console.log('files', files)
 
     const [removeIDList, setRemoveIDList] = useState([])
 
@@ -31,11 +33,20 @@ const ShowFilesDialog = ({ onSave, onClose, files, readOnly, authToken }) => {
         <DialogTitle>{localText['View Uploaded Files']}</DialogTitle>
         <DialogContent>
             <Grid container spacing={2} sx={{ marginTop: '20px' }}>
-                {files.filter(item => !removeIDList.includes(item.id)).map(item => {
-                    return <Grid key={item.id} item xs={12} md={6}>
-                        <File authToken={authToken} {...item} onRemove={onFileRemoveClick} showRemoveIcon={!readOnly} />
-                    </Grid>
-                })}
+                {
+                    files && Array.isArray(files) && files.length ?
+                        files.filter(item => !removeIDList.includes(item.id)).map(item => {
+                            return <Grid key={item.id} item xs={12} md={6}>
+                                <File authToken={authToken} {...item} onRemove={onFileRemoveClick} showRemoveIcon={!readOnly} />
+                            </Grid>
+                        })
+                        :
+                        <Grid item md={12} sx={{ textAlign: 'center' }} justifyContent={'center'}>
+                            <Typography>
+                                {localText['There are no files to view']}
+                            </Typography>
+                        </Grid>
+                }
             </Grid>
         </DialogContent>
         <DialogActions>

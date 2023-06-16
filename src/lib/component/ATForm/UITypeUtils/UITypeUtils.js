@@ -1,4 +1,6 @@
 import moment from 'moment';
+//Cell Renderers
+import UploadButtonCellRenderer from '../UI/UploadButton/UploadButtonCellRenderer/UploadButtonCellRenderer';
 
 export const UITypes = {
     Button: 'Button',
@@ -63,7 +65,7 @@ const createValidation = ({ errorMessage, ...props }) => {
 //2- If initialValue is not inside an object it means the object is uncontrolled
 //3- If you want to set the initialValue to null please set "isNullValueValid" to true
 
-const createType = ({ type, initialValue, isNullValueValid, convertToKeyValue, reverseConvertToKeyValue, convertToSemiKeyValue, reverseConvertToSemiKeyValue, validation }) => {
+const createType = ({ type, initialValue, isNullValueValid, convertToKeyValue, reverseConvertToKeyValue, convertToSemiKeyValue, reverseConvertToSemiKeyValue, validation, getAgGridColumnDef }) => {
     return {
         type,
         initialValue,
@@ -74,6 +76,7 @@ const createType = ({ type, initialValue, isNullValueValid, convertToKeyValue, r
         convertToSemiKeyValue: convertToSemiKeyValue ? convertToSemiKeyValue : convertToKeyValue,
         reverseConvertToSemiKeyValue: reverseConvertToSemiKeyValue ? reverseConvertToSemiKeyValue : reverseConvertToKeyValue,
         validation,
+        getAgGridColumnDef
     }
 }
 
@@ -214,6 +217,11 @@ const types = [
 
             return value
         },
+        getAgGridColumnDef: ({ enums }) => {
+            return {
+                cellRenderer: UploadButtonCellRenderer,
+            }
+        }
     }),
     createType({
         type: 'UploadImageButton',
