@@ -17,6 +17,7 @@ const DoublePasswordTextBox = React.lazy(() => import('../../UI/DoublePasswordTe
 const Avatar = React.lazy(() => import('../../UI/Avatar/Avatar'));
 const ContainerWithTable = React.lazy(() => import('../../UI/ContainerWithTable/ContainerWithTable'));
 const MultiSelectTextBox = React.lazy(() => import('../../UI/MultiSelectTextBox/MultiSelectTextBox'));
+const MultiSelectGrid = React.lazy(() => import('../../UI/MultiSelectGrid/MultiSelectGrid'));
 
 const getInitialValue = (typeInfo, defaultValue) => {
     const { initialValue, isNullValueValid } = typeInfo
@@ -37,7 +38,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
     const { onChildChange, errors } = _formProps_
     const [localValue, setLocalValue] = useState(getInitialValue(_typeInfo_, defaultValue))
 
-    useEffect(() => {        
+    useEffect(() => {
         //We call this to initialize the formData
         if (onChildChange)
             onChildChange({ event: { target: { value: localValue } } })
@@ -100,7 +101,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         {type === 'MultiComboBox' && <MultiComboBox {...commonProps} />}
         {type === 'DatePicker' && <DatePicker {...commonProps} />}
         {type === 'UploadButton' && <UploadButton {...commonProps} />}
-        {type === 'UploadImageButton' && <UploadImageButton {...commonProps} />}        
+        {type === 'UploadImageButton' && <UploadImageButton {...commonProps} />}
         {type === 'CascadeComboBox' && <CascadeComboBox {...commonProps} />}
         {type === 'MultiValueCascadeComboBox' && <MultiValueCascadeComboBox {...commonProps} />}
         {type === 'CheckBox' && <CheckBox {...commonProps} />}
@@ -108,8 +109,9 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         {type === 'PasswordTextBox' && <PasswordTextBox {...commonProps} />}
         {type === 'DoublePasswordTextBox' && <DoublePasswordTextBox {...commonProps} />}
         {type === 'Avatar' && <Avatar {...commonProps} />}
-        {type === 'ContainerWithTable' && <ContainerWithTable {...commonProps} />}        
-        {type === 'MultiSelectTextBox' && <MultiSelectTextBox {...commonProps} />}                
+        {type === 'ContainerWithTable' && <ContainerWithTable {...commonProps} />}
+        {type === 'MultiSelectTextBox' && <MultiSelectTextBox {...commonProps} />}
+        {type === 'MultiSelectGrid' && <MultiSelectGrid {...commonProps} />}
         {CustomComponent && <CustomComponent {...commonProps} />}
     </Suspense>
 }

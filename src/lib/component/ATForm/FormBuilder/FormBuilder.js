@@ -382,3 +382,27 @@ export const createTable = ({ id, md = 12, data, columns = null, label = null, c
         hideColumns
     })
 }
+
+/**
+ * @example
+    This is a multi select grid, it can have label or not, it can also have a confirm changes button if you pass onConfirmButtonClick
+    If you don't it will change live and updates the form
+    You can provide a confirmButtonProps to customize the confirm button
+    If you don't provide a uniqueKey it will simply return the index of selected row which is not always reliable
+    If you do provide a unique key it will use this key to pick up the value of a row as the unique key, for example uniqueKey="ID"
+    Please note you can provide any AgGrid props you like here
+  * @param {columnDefs, rowData, uniqueKey = undefined, onConfirmButtonClick = undefined}
+ */
+export const createMultiSelectGrid = ({ id, md = 12, label, columnDefs, rowData, uniqueKey = undefined, onConfirmButtonClick = undefined, ...restProps }) => {
+    return create({
+        id,
+        type: 'MultiSelectGrid',
+        md,
+        label,
+        columnDefs,
+        rowData,
+        uniqueKey,
+        onConfirmButtonClick,
+        ...restProps,
+    })
+}

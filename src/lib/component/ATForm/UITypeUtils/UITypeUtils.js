@@ -20,6 +20,7 @@ export const UITypes = {
     MultiSelectTextBox: 'MultiSelectTextBox',
     Table: 'Table',
     Grid: 'Grid',
+    MultiSelectGrid: 'MultiSelectGrid',
 }
 
 export const getTypeInfo = (type) => {
@@ -460,5 +461,28 @@ const types = [
     }),
     createType({
         type: 'Grid',
+    }),
+    createType({
+        type: 'MultiSelectGrid',
+        initialValue: [],
+        validation: createValidation({ type: 'array', minItems: 1 }),
+        convertToKeyValue: (event) => {
+            return JSON.stringify(event.target.value)
+        },
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
+            if (!value)
+                return []
+            else
+                return JSON.parse(value)
+        },
+        convertToSemiKeyValue: (event) => {
+            return event.target.value
+        },
+        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+            if (!value)
+                return []
+            else
+                return value
+        },
     })
 ]

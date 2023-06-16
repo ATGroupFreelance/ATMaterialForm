@@ -20,6 +20,7 @@ const localText = {
     'Show Files': 'Show Files',
     'This field can not be empty': 'This field can not be empty',
     'Upload Here': 'Upload Here',
+    'Apply Changes': 'Apply Changes',
 }
 
 export default localText

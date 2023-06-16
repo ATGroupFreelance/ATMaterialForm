@@ -305,7 +305,7 @@ class ATForm extends PureComponent {
         return result
     }
 
-    checkValidation = (onValid) => {
+    checkValidation = (onValid, onInvalid) => {
         if (this.ajvValidate) {
             //! Important !, avjVaidate which equels the result of "this.ajv.compile(schema)" will change your input! 
             //This means this.formDataSemiKeyValue will change! and gets mutated, so make sure you copy the object and don't pass a refrence!
@@ -321,6 +321,9 @@ class ATForm extends PureComponent {
                         onValid()
                 }
                 else {
+                    if (onInvalid) {
+                        onInvalid()
+                    }
                     //Show a notification      
                 }
             })

@@ -11,7 +11,7 @@ import { Grid } from '@mui/material';
 //Context
 import ATFormContext from './ATFormContext/ATFormContext';
 
-const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelClick, onSubmitClick, onChange, children, submitLoading, cancelLoading, getActions, ...restProps }, forwardedRef) => {
+const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelClick, cancelButtonEnabled = true, onSubmitClick, onChange, children, submitLoading, cancelLoading, getActions, ...restProps }, forwardedRef) => {
     const { localText } = useContext(ATFormContext)
 
     const mFormData = useRef({ formData: null, formDataKeyValue: null, formDataSemiKeyValue: null })
@@ -39,18 +39,22 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
             onClose()
     }
 
-    const actions = [
-        {
-            id: 'Cancel',
-            label: localText['Cancel'],
-            onClick: onInternalCancelClick,
-            color: 'secondary',
-            disabled: cancelLoading,
-            grid: {
-                md: 2
+    const actions = []
+
+    if (cancelButtonEnabled) {
+        actions.push(
+            {
+                id: 'Cancel',
+                label: localText['Cancel'],
+                onClick: onInternalCancelClick,
+                color: 'secondary',
+                disabled: cancelLoading,
+                grid: {
+                    md: 2
+                }
             }
-        },
-    ]
+        )
+    }
 
     if (onSubmitClick) {
         actions.push(
@@ -58,7 +62,7 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
                 id: 'Submit',
                 label: localText['Submit'],
                 onClick: onInternalSubmitClick,
-                disabled: submitLoading,
+                disabled: submitLoading,                
                 grid: {
                     md: 2
                 }
