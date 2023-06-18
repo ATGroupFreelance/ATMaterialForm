@@ -91,7 +91,8 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createComboBox({ id: 'ComboBoxEnumsless', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }] }),
                         formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', options: [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }], validation: { required: true } }),
                         formBuilder.createDatePicker({ id: 'DatePicker', }),
-                        formBuilder.createUploadButton({ id: 'UploadButton' }),
+                        formBuilder.createUploadButton({ id: 'UploadButtonType1', md: 6, uploadButtonViewType: 1 }),
+                        formBuilder.createUploadButton({ id: 'UploadButtonType2', md: 6, uploadButtonViewType: 2 }),
                         formBuilder.createUploadImageButton({ id: 'UploadImageButton', validation: { required: true } }),
                         formBuilder.createCheckBox({ id: 'CheckBox' }),
                         ...(
@@ -113,7 +114,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
                     ]
                 )
-                    // .filter(item => ['UploadImageButton'].includes(item.id))
+                    .filter(item => ['UploadButtonType1', 'UploadButtonType2'].includes(item.id))
                     .required(['ComboBoxWithEnumsID'])
                     .map(item => {
                         return {

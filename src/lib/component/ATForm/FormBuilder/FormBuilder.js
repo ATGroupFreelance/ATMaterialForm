@@ -212,10 +212,18 @@ export const createDatePicker = ({ id, md = 3, ...restProps }) => {
     })
 }
 
-export const createUploadButton = ({ id, md = 3, ...restProps }) => {
+/**
+ * @example
+ * formBuilder.createUploadButton({ id: 'UploadButtonType1', md: 6, uploadButtonViewType: 1 }),
+   formBuilder.createUploadButton({ id: 'UploadButtonType2', md: 6, uploadButtonViewType: 2 }),
+ * @param {uploadButtonViewType} uploadButtonViewType: This button has 2 views, you can switch between them by passing a viewType number, the acceptable values are 1 and 2
+ */
+
+export const createUploadButton = ({ id, md = 3, uploadButtonViewType = 1, ...restProps }) => {
     return create({
         id,
         type: 'UploadButton',
+        uploadButtonViewType,
         md,
         ...restProps,
     })

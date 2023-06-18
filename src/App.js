@@ -90,7 +90,7 @@ function App() {
     })
   }
 
-  const activeExample = 'ContainerWithTablePlayground'
+  const activeExample = 'BasicForm'
 
   const atFormLocalText = {
     'Add': 'Local text Add',
