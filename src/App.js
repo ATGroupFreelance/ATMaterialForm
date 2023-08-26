@@ -90,7 +90,7 @@ function App() {
     })
   }
 
-  const activeExample = 'BasicForm'
+  const activeExample = 'ExternalComponentIntegration'
 
   const atFormLocalText = {
     'Add': 'Local text Add',

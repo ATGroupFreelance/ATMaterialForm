@@ -21,7 +21,7 @@ const INTERFACE_TYPES = {
     form: 'form',
 }
 
-const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false }) => {
+const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false }) => {
     const { enums, rtl, localText } = useContext(ATFormContext)
 
     const [currentGridRef, setCurrentGridRef] = useState(null)
@@ -206,6 +206,20 @@ const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridCo
 
             </Grid>
             <Grid container sx={{ marginBottom: '4px', justifyContent: addButtonOrigin === 'right' ? 'end' : 'start', ...(actionPanelStyle || {}) }}>
+                {
+                    showHeaderlessTitle
+                    &&
+                    <>
+                        <Grid item md={2}>
+                            <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+                                {label}
+                            </Typography>
+                        </Grid>
+                        <Grid item md={8}>
+
+                        </Grid>
+                    </>
+                }
                 <Grid item md={2}>
                     <Button label={localText['Add']} onClick={onAddClick} {...addButtonProps || {}} />
                 </Grid>

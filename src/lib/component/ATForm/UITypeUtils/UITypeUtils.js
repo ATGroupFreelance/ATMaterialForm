@@ -23,6 +23,7 @@ export const UITypes = {
     Table: 'Table',
     Grid: 'Grid',
     MultiSelectGrid: 'MultiSelectGrid',
+    ImageSelect: 'ImageSelect',
 }
 
 export const getTypeInfo = (type) => {
@@ -492,5 +493,27 @@ const types = [
             else
                 return value
         },
-    })
+    }),
+    createType({
+        type: 'ImageSelect',
+        initialValue: [],
+        convertToKeyValue: (event) => {
+            return JSON.stringify(event.target.value)
+        },
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
+            if (!value)
+                return []
+
+            return JSON.parse(value)
+        },
+        convertToSemiKeyValue: (event) => {
+            return event.target.value
+        },
+        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+            if (!value)
+                return []
+
+            return value
+        },
+    }),
 ]

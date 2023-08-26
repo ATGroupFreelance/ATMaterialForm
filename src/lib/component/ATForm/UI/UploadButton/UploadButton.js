@@ -16,7 +16,7 @@ import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
 
 const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, authToken }) => {
     const { onLockdownChange } = _formProps_
-    const { uploadFilesToServer, localText, rtl } = useContext(ATFormContext)
+    const { uploadFilesToServer, localText } = useContext(ATFormContext)
 
     const [loading, setLoading] = useState(false)
     const [dialog, setDialog] = useState(null)
@@ -93,7 +93,7 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
         {
             uploadButtonViewType === 1 &&
             <Button sx={{ height: '56px', margin: '0px', width: '45%', marginRight: '5px' }} variant="contained" component="label" loading={loading} disabled={disabled}>
-                {loading ? localText['Uploading'] : localText['Add Files']}
+                {loading ? localText['Uploading'] : localText['Upload']}
                 <input hidden multiple={multiple} type="file" accept={accept} onChange={onInternalChange} />
             </Button>
         }
@@ -105,10 +105,9 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
                         :
                         <InputAdornment position="end">
                             <Button variant="text" fullWidth={true} component="label" loading={loading} disabled={disabled} sx={{ marginRight: '3px' }}>
-                                {!rtl && <Add fontSize='16' />}
-                                {loading ? localText['Uploading'] : localText['Add Files']}
-                                <input hidden multiple={multiple} type="file" accept={accept} onChange={onInternalChange} />
-                                {rtl && <Add fontSize='16' sx={{ marginLeft: '1px' }} />}
+                                <Add fontSize='16' />
+                                {loading ? localText['Uploading'] : localText['Upload']}
+                                <input hidden multiple={multiple} type="file" accept={accept} onChange={onInternalChange} />                                
                             </Button>
                         </InputAdornment>,
                     endAdornment:

@@ -18,6 +18,7 @@ const Avatar = React.lazy(() => import('../../UI/Avatar/Avatar'));
 const ContainerWithTable = React.lazy(() => import('../../UI/ContainerWithTable/ContainerWithTable'));
 const MultiSelectTextBox = React.lazy(() => import('../../UI/MultiSelectTextBox/MultiSelectTextBox'));
 const MultiSelectGrid = React.lazy(() => import('../../UI/MultiSelectGrid/MultiSelectGrid'));
+const ImageSelect = React.lazy(() => import('../../UI/ImageSelect/ImageSelect'));
 
 const getInitialValue = (typeInfo, defaultValue) => {
     const { initialValue, isNullValueValid } = typeInfo
@@ -112,6 +113,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         {type === 'ContainerWithTable' && <ContainerWithTable {...commonProps} />}
         {type === 'MultiSelectTextBox' && <MultiSelectTextBox {...commonProps} />}
         {type === 'MultiSelectGrid' && <MultiSelectGrid {...commonProps} />}
+        {type === 'ImageSelect' && <ImageSelect {...commonProps} />}
         {CustomComponent && <CustomComponent {...commonProps} />}
     </Suspense>
 }

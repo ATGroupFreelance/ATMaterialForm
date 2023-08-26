@@ -1,4 +1,4 @@
-const create = ({ id, ...restProps }) => {
+export const create = ({ id, ...restProps }) => {
     return {
         id,
         ...restProps,
@@ -219,7 +219,7 @@ export const createDatePicker = ({ id, md = 3, ...restProps }) => {
  * @param {uploadButtonViewType} uploadButtonViewType: This button has 2 views, you can switch between them by passing a viewType number, the acceptable values are 1 and 2
  */
 
-export const createUploadButton = ({ id, md = 3, uploadButtonViewType = 1, ...restProps }) => {
+export const createUploadButton = ({ id, md = 3, uploadButtonViewType = 2, ...restProps }) => {
     return create({
         id,
         type: 'UploadButton',
@@ -413,4 +413,33 @@ export const createMultiSelectGrid = ({ id, md = 12, label, columnDefs, rowData,
         onConfirmButtonClick,
         ...restProps,
     })
+}
+
+export const createImageSelect = ({ id, md = 12, label, imageWidth, imageHeight, multiple = false, ...restProps }) => {
+    return create({
+        id,
+        type: 'ImageSelect',
+        md,
+        label,
+        imageWidth,
+        imageHeight,
+        multiple,
+        ...restProps,
+    })
+}
+
+export const createColumnDefsByRowData = (rowData) => {
+    const result = []
+
+    if (rowData && Array.isArray(rowData) && rowData.length > 0) {
+        const firstSlot = rowData[0]
+
+        for (let key in firstSlot) {
+            result.push({
+                field: key,
+            })
+        }
+    }
+
+    return result
 }

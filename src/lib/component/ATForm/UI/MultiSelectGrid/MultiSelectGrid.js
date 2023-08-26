@@ -9,7 +9,7 @@ import { Grid, Typography } from '@mui/material';
 
 const DEFAULT_UNIQUE_KEY = 'AT_GRID_INDEX'
 
-const MultiSelectGrid = ({ _formProps_, id, value, label, onChange, columnDefs, uniqueKey = DEFAULT_UNIQUE_KEY, onConfirmButtonClick, confirmButtonProps = {}, ...restProps }) => {
+const MultiSelectGrid = ({ _formProps_, id, value, label, onChange, columnDefs, uniqueKey = DEFAULT_UNIQUE_KEY, onConfirmButtonClick, confirmButtonProps = {}, rowSelection = 'multiple', ...restProps }) => {
     const { localText } = useContext(ATFormContext)
 
     const ref = useRef(null)
@@ -72,19 +72,20 @@ const MultiSelectGrid = ({ _formProps_, id, value, label, onChange, columnDefs, 
             </Grid>
         }
         <ATAgGrid
-            rowSelection={'multiple'}
+            rowSelection={rowSelection}
             isRowSelectable={false}
             rowMultiSelectWithClick={true}
             columnDefs={[
                 {
                     field: 'SelectionCheckbox',
-                    headerName: 'Select',
+                    headerName: '',
                     width: 60,
                     checkboxSelection: true,
-                    headerCheckboxSelection: true,
+                    headerCheckboxSelection: rowSelection === 'multiple',
                 },
                 ...columnDefs,
             ]}
+            height={'50vh'}
             onGridReady={refCallback}
             onSelectionChanged={onSelectionChanged}
             {...restProps}

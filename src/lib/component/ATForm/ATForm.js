@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 // //Utils
 import * as FormUtils from './FormUtils/FormUtils';
 import * as FormBuilder from './FormBuilder/FormBuilder';
-import { getTypeInfo } from './UITypeUtils/UITypeUtils';
+import * as UITypeUtils from './UITypeUtils/UITypeUtils';
 //Validation
 import Ajv from "ajv"
 import AVJErrors from 'ajv-errors';
@@ -16,7 +16,7 @@ import TabView from './TabView/TabView';
 
 class ATForm extends PureComponent {
     constructor(props) {
-        super(props)
+        super(props)        
 
         this.childrenRefs = {}
         this.formData = {}
@@ -76,9 +76,13 @@ class ATForm extends PureComponent {
         currentTabIndex: 0,
     }
 
+    getTypeInfo = (type) => {
+        return UITypeUtils.getTypeInfo(type) || (this.context.customComponents && this.context.customComponents.find(item => item.typeInfo.type === type))
+    }
+
     onChildChange = ({ id, type, event, element }) => {
         const { enums } = this.context
-        const found = getTypeInfo(type) || (this.context.customComponents && this.context.customComponents.find(item => item.typeInfo.type === type))
+        const found = this.getTypeInfo(type)
 
         //If we don't copy the object and directly mutate it everything will seem okay but outside the component when set state is called it will not cause reRender !, it seems even hook sestate does a casual compare 
         //and if it can't detect object change it will not render.
@@ -137,7 +141,7 @@ class ATForm extends PureComponent {
                 const found = flatChildren.find((item) => String(item.id) === String(key))
                 if (found) {
                     //Find the element's type inside types which is inisde UITypeUtils, using this type we can do a reverseConvertToKeyValue
-                    const foundType = getTypeInfo(found.type) || (this.context.customComponents && this.context.customComponents.find(item => item.typeInfo.type === found.type))
+                    const foundType = this.getTypeInfo(found.type)
 
                     //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
                     if (!isInputSemiKeyValue && foundType.reverseConvertToKeyValue)
@@ -210,7 +214,7 @@ class ATForm extends PureComponent {
             flatChildren.forEach(item => {
                 const props = React.isValidElement(item) ? item.props : item
                 const { id, validation, type } = props
-                const typeInfo = getTypeInfo(type)
+                const typeInfo = this.getTypeInfo(type)
 
                 //skip the validation if a UI is not controlled
                 if (!typeInfo.isControlledUI)

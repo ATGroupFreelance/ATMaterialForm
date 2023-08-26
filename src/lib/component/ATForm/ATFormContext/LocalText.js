@@ -3,8 +3,7 @@ const localText = {
     'Passwords do not match': 'Passwords do not match',
     'Confirm': 'Confirm',
     'file': 'file',
-    'Uploading': 'Uploading',
-    'Add Files': 'Add Files',
+    'Uploading': 'Uploading',    
     'files': 'files',
     'Delete All': 'Delete All',
     'Yes': 'Yes',
@@ -23,6 +22,7 @@ const localText = {
     'Apply Changes': 'Apply Changes',
     'View Files': 'View Files',
     'There are no files to view': 'There are no files to view',
+    'Upload': 'Upload',
 }
 
 export default localText
