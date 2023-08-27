@@ -26,11 +26,17 @@ export const UITypes = {
     ImageSelect: 'ImageSelect',
 }
 
-export const getTypeInfo = (type) => {
-    const found = types.find(item => item.type === type)
+export const getTypeInfo = (type, customTypes) => {
+    const newTypes = [
+        ...types,
+        ...(customTypes || [])
+    ]
 
-    if (!found)
-        console.error(`Invalid UI type found!, Can not find type ${type} inside ATMaterialForm UI Types valid types are : ${JSON.stringify(types.map(item => item.type))}`)
+    const found = newTypes.find(item => item.type === type)
+
+    if (!found) {
+        console.error(`Invalid UI type found!, Can not find type ${type} inside ATMaterialForm UI Types valid types are : ${JSON.stringify(newTypes.map(item => item.type))}`)
+    }
 
     return found
 }
@@ -54,7 +60,7 @@ export const getTitleByEnums = ({ id, enumsID, options, enums, value }) => {
     return result
 }
 
-const createValidation = ({ errorMessage, ...props }) => {
+export const createValidation = ({ errorMessage, ...props }) => {
     return {
         ...props,
         errorMessage: errorMessage ? errorMessage : 'This field can not be empty'
@@ -66,7 +72,7 @@ const createValidation = ({ errorMessage, ...props }) => {
 //2- If initialValue is not inside an object it means the object is uncontrolled
 //3- If you want to set the initialValue to null please set "isNullValueValid" to true
 
-const createType = ({ type, initialValue, isNullValueValid, convertToKeyValue, reverseConvertToKeyValue, convertToSemiKeyValue, reverseConvertToSemiKeyValue, validation, getAgGridColumnDef }) => {
+export const createType = ({ type, initialValue, isNullValueValid, convertToKeyValue, reverseConvertToKeyValue, convertToSemiKeyValue, reverseConvertToSemiKeyValue, validation, getAgGridColumnDef }) => {
     return {
         type,
         initialValue,

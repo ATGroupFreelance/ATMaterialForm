@@ -1,4 +1,3 @@
-import { getTypeInfo } from "../../ATForm/UITypeUtils/UITypeUtils"
 import { ColumnDefTemplates } from "../ColumnDefTemplates/ColumnDefTemplates"
 
 export const createAgGridColumnDefs = ({ field, headerName = null, sortable = true, filter = true, ...restProps }) => {
@@ -10,7 +9,7 @@ export const createAgGridColumnDefs = ({ field, headerName = null, sortable = tr
     }
 }
 
-export const getColumnDefsByATFormElements = ({ formElements, enums }) => {
+export const getColumnDefsByATFormElements = ({ formElements, enums, getTypeInfo }) => {
     if (!formElements)
         return []
 

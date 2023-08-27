@@ -45,10 +45,11 @@ class ATForm extends PureComponent {
         });
 
         this.ajvValidate = null
-        this.compileAJV()
     }
 
-    componentDidMount() {
+    componentDidMount() {        
+        this.compileAJV()
+
         if (this.props.defaultValue)
             this.reset(this.props.defaultValue, true, this.props.isDefaultValueSemiKeyValue)
     }
@@ -77,7 +78,9 @@ class ATForm extends PureComponent {
     }
 
     getTypeInfo = (type) => {
-        return UITypeUtils.getTypeInfo(type) || (this.context.customComponents && this.context.customComponents.find(item => item.typeInfo.type === type))
+        const customTypes = this.context.customComponents ? this.context.customComponents.map(item => item.typeInfo) : null
+
+        return UITypeUtils.getTypeInfo(type, customTypes)
     }
 
     onChildChange = ({ id, type, event, element }) => {
@@ -141,7 +144,7 @@ class ATForm extends PureComponent {
                 const found = flatChildren.find((item) => String(item.id) === String(key))
                 if (found) {
                     //Find the element's type inside types which is inisde UITypeUtils, using this type we can do a reverseConvertToKeyValue
-                    const foundType = this.getTypeInfo(found.type)
+                    const foundType = this.getTypeInfo(found.type)                    
 
                     //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
                     if (!isInputSemiKeyValue && foundType.reverseConvertToKeyValue)
@@ -163,6 +166,7 @@ class ATForm extends PureComponent {
         this.setState({
             defaultValue: newDefaultValue || {}
         }, () => {
+            console.log('childrenRefs', this.childrenRefs)
             for (let key in this.childrenRefs) {
                 if (this.childrenRefs[key] && this.childrenRefs[key].reset)
                     this.childrenRefs[key].reset()
@@ -360,6 +364,7 @@ class ATForm extends PureComponent {
                 isFormOnLockdown: this.state.isFormOnLockdown,
                 inputType: inputType,
                 errors: this.state.validationErrors,
+                getTypeInfo: (type) => this.getTypeInfo(type)
             },
             id,
             type,
@@ -373,6 +378,8 @@ class ATForm extends PureComponent {
     }
 
     render() {
+        console.log('context render', this.context)
+
         const validChildren = this.getFlatChildren(this.props.children).map(item => {
             const props = React.isValidElement(item) ? item.props : item
             const { skipRender, tabIndex } = props
@@ -391,5 +398,7 @@ class ATForm extends PureComponent {
 
 export const formBuilder = FormBuilder;
 
+//Make sure you don't use in constructor, context is not initialized
 ATForm.contextType = ATFormContext
+
 export default ATForm;

@@ -21,7 +21,7 @@ const INTERFACE_TYPES = {
     form: 'form',
 }
 
-const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false }) => {
+const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false }) => {
     const { enums, rtl, localText } = useContext(ATFormContext)
 
     const [currentGridRef, setCurrentGridRef] = useState(null)
@@ -146,7 +146,7 @@ const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridCo
         }
     }
 
-    const gridColumnDefs = getGridColumnDefs ? getGridColumnDefs(getColumnDefsByATFormElements({ formElements: elements, enums })) : getColumnDefsByATFormElements({ formElements: elements, enums })
+    const gridColumnDefs = getGridColumnDefs ? getGridColumnDefs(getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: _formProps_.getTypeInfo })) : getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: _formProps_.getTypeInfo })
 
     const classesArray = [
         StyleClasses.Default
@@ -238,4 +238,4 @@ const ContainerWithTableDefault = ({ _formProps_, id, value, elements, getGridCo
     </div >
 }
 
-export default ContainerWithTableDefault;
+export default ContainerWithTable;

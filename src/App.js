@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import './App.css';
 import { Button, Grid } from '@mui/material';
+//UI Utils
+import * as UITypeUtils from 'lib/component/ATForm/UITypeUtils/UITypeUtils';
 //Context
 import { ATFormContextProvider } from './lib/component/ATForm/ATFormContext/ATFormContext';
 //services
@@ -104,7 +106,23 @@ function App() {
   return (
     <div className='App'>
       <ThemeProvider theme={theme}>
-        <ATFormContextProvider value={{ rtl: RTL, enums: enums, uploadFilesToServer: ServiceManager.uploadFilesToServer, localText: atFormLocalText, agGridLocalText: agGridLocalText, customComponents: [{ component: MyTextField, typeInfo: { type: 'MyTextField', initialValue: '' } }] }}>
+        <ATFormContextProvider value={{
+          rtl: RTL,
+          enums: enums,
+          uploadFilesToServer: ServiceManager.uploadFilesToServer,
+          localText: atFormLocalText,
+          agGridLocalText: agGridLocalText,
+          customComponents: [
+            {
+              component: MyTextField,
+              typeInfo: UITypeUtils.createType({
+                type: 'MyTextField',
+                initialValue: '',
+                validation: UITypeUtils.createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
+              })
+            }
+          ]
+        }}>
           <SnackbarProvider
             maxSnack={3}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
