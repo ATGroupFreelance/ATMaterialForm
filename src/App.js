@@ -92,7 +92,7 @@ function App() {
     })
   }
 
-  const activeExample = 'ExternalComponentIntegration'
+  const activeExample = 'ContainerWithTablePlayground'
 
   const atFormLocalText = {
     'Add': 'Local text Add',

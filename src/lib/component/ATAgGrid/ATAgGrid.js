@@ -16,9 +16,14 @@ const ATAgGrid = React.forwardRef(({ rowData, columnDefs, height, ...restProps }
 
     if (columnDefs) {
         for (let i = 0; i < columnDefs.length; i++) {
+            const { enumID, ...restColumnDefs } = columnDefs[i]
+            
             newColumnDefs.push({
-                ...columnDefs[i],
-                headerName: columnDefs[i].headerName === undefined ? getLocalText(columnDefs[i].field) : columnDefs[i].headerName
+                headerName: columnDefs[i].headerName === undefined ? getLocalText(columnDefs[i].field) : columnDefs[i].headerName,
+                valueFormatter: (params) => {
+                    return getTitleByEnums({ id: enumID || params.colDef.field, enums, value: params.value })
+                },
+                ...restColumnDefs
             })
         }
     }
@@ -31,11 +36,6 @@ const ATAgGrid = React.forwardRef(({ rowData, columnDefs, height, ...restProps }
             localeText={agGridLocalText}
             rowHeight={48}
             enableRtl={rtl}
-            defaultColDef={{
-                valueFormatter: (params) => {
-                    return getTitleByEnums({ id: params.colDef.field, enums, value: params.value })
-                },
-            }}
             {...restProps}
         />
     </div>

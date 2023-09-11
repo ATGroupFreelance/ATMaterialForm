@@ -443,3 +443,17 @@ export const createColumnDefsByRowData = (rowData) => {
 
     return result
 }
+
+export const createFormData = (data) => {
+    return {
+        formData: {
+            ...(data || {}),
+        },
+        formDataKeyValue: {
+            ...(data || {}),
+        },
+        formDataSemiKeyValue: {
+            ...(data || {}),
+        },
+    }
+}
