@@ -3,6 +3,7 @@ import { ColumnDefTemplates } from "../ColumnDefTemplates/ColumnDefTemplates"
 export const createAgGridColumnDefs = ({ field, headerName = null, sortable = true, filter = true, ...restProps }) => {
     return {
         field,
+        headerName,
         sortable,
         filter,
         ...restProps,
@@ -20,7 +21,7 @@ export const getColumnDefsByATFormElements = ({ formElements, enums, getTypeInfo
         return createAgGridColumnDefs({
             ...(getAgGridColumnDef ? getAgGridColumnDef({ enums }) : {}),
             field: item.id,
-            headerName: item.label,
+            headerName: item.label || item.id,
             ...(item.colDef ? item.colDef : {})
         })
     })

@@ -114,7 +114,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
                     ]
                 )
-                    .filter(item => ['UploadButtonType1', 'UploadButtonType2'].includes(item.id))
+                    // .filter(item => ['DatePicker'].includes(item.id))
                     .required(['ComboBoxWithEnumsID'])
                     .map(item => {
                         return {

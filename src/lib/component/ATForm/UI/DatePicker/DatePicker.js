@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 
-import TextField from '@mui/material/TextField';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import ATFormContext from '../../ATFormContext/ATFormContext';
 
@@ -15,10 +14,10 @@ const DatePicker = ({ _formProps_, onChange, error, helperText, ...restProps }) 
     }
 
     return <DesktopDatePicker
-        inputFormat={rtl ? "yyyy/MM/dd" : "DD/MM/YYYY"}
+        format={rtl ? "yyyy/MM/dd" : "DD/MM/YYYY"}
         disableMaskedInput={true}
         fullwidth={true}
-        renderInput={(params) => <TextField fullWidth={true} {...params} error={error} helperText={helperText} />}
+        slotProps={{ textField: { fullWidth: true, error, helperText } }}
         onChange={onInternalChange}
         {...restProps}
     />

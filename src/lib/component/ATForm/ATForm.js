@@ -16,7 +16,7 @@ import TabView from './TabView/TabView';
 
 class ATForm extends PureComponent {
     constructor(props) {
-        super(props)        
+        super(props)
 
         this.childrenRefs = {}
         this.formData = {}
@@ -47,7 +47,7 @@ class ATForm extends PureComponent {
         this.ajvValidate = null
     }
 
-    componentDidMount() {        
+    componentDidMount() {
         this.compileAJV()
 
         if (this.props.defaultValue)
@@ -144,13 +144,13 @@ class ATForm extends PureComponent {
                 const found = flatChildren.find((item) => String(item.id) === String(key))
                 if (found) {
                     //Find the element's type inside types which is inisde UITypeUtils, using this type we can do a reverseConvertToKeyValue
-                    const foundType = this.getTypeInfo(found.type)                    
+                    const foundType = this.getTypeInfo(found.type)
 
                     //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
                     if (!isInputSemiKeyValue && foundType.reverseConvertToKeyValue)
-                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToKeyValue({ value: inputDefaultValue[key], element: found, enums })
+                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToKeyValue({ value: inputDefaultValue[key], element: found, enums, rtl: this?.context?.rtl })
                     else if (isInputSemiKeyValue && foundType.reverseConvertToSemiKeyValue)
-                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToSemiKeyValue({ value: inputDefaultValue[key], element: found, enums })
+                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToSemiKeyValue({ value: inputDefaultValue[key], element: found, enums, rtl: this?.context?.rtl })
                     else
                         reverseConvertToKeyValueDefaultValue[key] = inputDefaultValue[key]
                 }
@@ -377,6 +377,14 @@ class ATForm extends PureComponent {
         }
     }
 
+    onInternalTabChange = (event, newIndex) => {
+        this.setState({ currentTabIndex: newIndex })
+
+        if (this.props.onTabChange) {
+            this.props.onTabChange(event, newIndex)
+        }
+    }
+
     render() {
         console.log('context render', this.context)
 
@@ -389,7 +397,7 @@ class ATForm extends PureComponent {
 
         return (
             <React.Fragment>
-                {this.props.tabs && <Grid item md={12}><TabView tabs={this.props.tabs} activeTabIndex={this.state.currentTabIndex} onTabChange={(event, newIndex) => this.setState({ currentTabIndex: newIndex })} /></Grid>}
+                {this.props.tabs && <Grid item md={12}><TabView tabs={this.props.tabs} activeTabIndex={this.state.currentTabIndex} onTabChange={this.onInternalTabChange} /></Grid>}
                 {validChildren}
             </React.Fragment>
         )

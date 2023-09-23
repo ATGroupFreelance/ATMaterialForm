@@ -195,11 +195,11 @@ const types = [
         initialValue: null,
         validation: createValidation({ type: 'string', minLength: 1 }),
         convertToKeyValue: (event) => moment(event.target.value).isValid() ? moment(event.target.value).format('YYYY-MM-DD') : null,
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums, rtl }) => {
             if (value === undefined || value === null)
                 return null
             else
-                return new Date(value)
+                return rtl ? new Date(value) : moment(value)
         }
     }),
     createType({

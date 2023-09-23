@@ -11,7 +11,7 @@ import ServiceManager from 'serviceManager/serviceManager';
 //DatePicker Provider
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import AdapterJalali from '@date-io/date-fns-jalali';
+import { AdapterDateFnsJalali } from '@mui/x-date-pickers/AdapterDateFnsJalali';
 //CustomComponents
 import MyTextField from 'CustomComponents/MyTextField/MyTextField';
 //Notistack
@@ -34,7 +34,7 @@ import BasicValidation from 'examples/BasicValidation/BasicValidation';
 import Table from 'examples/Table/Table';
 import TabsInForm from 'examples/TabsInForm/TabsInForm';
 
-const RTL = false
+const RTL = true
 
 const theme = createTheme({
   components: {
@@ -92,7 +92,7 @@ function App() {
     })
   }
 
-  const activeExample = 'ContainerWithTablePlayground'
+  const activeExample = 'BasicForm'
 
   const atFormLocalText = {
     'Add': 'Local text Add',
@@ -130,7 +130,7 @@ function App() {
               areYouSure: AreYouSure
             }}
           >
-            <LocalizationProvider dateAdapter={RTL ? AdapterJalali : AdapterMoment}>
+            <LocalizationProvider dateAdapter={RTL ? AdapterDateFnsJalali : AdapterMoment} >
               <SnackbarUtilsConfigurator />
               <Grid container spacing={3}>
                 <Grid item xs={12}>
