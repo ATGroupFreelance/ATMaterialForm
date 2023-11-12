@@ -9,7 +9,7 @@ import { Grid, Typography } from '@mui/material';
 
 const DEFAULT_UNIQUE_KEY = 'AT_GRID_INDEX'
 
-const MultiSelectGrid = ({ _formProps_, id, value, label, onChange, columnDefs, uniqueKey = DEFAULT_UNIQUE_KEY, onConfirmButtonClick, confirmButtonProps = {}, rowSelection = 'multiple', ...restProps }) => {
+const MultiSelectGrid = ({ _formProps_, id, value, label, onChange, columnDefs, uniqueKey = DEFAULT_UNIQUE_KEY, onConfirmButtonClick, confirmButtonProps = {}, rowSelection = 'multiple', height = '50vh', ...restProps }) => {
     const { localText } = useContext(ATFormContext)
 
     const ref = useRef(null)
@@ -63,7 +63,7 @@ const MultiSelectGrid = ({ _formProps_, id, value, label, onChange, columnDefs, 
         onChange({ target: { value: newValue } })
 
         onConfirmButtonClick(event, { ...props, value: [...newValue] })
-    }
+    }    
 
     return <div style={{ width: '100%' }}>
         {label && label !== '' &&
@@ -85,9 +85,9 @@ const MultiSelectGrid = ({ _formProps_, id, value, label, onChange, columnDefs, 
                 },
                 ...columnDefs,
             ]}
-            height={'50vh'}
             onGridReady={refCallback}
             onSelectionChanged={onSelectionChanged}
+            height={height}
             {...restProps}
         />
 

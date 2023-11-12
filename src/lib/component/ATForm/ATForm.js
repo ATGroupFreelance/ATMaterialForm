@@ -124,6 +124,20 @@ class ATForm extends PureComponent {
         }
     }
 
+    getFormData = () => {
+        return {
+            formData: {
+                ...this.formData
+            },
+            formDataKeyValue: {
+                ...this.formDataKeyValue,
+            },
+            formDataSemiKeyValue: {
+                ...this.formDataSemiKeyValue
+            }
+        }
+    }
+
     onGetChildRef = (id, api) => {
         this.childrenRefs[id] = api
     }
@@ -377,11 +391,11 @@ class ATForm extends PureComponent {
         }
     }
 
-    onInternalTabChange = (event, newIndex) => {
+    onInternalTabChange = (event, newIndex, selectedTab) => {
         this.setState({ currentTabIndex: newIndex })
 
         if (this.props.onTabChange) {
-            this.props.onTabChange(event, newIndex)
+            this.props.onTabChange(event, newIndex, selectedTab)
         }
     }
 
@@ -397,7 +411,7 @@ class ATForm extends PureComponent {
 
         return (
             <React.Fragment>
-                {this.props.tabs && <Grid item md={12}><TabView tabs={this.props.tabs} activeTabIndex={this.state.currentTabIndex} onTabChange={this.onInternalTabChange} /></Grid>}
+                {this.props.tabs && <Grid item md={12} {...(this.props.tabsGridProps || {})}><TabView tabs={this.props.tabs} activeTabIndex={this.state.currentTabIndex} onTabChange={this.onInternalTabChange} /></Grid>}
                 {validChildren}
             </React.Fragment>
         )

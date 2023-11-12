@@ -24,6 +24,7 @@ export const UITypes = {
     Grid: 'Grid',
     MultiSelectGrid: 'MultiSelectGrid',
     ImageSelect: 'ImageSelect',
+    AdvanceStepper: 'AdvanceStepper',
 }
 
 export const getTypeInfo = (type, customTypes) => {
@@ -521,5 +522,9 @@ const types = [
 
             return value
         },
+    }),
+    createType({
+        type: 'AdvanceStepper',
+        initialValue: null
     }),
 ]

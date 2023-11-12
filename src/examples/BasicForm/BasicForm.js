@@ -106,6 +106,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         ),
                         formBuilder.createCascadeComboBox({ id: 'cascadeComboBox', design: singleLeafCascadeDesign, tabIndex: 1 }),
                         formBuilder.createMultiValueCascadeComboBox({ id: 'MultiValueCascadeComboBox', design: multiLeafCascadeDesign, tabIndex: 1 }),
+                        formBuilder.createAdvanceStepper({ id: 'AdvanceStepper', md: 6}),
                         formBuilder.createGrid({
                             id: 'grid01',
                             md: 12,
@@ -114,7 +115,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
                     ]
                 )
-                    // .filter(item => ['DatePicker'].includes(item.id))
+                    .filter(item => ['AdvanceStepper'].includes(item.id))
                     .required(['ComboBoxWithEnumsID'])
                     .map(item => {
                         return {

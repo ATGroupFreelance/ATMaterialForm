@@ -428,6 +428,15 @@ export const createImageSelect = ({ id, md = 12, label, imageWidth, imageHeight,
     })
 }
 
+export const createAdvanceStepper = ({ id, md = 12, ...restProps }) => {
+    return create({
+        id,
+        type: 'AdvanceStepper',
+        md,
+        ...restProps,
+    })
+}
+
 export const createColumnDefsByRowData = (rowData) => {
     const result = []
 

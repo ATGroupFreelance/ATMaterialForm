@@ -39,7 +39,7 @@ const Image = ({ id, name, src, onClick, imageWidth, imageHeight, selected }) =>
     </Button>
 }
 
-const ImageSelect = ({ _formProps_, id, authToken, label, imageWidth = 128, imageHeight = 128, onChange, value, multiple = false, ...restProps }) => {
+const ImageSelect = ({ _formProps_, id, authToken, label, imageWidth = 128, imageHeight = 128, onChange, value, multiple = false, imageGrid = null, ...restProps }) => {
     const { getFile } = useContext(ATFormContext)
     const [data, setData] = useState([])
 
@@ -114,7 +114,7 @@ const ImageSelect = ({ _formProps_, id, authToken, label, imageWidth = 128, imag
         <Grid container spacing={2} justifyContent={'center'} sx={{ textAlign: 'center', marginTop: '3px' }} >
             {
                 data.map(item => {
-                    return <Grid key={item.id} item md={3}><Image {...item} imageWidth={imageWidth} imageHeight={imageHeight} onClick={() => onImageClick(item)} /></Grid>
+                    return <Grid key={item.id} item md={3} {...(imageGrid || {})}><Image {...item} imageWidth={imageWidth} imageHeight={imageHeight} onClick={() => onImageClick(item)} /></Grid>
                 })
             }
         </Grid>
