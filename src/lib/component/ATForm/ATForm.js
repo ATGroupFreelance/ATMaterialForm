@@ -83,7 +83,7 @@ class ATForm extends PureComponent {
         return UITypeUtils.getTypeInfo(type, customTypes)
     }
 
-    onChildChange = ({ id, type, event, element }) => {
+    onChildChange = ({ id, type, event, element, callFormOnChangeDisabled }) => {
         const { enums } = this.context
         const found = this.getTypeInfo(type)
 
@@ -119,7 +119,7 @@ class ATForm extends PureComponent {
             newFormDataSemiKeyValue
         })
 
-        if (this.props.onChange) {
+        if (this.props.onChange && !callFormOnChangeDisabled) {
             this.props.onChange({ formData: newFormData, formDataKeyValue: newFormDataKeyValue, formDataSemiKeyValue: newFormDataSemiKeyValue })
         }
     }
@@ -142,7 +142,7 @@ class ATForm extends PureComponent {
         this.childrenRefs[id] = api
     }
 
-    reset = (inputDefaultValue, reverseConvertToKeyValueEnabled = true, isInputSemiKeyValue = false) => {
+    reset = (inputDefaultValue, reverseConvertToKeyValueEnabled = true, isInputSemiKeyValue = false, callFormOnChangeDisabled = false) => {
         const { enums } = this.context
         console.log('enums', enums)
         //If default value is not key value just use it!
@@ -183,7 +183,7 @@ class ATForm extends PureComponent {
             console.log('childrenRefs', this.childrenRefs)
             for (let key in this.childrenRefs) {
                 if (this.childrenRefs[key] && this.childrenRefs[key].reset)
-                    this.childrenRefs[key].reset()
+                    this.childrenRefs[key].reset({callFormOnChangeDisabled})
             }
         })
     }
@@ -356,7 +356,7 @@ class ATForm extends PureComponent {
         }
     }
 
-    getChildProps = ({ id, enumsID, type, defaultValue, inputType, onClick, label, flexGridProps, tabIndex, ...restProps }) => {
+    getChildProps = ({ id, enumsID, type, defaultValue, inputType, onClick, label, flexGridProps, tabIndex, colDef, ...restProps }) => {
         const { childrenProps } = this.props
         const newDefaultValue = this.state.defaultValue[id] === undefined ? defaultValue : this.state.defaultValue[id]
 
@@ -371,7 +371,7 @@ class ATForm extends PureComponent {
 
         return {
             _formProps_: {
-                onChildChange: ({ event }) => this.onChildChange({ id, type, event, element: restProps }),
+                onChildChange: ({ event, callFormOnChangeDisabled }) => this.onChildChange({ id, type, event, element: restProps, callFormOnChangeDisabled }),
                 onLockdownChange: (state) => this.onLockdownChange(id, state),
                 // ref: (node) => this.onGetChildRef(id, node),
                 innerRef: (node) => this.onGetChildRef(id, node),

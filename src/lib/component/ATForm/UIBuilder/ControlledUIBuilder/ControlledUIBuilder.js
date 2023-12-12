@@ -63,18 +63,18 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         }
     })
 
-    const reset = () => {
-        internalOnChange({ target: { value: getInitialValue(_typeInfo_, defaultValue) } })
+    const reset = ({ callFormOnChangeDisabled }) => {
+        internalOnChange({ target: { value: getInitialValue(_typeInfo_, defaultValue) } }, { callFormOnChangeDisabled })
     }
 
-    const internalOnChange = (event) => {
+    const internalOnChange = (event, { callFormOnChangeDisabled } = {}) => {
         setLocalValue(event.target.value)
         //This onChange must be given outside of the form to the element, the goal is total control
         if (onChange)
             onChange(event)
         //This onChange is used to update form's FormData
         if (onChildChange)
-            onChildChange({ event: event })
+            onChildChange({ event: event, callFormOnChangeDisabled })
     }
 
 

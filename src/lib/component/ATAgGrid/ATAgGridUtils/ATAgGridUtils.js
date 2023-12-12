@@ -11,20 +11,28 @@ export const createAgGridColumnDefs = ({ field, headerName = null, sortable = tr
 }
 
 export const getColumnDefsByATFormElements = ({ formElements, enums, getTypeInfo }) => {
+    const result = []
+
     if (!formElements)
-        return []
+        return result
 
-    return formElements.map(item => {
+    formElements.forEach(item => {
         const typeInfo = getTypeInfo(item.type)
-        const { getAgGridColumnDef } = typeInfo
+        const { getAgGridColumnDef, isControlledUI } = typeInfo
 
-        return createAgGridColumnDefs({
-            ...(getAgGridColumnDef ? getAgGridColumnDef({ enums }) : {}),
-            field: item.id,
-            headerName: (!item.label || item.label === "") ? item.label : null,
-            ...(item.colDef ? item.colDef : {})
-        })
+        if (isControlledUI) {
+            result.push(
+                createAgGridColumnDefs({
+                    ...(getAgGridColumnDef ? getAgGridColumnDef({ enums }) : {}),
+                    field: item.id,
+                    headerName: (!item.label || item.label === "") ? item.label : null,
+                    ...(item.colDef ? item.colDef : {})
+                })
+            )
+        }
     })
+
+    return result;
 }
 
 export const createEdit = ColumnDefTemplates.createEdit

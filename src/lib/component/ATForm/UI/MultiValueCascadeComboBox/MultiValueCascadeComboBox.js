@@ -30,7 +30,7 @@ const MultiValueCascadeComboBox = ({ _formProps_, label, design, onChange, value
     const getRenderableComboBoxFlatList = (designLayer, parentID = null) => {
         const result = []
 
-        designLayer.forEach(({ id, children, ...restItem }) => {
+        designLayer.forEach(({ id, children, enumKey, enumParentKey,...restItem }) => {
             result.push({
                 id: id,
                 ...restItem,

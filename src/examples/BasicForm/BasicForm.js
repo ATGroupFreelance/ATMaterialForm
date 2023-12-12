@@ -115,7 +115,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
                     ]
                 )
-                    .filter(item => ['AdvanceStepper'].includes(item.id))
+                    .filter(item => ['CountriesIDVALUE'].includes(item.id))
                     .required(['ComboBoxWithEnumsID'])
                     .map(item => {
                         return {
