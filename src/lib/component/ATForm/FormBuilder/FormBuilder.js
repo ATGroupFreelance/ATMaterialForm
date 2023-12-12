@@ -437,6 +437,16 @@ export const createAdvanceStepper = ({ id, md = 12, ...restProps }) => {
     })
 }
 
+export const createForm = ({ id, elements, md = 12, ...restProps }) => {
+    return create({
+        id,
+        type: 'Form',
+        md,
+        elements,
+        ...restProps,
+    })
+}
+
 export const createColumnDefsByRowData = (rowData) => {
     const result = []
 

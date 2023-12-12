@@ -25,6 +25,7 @@ export const UITypes = {
     MultiSelectGrid: 'MultiSelectGrid',
     ImageSelect: 'ImageSelect',
     AdvanceStepper: 'AdvanceStepper',
+    Form: 'Form'
 }
 
 export const getTypeInfo = (type, customTypes) => {
@@ -526,5 +527,27 @@ const types = [
     createType({
         type: 'AdvanceStepper',
         initialValue: null
+    }),
+    createType({
+        type: 'Form',
+        initialValue: null,
+        convertToKeyValue: (event) => {
+            return JSON.stringify(event.target.value)
+        },
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
+            if (!value)
+                return null
+
+            return JSON.parse(value)
+        },
+        convertToSemiKeyValue: (event) => {
+            return event.target.value
+        },
+        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+            if (!value)
+                return null
+
+            return value
+        },
     }),
 ]
