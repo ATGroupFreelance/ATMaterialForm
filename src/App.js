@@ -96,7 +96,7 @@ function App() {
 
   const atFormLocalText = {
     'Add': 'Local text Add',
-    'This field can not be empty': 'My local validation text'
+    'This field can not be empty': 'Custom (This field can not be empty)'
   }
 
   const agGridLocalText = {

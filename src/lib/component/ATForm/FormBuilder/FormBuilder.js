@@ -173,6 +173,24 @@ export const createTextBox = ({ id, md = 3, ...restProps }) => {
     })
 }
 
+export const createIntegerTextBox = ({ id, md = 3, ...restProps }) => {
+    return create({
+        id,
+        type: 'IntegerTextBox',
+        md,
+        ...restProps,
+    })
+}
+
+export const createFloatTextBox = ({ id, md = 3, ...restProps }) => {
+    return create({
+        id,
+        type: 'FloatTextBox',
+        md,
+        ...restProps,
+    })
+}
+
 export const createButton = ({ id, md = 2, onClick, ...restProps }) => {
     return create({
         id,

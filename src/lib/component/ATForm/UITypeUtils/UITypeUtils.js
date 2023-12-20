@@ -5,6 +5,8 @@ import UploadButtonCellRenderer from '../UI/UploadButton/UploadButtonCellRendere
 export const UITypes = {
     Button: 'Button',
     TextBox: 'TextBox',
+    IntegerTextBox: 'IntegerTextBox',
+    FloatTextBox: 'FloatTextBox',
     ComboBox: 'ComboBox',
     MultiComboBox: 'MultiComboBox',
     DatePicker: 'DatePicker',
@@ -133,6 +135,32 @@ const types = [
         type: 'TextBox',
         initialValue: '',
         validation: createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
+    }),
+    createType({
+        type: 'IntegerTextBox',
+        initialValue: null,
+        validation: createValidation({ anyOf: [{ type: 'integer' }] }),
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
+            if (!value && value !== 0)
+                return null
+            else if (typeof value === "string")
+                return parseInt(value)
+            else
+                return value
+        },
+    }),
+    createType({
+        type: 'FloatTextBox',
+        initialValue: null,
+        validation: createValidation({ anyOf: [{ type: 'number' }] }),
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
+            if (!value && value !== 0)
+                return null
+            else if (typeof value === "string")
+                return Number(value)
+            else
+                return value
+        },
     }),
     createType({
         type: 'ComboBox',

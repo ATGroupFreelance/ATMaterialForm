@@ -71,7 +71,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
     }
 
     return (
-        <ATForm ref={forwardRef} onChange={onChange} validationDisabled={true}>
+        <ATForm ref={forwardRef} onChange={onChange} validationDisabled={false}>
             {
                 formBuilder.createColumnBuilder(
                     [
@@ -106,17 +106,20 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         ),
                         formBuilder.createCascadeComboBox({ id: 'cascadeComboBox', design: singleLeafCascadeDesign, tabIndex: 1 }),
                         formBuilder.createMultiValueCascadeComboBox({ id: 'MultiValueCascadeComboBox', design: multiLeafCascadeDesign, tabIndex: 1 }),
-                        formBuilder.createAdvanceStepper({ id: 'AdvanceStepper', md: 6}),
+                        formBuilder.createAdvanceStepper({ id: 'AdvanceStepper', md: 6 }),
                         formBuilder.createGrid({
                             id: 'grid01',
                             md: 12,
                         }),
                         formBuilder.createButton({ id: 'Hide some elements', onClick: onHideSmoeElementsClick }),
                         formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
+                        formBuilder.createTextBox({ id: 'Textbox_Text', md: 4 }),
+                        formBuilder.createIntegerTextBox({ id: 'Textbox_Integer', md: 4 }),
+                        formBuilder.createFloatTextBox({ id: 'Textbox_Float', md: 4 }),
                     ]
                 )
-                    .filter(item => ['CountriesIDVALUE'].includes(item.id))
-                    .required(['ComboBoxWithEnumsID'])
+                    .filter(item => ['Textbox_Text', 'Textbox_Integer', 'Textbox_Float'].includes(item.id))
+                    .required(['Textbox_Text', 'Textbox_Integer', 'Textbox_Float'])
                     .map(item => {
                         return {
                             ...item,

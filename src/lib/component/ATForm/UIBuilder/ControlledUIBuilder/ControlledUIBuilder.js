@@ -3,6 +3,8 @@ import React, { Suspense, useState, useImperativeHandle, forwardRef, useEffect, 
 import ATFormContext from '../../ATFormContext/ATFormContext';
 
 const TextBox = React.lazy(() => import('../../UI/TextBox/TextBox'));
+const IntegerTextBox = React.lazy(() => import('../../UI/IntegerTextBox/IntegerTextBox'));
+const FloatTextBox = React.lazy(() => import('../../UI/FloatTextBox/FloatTextBox'));
 const ComboBox = React.lazy(() => import('../../UI/ComboBox/ComboBox'));
 const MultiComboBox = React.lazy(() => import('../../UI/MultiComboBox/MultiComboBox'));
 const DatePicker = React.lazy(() => import('../../UI/DatePicker/DatePicker'));
@@ -100,6 +102,8 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
 
     return <Suspense fallback={<div>Loading...</div>}>
         {type === 'TextBox' && <TextBox {...commonProps} />}
+        {type === 'IntegerTextBox' && <IntegerTextBox {...commonProps} />}
+        {type === 'FloatTextBox' && <FloatTextBox {...commonProps} />}
         {type === 'ComboBox' && <ComboBox {...commonProps} />}
         {type === 'MultiComboBox' && <MultiComboBox {...commonProps} />}
         {type === 'DatePicker' && <DatePicker {...commonProps} />}
@@ -117,7 +121,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         {type === 'MultiSelectGrid' && <MultiSelectGrid {...commonProps} />}
         {type === 'ImageSelect' && <ImageSelect {...commonProps} />}
         {type === 'AdvanceStepper' && <AdvanceStepper {...commonProps} />}
-        {type === 'Form' && <Form {...commonProps} />}        
+        {type === 'Form' && <Form {...commonProps} />}
         {CustomComponent && <CustomComponent {...commonProps} />}
     </Suspense>
 }
