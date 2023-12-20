@@ -10,10 +10,11 @@ const IntegerTextBox = ({ _formProps_, id, value, onChange, ...restProps }) => {
         if (newValue)
             integerValue = parseInt(newValue)
 
-        onChange({ target: { value: integerValue } })
+        if (onChange)
+            onChange({ target: { value: integerValue } })
     }
 
-    const newValue = !value && value !== 0 ? "" : value    
+    const newValue = !value && value !== 0 ? "" : value
 
     return <TextField fullWidth={true} type="number" onChange={onInternalChange} value={newValue} {...restProps} />
 }

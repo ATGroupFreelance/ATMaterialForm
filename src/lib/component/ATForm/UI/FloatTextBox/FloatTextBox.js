@@ -11,7 +11,8 @@ const FloatTextBox = ({ _formProps_, id, value, onChange, ...restProps }) => {
         if (newValue)
             integerValue = Number(newValue)
 
-        onChange({ target: { value: integerValue } })
+        if (onChange)
+            onChange({ target: { value: integerValue } })
     }
 
     const newValue = !value && value !== 0 ? "" : value
