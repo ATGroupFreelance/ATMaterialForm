@@ -1,14 +1,19 @@
 import React from 'react';
 
 import TextField from '@mui/material/TextField';
+import { convertNoneEnglishNumbers } from '../../FormUtils/FormUtils';
 
 const IntegerTextBox = ({ _formProps_, id, value, onChange, ...restProps }) => {
+
     const onInternalChange = (event) => {
-        const newValue = event.target.value
+        const newValue = convertNoneEnglishNumbers(event.target.value)
         let integerValue = null
 
         if (newValue)
             integerValue = parseInt(newValue)
+
+        if (isNaN(integerValue))
+            integerValue = null
 
         if (onChange)
             onChange({ target: { value: integerValue } })
@@ -16,7 +21,17 @@ const IntegerTextBox = ({ _formProps_, id, value, onChange, ...restProps }) => {
 
     const newValue = !value && value !== 0 ? "" : value
 
-    return <TextField fullWidth={true} type="number" onChange={onInternalChange} value={newValue} {...restProps} />
+    return <TextField
+        fullWidth={true}
+        type="number"
+        onChange={onInternalChange}
+        value={newValue}
+        onKeyDown={(e) => {
+            if (e.key === "e" || e.key === "E" || e.key === "+") {
+                e.preventDefault()
+            }
+        }}
+        {...restProps} />
 }
 
 export default IntegerTextBox;

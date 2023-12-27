@@ -399,9 +399,7 @@ class ATForm extends PureComponent {
         }
     }
 
-    render() {
-        console.log('context render', this.context)
-
+    render() {    
         const validChildren = this.getFlatChildren(this.props.children).map(item => {
             const props = React.isValidElement(item) ? item.props : item
             const { skipRender, tabIndex } = props
