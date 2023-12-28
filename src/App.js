@@ -94,7 +94,7 @@ function App() {
     })
   }
 
-  const activeExample = 'FormInForm'
+  const activeExample = 'BasicForm'
 
   const atFormLocalText = {
     'Add': 'Local text Add',

@@ -1,8 +1,6 @@
-import { Grid } from '@mui/material';
 import React, { PureComponent } from 'react';
 
 // //Utils
-import * as FormUtils from './FormUtils/FormUtils';
 import * as FormBuilder from './FormBuilder/FormBuilder';
 import * as UITypeUtils from './UITypeUtils/UITypeUtils';
 //Validation
@@ -11,8 +9,9 @@ import AVJErrors from 'ajv-errors';
 //Context
 import ATFormContext from './ATFormContext/ATFormContext';
 //Components
-import UIBuilder from './UIBuilder/UIBuilder';
-import TabView from './TabView/TabView';
+import ATFormRender from './ATFormRender/ATFormRender';
+import TabWrapper from './TabWrapper/TabWrapper';
+import { getFlatChildren } from './FormUtils/FormUtils';
 
 class ATForm extends PureComponent {
     constructor(props) {
@@ -55,8 +54,8 @@ class ATForm extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const oldFlatChildren = this.getFlatChildren(prevProps.children)
-        const newFlatChildren = this.getFlatChildren(this.props.children)
+        const oldFlatChildren = getFlatChildren(prevProps.children)
+        const newFlatChildren = getFlatChildren(this.props.children)
 
         if (oldFlatChildren.length !== newFlatChildren.length)
             this.compileAJV()
@@ -74,7 +73,6 @@ class ATForm extends PureComponent {
         defaultValue: {},
         isFormOnLockdown: false,
         validationErrors: null,
-        currentTabIndex: 0,
     }
 
     getTypeInfo = (type) => {
@@ -151,7 +149,7 @@ class ATForm extends PureComponent {
         //If default value is a key value, process it so it becomes a formData format
         if (reverseConvertToKeyValueEnabled && inputDefaultValue) {
             const reverseConvertToKeyValueDefaultValue = {}
-            const flatChildren = this.getFlatChildren(this.props.children)
+            const flatChildren = getFlatChildren(this.props.children)
 
             for (let key in inputDefaultValue) {
                 //Find the elemenet of the value using id match
@@ -183,7 +181,7 @@ class ATForm extends PureComponent {
             console.log('childrenRefs', this.childrenRefs)
             for (let key in this.childrenRefs) {
                 if (this.childrenRefs[key] && this.childrenRefs[key].reset)
-                    this.childrenRefs[key].reset({callFormOnChangeDisabled})
+                    this.childrenRefs[key].reset({ callFormOnChangeDisabled })
             }
         })
     }
@@ -207,24 +205,9 @@ class ATForm extends PureComponent {
         }
     }
 
-    getRenderableItem = (item) => {
-        return React.isValidElement(item) ?
-            item.props.formskip ?
-                //Example: <div formskip={true}><TextBox/></div>
-                item
-                :
-                //Example: <TextBox/>
-                React.cloneElement(item, { ...this.getChildProps({ ...item.props, type: item.type.name || item.type }), key: item.props.id })
-            :
-            //Example: {
-            //     type: 'TextBox'
-            // }
-            <UIBuilder key={item.id} {...this.getChildProps(item)} />
-    }
-
     compileAJV = () => {
         if (!this.props.validationDisabled) {
-            const flatChildren = this.getFlatChildren(this.props.children)
+            const flatChildren = getFlatChildren(this.props.children)
 
             const properties = {}
             const requiredList = []
@@ -274,18 +257,6 @@ class ATForm extends PureComponent {
         }
         else
             this.ajvValidate = null
-    }
-
-    getFlatChildren = (children) => {
-        let arrayChildren = []
-        if (children) {
-            if (Array.isArray(children))
-                arrayChildren = children
-            else
-                arrayChildren.push(children)
-        }
-
-        return arrayChildren.flat(1)
     }
 
     normalizeErrors = (errors) => {
@@ -391,27 +362,24 @@ class ATForm extends PureComponent {
         }
     }
 
-    onInternalTabChange = (event, newIndex, selectedTab) => {
-        this.setState({ currentTabIndex: newIndex })
+    render() {
+        const flatChildren = getFlatChildren(this.props.children)
+        const flatChildrenProps = flatChildren.map(item => {
+            const { skipRender, tabIndex } = item?.props || item
 
-        if (this.props.onTabChange) {
-            this.props.onTabChange(event, newIndex, selectedTab)
-        }
-    }
-
-    render() {    
-        const validChildren = this.getFlatChildren(this.props.children).map(item => {
-            const props = React.isValidElement(item) ? item.props : item
-            const { skipRender, tabIndex } = props
-
-            return < Grid key={props.id} item sx={{ ...(!this.props.tabs || (this.state.currentTabIndex === tabIndex) ? {} : { display: 'none' }) }} {...FormUtils.getFlexGrid(props)}  > {!skipRender && this.getRenderableItem(item)} </Grid >
+            return {
+                ...((!item?.props?.formskip && this.getChildProps(item)) || {}),
+                skipRender,
+                tabIndex: Array.isArray(tabIndex) ? tabIndex : [tabIndex]
+            }
         })
 
         return (
-            <React.Fragment>
-                {this.props.tabs && <Grid item md={12} {...(this.props.tabsGridProps || {})}><TabView tabs={this.props.tabs} activeTabIndex={this.state.currentTabIndex} onTabChange={this.onInternalTabChange} /></Grid>}
-                {validChildren}
-            </React.Fragment>
+            <TabWrapper tabs={this.props.tabs} tabsGridProps={this.props.tabsGridProps} formChildrenProps={flatChildrenProps} onChange={this.props.onTabChange}>
+                <ATFormRender key={'ATFormRender'}>
+                    {flatChildren}
+                </ATFormRender>
+            </TabWrapper>
         )
     }
 }

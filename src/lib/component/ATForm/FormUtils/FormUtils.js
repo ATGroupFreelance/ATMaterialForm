@@ -83,7 +83,7 @@ export const isFunction = (obj) => {
     return !!(obj && obj.constructor && obj.call && obj.apply);
 }
 
-export function convertNoneEnglishNumbers(str) {
+export const convertNoneEnglishNumbers = (str) => {
     const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g]
     const arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g]
 
@@ -95,4 +95,16 @@ export function convertNoneEnglishNumbers(str) {
     }
 
     return str;
+}
+
+export const getFlatChildren = (children) => {
+    let arrayChildren = []
+    if (children) {
+        if (Array.isArray(children))
+            arrayChildren = children
+        else
+            arrayChildren.push(children)
+    }
+
+    return arrayChildren.flat(1)
 }
