@@ -28,14 +28,14 @@ const TabInTab = React.forwardRef(({ onChange }, forwardRef) => {
     }
 
     return (
-        <ATForm ref={forwardRef} tabs={tabs} onChange={onChange} onTabChange={onTabChange}>
+        <ATForm ref={forwardRef} tabs={tabs} onChange={onChange} onTabChange={onTabChange} groupDataEnabled={true}>
             {[
                 formBuilder.createTextBox({ id: 'Tab1', tabIndex: 0 }),
                 formBuilder.createTextBox({ id: 'Tab2', tabIndex: 1 }),
                 formBuilder.createTextBox({ id: 'Tab1_1', tabIndex: [0, 0] }),
                 formBuilder.createTextBox({ id: 'Tab1_2', tabIndex: [0, 1] }),
-                formBuilder.createTextBox({ id: 'Tab1_2_1', tabIndex: [0, 1, 0] }),
-                formBuilder.createTextBox({ id: 'Tab1_2_2', tabIndex: [0, 1, 1] }),
+                formBuilder.createTextBox({ id: 'Tab1_2_1', tabIndex: [0, 1, 0], groupDataID: 'Grouped1' }),
+                formBuilder.createTextBox({ id: 'Tab1_2_2', tabIndex: [0, 1, 1], groupDataID: 'Grouped1' }),
                 formBuilder.createTextBox({ id: 'Tab1_2_3', tabIndex: [0, 1, 2] }),
             ]}
         </ATForm>

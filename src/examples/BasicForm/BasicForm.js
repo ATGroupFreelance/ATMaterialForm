@@ -118,8 +118,8 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createFloatTextBox({ id: 'Textbox_Float', md: 4 }),
                     ]
                 )
-                    // .filter(item => ['Textbox_Text', 'Textbox_Integer', 'Textbox_Float'].includes(item.id))
-                    // .required(['Textbox_Text', 'Textbox_Integer', 'Textbox_Float'])
+                    .filter(item => ['Textbox_Text', 'Textbox_Integer', 'Textbox_Float'].includes(item.id))
+                    .required(['Textbox_Text', 'Textbox_Integer', 'Textbox_Float'])
                     .map(item => {
                         return {
                             ...item,

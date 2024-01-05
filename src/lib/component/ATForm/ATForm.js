@@ -81,30 +81,34 @@ class ATForm extends PureComponent {
         return UITypeUtils.getTypeInfo(type, customTypes)
     }
 
-    onChildChange = ({ id, type, event, element, callFormOnChangeDisabled }) => {
+    onChildChange = ({ id, type, event, element, callFormOnChangeDisabled, groupDataID }) => {
         const { enums } = this.context
         const found = this.getTypeInfo(type)
+
+        //New Values
+        const newFormData_value = { value: event.target.value, type: type }
+        const newFormDataKeyValue_value = found.convertToKeyValue ? found.convertToKeyValue(event, element, enums) : event.target.value
+        const newFormDataSemiKeyValue_value = found.convertToSemiKeyValue ? found.convertToSemiKeyValue(event, element, enums) : event.target.value
 
         //If we don't copy the object and directly mutate it everything will seem okay but outside the component when set state is called it will not cause reRender !, it seems even hook sestate does a casual compare 
         //and if it can't detect object change it will not render.
         const newFormData = {
             ...this.formData,
-            [id]: {
-                value: event.target.value,
-                type: type,
-            }
+            [id]: newFormData_value
         }
 
         //If we don't copy the object and directly mutate it everything will seem okay but outside the component when set state is called it will not cause reRender !, it seems even hook sestate does a casual compare 
         //and if it can't detect object change it will not render.
         const newFormDataKeyValue = {
             ...this.formDataKeyValue,
-            [id]: found.convertToKeyValue ? found.convertToKeyValue(event, element, enums) : event.target.value
+            [id]: newFormDataKeyValue_value
         }
 
+        //If we don't copy the object and directly mutate it everything will seem okay but outside the component when set state is called it will not cause reRender !, it seems even hook sestate does a casual compare 
+        //and if it can't detect object change it will not render.
         const newFormDataSemiKeyValue = {
             ...this.formDataSemiKeyValue,
-            [id]: found.convertToSemiKeyValue ? found.convertToSemiKeyValue(event, element, enums) : event.target.value
+            [id]: newFormDataSemiKeyValue_value
         }
 
         this.formData = newFormData
@@ -117,7 +121,7 @@ class ATForm extends PureComponent {
             newFormDataSemiKeyValue
         })
 
-        if (this.props.onChange && !callFormOnChangeDisabled) {
+        if (this.props.onChange && !callFormOnChangeDisabled) {                
             this.props.onChange({ formData: newFormData, formDataKeyValue: newFormDataKeyValue, formDataSemiKeyValue: newFormDataSemiKeyValue })
         }
     }
@@ -140,18 +144,53 @@ class ATForm extends PureComponent {
         this.childrenRefs[id] = api
     }
 
+    ungroupFormData = (flatChildren, inputDefaultValue, reverseConvertToKeyValueEnabled, isInputSemiKeyValue) => {
+        if (!inputDefaultValue)
+            return inputDefaultValue;
+
+        const groupDataIDList = flatChildren.filter(item => item.groupDataID)
+
+        if (!groupDataIDList.length)
+            return inputDefaultValue;
+
+
+        const result = {}
+
+        for (let key in inputDefaultValue) {
+            if (groupDataIDList.includes(key)) {
+                let subFormData = null
+
+                //Is data formDataKeyValue format ?
+                if (reverseConvertToKeyValueEnabled && !isInputSemiKeyValue)
+                    subFormData = JSON.parse(inputDefaultValue[key])
+                else
+                    subFormData = inputDefaultValue[key]
+
+                for (let key2 in subFormData)
+                    result[key2] = subFormData[key2]
+            }
+            else
+                result[key] = inputDefaultValue[key]
+        }
+
+        return result
+    }
+
     reset = (inputDefaultValue, reverseConvertToKeyValueEnabled = true, isInputSemiKeyValue = false, callFormOnChangeDisabled = false) => {
         const { enums } = this.context
+        const flatChildren = getFlatChildren(this.props.children)
+
+        const ungroupedInputDefaultValue = inputDefaultValue
+
         console.log('enums', enums)
         //If default value is not key value just use it!
-        let newDefaultValue = inputDefaultValue
+        let newDefaultValue = ungroupedInputDefaultValue
 
         //If default value is a key value, process it so it becomes a formData format
-        if (reverseConvertToKeyValueEnabled && inputDefaultValue) {
+        if (reverseConvertToKeyValueEnabled && ungroupedInputDefaultValue) {
             const reverseConvertToKeyValueDefaultValue = {}
-            const flatChildren = getFlatChildren(this.props.children)
 
-            for (let key in inputDefaultValue) {
+            for (let key in ungroupedInputDefaultValue) {
                 //Find the elemenet of the value using id match
                 const found = flatChildren.find((item) => String(item.id) === String(key))
                 if (found) {
@@ -160,14 +199,14 @@ class ATForm extends PureComponent {
 
                     //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
                     if (!isInputSemiKeyValue && foundType.reverseConvertToKeyValue)
-                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToKeyValue({ value: inputDefaultValue[key], element: found, enums, rtl: this?.context?.rtl })
+                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToKeyValue({ value: ungroupedInputDefaultValue[key], element: found, enums, rtl: this?.context?.rtl })
                     else if (isInputSemiKeyValue && foundType.reverseConvertToSemiKeyValue)
-                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToSemiKeyValue({ value: inputDefaultValue[key], element: found, enums, rtl: this?.context?.rtl })
+                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToSemiKeyValue({ value: ungroupedInputDefaultValue[key], element: found, enums, rtl: this?.context?.rtl })
                     else
-                        reverseConvertToKeyValueDefaultValue[key] = inputDefaultValue[key]
+                        reverseConvertToKeyValueDefaultValue[key] = ungroupedInputDefaultValue[key]
                 }
                 else
-                    reverseConvertToKeyValueDefaultValue[key] = inputDefaultValue[key]
+                    reverseConvertToKeyValueDefaultValue[key] = ungroupedInputDefaultValue[key]
             }
 
             newDefaultValue = reverseConvertToKeyValueDefaultValue
@@ -327,7 +366,7 @@ class ATForm extends PureComponent {
         }
     }
 
-    getChildProps = ({ id, enumsID, type, defaultValue, inputType, onClick, label, flexGridProps, tabIndex, colDef, ...restProps }) => {
+    getChildProps = ({ id, enumsID, type, defaultValue, inputType, onClick, label, flexGridProps, tabIndex, colDef, groupDataID, ...restProps }) => {
         const { childrenProps } = this.props
         const newDefaultValue = this.state.defaultValue[id] === undefined ? defaultValue : this.state.defaultValue[id]
 
@@ -342,14 +381,15 @@ class ATForm extends PureComponent {
 
         return {
             _formProps_: {
-                onChildChange: ({ event, callFormOnChangeDisabled }) => this.onChildChange({ id, type, event, element: restProps, callFormOnChangeDisabled }),
+                onChildChange: ({ event, callFormOnChangeDisabled }) => this.onChildChange({ id, type, event, element: restProps, callFormOnChangeDisabled, groupDataID }),
                 onLockdownChange: (state) => this.onLockdownChange(id, state),
                 // ref: (node) => this.onGetChildRef(id, node),
                 innerRef: (node) => this.onGetChildRef(id, node),
                 isFormOnLockdown: this.state.isFormOnLockdown,
                 inputType: inputType,
                 errors: this.state.validationErrors,
-                getTypeInfo: (type) => this.getTypeInfo(type)
+                getTypeInfo: (type) => this.getTypeInfo(type),
+                groupDataID,
             },
             id,
             type,

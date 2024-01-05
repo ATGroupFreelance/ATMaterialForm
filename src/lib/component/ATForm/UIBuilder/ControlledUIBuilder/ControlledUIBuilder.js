@@ -37,7 +37,9 @@ const getInitialValue = (typeInfo, defaultValue) => {
     return result
 }
 
-const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, defaultValue, onChange, ...restProps }, forwardedRef) => {
+//Sometimes you might want to pass a prop to a component that is already taken, that is when you use the atComponentProps, an example would be type: number for textfield
+//which is already taken by ATMaterialForm
+const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, defaultValue, onChange, atComponentProps, ...restProps }, forwardedRef) => {
     const { customComponents } = useContext(ATFormContext)
 
     const { onChildChange, errors } = _formProps_
@@ -86,6 +88,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
 
     const commonProps = {
         _formProps_: _formProps_,
+        ...(atComponentProps || {}),
         ...restProps,
         id: id,
         value: localValue,
