@@ -121,7 +121,7 @@ class ATForm extends PureComponent {
             newFormDataSemiKeyValue
         })
 
-        if (this.props.onChange && !callFormOnChangeDisabled) {                
+        if (this.props.onChange && !callFormOnChangeDisabled) {
             this.props.onChange({ formData: newFormData, formDataKeyValue: newFormDataKeyValue, formDataSemiKeyValue: newFormDataSemiKeyValue })
         }
     }
@@ -193,6 +193,12 @@ class ATForm extends PureComponent {
             for (let key in ungroupedInputDefaultValue) {
                 //Find the elemenet of the value using id match
                 const found = flatChildren.find((item) => String(item.id) === String(key))
+
+                //TODO HANDLE CONDITIONAL INSERT:
+                //If you have used conditional insertion, in some cases, such as datepicker, this "found" variable will be null on the first run.
+                //This means that the date is not reverse converted to a value, and after the condition is met, 
+                //it will throw an error because the element is initialized with a value that was not reversed.
+                //One easy solution is to initialize your insertion condition using a default value.
                 if (found) {
                     //Find the element's type inside types which is inisde UITypeUtils, using this type we can do a reverseConvertToKeyValue
                     const foundType = this.getTypeInfo(found.type)

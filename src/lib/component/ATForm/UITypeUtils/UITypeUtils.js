@@ -46,6 +46,9 @@ export const getTypeInfo = (type, customTypes) => {
 }
 
 export const getTitleByEnums = ({ id, enumsID, options, enums, value }) => {
+    if (value === null)
+        return ''
+
     const searchID = enumsID || id
     const stringValue = String(value)
     let result = stringValue
@@ -148,6 +151,13 @@ const types = [
             else
                 return value
         },
+        getAgGridColumnDef: () => {
+            return {
+                valueFormatter: ({ value }) => {
+                    return value === null ? '' : value
+                }
+            }
+        }
     }),
     createType({
         type: 'FloatTextBox',
@@ -161,6 +171,13 @@ const types = [
             else
                 return value
         },
+        getAgGridColumnDef: () => {
+            return {
+                valueFormatter: ({ value }) => {
+                    return value === null ? '' : value
+                }
+            }
+        }
     }),
     createType({
         type: 'ComboBox',

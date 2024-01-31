@@ -18,19 +18,21 @@ const ATFormRender = ({ children, formChildrenProps }) => {
         >
             {
                 !skipRender
-                    &&
+                &&
+                (
                     React.isValidElement(item) ?
-                    formskip ?
-                        //Example: <div formskip={true}><TextBox/></div>
-                        item
+                        formskip ?
+                            //Example: <div formskip={true}><TextBox/></div>
+                            item
+                            :
+                            //Example: <TextBox/>
+                            React.cloneElement(item, { ...itemProps, type: itemProps.type.name || itemProps.type, key: itemProps.id })
                         :
-                        //Example: <TextBox/>
-                        React.cloneElement(item, { ...itemProps, type: itemProps.type.name || itemProps.type, key: itemProps.id })
-                    :
-                    //Example: {
-                    //     type: 'TextBox'
-                    // }
-                    <UIBuilder key={itemProps.id} {...itemProps} />
+                        //Example: {
+                        //     type: 'TextBox'
+                        // }
+                        <UIBuilder key={itemProps.id} {...itemProps} />
+                )
             }
         </Grid>
     })
