@@ -12,6 +12,7 @@ export const UITypes = {
     DatePicker: 'DatePicker',
     UploadButton: 'UploadButton',
     UploadImageButton: 'UploadImageButton',
+    FileViewer: 'FileViewer',
     CascadeComboBox: 'CascadeComboBox',
     MultiValueCascadeComboBox: 'MultiValueCascadeComboBox',
     CheckBox: 'CheckBox',
@@ -287,6 +288,34 @@ const types = [
         reverseConvertToKeyValue: ({ value, element, enums }) => {
             return value
         },
+    }),
+    createType({
+        type: 'FileViewer',
+        initialValue: [],
+        validation: createValidation({ type: 'array', minItems: 1 }),
+        convertToKeyValue: (event) => {
+            return JSON.stringify(event.target.value)
+        },
+        reverseConvertToKeyValue: ({ value, element, enums }) => {
+            if (!value)
+                return []
+
+            return JSON.parse(value)
+        },
+        convertToSemiKeyValue: (event) => {
+            return event.target.value
+        },
+        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+            if (!value)
+                return []
+
+            return value
+        },
+        getAgGridColumnDef: ({ enums }) => {
+            return {
+                cellRenderer: UploadButtonCellRenderer,
+            }
+        }
     }),
     createType({
         type: 'CascadeComboBox',

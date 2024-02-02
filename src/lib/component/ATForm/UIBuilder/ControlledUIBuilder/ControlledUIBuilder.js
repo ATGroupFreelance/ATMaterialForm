@@ -10,6 +10,7 @@ const MultiComboBox = React.lazy(() => import('../../UI/MultiComboBox/MultiCombo
 const DatePicker = React.lazy(() => import('../../UI/DatePicker/DatePicker'));
 const UploadButton = React.lazy(() => import('../../UI/UploadButton/UploadButton'));
 const UploadImageButton = React.lazy(() => import('../../UI/UploadImageButton/UploadImageButton'));
+const FileViewer = React.lazy(() => import('../../UI/FileViewer/FileViewer'));
 const CascadeComboBox = React.lazy(() => import('../../UI/CascadeComboBox/CascadeComboBox'));
 const MultiValueCascadeComboBox = React.lazy(() => import('../../UI/MultiValueCascadeComboBox/MultiValueCascadeComboBox'));
 const CheckBox = React.lazy(() => import('../../UI/CheckBox/CheckBox'));
@@ -52,6 +53,8 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         // eslint-disable-next-line
     }, [])
 
+    //Please note that if value is gived to an element is complex and can not be compared using a shallow compare it can cause infinite loop
+    //For example a controlled Textbox from outside is okay but upload button is not.
     useEffect(() => {
         if (value !== undefined) {
             setLocalValue(value)
@@ -112,6 +115,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         {type === 'DatePicker' && <DatePicker {...commonProps} />}
         {type === 'UploadButton' && <UploadButton {...commonProps} />}
         {type === 'UploadImageButton' && <UploadImageButton {...commonProps} />}
+        {type === 'FileViewer' && <FileViewer {...commonProps} />}        
         {type === 'CascadeComboBox' && <CascadeComboBox {...commonProps} />}
         {type === 'MultiValueCascadeComboBox' && <MultiValueCascadeComboBox {...commonProps} />}
         {type === 'CheckBox' && <CheckBox {...commonProps} />}

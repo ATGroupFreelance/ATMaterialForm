@@ -256,6 +256,15 @@ export const createUploadImageButton = ({ id, md = 3, ...restProps }) => {
     })
 }
 
+export const createFileViewer = ({ id, md = 12, ...restProps }) => {
+    return create({
+        id,
+        type: 'FileViewer',
+        md,
+        ...restProps,
+    })
+}
+
 export const createCascadeComboBox = ({ id, md = 12, ...restProps }) => {
     return create({
         id,
