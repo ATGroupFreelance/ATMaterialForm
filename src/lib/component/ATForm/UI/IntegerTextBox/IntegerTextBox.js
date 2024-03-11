@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TextField from '@mui/material/TextField';
+import TextBox from '../TextBox/TextBox';
 import { convertNoneEnglishNumbers } from '../../FormUtils/FormUtils';
 
 const IntegerTextBox = ({ _formProps_, id, value, onChange, ...restProps }) => {
@@ -21,7 +21,7 @@ const IntegerTextBox = ({ _formProps_, id, value, onChange, ...restProps }) => {
 
     const newValue = !value && value !== 0 ? "" : value
 
-    return <TextField
+    return <TextBox
         fullWidth={true}
         type="number"
         onChange={onInternalChange}

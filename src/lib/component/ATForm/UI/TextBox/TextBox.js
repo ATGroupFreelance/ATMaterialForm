@@ -2,9 +2,9 @@ import React from 'react';
 
 import TextField from '@mui/material/TextField';
 
-const TextBox = ({ _formProps_, id, ...restProps }) => {
+const TextBox = ({ _formProps_, id, TextBox, readOnly, InputProps,...restProps }) => {
 
-    return <TextField fullWidth={true} {...restProps} />
+    return <TextField fullWidth={true} InputProps={{readOnly,...(InputProps || {})}} {...restProps} />
 }
 
 export default TextBox;

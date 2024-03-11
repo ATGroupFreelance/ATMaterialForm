@@ -118,12 +118,13 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createFloatTextBox({ id: 'Textbox_Float', md: 4 }),
                     ]
                 )
-                    .filter(item => ['UploadButtonType1', 'UploadButtonType2'].includes(item.id))
+                    // .filter(item => ['UploadButtonType1', 'UploadButtonType2'].includes(item.id))
                     // .required(['Textbox_Text', 'Textbox_Integer', 'Textbox_Float'])
                     .map(item => {
                         return {
                             ...item,
-                            tabIndex: item.tabIndex === undefined ? 0 : item.tabIndex
+                            tabIndex: item.tabIndex === undefined ? 0 : item.tabIndex,
+                            readOnly: true,
                         }
                     })
                     .build()

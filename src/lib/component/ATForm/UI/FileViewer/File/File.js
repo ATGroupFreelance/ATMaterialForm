@@ -3,7 +3,7 @@ import Button from 'lib/component/ATForm/UI/Button/Button';
 //Context
 import { useContext, useEffect, useState } from 'react';
 import ATFormContext from 'lib/component/ATForm/ATFormContext/ATFormContext';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Tooltip, Typography } from '@mui/material';
 
 function isImage(url) {
     return /\.(jpg|jpeg|png|webp)$/.test(url);
@@ -52,20 +52,26 @@ const File = ({ id, name, size, authToken, width, height }) => {
 
     return <Box sx={{ display: 'inline-block', border: '1px solid #c3c3c3', width: `${width}px`, height: `${height}px`, margin: '1px', borderRadius: '15px' }}>
         <Grid container direction={'row'} justifyContent={'center'} sx={{ width: `${width}px` }} >
-            <Grid item xs={12} sx={{ height: '20px' }}>
-                <Typography>
-                    {name}
-                </Typography>
+            <Grid item xs={12} sx={{ height: '20px', textAlign: 'center', marginBottom: '3px' }}>
+                <Tooltip title={name} sx={{ fontWeight: 'bold' }}>
+                    <Typography sx={{ fontWeight: 'bold', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', maringRight: '5px', marginLeft: '5px' }}>
+                        {name}
+                    </Typography>
+                </Tooltip>
             </Grid>
-            <Grid item xs={12} sx={{ height: `${height - 50}px` }}>
+            <Grid item xs={12} sx={{ height: `${height - 65}px`, textAlign: 'center' }} justifyContent={'center'}>
                 {
                     isImage(name)
                     &&
-                    <img style={{ width: `${width}px`, height: `${height - 50}px` }} src={thumbnail} alt={name} />
+                    <Tooltip title={`${Math.ceil(size / 1024)} kB`}>
+                        <Button variant={'text'}>
+                            <img style={{ width: `${width - 20}px`, height: `${height - 65}px` }} src={thumbnail} alt={name} />
+                        </Button>
+                    </Tooltip>
                 }
             </Grid>
-            <Grid item xs={12} sx={{ height: '20px' }} justifyContent="flex-end">
-                <Button onClick={onOpenClick} variant={'text'}>
+            <Grid item xs={12} sx={{ height: '37px', marginTop: '5px' }} justifyContent="flex-end">
+                <Button onClick={onOpenClick} variant={'text'} sx={{ borderRadius: '15px' }}>
                     {localText['Download']}
                     {`(${Math.ceil(size / 1024)} kB)`}
                 </Button>

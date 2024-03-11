@@ -4,7 +4,7 @@ import ATFormContext from '../../ATFormContext/ATFormContext';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Button, CircularProgress, Typography } from '@mui/material';
 
-const UploadImageButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText, authToken, width = 128, height = 128 }) => {
+const UploadImageButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText, authToken, width = 128, height = 128, readOnly }) => {
     const [loading, setLoading] = useState(null)
     const { onLockdownChange } = _formProps_
     const { uploadFilesToServer, getFile, localText } = useContext(ATFormContext)
@@ -79,7 +79,7 @@ const UploadImageButton = ({ _formProps_, label, onChange, value, disabled, acce
         <Typography sx={{ fontSize: '14px', "userSelect": "none", "WebkitUserSelect": "none" }} color={error ? "#d32f2f" : "default"}>
             {label}
         </Typography>
-        <Button component="label" sx={{ width: `${width}px`, height: `${height}px` }} variant={"outlined"} disabled={disabled || loading} color={error ? 'error' : 'primary'}>
+        <Button component="label" sx={{ width: `${width}px`, height: `${height}px` }} variant={"outlined"} disabled={disabled || loading || readOnly} color={error ? 'error' : 'primary'}>
             <img src={src || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} alt={""} style={{ width: '100%', height: '100%' }} border={"0"} />
             <input hidden type="file" accept={accept || "image/png, image/gif, image/jpeg"} onChange={onInternalChange} />
             {loading ? <CircularProgress sx={{ position: 'absolute' }} /> : <UploadFileIcon sx={{ position: 'absolute' }} />}

@@ -31,10 +31,7 @@ const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'off',
     const onInternalChange = (event, newValue) => {
         if (onChange)
             onChange({ target: { value: newValue } })
-    }
-
-    if (value)
-        console.log('#ComboBox', value, JSON.stringify(options))
+    }    
 
     return <Autocomplete        
         fullWidth={true}

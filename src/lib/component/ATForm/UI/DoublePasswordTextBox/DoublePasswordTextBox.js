@@ -47,7 +47,7 @@ const DoublePasswordTextBox = ({ _formProps_, id, showPassword = false, onChange
         showPassword: lShowPassword,
         error: ((valueA !== valueB) && valueA !== '') || error,
         helperText: ((valueA !== valueB) && valueA !== '') ? localText['Passwords do not match'] : helperText,
-        inputProps: {            
+        inputProps: {
             autoComplete: 'new-password',
         }
     }

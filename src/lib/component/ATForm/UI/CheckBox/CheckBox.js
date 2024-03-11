@@ -3,7 +3,8 @@ import React from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox';
 
-const CheckBox = ({ _formProps_, id, onChange, value, helperText, color, ...restProps }) => {
+//TODO, add support for read only instead of simply using disable
+const CheckBox = ({ _formProps_, id, onChange, value, helperText, color, readOnly, disabled, ...restProps }) => {
     const internalOnChange = (event) => {
         if (onChange)
             onChange({ target: { value: event.target.checked } })
@@ -12,9 +13,14 @@ const CheckBox = ({ _formProps_, id, onChange, value, helperText, color, ...rest
     return <FormControlLabel
         sx={{ width: '100%' }}
         value="top"
-        control={<Checkbox color={color}/>}
+        control={
+            <Checkbox
+                color={color}
+            />
+        }
         onChange={internalOnChange}
         checked={value}
+        disabled={disabled || readOnly}
         {...restProps}
     />
 

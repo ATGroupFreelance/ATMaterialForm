@@ -256,11 +256,13 @@ export const createUploadImageButton = ({ id, md = 3, ...restProps }) => {
     })
 }
 
-export const createFileViewer = ({ id, md = 12, ...restProps }) => {
+export const createFileViewer = ({ id, md = 12, fileWidth = 150, fileHeight = 128, ...restProps }) => {
     return create({
         id,
         type: 'FileViewer',
         md,
+        fileWidth,
+        fileHeight,
         ...restProps,
     })
 }

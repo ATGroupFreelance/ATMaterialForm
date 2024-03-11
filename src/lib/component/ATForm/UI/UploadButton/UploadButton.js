@@ -14,7 +14,7 @@ import ATFormContext from '../../ATFormContext/ATFormContext';
 //Dialog
 import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
 
-const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, authToken }) => {
+const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, authToken, readOnly }) => {
     const { onLockdownChange } = _formProps_
     const { uploadFilesToServer, localText } = useContext(ATFormContext)
 
@@ -76,7 +76,7 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
     const onShowFilesClick = () => {
         setDialog(<ShowFilesDialog
             files={value}
-            readOnly={disabled}
+            readOnly={disabled || readOnly}
             authToken={authToken}
             onSave={onShowFilesDialogSaveChangesClick}
             onClose={() => setDialog(null)}
@@ -92,7 +92,7 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
     return <div style={{ ...(uploadButtonViewType === 1 ? { flex: 1, display: 'flex' } : { width: '100%' }) }}>
         {
             uploadButtonViewType === 1 &&
-            <Button sx={{ height: '56px', margin: '0px', width: '45%', marginRight: '5px' }} variant="contained" component="label" loading={loading} disabled={disabled}>
+            <Button sx={{ height: '56px', margin: '0px', width: '45%', marginRight: '5px' }} variant="contained" component="label" loading={loading} disabled={disabled || readOnly}>
                 {loading ? localText['Uploading'] : localText['Upload']}
                 <input hidden multiple={multiple} type="file" accept={accept} onChange={onInternalChange} />
             </Button>
@@ -104,10 +104,10 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
                         null
                         :
                         <InputAdornment position="end">
-                            <Button variant="text" fullWidth={true} component="label" loading={loading} disabled={disabled} sx={{ marginRight: '3px' }}>
+                            <Button variant="text" fullWidth={true} component="label" loading={loading} disabled={disabled || readOnly} sx={{ marginRight: '3px' }}>
                                 <Add fontSize='16' />
                                 {loading ? localText['Uploading'] : localText['Upload']}
-                                <input hidden multiple={multiple} type="file" accept={accept} onChange={onInternalChange} />                                
+                                <input hidden multiple={multiple} type="file" accept={accept} onChange={onInternalChange} />
                             </Button>
                         </InputAdornment>,
                     endAdornment:
@@ -115,7 +115,7 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
                             <ShowFilesIconButton sx={{ width: '10%' }} files={value} onClick={onShowFilesClick} label={localText['Show Files']} />
                             <Tooltip title={localText['Delete All']} sx={{ width: '10%' }}  >
                                 <span>
-                                    <IconButton disabled={value.length === 0 || disabled} sx={{ color: '#e91e63' }} onClick={onRemoveFilesClick}>
+                                    <IconButton disabled={value.length === 0 || disabled || readOnly} sx={{ color: '#e91e63' }} onClick={onRemoveFilesClick}>
                                         <DeleteForeverTwoToneIcon />
                                     </IconButton>
                                 </span>

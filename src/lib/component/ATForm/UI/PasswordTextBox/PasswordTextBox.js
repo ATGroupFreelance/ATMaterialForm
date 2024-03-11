@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 import './PasswordTextBox.css';
+import TextBox from '../TextBox/TextBox';
 
-const Password = ({ _formProps_, id, showPassword = false, onToggleShowPasswordClick, error, helperText, ...restProps }) => {
+const Password = ({ _formProps_, id, showPassword = false, onToggleShowPasswordClick, error, helperText,readOnly, ...restProps }) => {
     const [lShowPassword, setLShowPassword] = useState(showPassword)
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const Password = ({ _formProps_, id, showPassword = false, onToggleShowPasswordC
         }
     }    
 
-    return <TextField
+    return <TextBox
         fullWidth={true}
         type={lShowPassword ? "text" : "password"}
         InputProps={{
@@ -32,6 +32,7 @@ const Password = ({ _formProps_, id, showPassword = false, onToggleShowPasswordC
         }}
         error={error}
         helperText={helperText}
+        readOnly={readOnly}
         {...restProps}        
     />
 }

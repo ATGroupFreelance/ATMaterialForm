@@ -25,7 +25,7 @@ export const getColumnDefsByATFormElements = ({ formElements, enums, getTypeInfo
                 createAgGridColumnDefs({
                     ...(getAgGridColumnDef ? getAgGridColumnDef({ enums }) : {}),
                     field: item.id,
-                    headerName: (!item.label || item.label === "") ? item.label : null,
+                    headerName: (item.label || item.label === "") ? item.label : null,
                     ...(item.colDef ? item.colDef : {})
                 })
             )

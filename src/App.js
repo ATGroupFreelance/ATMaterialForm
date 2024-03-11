@@ -95,7 +95,7 @@ function App() {
     })
   }
 
-  const activeExample = 'ComponentPlayground'
+  const activeExample = 'BasicForm'
 
   const atFormLocalText = {
     'Add': 'Local text Add',

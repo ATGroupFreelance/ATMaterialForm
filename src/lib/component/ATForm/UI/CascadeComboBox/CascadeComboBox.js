@@ -2,7 +2,7 @@ import React from 'react';
 
 import BaseComboBox from './BaseComboBox/BaseComboBox';
 
-const CascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComplete = 'disabled', error, helperText, ...restProps }) => {
+const CascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComplete = 'disabled', error, helperText, readOnly, ...restProps }) => {
     const onInternalChange = (id, event, children) => {
         const newValue = {
             ...(value || {}),
@@ -53,7 +53,7 @@ const CascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComp
     return <React.Fragment>
         {
             elementList.map(item => {
-                return <BaseComboBox key={item.id} label={item.label || item.id} error={error} helperText={helperText} {...item} />
+                return <BaseComboBox key={item.id} label={item.label || item.id} error={error} helperText={helperText} {...item} readOnly={readOnly}/>
             })
         }
     </React.Fragment>
