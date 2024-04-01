@@ -13,10 +13,11 @@ import ShowFilesIconButton from './ShowFilesIconButton/ShowFilesIconButton';
 import ATFormContext from '../../ATFormContext/ATFormContext';
 //Dialog
 import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
+import { enqueueSnackbar } from 'notistack';
 
 const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, authToken, readOnly }) => {
     const { onLockdownChange } = _formProps_
-    const { uploadFilesToServer, localText } = useContext(ATFormContext)
+    const { uploadFilesToServer, localText, maxUploadButtonFileSizeInBytes } = useContext(ATFormContext)
 
     const [loading, setLoading] = useState(false)
     const [dialog, setDialog] = useState(null)
@@ -34,10 +35,20 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
         // webkitRelativePath: ""
         const selectedFiles = Array.from(event.target.files)
         if (selectedFiles.length > 0) {
+            let filesSizeSum = 0
+
             const formData = new FormData()
             selectedFiles.forEach((file, index) => {
                 formData.append(`${localText['file']}${index}`, file)
+                filesSizeSum = filesSizeSum + file.size
             })
+
+            if (maxUploadButtonFileSizeInBytes) {
+                if (filesSizeSum > maxUploadButtonFileSizeInBytes) {
+                    enqueueSnackbar(localText[`File size exceeds the limit. Please select a smaller file`], { variant: 'error' })
+                    return null;
+                }
+            }
 
             setLoading(true)
             if (onLockdownChange)

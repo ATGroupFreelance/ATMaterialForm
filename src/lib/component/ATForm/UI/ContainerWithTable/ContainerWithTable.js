@@ -146,7 +146,25 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
         }
     }
 
-    const gridColumnDefs = getGridColumnDefs ? getGridColumnDefs(getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: _formProps_.getTypeInfo })) : getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: _formProps_.getTypeInfo })
+    const baseGridColumnDefs = getGridColumnDefs ? getGridColumnDefs(getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: _formProps_.getTypeInfo })) : getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: _formProps_.getTypeInfo })
+
+    const gridColumnDefs = baseGridColumnDefs?.map(item => {
+        if (item.cellRenderer) {
+            const cellRendererParams = {
+                commonEventProps: { tableAPI: { onInternalChange } }
+            }
+            
+            return {
+                ...item,
+                cellRendererParams: {
+                    ...cellRendererParams,
+                    ...(item.cellRendererParams || {}),                    
+                }
+            }
+        }
+        else
+            return item
+    })
 
     const classesArray = [
         StyleClasses.Default

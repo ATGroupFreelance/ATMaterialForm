@@ -1,6 +1,6 @@
 import ATButton from "lib/component/ATForm/UI/Button/Button";
 
-const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, variant, color, confirmationMessage }) => {
+const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, variant, color, confirmationMessage, api, setValue, commonEventProps }) => {
     let props = {}
 
     if (getCellRendererParams) {
@@ -13,10 +13,10 @@ const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, varian
     return <ATButton
         onClick={(event, { ...props }) => {
             if (onClick)
-                onClick(event, { ...props, data })
+                onClick(event, { ...props, api, setValue, commonEventProps, data })
 
             if (getCellRendererParamsOnClick)
-                getCellRendererParamsOnClick(event, { ...props, data })
+                getCellRendererParamsOnClick(event, { ...props, api, setValue, commonEventProps, data })
         }}
         disabled={disabled}
         fullWidth={true}

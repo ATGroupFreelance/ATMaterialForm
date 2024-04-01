@@ -23,6 +23,9 @@ const localText = {
     'View Files': 'View Files',
     'There are no files to view': 'There are no files to view',
     'Upload': 'Upload',
+    'View': 'View',
+    'View Image': 'View Image',
+    'File size exceeds the limit. Please select a smaller file': 'File size exceeds the limit. Please select a smaller file',
 }
 
 export default localText

@@ -7,11 +7,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 //ATForm
 import ATForm from './ATForm';
 import Button from './UI/Button/Button';
-import { Grid } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
 //Context
 import ATFormContext from './ATFormContext/ATFormContext';
 
-const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelClick, cancelButtonEnabled = true, onSubmitClick, onChange, children, submitLoading, cancelLoading, getActions, ...restProps }, forwardedRef) => {
+const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelClick, cancelButtonEnabled = true, onSubmitClick, onChange, children, submitLoading, cancelLoading, getActions, loading, submitButtonProps, cancelButtonProps, fullWidth, maxWidth,...restProps }, forwardedRef) => {
     const { localText } = useContext(ATFormContext)
 
     const mFormData = useRef({ formData: null, formDataKeyValue: null, formDataSemiKeyValue: null })
@@ -48,10 +48,11 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
                 label: localText['Cancel'],
                 onClick: onInternalCancelClick,
                 color: 'secondary',
-                disabled: cancelLoading,
+                disabled: loading || cancelLoading,
                 grid: {
                     md: 2
-                }
+                },
+                ...(cancelButtonProps || {})
             }
         )
     }
@@ -61,33 +62,39 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
             {
                 id: 'Submit',
                 label: localText['Submit'],
-                onClick: onInternalSubmitClick,
-                disabled: submitLoading,                
+                onClick: onInternalSubmitClick, 
+                disabled: loading || submitLoading,
                 grid: {
                     md: 2
-                }
+                },
+                ...(submitButtonProps || {})
             }
         )
     }
 
     const newActions = getActions ? getActions(actions) : actions
 
-    return <Dialog open={true} onClose={onClose} fullWidth={true} maxWidth={'800'}>
+    return <Dialog open={true} onClose={onClose} fullWidth={fullWidth === undefined ? true : fullWidth} maxWidth={maxWidth === undefined ? '800' : maxWidth}>
         <DialogTitle sx={{ ...(titleStyle || {}) }}>{title}</DialogTitle>
         <DialogContent>
             <Grid container spacing={2} sx={{ marginTop: '5px', marginBottom: '5px' }}>
-                <ATForm ref={forwardedRef} onChange={onFormChange} {...restProps}>
-                    {children}
-                </ATForm>
+                {
+                    loading && <CircularProgress />
+                }
+                {
+                    !loading && <ATForm ref={forwardedRef} onChange={onFormChange} {...restProps}>
+                        {children}
+                    </ATForm>
+                }
             </Grid>
         </DialogContent>
         <DialogActions>
             <Grid container spacing={2}>
                 {
                     newActions.map(item => {
-                        const { grid, id, label, onClick, ...restItem } = item
+                        const { grid, id, label, onClick, disabled, ...restItem } = item
                         return <Grid key={id} item {...(grid ? grid : { xs: 12, md: 2 })}>
-                            <Button label={label ? label : id} onClick={(event, { ...buttonProps }) => onClick(event, { ...buttonProps, formData: mFormData.current.formData, formDataKeyValue: mFormData.current.formDataKeyValue, formDataSemiKeyValue: mFormData.current.formDataSemiKeyValue })} {...restItem} />
+                            <Button label={label ? label : id} onClick={(event, { ...buttonProps }) => onClick(event, { ...buttonProps, formData: mFormData.current.formData, formDataKeyValue: mFormData.current.formDataKeyValue, formDataSemiKeyValue: mFormData.current.formDataSemiKeyValue })} disabled={loading || disabled} {...restItem} />
                         </Grid>
                     })
                 }

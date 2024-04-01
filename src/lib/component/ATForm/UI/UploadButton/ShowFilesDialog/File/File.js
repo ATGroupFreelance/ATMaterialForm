@@ -9,6 +9,7 @@ import Button from '../../../Button/Button';
 //Context
 import { useContext, useEffect, useState } from 'react';
 import ATFormContext from '../../../../ATFormContext/ATFormContext';
+import ViewImageDialog from './ViewImageDialog/ViewImageDialog';
 
 function isImage(url) {
     return /\.(jpg|jpeg|png|webp)$/.test(url);
@@ -17,6 +18,7 @@ function isImage(url) {
 const File = ({ id, name, size, onRemove, showRemoveIcon, authToken }) => {
     const { getFile, localText } = useContext(ATFormContext)
     const [thumbnail, setThumbnail] = useState('')
+    const [dialog, setDialog] = useState(null)
 
     useEffect(() => {
         if (id && name && getFile && isImage(name))
@@ -54,6 +56,30 @@ const File = ({ id, name, size, onRemove, showRemoveIcon, authToken }) => {
 
     }
 
+    const onViewImageClick = (event, { startLoading, stopLoading }) => {
+        startLoading()
+
+        if (getFile) {
+            getFile(id, authToken, 600, 800)
+                .then(res => {
+                    const objectURL = window.URL.createObjectURL(res)
+
+                    setDialog(<ViewImageDialog
+                        image={objectURL}
+                        name={name}
+                        onClose={() => setDialog(null)}
+                    />)
+                })
+                .finally(() => {
+                    stopLoading()
+                })
+        }
+        else {
+            stopLoading()
+            console.error('No getFile was found, please provider it using ATFormContextProvider')
+        }
+    }
+
     return <div className={StyleClasses.File}>
         <div className={StyleClasses.Name}>
             {name}
@@ -62,6 +88,13 @@ const File = ({ id, name, size, onRemove, showRemoveIcon, authToken }) => {
             isImage(name)
             &&
             <img style={{ width: '128px', height: '128px' }} src={thumbnail} alt={name} />
+        }
+        {
+            isImage(name)
+            &&
+            <Button onClick={onViewImageClick} variant={'text'}>
+                {localText['View']}
+            </Button>
         }
         <Button onClick={onOpenClick} variant={'text'}>
             {localText['Download']}
@@ -74,6 +107,7 @@ const File = ({ id, name, size, onRemove, showRemoveIcon, authToken }) => {
                 </IconButton>
             </Tooltip>
         }
+        {dialog}
     </div>
 }
 
