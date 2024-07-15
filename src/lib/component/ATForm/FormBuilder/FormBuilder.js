@@ -476,6 +476,15 @@ export const createForm = ({ id, elements, md = 12, ...restProps }) => {
     })
 }
 
+export const createColorTextBox = ({ id, md = 3, ...restProps }) => {
+    return create({
+        id,
+        type: 'ColorTextBox',
+        md,
+        ...restProps,
+    })
+}
+
 export const createColumnDefsByRowData = (rowData) => {
     const result = []
 

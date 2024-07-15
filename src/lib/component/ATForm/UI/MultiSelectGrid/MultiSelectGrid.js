@@ -20,7 +20,7 @@ const MultiSelectGrid = ({ _formProps_, id, value, label, onChange, columnDefs, 
 
             gridRef.api.forEachNode((node, nodeIndex) => {
                 const found = value.find((item) => {
-                    return uniqueKey === DEFAULT_UNIQUE_KEY ? nodeIndex === item : node.data[uniqueKey] === item
+                    return uniqueKey === DEFAULT_UNIQUE_KEY ? nodeIndex === item : String(node.data[uniqueKey]) === String(item)
                 })
 
                 if (found)

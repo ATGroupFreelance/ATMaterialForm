@@ -28,7 +28,8 @@ export const UITypes = {
     MultiSelectGrid: 'MultiSelectGrid',
     ImageSelect: 'ImageSelect',
     AdvanceStepper: 'AdvanceStepper',
-    Form: 'Form'
+    Form: 'Form',
+    ColorTextBox: 'ColorTextBox',
 }
 
 export const getTypeInfo = (type, customTypes) => {
@@ -623,5 +624,10 @@ const types = [
 
             return value
         },
+    }),
+    createType({
+        type: 'ColorTextBox',
+        initialValue: '',
+        validation: createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
     }),
 ]

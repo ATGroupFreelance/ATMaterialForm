@@ -36,6 +36,7 @@ import TabsInForm from 'examples/TabsInForm/TabsInForm';
 import FormInForm from 'examples/FormInForm/FormInForm';
 import TabInTab from 'examples/TabInTab/TabInTab';
 import ComponentPlayground from 'examples/ComponentPlayground/ComponentPlayground';
+import Playground from 'examples/Playground/Playground';
 
 const RTL = true
 
@@ -95,7 +96,7 @@ function App() {
     })
   }
 
-  const activeExample = 'BasicForm'
+  const activeExample = 'Playground'
 
   const atFormLocalText = {
     'Add': 'Local text Add',
@@ -154,6 +155,7 @@ function App() {
                 {activeExample === 'FormInForm' && <FormInForm ref={formRef} onChange={onFormChange} />}
                 {activeExample === 'TabInTab' && <TabInTab ref={formRef} onChange={onFormChange} />}
                 {activeExample === 'ComponentPlayground' && <ComponentPlayground ref={formRef} onChange={onFormChange} />}
+                {activeExample === 'Playground' && <Playground />}
                 <Grid item xs={12}>
                   <Button onClick={onLoadLastSubmitClick}>load last submit</Button>
                   <Button onClick={onSetDefaultValueClick}>set default value </Button>

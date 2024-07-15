@@ -12,7 +12,7 @@ import StyleClasses from './AreYouSure.module.css';
 //Context
 import ATFormContext from '../../../ATForm/ATFormContext/ATFormContext';
 
-const AreYouSure = React.forwardRef(({ id, style, message, modalDisabled, onYesClick, reason }, ref) => {
+const AreYouSure = React.forwardRef(({ id, style, message, modalDisabled, onYesClick, onNoClick, reason }, ref) => {
     const { localText } = useContext(ATFormContext)
 
     const [visible, setVisible] = useState(true)
@@ -24,8 +24,12 @@ const AreYouSure = React.forwardRef(({ id, style, message, modalDisabled, onYesC
         closeSnackbar(id)
     }
 
-    const onNoClick = () => {
-        handleCloseSnackbar()
+    const onInternalNoClick = (event, props) => {
+        if (onNoClick) {
+            onNoClick(event, { ...props, handleCloseSnackbar })
+        }
+        else
+            handleCloseSnackbar()
     }
 
     let content = <Card className={StyleClasses.AreYouSure} sx={{ backgroundColor: '#fddc6c' }}>
@@ -46,9 +50,9 @@ const AreYouSure = React.forwardRef(({ id, style, message, modalDisabled, onYesC
         <CardActions >
             <Button
                 label={localText['Yes']}
-                onClick={(event, { ...props }) => onYesClick(event, { ...props, handleCloseSnackbar: handleCloseSnackbar, reason: reasonValue })}
+                onClick={(event, props) => onYesClick(event, { ...props, handleCloseSnackbar: handleCloseSnackbar, reason: reasonValue })}
             />
-            <Button label={localText['No']} onClick={onNoClick} color={'secondary'} />
+            <Button label={localText['No']} onClick={onInternalNoClick} color={'secondary'} />
         </CardActions>
     </Card>
 

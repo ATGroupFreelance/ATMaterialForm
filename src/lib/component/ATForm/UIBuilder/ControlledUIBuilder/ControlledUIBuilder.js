@@ -24,6 +24,7 @@ const MultiSelectGrid = React.lazy(() => import('../../UI/MultiSelectGrid/MultiS
 const ImageSelect = React.lazy(() => import('../../UI/ImageSelect/ImageSelect'));
 const AdvanceStepper = React.lazy(() => import('../../UI/AdvanceStepper/AdvanceStepper'));
 const Form = React.lazy(() => import('../../UI/Form/Form'));
+const ColorTextBox = React.lazy(() => import('../../UI/ColorTextBox/ColorTextBox'));
 
 const getInitialValue = (typeInfo, defaultValue) => {
     const { initialValue, isNullValueValid } = typeInfo
@@ -129,6 +130,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         {type === 'ImageSelect' && <ImageSelect {...commonProps} />}
         {type === 'AdvanceStepper' && <AdvanceStepper {...commonProps} />}
         {type === 'Form' && <Form {...commonProps} />}
+        {type === 'ColorTextBox' && <ColorTextBox {...commonProps} />}
         {CustomComponent && <CustomComponent {...commonProps} />}
     </Suspense>
 }

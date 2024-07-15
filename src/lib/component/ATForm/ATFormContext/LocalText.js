@@ -26,6 +26,8 @@ const localText = {
     'View': 'View',
     'View Image': 'View Image',
     'File size exceeds the limit. Please select a smaller file': 'File size exceeds the limit. Please select a smaller file',
+    'Choose A Color': 'Choose A Color',
+    'Open Color Picker': 'Open Color Picker'
 }
 
 export default localText
