@@ -4,12 +4,14 @@ import Button from 'lib/component/ATForm/UI/Button/Button';
 import { useContext, useEffect, useState } from 'react';
 import ATFormContext from 'lib/component/ATForm/ATFormContext/ATFormContext';
 import { Box, Grid, Tooltip, Typography } from '@mui/material';
+import { useTheme } from '@emotion/react';
 
 function isImage(url) {
     return /\.(jpg|jpeg|png|webp)$/.test(url);
 }
 
 const File = ({ id, name, size, authToken, width, height }) => {
+    const theme = useTheme()
     const { getFile, localText } = useContext(ATFormContext)
     const [thumbnail, setThumbnail] = useState('')
 
@@ -70,8 +72,8 @@ const File = ({ id, name, size, authToken, width, height }) => {
                     </Tooltip>
                 }
             </Grid>
-            <Grid item xs={12} sx={{ height: '37px', marginTop: '5px' }} justifyContent="flex-end">
-                <Button onClick={onOpenClick} variant={'text'} sx={{ borderRadius: '15px' }}>
+            <Grid item xs={12} sx={{ height: '37px', marginTop: '5px', paddingTop: '3px' }} justifyContent="flex-end">
+                <Button onClick={onOpenClick} variant={'text'} sx={{ fontSize: '0.7rem', borderRadius: '0px', borderBottomRightRadius: '15px', borderBottomLeftRadius: '15px', ...(theme?.at_fileViewer?.file?.downloadButton || {}) }}>
                     {localText['Download']}
                     {`(${Math.ceil(size / 1024)} kB)`}
                 </Button>

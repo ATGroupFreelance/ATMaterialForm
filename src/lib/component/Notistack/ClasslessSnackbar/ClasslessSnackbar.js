@@ -7,17 +7,17 @@ export const SnackbarUtilsConfigurator = () => {
 };
 
 const handler = {
-    success(msg) {
-        this.toast(msg, { variant: 'success' });
+    success(msg, props) {
+        this.toast(msg, { variant: 'success', ...(props || {}) });
     },
-    warning(msg) {
-        this.toast(msg, { variant: 'warning' });
+    warning(msg, props) {
+        this.toast(msg, { variant: 'warning', ...(props || {}) });
     },
-    info(msg) {
-        this.toast(msg, { variant: 'info' });
+    info(msg, props) {
+        this.toast(msg, { variant: 'info', ...(props || {}) });
     },
-    error(msg) {
-        this.toast(msg, { variant: 'error' });
+    error(msg, props) {
+        this.toast(msg, { variant: 'error', ...(props || {}) });
     },
     toast(msg, { variant = 'default', ...restProps }) {
         useSnackbarRef.enqueueSnackbar(msg, { variant, autoHideDuration: 2000, ...restProps });

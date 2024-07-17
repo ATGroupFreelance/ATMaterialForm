@@ -102,7 +102,7 @@ const File = ({ id, name, size, onRemove, showRemoveIcon, authToken }) => {
         </Button>
         {showRemoveIcon &&
             <Tooltip title={localText['Delete']} onClick={() => onRemove(id)}  >
-                <IconButton sx={{ color: '#e91e63', display: 'inline-block' }}>
+                <IconButton color={'red'} sx={{ display: 'inline-block' }}>
                     <DeleteForeverTwoToneIcon />
                 </IconButton>
             </Tooltip>

@@ -1,6 +1,7 @@
 import { DeleteForeverOutlined, EditOutlined } from "@mui/icons-material"
 import Button from '../CellRenderers/Button/Button';
 import IconButton from '../CellRenderers/IconButton/IconButton';
+import { useTheme } from "@emotion/react";
 
 const createButton = ({ onClick, field, confirmationMessage, getCellRendererParams, color, variant, disabled, ...overWriteProps } = {}) => {
     return {
@@ -9,7 +10,7 @@ const createButton = ({ onClick, field, confirmationMessage, getCellRendererPara
             onClick,
             confirmationMessage,
             getCellRendererParams,
-            color, 
+            color,
             variant,
             disabled,
         },
@@ -19,11 +20,17 @@ const createButton = ({ onClick, field, confirmationMessage, getCellRendererPara
     }
 }
 
+const EditIcon = () => {
+    const theme = useTheme()
+
+    return <EditOutlined sx={theme?.at_columnDefTemplates?.editIcon || {}} />
+}
+
 const createEdit = ({ onClick, field = 'Edit', ...overWriteProps } = {}) => {
     return {
         cellRenderer: IconButton,
         cellRendererParams: {
-            icon: <EditOutlined />,
+            icon: <EditIcon />,
             onClick,
         },
         field,
@@ -32,11 +39,17 @@ const createEdit = ({ onClick, field = 'Edit', ...overWriteProps } = {}) => {
     }
 }
 
+const DeleteIcon = () => {
+    const theme = useTheme()
+
+    return <DeleteForeverOutlined color={'red'} sx={theme?.at_columnDefTemplates?.removeIcon || {}} />
+}
+
 const createRemove = ({ onClick, field = 'Remove', confirmationMessage, ...overWriteProps } = {}) => {
     return {
         cellRenderer: IconButton,
         cellRendererParams: {
-            icon: <DeleteForeverOutlined sx={{ color: '#B00020' }} />,
+            icon: <DeleteIcon />,
             onClick,
             confirmationMessage,
         },

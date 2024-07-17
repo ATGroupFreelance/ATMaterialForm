@@ -14,8 +14,10 @@ import ATFormContext from '../../ATFormContext/ATFormContext';
 //Dialog
 import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
 import { enqueueSnackbar } from 'notistack';
+import { useTheme } from '@emotion/react';
 
 const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, authToken, readOnly }) => {
+    const theme = useTheme()
     const { onLockdownChange } = _formProps_
     const { uploadFilesToServer, localText, maxUploadButtonFileSizeInBytes } = useContext(ATFormContext)
 
@@ -123,10 +125,10 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
                         </InputAdornment>,
                     endAdornment:
                         <InputAdornment position="end">
-                            <ShowFilesIconButton sx={{ width: '10%' }} files={value} onClick={onShowFilesClick} label={localText['Show Files']} />
-                            <Tooltip title={localText['Delete All']} sx={{ width: '10%' }}  >
+                            <ShowFilesIconButton sx={theme?.at_uploadButton?.showFilesIcon} files={value} onClick={onShowFilesClick} label={localText['Show Files']} />
+                            <Tooltip title={localText['Delete All']}   >
                                 <span>
-                                    <IconButton disabled={value.length === 0 || disabled || readOnly} sx={{ color: '#e91e63' }} onClick={onRemoveFilesClick}>
+                                    <IconButton disabled={value.length === 0 || disabled || readOnly} color={'red'} sx={theme?.at_uploadButton?.removeIcon} onClick={onRemoveFilesClick}>
                                         <DeleteForeverTwoToneIcon />
                                     </IconButton>
                                 </span>

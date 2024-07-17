@@ -4,8 +4,10 @@ import { Badge, Box, Grid, Typography } from "@mui/material";
 import File from "./File/File";
 import ATFormContext from 'lib/component/ATForm/ATFormContext/ATFormContext';
 import { DescriptionOutlined } from "@mui/icons-material";
+import { useTheme } from "@emotion/react";
 
 const FileViewer = ({ value, label, fileWidth = 150, fileHeight = 128, getSortedFiles }) => {
+    const theme = useTheme()
     const { localText } = useContext(ATFormContext)
 
     const sortedValue = getSortedFiles ? getSortedFiles(value) : value
@@ -14,10 +16,10 @@ const FileViewer = ({ value, label, fileWidth = 150, fileHeight = 128, getSorted
         <Grid container spacing={2}>
             <Grid item xs={12} justifyContent={'start'} justifySelf={'start'} sx={{ textAlign: 'left' }}>
                 <Badge badgeContent={sortedValue.length} color="primary">
-                    <DescriptionOutlined />
+                    <DescriptionOutlined sx={theme?.at_fileViewer?.labelIcon} />
                 </Badge>
                 <Typography sx={{ display: 'inline-block', marginLeft: '12px' }}>
-                    {label}
+                    {label?.toUpperCase()}
                 </Typography>
             </Grid>
             {
