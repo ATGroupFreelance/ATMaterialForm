@@ -132,7 +132,7 @@ const getParentNode = (tree, node) => {
     return result
 }
 
-const types = [
+export const types = [
     createType({
         type: 'Button',
     }),

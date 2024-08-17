@@ -14,7 +14,7 @@ import { isFunction } from '../../FormUtils/FormUtils';
 //[{label: 'uk'}, {label: 'us'}]
 
 
-const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'off', error, helperText, value, ...restProps }) => {
+const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'off', error, helperText, value, getInputProps, ...restProps }) => {
     const [data, setData] = useState([])
 
     useEffect(() => {
@@ -31,15 +31,32 @@ const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'off',
     const onInternalChange = (event, newValue) => {
         if (onChange)
             onChange({ target: { value: newValue } })
-    }    
+    }
 
-    return <Autocomplete        
+    return <Autocomplete
         fullWidth={true}
         options={data || []}
         onChange={onInternalChange}
         getOptionLabel={(option) => option.Title}
         isOptionEqualToValue={(option, value) => String(option.ID) === String(value.ID)}
-        renderInput={(params) => <TextField {...params} error={error} helperText={helperText} label={label} inputProps={{ ...params.inputProps, autoComplete: autoComplete }} />}
+        renderInput={(params) => {
+            let newInputProps = null
+
+            if (getInputProps)
+                newInputProps = getInputProps({ params, value })            
+
+            const { InputProps, ...restParams } = params            
+
+            return <TextField
+                error={error}
+                helperText={helperText}
+                label={label}
+                inputProps={{ ...params.inputProps, autoComplete: autoComplete }}
+                InputProps={{...InputProps, ...(newInputProps || {})}}
+                {...restParams}                
+            />
+        }
+        }
         value={value}
         {...restProps}
     />

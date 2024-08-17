@@ -11,7 +11,7 @@ import { CircularProgress, Grid } from '@mui/material';
 //Context
 import ATFormContext from './ATFormContext/ATFormContext';
 
-const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelClick, cancelButtonEnabled = true, onSubmitClick, onChange, children, submitLoading, cancelLoading, getActions, loading, submitButtonProps, cancelButtonProps, fullWidth, maxWidth,...restProps }, forwardedRef) => {
+const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelClick, cancelButtonEnabled = true, onSubmitClick, onChange, children, submitLoading, cancelLoading, getActions, loading, submitButtonProps, cancelButtonProps, fullWidth, maxWidth, PaperProps, ...restProps }, forwardedRef) => {
     const { localText } = useContext(ATFormContext)
 
     const mFormData = useRef({ formData: null, formDataKeyValue: null, formDataSemiKeyValue: null })
@@ -62,7 +62,7 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
             {
                 id: 'Submit',
                 label: localText['Submit'],
-                onClick: onInternalSubmitClick, 
+                onClick: onInternalSubmitClick,
                 disabled: loading || submitLoading,
                 grid: {
                     md: 2
@@ -74,7 +74,7 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
 
     const newActions = getActions ? getActions(actions) : actions
 
-    return <Dialog open={true} onClose={onClose} fullWidth={fullWidth === undefined ? true : fullWidth} maxWidth={maxWidth === undefined ? '800' : maxWidth}>
+    return <Dialog open={true} onClose={onClose} fullWidth={fullWidth === undefined ? true : fullWidth} maxWidth={maxWidth === undefined ? '800' : maxWidth} PaperProps={PaperProps} >
         <DialogTitle sx={{ ...(titleStyle || {}) }}>{title}</DialogTitle>
         <DialogContent>
             <Grid container spacing={2} sx={{ marginTop: '5px', marginBottom: '5px' }}>
