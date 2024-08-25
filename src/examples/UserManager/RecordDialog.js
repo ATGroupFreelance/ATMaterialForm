@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Columns } from "./Columns";
 
-const { ATFormDialog, formBuilder } = require("lib")
+import { ATFormDialog, formBuilder } from 'lib';
 
 const RecordDialog = ({ defaultValue, onSubmitClick, onClose }) => {
     const [a, setA] = useState('')

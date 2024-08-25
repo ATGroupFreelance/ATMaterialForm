@@ -631,3 +631,17 @@ export const types = [
         validation: createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
     }),
 ]
+
+export const createCustomComponent = ({ component, type, initialValue, isControlledUI = true }) => {
+    const typeInfo = {
+        type
+    }
+
+    if (isControlledUI === true)
+        typeInfo['initialValue'] = initialValue
+
+    return {
+        component,
+        typeInfo
+    }
+}

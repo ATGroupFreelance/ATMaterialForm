@@ -1,4 +1,4 @@
-const { useCallback, useRef, useState } = require("react")
+import { useCallback, useRef, useState } from 'react';
 
 const callAPI = (seed) => {
     console.log('#PLAYGROUND callAPI', seed)
