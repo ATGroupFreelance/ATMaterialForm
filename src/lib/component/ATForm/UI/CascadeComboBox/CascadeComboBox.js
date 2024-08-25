@@ -11,7 +11,7 @@ const CascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComp
 
         const resetChildrenValue = (childList) => {
             for (let i = 0; i < childList.length; i++) {
-                if (newValue.hasOwnProperty(childList[i].id)) {
+                if (Object.prototype.hasOwnProperty.call(newValue, childList[i].id)) {
                     newValue[childList[i].id] = null
 
                     if (childList[i].children) {

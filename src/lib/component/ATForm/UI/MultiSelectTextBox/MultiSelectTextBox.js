@@ -65,6 +65,7 @@ const MultiSelectTextBox = ({ _formProps_, label, onChange, autoComplete = 'disa
         renderTags={(value, getTagProps) =>
             value.map((option, index) => (
                 <Chip
+                    key={option}
                     variant="outlined"
                     label={option}
                     color={'secondary'}
