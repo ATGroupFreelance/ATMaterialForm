@@ -16,12 +16,12 @@ const ATAgGrid = React.forwardRef(({ rowData, columnDefs, height, domLayout,...r
 
     if (columnDefs) {
         for (let i = 0; i < columnDefs.length; i++) {
-            const { enumID, headerName, ...restColumnDefs } = columnDefs[i]
+            const { enumID, enumOptions, headerName, ...restColumnDefs } = columnDefs[i]
 
             newColumnDefs.push({
                 headerName: ((headerName === undefined) || (headerName === null)) ? getLocalText(columnDefs[i].field) : headerName,
                 valueFormatter: (params) => {
-                    return getTitleByEnums({ id: enumID || params.colDef.field, enums, value: params.value })
+                    return getTitleByEnums({ id: enumID || params.colDef.field, enums, value: params.value, options: enumOptions })
                 },
                 ...restColumnDefs
             })

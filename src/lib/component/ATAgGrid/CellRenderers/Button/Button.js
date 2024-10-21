@@ -7,6 +7,7 @@ const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, varian
         props = getCellRendererParams(data)
     }
     
+    // eslint-disable-next-line
     const { headerName, ["onClick"]: getCellRendererParamsOnClick, ...restProps } = props
 
     return <ATButton

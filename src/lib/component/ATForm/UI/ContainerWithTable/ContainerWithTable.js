@@ -21,7 +21,7 @@ const INTERFACE_TYPES = {
     form: 'form',
 }
 
-const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false }) => {
+const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }) => {
     const { enums, rtl, localText } = useContext(ATFormContext)
 
     const [currentGridRef, setCurrentGridRef] = useState(null)
@@ -239,7 +239,7 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
                     </>
                 }
                 <Grid item md={2}>
-                    <Button label={localText['Add']} onClick={onAddClick} {...addButtonProps || {}} />
+                    <Button label={localText['Add']} onClick={onAddClick} disabled={disabled} {...addButtonProps || {}} />
                 </Grid>
             </Grid>
             <ATAgGrid
