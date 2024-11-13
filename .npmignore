@@ -1,0 +1,15 @@
+# Exclude development directories
+src/
+public/
+node_modules/
+
+# Exclude config files
+*.config.js
+*.config.ts
+*.html
+tsconfig*.json
+vite.config.ts
+
+# Exclude misc
+.git
+.vscode
