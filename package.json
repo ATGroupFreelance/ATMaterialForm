@@ -11,7 +11,7 @@
     "name": "ATGroupFreelance"
   },
   "main": "dist/index.cjs",
-  "module": "dist/index.js",  
+  "module": "dist/index.js",
   "license": "ISC",
   "keywords": [
     "react",

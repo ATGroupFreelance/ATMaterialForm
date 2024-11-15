@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import './App.css';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Grid2, Tab, Tabs } from '@mui/material';
 //UI Utils
 import * as UITypeUtils from '@/lib/component/ATForm/UITypeUtils/UITypeUtils';
 //Context
@@ -50,12 +50,15 @@ const theme = createTheme({
   }
 });
 
+const ACTIVE_EXAMPLE = 'BasicForm'
+
 function App() {
   const formRef = useRef(null)
   const mFormData = useRef(null)
   const [savedFormData, setSavedFormData] = useState(null)
   const [realTimeFormData, setRealtimeFormData] = useState(null)
   const [enums, setEnums] = useState(null)
+  const [selectedTab, setSelectedTab] = useState(ACTIVE_EXAMPLE)
 
   useEffect(() => {
     ServiceManager.getEnums()
@@ -96,7 +99,9 @@ function App() {
     })
   }
 
-  const activeExample = 'BasicForm'
+  const onTabChange = (event, newTab) => {
+    setSelectedTab(newTab)
+  }
 
   const atFormLocalText = {
     'Add': 'Local text Add',
@@ -106,6 +111,77 @@ function App() {
   const agGridLocalText = {
     'filter': 'Local text Filter'
   }
+
+  const exampleList = [
+    {
+      id: 'BasicForm',
+      component: BasicForm,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'ExternalComponentIntegration',
+      component: ExternalComponentIntegration,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'FormDialog',
+      component: FormDialog,
+    },
+    {
+      id: 'HowToUseContainerWithTable',
+      component: HowToUseContainerWithTable,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'ContainerWithTablePlayground',
+      component: ContainerWithTablePlayground,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'UserManager',
+      component: UserManager,
+    },
+    {
+      id: 'BasicValidation',
+      component: BasicValidation,
+    },
+    {
+      id: 'Table',
+      component: Table,
+    },
+    {
+      id: 'TabsInForm',
+      component: TabsInForm,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'FormInForm',
+      component: FormInForm,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'TabInTab',
+      component: TabInTab,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'ComponentPlayground',
+      component: ComponentPlayground,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'Playground',
+      component: Playground,
+    },
+  ]
 
   return (
     <div className='App'>
@@ -136,31 +212,37 @@ function App() {
           >
             <LocalizationProvider dateAdapter={RTL ? AdapterDateFnsJalali : AdapterMoment} >
               <SnackbarUtilsConfigurator />
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
+              <Tabs value={selectedTab} onChange={onTabChange}>
+                {
+                  exampleList.map(item => {
+                    return <Tab key={item.id} label={item.id} value={item.id} />
+                  })
+                }
+              </Tabs>
+              <Grid2 container spacing={3}>
+                <Grid2 xs={12}>
                   <div>
                     Form data key value :
                   </div>
                   {JSON.stringify(realTimeFormData || {})}
-                </Grid>
-                {activeExample === 'BasicForm' && <BasicForm ref={formRef} onChange={onFormChange} />}
-                {activeExample === 'ExternalComponentIntegration' && <ExternalComponentIntegration ref={formRef} onChange={onFormChange} />}
-                {activeExample === 'FormDialog' && <FormDialog />}
-                {activeExample === 'HowToUseContainerWithTable' && <HowToUseContainerWithTable ref={formRef} onChange={onFormChange} />}
-                {activeExample === 'ContainerWithTablePlayground' && <ContainerWithTablePlayground onChange={onFormChange} />}
-                {activeExample === 'UserManager' && <UserManager />}
-                {activeExample === 'BasicValidation' && <BasicValidation />}
-                {activeExample === 'Table' && <Table />}
-                {activeExample === 'TabsInForm' && <TabsInForm ref={formRef} onChange={onFormChange} />}
-                {activeExample === 'FormInForm' && <FormInForm ref={formRef} onChange={onFormChange} />}
-                {activeExample === 'TabInTab' && <TabInTab ref={formRef} onChange={onFormChange} />}
-                {activeExample === 'ComponentPlayground' && <ComponentPlayground ref={formRef} onChange={onFormChange} />}
-                {activeExample === 'Playground' && <Playground />}
-                <Grid item xs={12}>
+                </Grid2>
+                <Grid2 size={4}>
                   <Button onClick={onLoadLastSubmitClick}>load last submit</Button>
+                </Grid2>
+                <Grid2 size={4}>
                   <Button onClick={onSetDefaultValueClick}>set default value </Button>
+                </Grid2>
+                <Grid2 size={4}>
                   <Button onClick={onSubmitClick}>Submit from outside the form</  Button>
-                </Grid>
+                </Grid2>
+              </Grid2>
+              <Grid container spacing={2}>
+                {
+                  exampleList.filter(item => item.id === selectedTab).map(item => {
+                    const Component = item.component
+                    return <item.component key={item.id} ref={item.refEnabled ? formRef : null} onChange={item.onChangeEnabled ? onFormChange : null} />
+                  })
+                }
               </Grid>
             </LocalizationProvider>
           </SnackbarProvider>
