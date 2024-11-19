@@ -270,7 +270,7 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
                     ColumnDefTemplates.createRemove({ onClick: onRemoveClick, pinned: 'left' })
                 ]}
                 //@ts-ignore
-                getRowId={getRowId ? getRowId() : (params) => params.data[DEFAULT_ROW_ID_KEY]}
+                getRowId={getRowId ? getRowId() : (params) => String(params.data[DEFAULT_ROW_ID_KEY])}
             />
         </div>
     </div >
