@@ -11,6 +11,7 @@ import eslint from 'vite-plugin-eslint';
 // https://vitejs.dev/config/
 export default defineConfig(() => {
   return {
+    clearScreen: true,
     plugins: [
       react(),
       // tsconfigPaths(),
@@ -21,7 +22,7 @@ export default defineConfig(() => {
       // }),
       eslint(
         {
-          include: ['src/**/*.ts', 'src/**/*.tsx'],
+          include: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.jsx'],
           emitWarning: true,  // Show lint issues as warnings instead of errors
           emitError: true,    // Emit errors
           failOnError: false, // Don't fail the build if there are lint errors
@@ -38,22 +39,22 @@ export default defineConfig(() => {
         '@': path.resolve(__dirname, 'src'), // Configure @ to map to the src directory
       },
     },
-    build: {
-      lib: {
-        entry: path.resolve(__dirname, 'src/lib/index.jsx'),  // Entry file of your library
-        name: 'ATMaterialForm',
-        fileName: 'index',
-        formats: ['es', 'cjs'],  // Both ES module and CommonJS
-      },
-      rollupOptions: {
-        external: ['react', 'react-dom'],  // Externalize React and ReactDOM
-        output: {
-          globals: {
-            react: 'React',
-            'react-dom': 'ReactDOM',
-          },
-        },
-      },
-    },
+    // build: {
+    //   lib: {
+    //     entry: path.resolve(__dirname, 'src/lib/index.jsx'),  // Entry file of your library
+    //     name: 'ATMaterialForm',
+    //     fileName: 'index',
+    //     formats: ['es', 'cjs'],  // Both ES module and CommonJS
+    //   },
+    //   rollupOptions: {
+    //     external: ['react', 'react-dom'],  // Externalize React and ReactDOM
+    //     output: {
+    //       globals: {
+    //         react: 'React',
+    //         'react-dom': 'ReactDOM',
+    //       },
+    //     },
+    //   },
+    // },
   }
 })

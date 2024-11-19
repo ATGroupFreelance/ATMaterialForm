@@ -118,7 +118,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createFloatTextBox({ id: 'Textbox_Float', md: 4 }),                        
                     ]
                 )
-                    // .filter(item => ['UploadButtonType1', 'UploadButtonType2'].includes(item.id))
+                    // .filter(item => ['cascadeComboBox'].includes(item.id))
                     // .required(['Textbox_Text', 'Textbox_Integer', 'Textbox_Float'])
                     .map(item => {
                         return {

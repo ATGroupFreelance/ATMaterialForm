@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import './App.css';
-import { Button, Grid, Grid2, Tab, Tabs } from '@mui/material';
+import { Button, Grid2, Tab, Tabs } from '@mui/material';
 //UI Utils
 import * as UITypeUtils from '@/lib/component/ATForm/UITypeUtils/UITypeUtils';
 //Context
@@ -138,7 +138,7 @@ function App() {
     {
       id: 'ContainerWithTablePlayground',
       component: ContainerWithTablePlayground,
-      refEnabled: true,
+      refEnabled: false,
       onChangeEnabled: true,
     },
     {
@@ -220,7 +220,7 @@ function App() {
                 }
               </Tabs>
               <Grid2 container spacing={3}>
-                <Grid2 xs={12}>
+                <Grid2 size={12}>
                   <div>
                     Form data key value :
                   </div>
@@ -235,15 +235,15 @@ function App() {
                 <Grid2 size={4}>
                   <Button onClick={onSubmitClick}>Submit from outside the form</  Button>
                 </Grid2>
+                <Grid2 container size={12} spacing={2}>
+                  {
+                    exampleList.filter(item => item.id === selectedTab).map(item => {
+                      return <item.component key={item.id} ref={item.refEnabled ? formRef : null} onChange={item.onChangeEnabled ? onFormChange : null} />
+                    })
+                  }
+                </Grid2>
               </Grid2>
-              <Grid container spacing={2}>
-                {
-                  exampleList.filter(item => item.id === selectedTab).map(item => {
-                    const Component = item.component
-                    return <item.component key={item.id} ref={item.refEnabled ? formRef : null} onChange={item.onChangeEnabled ? onFormChange : null} />
-                  })
-                }
-              </Grid>
+
             </LocalizationProvider>
           </SnackbarProvider>
         </ATFormContextProvider>

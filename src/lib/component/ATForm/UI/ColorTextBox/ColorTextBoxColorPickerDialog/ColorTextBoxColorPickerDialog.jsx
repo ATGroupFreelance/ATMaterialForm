@@ -1,7 +1,7 @@
 //React
 import React, { useState, useContext } from 'react';
 //MUI
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid2 } from '@mui/material';
 //ATForm
 import ATFormContext from '../../../ATFormContext/ATFormContext';
 //Others
@@ -24,28 +24,28 @@ function ColorTextBoxColorPickerDialog({ defaultValue, onClose, onSubmitClick, .
         <Dialog open={true} onClose={onClose} maxWidth={false} {...restProps} >
             <DialogTitle >{localText['Choose A Color']}</DialogTitle>
             <DialogContent>
-                <Grid container spacing={2} sx={{ marginTop: '5px', marginBottom: '5px' }}>
-                    <Grid item xs={12}>
+                <Grid2 container spacing={2} sx={{ marginTop: '5px', marginBottom: '5px' }}>
+                    <Grid2 size={12}>
                         <Sketch
                             color={hex}
                             onChange={onChange}
                         />
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
             </DialogContent>
             <DialogActions>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                <Grid2 container spacing={2}>
+                    <Grid2 size={12}>
                         <Button fullWidth={true} onClick={onInternalSubmitClick} color={'success'} >
                             {localText['Submit']}
                         </Button>
-                    </Grid>
-                    <Grid item xs={12}>
+                    </Grid2>
+                    <Grid2 size={12}>
                         <Button fullWidth={true} onClick={onClose} color={'red'}>
                             {localText['Cancel']}
                         </Button>
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
             </DialogActions>
         </Dialog>
     );

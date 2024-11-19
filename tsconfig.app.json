@@ -19,7 +19,7 @@
     "jsx": "react-jsx",
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": true,  
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
@@ -34,6 +34,7 @@
         "*"
       ] // This tells TypeScript that @/ maps to src/
     },
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
   "include": [
     "src"

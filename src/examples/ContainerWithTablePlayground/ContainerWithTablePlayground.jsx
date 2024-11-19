@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
 import ComboBox from '@/lib/component/ATForm/UI/ComboBox/ComboBox';
-import { Grid } from '@mui/material'
+import { Grid2 } from '@mui/material'
 
 const ContainerWithTablePlayground = ({ onChange }) => {
     const formRef = useRef(null)
@@ -29,10 +29,10 @@ const ContainerWithTablePlayground = ({ onChange }) => {
 
     return (
         <>
-            <Grid container item>
+            <Grid2 container>
                 <ComboBox options={[{ Title: '1', ID: 1 }, { Title: '2', ID: 2 }]} onChange={(event) => setRound(event.target.value)} />
-            </Grid>
-            <Grid container item >
+            </Grid2>
+            <Grid2 container>
                 {
                     round
                     &&
@@ -48,7 +48,7 @@ const ContainerWithTablePlayground = ({ onChange }) => {
                         ]}
                     </ATForm>
                 }
-            </Grid>
+            </Grid2>
         </>
     )
 }

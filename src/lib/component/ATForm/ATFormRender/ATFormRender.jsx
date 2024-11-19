@@ -1,6 +1,6 @@
 import React from "react"
 import UIBuilder from "../UIBuilder/UIBuilder"
-import { Grid } from "@mui/material"
+import { Grid2 } from "@mui/material"
 
 const ATFormRender = ({ children, formChildrenProps }) => {
     console.log('formChildrenProps', {
@@ -11,9 +11,10 @@ const ATFormRender = ({ children, formChildrenProps }) => {
     return children.map((item, index) => {
         const { formskip, skipRender, flexGridProps, tabIndex, ...itemProps } = formChildrenProps[index]
 
-        return <Grid
+        console.log('flexGridProps', flexGridProps)
+
+        return <Grid2
             key={itemProps.id}
-            item
             {...flexGridProps}
         >
             {
@@ -34,7 +35,7 @@ const ATFormRender = ({ children, formChildrenProps }) => {
                         <UIBuilder key={itemProps.id} {...itemProps} />
                 )
             }
-        </Grid>
+        </Grid2>
     })
 }
 

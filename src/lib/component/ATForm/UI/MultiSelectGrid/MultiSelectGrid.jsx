@@ -5,7 +5,7 @@ import ATFormContext from '../../ATFormContext/ATFormContext';
 //Components
 import ATAgGrid from '@/lib/component/ATAgGrid/ATAgGrid';
 import Button from '../Button/Button';
-import { Grid, Typography } from '@mui/material';
+import { Grid2, Typography } from '@mui/material';
 
 const DEFAULT_UNIQUE_KEY = 'AT_GRID_INDEX'
 
@@ -63,13 +63,13 @@ const MultiSelectGrid = ({ _formProps_, id, value, label, onChange, columnDefs, 
         onChange({ target: { value: newValue } })
 
         onConfirmButtonClick(event, { ...props, value: [...newValue] })
-    }    
+    }
 
     return <div style={{ width: '100%' }}>
         {label && label !== '' &&
-            <Grid container justifyContent={'center'} sx={{}}>
+            <Grid2 container justifyContent={'center'} >
                 <Typography variant='h6'>{label}</Typography>
-            </Grid>
+            </Grid2>
         }
         <ATAgGrid
             rowSelection={rowSelection}
@@ -92,11 +92,11 @@ const MultiSelectGrid = ({ _formProps_, id, value, label, onChange, columnDefs, 
         />
 
         {onConfirmButtonClick &&
-            <Grid container justifyContent={'center'} sx={{ marginTop: '7px' }}>
-                <Grid item md={6} {...(confirmButtonProps.flexGridProps || {})}>
+            <Grid2 container justifyContent={'center'} sx={{ marginTop: '7px' }}>
+                <Grid2 size={6} {...(confirmButtonProps.flexGridProps || {})}>
                     <Button onClick={onInternalConfirmButtonClick} {...confirmButtonProps} label={confirmButtonProps.label ? confirmButtonProps.label : localText['Apply Changes']} color={'secondary'} />
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
         }
     </div>
 }

@@ -34,11 +34,15 @@ export default [
         "warn", // Change "warn" to "error" if you want it to be an error
         {
           "vars": "all",
-          "args": "none" // This will ignore unused function arguments
+          "args": "none", // This will ignore unused function arguments,
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^React$',
+          ignoreRestSiblings: true,
         }
       ],
       'react/prop-types': 'off',
-      'react/display-name': 'off',     
+      'react/display-name': 'off',
+      'react/jsx-no-undef': 'error'
     }
   },
   {

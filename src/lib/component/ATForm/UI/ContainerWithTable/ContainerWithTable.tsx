@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useContext, useEffect, useState } from 'react';
 
 //MUI
-import { Grid, Typography } from '@mui/material';
+import { Grid2, Typography } from '@mui/material';
 //ATForm
 import ATForm from '../../ATForm';
 import ATFormDialog from '../../ATFormDialog';
@@ -14,6 +14,11 @@ import ATFormContext from '../../ATFormContext/ATFormContext';
 import Button from '../Button/Button';
 //Styles
 import StyleClasses from './ContainerWithTable.module.css';
+//AgGrid
+import { AgGridReact } from 'ag-grid-react';
+import { GridApi } from "ag-grid-community";
+import { ATContainerWithTableProps } from '@/lib/types/ContainerWithTable';
+import { ATFormOnChangeInterface } from '@/lib/types/Common';
 
 const DEFAULT_ROW_ID_KEY = 'JSONID'
 const INTERFACE_TYPES = {
@@ -21,24 +26,34 @@ const INTERFACE_TYPES = {
     form: 'form',
 }
 
-const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }) => {
+type ATAgGridRef = AgGridReact<GridApi> | null
+type ATFormRef = ATForm | null
+const initializeOnChangeInterface = () => {
+    return {
+        formData: {},
+        formDataKeyValue: {},
+        formDataSemiKeyValue: {},
+    }
+}
+
+const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATContainerWithTableProps) => {
     const { enums, rtl, localText } = useContext(ATFormContext)
 
-    const [currentGridRef, setCurrentGridRef] = useState(null)
-    const formRef = useRef(null)
-    const formDataRef = useRef(null)
-    const formDialogDataRef = useRef(null)
+    const [currentGridRef, setCurrentGridRef] = useState<ATAgGridRef>(null)
+    const formRef = useRef<ATFormRef>(null)
+    const formDataRef = useRef<ATFormOnChangeInterface>(initializeOnChangeInterface())
+    const formDialogDataRef = useRef<ATFormOnChangeInterface>(initializeOnChangeInterface())
     const rowIDCounter = useRef(0)
     const [recordDialog, setRecordDialog] = useState({ show: false, editMode: false, defaultValue: null })
 
-    const gridRefCallback = useCallback((ref) => {
+    const gridRefCallback = useCallback((ref: ATAgGridRef) => {
         if (ref) {
             setCurrentGridRef(ref)
             ref.api.showNoRowsOverlay()
         }
     }, [])
 
-    const formRefCallback = useCallback((ref) => {
+    const formRefCallback = useCallback((ref: ATFormRef) => {
         if (ref) {
             formRef.current = ref
         }
@@ -58,14 +73,15 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
                 })
             }
 
-            currentGridRef.api.setRowData(newValue)
+            currentGridRef.api.updateGridOptions({ rowData: newValue })
         }
     }, [value, currentGridRef])
 
     const onInternalChange = () => {
         if (onChange && currentGridRef) {
-            const gridData = []
+            const gridData: Array<any> = []
             currentGridRef.api.forEachNode((node) => {
+                //@ts-ignore
                 const { [DEFAULT_ROW_ID_KEY]: id, ...restData } = node.data
                 gridData.push({ ...restData })
             })
@@ -74,15 +90,13 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
         }
     }
 
-    const onFormChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }) => {
-        formDataRef.current = {
-            formData,
-            formDataKeyValue,
-            formDataSemiKeyValue
-        }
+    const onFormChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }: ATFormOnChangeInterface) => {
+        formDataRef.current.formData = formData;
+        formDataRef.current.formDataKeyValue = formDataKeyValue;
+        formDataRef.current.formDataSemiKeyValue = formDataSemiKeyValue
     }
 
-    const onFormDialogChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }) => {
+    const onFormDialogChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }: ATFormOnChangeInterface) => {
         formDialogDataRef.current = {
             formData,
             formDataKeyValue,
@@ -95,19 +109,20 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
         return rowIDCounter.current
     }
 
-    const addRow = ({ formDataKeyValue }) => {
+    const addRow = ({ formDataKeyValue }: Partial<ATFormOnChangeInterface>) => {
         if (currentGridRef) {
+            //@ts-ignore
             currentGridRef.api.applyTransaction({ add: [{ [DEFAULT_ROW_ID_KEY]: getNewRowID(), ...formDataKeyValue }] });
 
             if (resetFormAfterAdd && formRef) {
-                formRef.current.reset()
+                formRef.current?.reset()
             }
 
             onInternalChange()
         }
     }
 
-    const editRow = ({ data, formDataKeyValue }) => {
+    const editRow = ({ data, formDataKeyValue }: any) => {
         if (currentGridRef) {
             currentGridRef.api.applyTransaction({ update: [{ ...data, ...formDataKeyValue }] });
 
@@ -115,7 +130,7 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
         }
     }
 
-    const onAddClick = (event, { startLoading, stopLoading }) => {
+    const onAddClick = () => {
         if (addInterface === INTERFACE_TYPES.formDialog) {
             setRecordDialog({
                 show: true,
@@ -130,7 +145,7 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
             console.error('Invalid interface type inside containerWithTable component, possible values: ', INTERFACE_TYPES)
     }
 
-    const onEditClick = (event, { data, startLoading, stopLoading }) => {
+    const onEditClick = (_event: any, { data }: ATButtonOnClickInterface) => {
         setRecordDialog({
             show: true,
             editMode: true,
@@ -138,7 +153,7 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
         })
     }
 
-    const onRemoveClick = (event, { data, startLoading, stopLoading }) => {
+    const onRemoveClick = (_event: any, { data }: ATButtonOnClickInterface) => {
         if (currentGridRef) {
             currentGridRef.api.applyTransaction({ remove: [data] });
 
@@ -148,17 +163,17 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
 
     const baseGridColumnDefs = getGridColumnDefs ? getGridColumnDefs(getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: _formProps_.getTypeInfo })) : getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: _formProps_.getTypeInfo })
 
-    const gridColumnDefs = baseGridColumnDefs?.map(item => {
+    const gridColumnDefs = baseGridColumnDefs?.map((item: any) => {
         if (item.cellRenderer) {
             const cellRendererParams = {
                 commonEventProps: { tableAPI: { onInternalChange } }
             }
-            
+
             return {
                 ...item,
                 cellRendererParams: {
                     ...cellRendererParams,
-                    ...(item.cellRendererParams || {}),                    
+                    ...(item.cellRendererParams || {}),
                 }
             }
         }
@@ -183,9 +198,10 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
             </div>
         }
         <div className={classesArray.join(' ')} style={{ width: !rtl && showHeader ? '98%' : '100%' }}>
-            <Grid container spacing={2} sx={{ marginBottom: '5px' }}>
+            <Grid2 container spacing={2} sx={{ marginBottom: '5px' }}>
                 {
                     recordDialog.show &&
+                    //@ts-ignore
                     <ATFormDialog
                         ref={formRefCallback}
                         onChange={onFormDialogChange}
@@ -195,9 +211,9 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
                             else
                                 addRow({ formDataKeyValue: formDialogDataRef.current.formDataKeyValue })
 
-                            setRecordDialog({ show: false })
+                            setRecordDialog((prevState) => ({ ...prevState, show: false }))
                         }}
-                        onClose={() => setRecordDialog({ show: false })}
+                        onClose={() => setRecordDialog((prevState) => ({ ...prevState, show: false }))}
                         defaultValue={recordDialog.defaultValue}
                     >
                         {
@@ -222,34 +238,38 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
                     </ATForm>
                 }
 
-            </Grid>
-            <Grid container sx={{ marginBottom: '4px', justifyContent: addButtonOrigin === 'right' ? 'end' : 'start', ...(actionPanelStyle || {}) }}>
+            </Grid2>
+            <Grid2 container sx={{ marginBottom: '4px', justifyContent: addButtonOrigin === 'right' ? 'end' : 'start', ...(actionPanelStyle || {}) }}>
                 {
                     showHeaderlessTitle
                     &&
                     <>
-                        <Grid item md={2}>
+                        <Grid2 size={2}>
                             <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
                                 {label}
                             </Typography>
-                        </Grid>
-                        <Grid item md={8}>
+                        </Grid2>
+                        <Grid2 size={8}>
 
-                        </Grid>
+                        </Grid2>
                     </>
                 }
-                <Grid item md={2}>
+                <Grid2 size={2}>
                     <Button label={localText['Add']} onClick={onAddClick} disabled={disabled} {...addButtonProps || {}} />
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
             <ATAgGrid
+                //@ts-ignore
                 onGridReady={gridRefCallback}
                 height={height}
                 columnDefs={[
                     ...(gridColumnDefs || []),
+                    //@ts-ignore
                     ColumnDefTemplates.createEdit({ onClick: onEditClick, pinned: 'left' }),
+                    //@ts-ignore
                     ColumnDefTemplates.createRemove({ onClick: onRemoveClick, pinned: 'left' })
                 ]}
+                //@ts-ignore
                 getRowId={getRowId ? getRowId() : (params) => params.data[DEFAULT_ROW_ID_KEY]}
             />
         </div>

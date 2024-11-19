@@ -20,10 +20,12 @@ export const getFlexGrid = (props) => {
     const newXL = xl
 
     const result = {
-        xs: newXS,
-        md: newMD,
-        lg: newLG,
-        xl: newXL,
+        size: {
+            xs: newXS,
+            md: newMD,
+            lg: newLG,
+            xl: newXL
+        },
         ...(flexGridProps || {}),
     }
 

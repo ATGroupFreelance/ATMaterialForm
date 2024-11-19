@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import ATFormContext from '../../ATFormContext/ATFormContext';
 //UI
 import Button from '@mui/material/Button';
-import { Grid, Typography, Box } from '@mui/material';
+import { Grid2, Typography, Box } from '@mui/material';
 
 // const Image = ({ id, name, src, onClick, imageWidth, imageHeight, selected }) => {
 //     console.log('isSelected', selected)
@@ -111,13 +111,13 @@ const ImageSelect = ({ _formProps_, id, authToken, label, imageWidth = 128, imag
         <Typography variant={'h5'} sx={{ fontWeight: 'bold' }} >
             {label}
         </Typography>
-        <Grid container spacing={2} justifyContent={'center'} sx={{ textAlign: 'center', marginTop: '3px' }} >
+        <Grid2 container spacing={2} justifyContent={'center'} sx={{ textAlign: 'center', marginTop: '3px' }} >
             {
                 data.map(item => {
-                    return <Grid key={item.id} item md={3} {...(imageGrid || {})}><Image {...item} imageWidth={imageWidth} imageHeight={imageHeight} onClick={() => onImageClick(item)} /></Grid>
+                    return <Grid2 key={item.id} size={3} {...(imageGrid || {})}><Image {...item} imageWidth={imageWidth} imageHeight={imageHeight} onClick={() => onImageClick(item)} /></Grid2>
                 })
             }
-        </Grid>
+        </Grid2>
     </Box>
 }
 

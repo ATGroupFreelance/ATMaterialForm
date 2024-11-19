@@ -4,7 +4,7 @@ import { useSnackbar, SnackbarContent } from "notistack";
 //MUI
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
-import { CardContent, Typography, Grid, Modal, TextField } from "@mui/material";
+import { CardContent, Typography, Grid2, Modal, TextField } from "@mui/material";
 //Components
 import Button from '../../../ATForm/UI/Button/Button';
 //Styles
@@ -34,17 +34,17 @@ const AreYouSure = React.forwardRef(({ id, style, message, modalDisabled, onYesC
 
     let content = <Card className={StyleClasses.AreYouSure} sx={{ backgroundColor: '#fddc6c' }}>
         <CardContent>
-            <Grid container item xs={12} justifyContent="center">
+            <Grid2 container justifyContent="center">
                 <Typography variant="h6" >
                     {message}
                 </Typography>
-            </Grid>
+            </Grid2>
             {
                 reason
                 &&
-                <Grid container item xs={12} justifyContent="center">
+                <Grid2 container justifyContent="center">
                     <TextField fullWidth={true} label={reason.label} onChange={(event) => setReasonValue(event.target.value)} />
-                </Grid>
+                </Grid2>
             }
         </CardContent>
         <CardActions >

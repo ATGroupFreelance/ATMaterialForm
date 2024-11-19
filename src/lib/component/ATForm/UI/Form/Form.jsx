@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid2 } from '@mui/material';
 import { useCallback, useEffect, useRef } from 'react';
 import ATForm from '../../ATForm';
 
@@ -23,7 +23,7 @@ const Form = ({ id, value, onChange, children, elements, ...restProps }) => {
         }
     }
 
-    return <Grid container spacing={2}>
+    return <Grid2 container spacing={2}>
         <ATForm ref={refCallback} onChange={onInternalChange} {...restProps}>
             {
                 [
@@ -32,7 +32,7 @@ const Form = ({ id, value, onChange, children, elements, ...restProps }) => {
                 ]
             }
         </ATForm>
-    </Grid>
+    </Grid2>
 }
 
 export default Form;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 //MUI
-import { Grid } from "@mui/material";
-// //Utils
+import { Grid2 } from "@mui/material";
+// Utils
 import * as FormUtils from '../FormUtils/FormUtils';
 //Components
 import TabView from "./TabView/TabView";
@@ -37,9 +37,9 @@ const TabWrapper = ({ tabs, tabsGridProps, children, formChildrenProps, onChange
         {
             tabs
             &&
-            <Grid item md={12} {...(tabsGridProps || {})}>
+            <Grid2 size={12} {...(tabsGridProps || {})}>
                 <TabView tabs={tabs} activeTabIndex={selectedTabIndexArray?.[0] || 0} onTabChange={onInternalTabChange} />
-            </Grid>
+            </Grid2>
         }
         {
             FormUtils.getFlatChildren(children).map(item => {
