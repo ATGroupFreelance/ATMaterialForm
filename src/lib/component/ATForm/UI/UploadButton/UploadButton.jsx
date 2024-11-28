@@ -14,7 +14,7 @@ import ATFormContext from '../../ATFormContext/ATFormContext';
 //Dialog
 import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
 import { enqueueSnackbar } from 'notistack';
-import { useTheme } from '@emotion/react';
+import { useTheme } from "@mui/material";
 
 const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, authToken, readOnly }) => {
     const theme = useTheme()
@@ -125,10 +125,10 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
                         </InputAdornment>,
                     endAdornment:
                         <InputAdornment position="end">
-                            <ShowFilesIconButton sx={theme?.at_uploadButton?.showFilesIcon} files={value} onClick={onShowFilesClick} label={localText['Show Files']} />
+                            <ShowFilesIconButton sx={theme?.atConfig?.uploadButton?.showFilesIcon} files={value} onClick={onShowFilesClick} label={localText['Show Files']} />
                             <Tooltip title={localText['Delete All']}   >
                                 <span>
-                                    <IconButton disabled={value.length === 0 || disabled || readOnly} color={'red'} sx={theme?.at_uploadButton?.removeIcon} onClick={onRemoveFilesClick}>
+                                    <IconButton disabled={value.length === 0 || disabled || readOnly} color={'red'} sx={theme?.atConfig?.uploadButton?.removeIcon} onClick={onRemoveFilesClick}>
                                         <DeleteForeverTwoToneIcon />
                                     </IconButton>
                                 </span>

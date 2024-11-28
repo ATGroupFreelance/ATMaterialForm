@@ -1,7 +1,7 @@
 import { DeleteForeverOutlined, EditOutlined } from "@mui/icons-material"
 import Button from '../CellRenderers/Button/Button';
 import IconButton from '../CellRenderers/IconButton/IconButton';
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material";
 
 const createButton = ({ onClick, field, confirmationMessage, getCellRendererParams, color, variant, disabled, ...overWriteProps } = {}) => {
     return {
@@ -23,7 +23,7 @@ const createButton = ({ onClick, field, confirmationMessage, getCellRendererPara
 const EditIcon = () => {
     const theme = useTheme()
 
-    return <EditOutlined sx={theme?.at_columnDefTemplates?.editIcon || {}} />
+    return <EditOutlined sx={theme?.atConfig?.columnDefTemplates?.editIcon || {}} />
 }
 
 const createEdit = ({ onClick, field = 'Edit', ...overWriteProps } = {}) => {
@@ -42,7 +42,7 @@ const createEdit = ({ onClick, field = 'Edit', ...overWriteProps } = {}) => {
 const DeleteIcon = () => {
     const theme = useTheme()
 
-    return <DeleteForeverOutlined color={'red'} sx={theme?.at_columnDefTemplates?.removeIcon || {}} />
+    return <DeleteForeverOutlined color={'red'} sx={theme?.atConfig?.columnDefTemplates?.removeIcon || {}} />
 }
 
 const createRemove = ({ onClick, field = 'Remove', confirmationMessage, ...overWriteProps } = {}) => {

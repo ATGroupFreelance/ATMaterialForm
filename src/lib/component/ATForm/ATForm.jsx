@@ -422,7 +422,7 @@ class ATForm extends PureComponent {
 
         return (
             <TabWrapper tabs={this.props.tabs} tabsGridProps={this.props.tabsGridProps} formChildrenProps={flatChildrenProps} onChange={this.props.onTabChange}>
-                <ATFormRender key={'ATFormRender'}>
+                <ATFormRender>
                     {flatChildren}
                 </ATFormRender>
             </TabWrapper>

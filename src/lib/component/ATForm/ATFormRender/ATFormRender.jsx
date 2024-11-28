@@ -9,9 +9,7 @@ const ATFormRender = ({ children, formChildrenProps }) => {
     })
 
     return children.map((item, index) => {
-        const { formskip, skipRender, flexGridProps, tabIndex, ...itemProps } = formChildrenProps[index]
-
-        console.log('flexGridProps', flexGridProps)
+        const { formskip, skipRender, flexGridProps, tabIndex, ...itemProps } = formChildrenProps[index]        
 
         return <Grid2
             key={itemProps.id}

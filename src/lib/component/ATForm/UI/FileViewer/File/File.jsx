@@ -4,7 +4,7 @@ import Button from '@/lib/component/ATForm/UI/Button/Button';
 import { useContext, useEffect, useState } from 'react';
 import ATFormContext from '@/lib/component/ATForm/ATFormContext/ATFormContext';
 import { Box, Grid2, Tooltip, Typography } from '@mui/material';
-import { useTheme } from '@emotion/react';
+import { useTheme } from "@mui/material";
 
 function isImage(url) {
     return /\.(jpg|jpeg|png|webp)$/.test(url);
@@ -73,7 +73,7 @@ const File = ({ id, name, size, authToken, width, height }) => {
                 }
             </Grid2>
             <Grid2 size={12} sx={{ height: '37px', marginTop: '5px', paddingTop: '3px' }} justifyContent="flex-end">
-                <Button onClick={onOpenClick} variant={'text'} sx={{ fontSize: '0.7rem', borderRadius: '0px', borderBottomRightRadius: '15px', borderBottomLeftRadius: '15px', ...(theme?.at_fileViewer?.file?.downloadButton || {}) }}>
+                <Button onClick={onOpenClick} variant={'text'} sx={{ fontSize: '0.7rem', borderRadius: '0px', borderBottomRightRadius: '15px', borderBottomLeftRadius: '15px', ...(theme?.atConfig?.fileViewer?.file?.downloadButton || {}) }}>
                     {localText['Download']}
                     {`(${Math.ceil(size / 1024)} kB)`}
                 </Button>
