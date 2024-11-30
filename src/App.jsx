@@ -37,6 +37,7 @@ import FormInForm from '@/examples/FormInForm/FormInForm';
 import TabInTab from '@/examples/TabInTab/TabInTab';
 import ComponentPlayground from '@/examples/ComponentPlayground/ComponentPlayground';
 import Playground from '@/examples/Playground/Playground';
+import CustomWrappers from './examples/CustomWrappers/CustomWrappers';
 
 const RTL = true
 
@@ -50,7 +51,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'BasicForm'
+const ACTIVE_EXAMPLE = 'CustomWrappers'
 
 function App() {
   const formRef = useRef(null)
@@ -181,6 +182,12 @@ function App() {
       id: 'Playground',
       component: Playground,
     },
+    {
+      id: 'CustomWrappers',
+      component: CustomWrappers,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
   ]
 
   return (
@@ -212,12 +219,41 @@ function App() {
           >
             <LocalizationProvider dateAdapter={RTL ? AdapterDateFnsJalali : AdapterMoment} >
               <SnackbarUtilsConfigurator />
-              <Tabs value={selectedTab} onChange={onTabChange}>
-                {
-                  exampleList.map(item => {
-                    return <Tab key={item.id} label={item.id} value={item.id} />
-                  })
-                }
+              <Tabs
+                value={selectedTab}
+                onChange={onTabChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                allowScrollButtonsMobile
+                TabScrollButtonProps={{
+                  sx: {
+                    width: 'auto',
+                    minWidth: 0,
+                    height: '100%',
+                  },
+                }}
+                sx={{
+                  '& .MuiTabs-scrollButtons': {
+                    alignItems: 'center',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  },
+                  '& .MuiTabs-scrollButtons.Mui-disabled': {
+                    opacity: 0.3,
+                  },
+                }}
+              >
+                {exampleList.map(item => (
+                  <Tab
+                    key={item.id}
+                    label={item.id.replace(/([A-Z])/g, ' $1').trim()}
+                    value={item.id}
+                    sx={{
+                      fontSize: '14px',
+                      textTransform: 'none',
+                    }}
+                  />
+                ))}
               </Tabs>
               <Grid2 container spacing={3}>
                 <Grid2 size={12}>

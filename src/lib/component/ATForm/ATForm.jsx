@@ -414,7 +414,7 @@ class ATForm extends PureComponent {
             const { skipRender, tabIndex } = item?.props || item
 
             return {
-                ...((!item?.props?.formskip && this.getChildProps(item)) || {}),
+                ...((!item?.props?.skipForm && this.getChildProps(item)) || {}),
                 skipRender,
                 tabIndex: Array.isArray(tabIndex) ? tabIndex : [tabIndex]
             }
