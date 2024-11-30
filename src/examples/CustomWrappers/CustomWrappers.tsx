@@ -4,7 +4,7 @@ import { Button, Grid2 } from '@mui/material';
 
 const MyWrapperTypeA = ({ childProps, children, isValidNumber, onClick }: any) => {
     console.log('CustomWrappers A')
-    return <Grid2 size={childProps.md}>
+    return <Grid2 size={childProps.size}>
         <div style={{ border: '1px dotted red', padding: '5px' }}>
             isValidNumber ? {String(isValidNumber)}
             <Button onClick={onClick}>Click Me!</Button>
@@ -59,19 +59,19 @@ const CustomWrappers = React.forwardRef<ATForm, any>(({ onChange }: any, forward
             {
                 formBuilder.createColumnBuilder(
                     [
-                        formBuilder.createTextBox({
-                            id: 'TextBoxWithWrapperA',
-                            md: gridSize,
-                            onChange: onTextBoxChange,
-                            wrapperRenderer: MyWrapperTypeA,
-                            wrapperRendererProps: {
-                                isValidNumber,
-                                onClick: onWrapperTypeAClick
-                            },
-                        }),
+                        // formBuilder.createTextBox({
+                        //     id: 'TextBoxWithWrapperA',
+                        //     size: gridSize,
+                        //     onChange: onTextBoxChange,
+                        //     wrapperRenderer: MyWrapperTypeA,
+                        //     wrapperRendererProps: {
+                        //         isValidNumber,
+                        //         onClick: onWrapperTypeAClick
+                        //     },
+                        // }),
                         formBuilder.createTextBox({
                             id: 'TextBoxWithWrapperB',
-                            md: 12,
+                            size: 12,
                             wrapperRenderer: MyWrapperTypeB,
                         })
                     ]

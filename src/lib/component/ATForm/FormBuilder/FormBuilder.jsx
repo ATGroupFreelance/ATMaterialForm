@@ -16,7 +16,7 @@ class ColumnBuilder {
             return {
                 id: item.id,
                 label: item.label,
-                md: 3,
+                size: 3,
                 ...(item.uiProps ? item.uiProps : item)
             }
         })
@@ -164,203 +164,213 @@ export const createColumn = ({ id, label, uiProps, gridProps }) => {
     }
 }
 
-export const createTextBox = ({ id, md = 3, ...restProps }) => {
+export const createTextBox = ({ id, size = 3, ...restProps }) => {
     return create({
         id,
         type: 'TextBox',
-        md,
+        size,
         ...restProps,
     })
 }
 
-export const createIntegerTextBox = ({ id, md = 3, ...restProps }) => {
+export const createIntegerTextBox = ({ id, size = 3, ...restProps }) => {
     return create({
         id,
         type: 'IntegerTextBox',
-        md,
+        size,
         ...restProps,
     })
 }
 
-export const createFloatTextBox = ({ id, md = 3, ...restProps }) => {
+export const createFloatTextBox = ({ id, size = 3, ...restProps }) => {
     return create({
         id,
         type: 'FloatTextBox',
-        md,
+        size,
         ...restProps,
     })
 }
 
-export const createButton = ({ id, md = 2, onClick, ...restProps }) => {
+export const createButton = ({ id, size = 2, onClick, ...restProps }) => {
     return create({
         id,
         type: 'Button',
-        md,
+        size,
         onClick,
         ...restProps,
     })
 }
 
-export const createComboBox = ({ id, options, md = 3, ...restProps }) => {
+export const createComboBox = ({ id, options, size = 3, ...restProps }) => {
     return create({
         id,
         type: 'ComboBox',
-        md,
+        size,
         options: options,
         ...restProps,
     })
 }
 
-export const createMultiComboBox = ({ id, options, md = 3, ...restProps }) => {
+export const createMultiComboBox = ({ id, options, size = 3, ...restProps }) => {
     return create({
         id,
         type: 'MultiComboBox',
-        md,
+        size,
         options: options,
         ...restProps,
     })
 }
 
-export const createDatePicker = ({ id, md = 3, ...restProps }) => {
+export const createDatePicker = ({ id, size = 3, ...restProps }) => {
     return create({
         id,
         type: 'DatePicker',
-        md,
+        size,
         ...restProps,
     })
 }
 
 /**
  * @example
- * formBuilder.createUploadButton({ id: 'UploadButtonType1', md: 6, uploadButtonViewType: 1 }),
-   formBuilder.createUploadButton({ id: 'UploadButtonType2', md: 6, uploadButtonViewType: 2 }),
+ * formBuilder.createUploadButton({ id: 'UploadButtonType1', size: 6, uploadButtonViewType: 1 }),
+   formBuilder.createUploadButton({ id: 'UploadButtonType2', size: 6, uploadButtonViewType: 2 }),
  * @param {uploadButtonViewType} uploadButtonViewType: This button has 2 views, you can switch between them by passing a viewType number, the acceptable values are 1 and 2
  */
 
-export const createUploadButton = ({ id, md = 3, uploadButtonViewType = 2, ...restProps }) => {
+export const createUploadButton = ({ id, size = 3, uploadButtonViewType = 2, ...restProps }) => {
     return create({
         id,
         type: 'UploadButton',
         uploadButtonViewType,
-        md,
+        size,
         ...restProps,
     })
 }
 
-export const createUploadImageButton = ({ id, md = 3, ...restProps }) => {
+export const createUploadImageButton = ({ id, size = 3, ...restProps }) => {
     return create({
         id,
         type: 'UploadImageButton',
-        md,
+        size,
         ...restProps,
     })
 }
 
-export const createFileViewer = ({ id, md = 12, fileWidth = 150, fileHeight = 128, ...restProps }) => {
+export const createFileViewer = ({ id, size = 12, fileWidth = 150, fileHeight = 128, ...restProps }) => {
     return create({
         id,
         type: 'FileViewer',
-        md,
+        size,
         fileWidth,
         fileHeight,
         ...restProps,
     })
 }
 
-export const createCascadeComboBox = ({ id, md = 12, ...restProps }) => {
+export const createCascadeComboBox = ({ id, size = 12, wrapperRendererProps = {}, ...restProps }) => {
     return create({
         id,
         type: 'CascadeComboBox',
-        md: md,
-        gridContainer: true,
-        gridSpacing: 2,
+        size,
+        wrapperRendererProps: {
+            container: true,
+            spacing: 2,
+            ...wrapperRendererProps,
+        },
         ...restProps,
     })
 }
 
-export const createMultiValueCascadeComboBox = ({ id, md = 12, ...restProps }) => {
+export const createMultiValueCascadeComboBox = ({ id, size = 12, wrapperRendererProps = {}, ...restProps }) => {
     return create({
         id,
         type: 'MultiValueCascadeComboBox',
-        md: md,
-        gridContainer: true,
-        gridSpacing: 2,
+        size,
+        wrapperRendererProps: {
+            container: true,
+            spacing: 2,
+            ...wrapperRendererProps,
+        },
         ...restProps,
     })
 }
 
-export const createGrid = ({ id, container, spacing, ...restProps }) => {
+export const createGrid = ({ id, size, container, spacing, wrapperRendererProps = {}, ...restProps }) => {
     return create({
         id,
         type: 'Grid',
         skipRender: true,
-        gridSpacing: container,
-        gridContainer: container,
+        size,
+        wrapperRendererProps: {
+            container,
+            spacing,
+            ...wrapperRendererProps
+        },
         ...restProps,
     })
 }
 
-export const createCheckBox = ({ id, md = 2, ...restProps }) => {
+export const createCheckBox = ({ id, size = 2, ...restProps }) => {
     return create({
         id,
         type: 'CheckBox',
-        md,
+        size,
         labelPlacement: 'end',
         ...restProps,
     })
 }
 
-export const createSlider = ({ id, md = 3, ...restProps }) => {
+export const createSlider = ({ id, size = 3, ...restProps }) => {
     return create({
         id,
         type: 'Slider',
-        md,
-        ...restProps,
-    })
-}
-
-export const createPasswordTextBox = ({ id, md = 3, ...restProps }) => {
-    return create({
-        id,
-        type: 'PasswordTextBox',
-        md,
-        ...restProps,
-    })
-}
-
-export const createDoublePasswordTextBox = ({ id, md = 3, ...restProps }) => {
-    return create({
-        id,
-        type: 'DoublePasswordTextBox',
-        md,
-        ...restProps,
-    })
-}
-
-export const createAvatar = ({ id, md = 3, size = 42, ...restProps }) => {
-    return create({
-        id,
-        type: 'Avatar',
-        md,
         size,
         ...restProps,
     })
 }
 
-export const createLabel = ({ id, md = 3, label, ...restProps }) => {
+export const createPasswordTextBox = ({ id, size = 3, ...restProps }) => {
+    return create({
+        id,
+        type: 'PasswordTextBox',
+        size,
+        ...restProps,
+    })
+}
+
+export const createDoublePasswordTextBox = ({ id, size = 3, ...restProps }) => {
+    return create({
+        id,
+        type: 'DoublePasswordTextBox',
+        size,
+        ...restProps,
+    })
+}
+
+export const createAvatar = ({ id, size = 3, avatarSize = 42, ...restProps }) => {
+    return create({
+        id,
+        type: 'Avatar',
+        size,
+        avatarSize,
+        ...restProps,
+    })
+}
+
+export const createLabel = ({ id, size = 3, label, ...restProps }) => {
     return create({
         id,
         type: 'Label',
-        md,
+        size,
         label,
         ...restProps,
     })
 }
-export const createContainerWithTable = ({ id, elements, md = 12, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, editOnly = false, resetFormAfterAdd = false, ...restProps }) => {
+export const createContainerWithTable = ({ id, elements, size = 12, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, editOnly = false, resetFormAfterAdd = false, ...restProps }) => {
     return create({
         id,
         type: 'ContainerWithTable',
-        md,
+        size,
         label,
         //How are the fields and elements added to the table, a "form" at the top or by "formDialog" which opens a dialog by clicking on add?
         addInterface,
@@ -383,11 +393,11 @@ export const createConditionalInsert = ({ condition, elements }) => {
         return elements
 }
 
-export const createMultiSelectTextBox = ({ id, md = 3, label, ...restProps }) => {
+export const createMultiSelectTextBox = ({ id, size = 3, label, ...restProps }) => {
     return create({
         id,
         type: 'MultiSelectTextBox',
-        md,
+        size,
         label,
         ...restProps,
     })
@@ -403,13 +413,13 @@ export const createMultiSelectTextBox = ({ id, md = 3, label, ...restProps }) =>
     //You can style the each cell of the row using "cellStyle"
     //You can style the label or title using "labelStyle"
     //Use this component only for showing simple data in a tablur manner and nothing more.
-  * @param {id, md = 12, data, columns = null, label = null, cellStyle = null, labelStyle = null, columnCellStyle = null, hideColumns = false}
+  * @param {id, size = 12, data, columns = null, label = null, cellStyle = null, labelStyle = null, columnCellStyle = null, hideColumns = false}
  */
-export const createTable = ({ id, md = 12, data, columns = null, label = null, cellStyle = null, labelStyle = null, columnCellStyle = null, hideColumns = false }) => {
+export const createTable = ({ id, size = 12, data, columns = null, label = null, cellStyle = null, labelStyle = null, columnCellStyle = null, hideColumns = false }) => {
     return create({
         id,
         type: 'Table',
-        md,
+        size,
         data,
         columns,
         label,
@@ -430,11 +440,11 @@ export const createTable = ({ id, md = 12, data, columns = null, label = null, c
     Please note you can provide any AgGrid props you like here
   * @param {columnDefs, rowData, uniqueKey = undefined, onConfirmButtonClick = undefined}
  */
-export const createMultiSelectGrid = ({ id, md = 12, label, columnDefs, rowData, uniqueKey = undefined, onConfirmButtonClick = undefined, ...restProps }) => {
+export const createMultiSelectGrid = ({ id, size = 12, label, columnDefs, rowData, uniqueKey = undefined, onConfirmButtonClick = undefined, ...restProps }) => {
     return create({
         id,
         type: 'MultiSelectGrid',
-        md,
+        size,
         label,
         columnDefs,
         rowData,
@@ -444,11 +454,11 @@ export const createMultiSelectGrid = ({ id, md = 12, label, columnDefs, rowData,
     })
 }
 
-export const createImageSelect = ({ id, md = 12, label, imageWidth, imageHeight, multiple = false, ...restProps }) => {
+export const createImageSelect = ({ id, size = 12, label, imageWidth, imageHeight, multiple = false, ...restProps }) => {
     return create({
         id,
         type: 'ImageSelect',
-        md,
+        size,
         label,
         imageWidth,
         imageHeight,
@@ -457,30 +467,30 @@ export const createImageSelect = ({ id, md = 12, label, imageWidth, imageHeight,
     })
 }
 
-export const createAdvanceStepper = ({ id, md = 12, ...restProps }) => {
+export const createAdvanceStepper = ({ id, size = 12, ...restProps }) => {
     return create({
         id,
         type: 'AdvanceStepper',
-        md,
+        size,
         ...restProps,
     })
 }
 
-export const createForm = ({ id, elements, md = 12, ...restProps }) => {
+export const createForm = ({ id, elements, size = 12, ...restProps }) => {
     return create({
         id,
         type: 'Form',
-        md,
+        size,
         elements,
         ...restProps,
     })
 }
 
-export const createColorTextBox = ({ id, md = 3, ...restProps }) => {
+export const createColorTextBox = ({ id, size = 3, ...restProps }) => {
     return create({
         id,
         type: 'ColorTextBox',
-        md,
+        size,
         ...restProps,
     })
 }
@@ -501,7 +511,7 @@ export const createColumnDefsByRowData = (rowData) => {
     return result
 }
 
-export const createFormData = (data) => {
+export const createForsizeata = (data) => {
     return {
         formData: {
             ...(data || {}),

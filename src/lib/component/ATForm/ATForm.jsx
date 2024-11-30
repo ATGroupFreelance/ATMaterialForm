@@ -372,7 +372,7 @@ class ATForm extends PureComponent {
         }
     }
 
-    getChildProps = ({ id, enumsID, type, defaultValue, inputType, onClick, label, flexGridProps, tabIndex, colDef, groupDataID, ...restProps }) => {
+    getChildProps = ({ id, enumsID, type, defaultValue, inputType, onClick, label, tabIndex, colDef, groupDataID, ...restProps }) => {
         const { childrenProps } = this.props
         const newDefaultValue = this.state.defaultValue[id] === undefined ? defaultValue : this.state.defaultValue[id]
 

@@ -93,7 +93,7 @@ const MultiSelectGrid = ({ _formProps_, id, value, label, onChange, columnDefs, 
 
         {onConfirmButtonClick &&
             <Grid2 container justifyContent={'center'} sx={{ marginTop: '7px' }}>
-                <Grid2 size={6} {...(confirmButtonProps.flexGridProps || {})}>
+                <Grid2 size={6} {...(confirmButtonProps.wrapperRendererProps || {})}>
                     <Button onClick={onInternalConfirmButtonClick} {...confirmButtonProps} label={confirmButtonProps.label ? confirmButtonProps.label : localText['Apply Changes']} color={'secondary'} />
                 </Grid2>
             </Grid2>

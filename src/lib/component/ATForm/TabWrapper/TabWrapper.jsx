@@ -9,18 +9,18 @@ import TabView from "./TabView/TabView";
 const TabWrapper = ({ tabs, tabsGridProps, children, formChildrenProps, onChange }) => {
     const [selectedTabIndexArray, setSelectedTabIndexArray] = useState([0])
 
-    const newFormChildrenProps = formChildrenProps.map(item => {
-        return {
-            ...item,
-            flexGridProps: {
-                sx: {
-                    ...(!tabs || (selectedTabIndexArray.join(',') === item.tabIndex.join(',')) ? {} : { display: 'none' }),
-                    ...(item?.flexGridProps?.sx || {})
-                },
-                ...FormUtils.getFlexGrid(item)
-            }
-        }
-    })
+    // const newFormChildrenProps = formChildrenProps.map(item => {
+    //     return {
+    //         ...item,
+    //         flexGridProps: {
+    //             sx: {
+    //                 ...(!tabs || (selectedTabIndexArray.join(',') === item.tabIndex.join(',')) ? {} : { display: 'none' }),
+    //                 ...(item?.flexGridProps?.sx || {})
+    //             },
+    //             ...FormUtils.getFlexGrid(item)
+    //         }
+    //     }
+    // })
 
     const onInternalTabChange = (event, newIndexArray, selectedTab) => {
         setSelectedTabIndexArray(newIndexArray)
@@ -43,7 +43,7 @@ const TabWrapper = ({ tabs, tabsGridProps, children, formChildrenProps, onChange
         }
         {
             FormUtils.getFlatChildren(children).map(item => {
-                return React.cloneElement(item, { formChildrenProps: newFormChildrenProps, key: item.key })
+                return React.cloneElement(item, { formChildrenProps, key: item.key })
             })
         }
     </>

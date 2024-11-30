@@ -44,26 +44,26 @@ const ComponentPlayground = React.forwardRef(({ onChange }, forwardRef) => {
             {
                 formBuilder.createColumnBuilder(
                     [
-                        formBuilder.createTextBox({ id: 'Textbox_Text', md: 4 }),
-                        formBuilder.createTextBox({ id: 'Textbox_Text2', md: 4 }),
-                        formBuilder.createTextBox({ id: 'Textbox_Text3', md: 4 }),
+                        formBuilder.createTextBox({ id: 'Textbox_Text', size: 4 }),
+                        formBuilder.createTextBox({ id: 'Textbox_Text2', size: 4 }),
+                        formBuilder.createTextBox({ id: 'Textbox_Text3', size: 4 }),
                         formBuilder.createFileViewer({
                             id: 'FileViewer',
-                            md: 12,
+                            size: 12,
                         }),
-                        formBuilder.createTextBox({ id: 'Textbox_Text4', md: 4 }),
-                        formBuilder.createTextBox({ id: 'Textbox_Text5', md: 4 }),
+                        formBuilder.createTextBox({ id: 'Textbox_Text4', size: 4 }),
+                        formBuilder.createTextBox({ id: 'Textbox_Text5', size: 4 }),
                         formBuilder.createFileViewer({
                             id: 'FileViewer2',
-                            md: 4,
+                            size: 4,
                         }),
                         formBuilder.createFileViewer({
                             id: 'FileViewer3',
-                            md: 4,
+                            size: 4,
                         }),
-                        formBuilder.createTextBox({ id: 'Textbox_Text6', md: 4 }),
-                        formBuilder.createTextBox({ id: 'Textbox_Text7', md: 4 }),
-                        formBuilder.createTextBox({ id: 'Textbox_Text8', md: 4 }),
+                        formBuilder.createTextBox({ id: 'Textbox_Text6', size: 4 }),
+                        formBuilder.createTextBox({ id: 'Textbox_Text7', size: 4 }),
+                        formBuilder.createTextBox({ id: 'Textbox_Text8', size: 4 }),
                     ]
                 )
                     .build()

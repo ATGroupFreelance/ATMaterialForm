@@ -50,7 +50,7 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
                 color: 'secondary',
                 disabled: loading || cancelLoading,
                 grid: {
-                    md: 2
+                    size: 2
                 },
                 ...(cancelButtonProps || {})
             }
@@ -65,7 +65,7 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
                 onClick: onInternalSubmitClick,
                 disabled: loading || submitLoading,
                 grid: {
-                    md: 2
+                    size: 2
                 },
                 ...(submitButtonProps || {})
             }
@@ -93,7 +93,7 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
                 {
                     newActions.map(item => {
                         const { grid, id, label, onClick, disabled, ...restItem } = item
-                        return <Grid2 key={id} size={{ ...(grid ? grid : { xs: 12, md: 2 }) }}>
+                        return <Grid2 key={id} size={{ ...(grid ? grid : { xs: 12, size: 2 }) }}>
                             <Button label={label ? label : id} onClick={(event, { ...buttonProps }) => onClick(event, { ...buttonProps, formData: mFormData.current.formData, formDataKeyValue: mFormData.current.formDataKeyValue, formDataSemiKeyValue: mFormData.current.formDataSemiKeyValue })} disabled={loading || disabled} {...restItem} />
                         </Grid2>
                     })

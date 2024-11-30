@@ -11,7 +11,7 @@ const ExternalComponentIntegration = React.forwardRef(({ onChange }, forwardRef)
                     {
                         id: 'CustomComponentTextField',
                         type: 'MyTextField',
-                        md: 3,
+                        size: 3,
                         label: 'CustomComponentTextField'
                     }
                 ]

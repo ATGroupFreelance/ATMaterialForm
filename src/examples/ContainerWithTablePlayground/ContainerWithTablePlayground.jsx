@@ -41,8 +41,8 @@ const ContainerWithTablePlayground = ({ onChange }) => {
                             formBuilder.createContainerWithTable({
                                 id: 'ContainerWithTable',
                                 elements: [
-                                    formBuilder.createTextBox({ id: 'Name', md: 9 }),
-                                    formBuilder.createUploadButton({ id: 'UploadFiles', md: 3 }),
+                                    formBuilder.createTextBox({ id: 'Name', size: 9 }),
+                                    formBuilder.createUploadButton({ id: 'UploadFiles', size: 3 }),
                                 ],
                             }),
                         ]}

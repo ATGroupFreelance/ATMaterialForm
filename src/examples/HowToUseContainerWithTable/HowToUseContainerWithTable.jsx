@@ -10,7 +10,7 @@ const HowToUseContainerWithTable = React.forwardRef(({ onChange }, forwardedRef)
     return (
         <ATForm ref={forwardedRef} onChange={onChange} validationDisabled={true}>
             {[
-                formBuilder.createTextBox({ id: 'OutsideContainer_TextBox1', md: 12 }),
+                formBuilder.createTextBox({ id: 'OutsideContainer_TextBox1', size: 12 }),
                 formBuilder.createContainerWithTable({
                     id: 'ContainerWithTable',                    
                     elements: [
@@ -21,7 +21,7 @@ const HowToUseContainerWithTable = React.forwardRef(({ onChange }, forwardedRef)
                         formBuilder.createTextBox({ id: 'C', value: A + B }),
                     ],
                 }),
-                formBuilder.createTextBox({ id: 'OutsideContainer_TextBox2', md: 12 }),
+                formBuilder.createTextBox({ id: 'OutsideContainer_TextBox2', size: 12 }),
             ]}
         </ATForm>
     )

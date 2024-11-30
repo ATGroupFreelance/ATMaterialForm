@@ -13,7 +13,7 @@ const RecordDialog = ({ defaultValue, onSubmitClick, onClose }) => {
             formBuilder
                 .createColumnBuilder(Columns)
                 .remove(['D'])
-                .map(item => ({ ...item, md: 6 }))
+                .map(item => ({ ...item, size: 6 }))
                 .override(
                     {
                         A: { onChange: (event) => setA(event.target.value) },

@@ -12,31 +12,6 @@ export const convertToKeyValue = (formData) => {
     return result
 }
 
-export const getFlexGrid = (props) => {
-    const { xs, md, lg, xl, gridContainer = false, gridSpacing = 0, flexGridProps } = (props || {})
-    const newXS = xs === undefined ? 12 : xs
-    const newMD = md
-    const newLG = lg
-    const newXL = xl
-
-    const result = {
-        size: {
-            xs: newXS,
-            md: newMD,
-            lg: newLG,
-            xl: newXL
-        },
-        ...(flexGridProps || {}),
-    }
-
-    if (gridContainer)
-        result.container = gridContainer
-    if (gridContainer && gridSpacing)
-        result.spacing = gridSpacing
-
-    return result
-}
-
 export const isLiteralObject = (a) => {
     return (!!a) && (a.constructor === Object);
 };

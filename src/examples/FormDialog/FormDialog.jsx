@@ -38,7 +38,7 @@ const FormDialog = React.forwardRef((props, forwardRef) => {
                         onClick: () => alert('reset'),
                         grid: {
                             xs: 12,
-                            md: 3,
+                            size: 3,
                         }
                     },
                     {
