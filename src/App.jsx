@@ -51,7 +51,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'CustomWrappers'
+const ACTIVE_EXAMPLE = 'TabsInForm'
 
 function App() {
   const formRef = useRef(null)

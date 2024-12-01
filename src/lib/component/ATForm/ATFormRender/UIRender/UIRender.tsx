@@ -3,7 +3,17 @@ import React from "react"
 import UIBuilder from "../../UIBuilder/UIBuilder"
 import { Grid2 } from "@mui/material"
 
-const UIRender = ({ ui, skipForm, skipRender, tabIndex, size, wrapperRenderer, wrapperRendererProps = {}, ...restProps }: any) => {
+const UIRender = ({
+    ui,
+    skipForm,
+    skipRender,
+    // eslint-disable-line @typescript-eslint/no-unused-vars
+    tabIndex
+    , size,
+    wrapperRenderer,
+    wrapperRendererProps = {},
+    ...restProps }: any
+) => {
     //default wrapper is a flex grid
     //Please note wrapper variable must be pascal because its a react component
     let Wrapper = Grid2
@@ -38,8 +48,6 @@ const UIRender = ({ ui, skipForm, skipRender, tabIndex, size, wrapperRenderer, w
                 <UIBuilder {...restProps} />
         )
     )
-
-    console.log('wrapperProps', { wrapperProps, restProps })
 
     if (!Wrapper)
         return children

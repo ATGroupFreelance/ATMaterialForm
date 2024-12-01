@@ -1,7 +1,7 @@
 import React from "react"
 import UIRender from "./UIRender/UIRender"
 
-const ATFormRender = ({ children, formChildrenProps }) => {
+const ATFormRender = ({ children, formChildrenProps }) => {    
     return children.map((item, index) => {
         const currentChildProps = formChildrenProps[index]
 
