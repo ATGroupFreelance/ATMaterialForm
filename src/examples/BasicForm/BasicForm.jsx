@@ -23,7 +23,8 @@ const multiLeafCascadeDesign = [
     },
 ]
 
-const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
+const BasicForm = ({ ref, onChange}) => {
+    console.log('BasicForm', ref)
     const { enums } = useContext(ATFormContext)
 
     const singleLeafCascadeDesign = [
@@ -71,7 +72,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
     }
 
     return (
-        <ATForm ref={forwardRef} onChange={onChange} validationDisabled={false}>
+        <ATForm ref={ref} onChange={onChange} validationDisabled={false}>
             {
                 formBuilder.createColumnBuilder(
                     [
@@ -115,7 +116,7 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
                         formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
                         formBuilder.createTextBox({ id: 'Textbox_Text', size: 4 }),
                         formBuilder.createIntegerTextBox({ id: 'Textbox_Integer', size: 4 }),
-                        formBuilder.createFloatTextBox({ id: 'Textbox_Float', size: 4 }),                        
+                        formBuilder.createFloatTextBox({ id: 'Textbox_Float', size: 4 }),
                     ]
                 )
                     // .filter(item => ['cascadeComboBox'].includes(item.id))
@@ -131,6 +132,6 @@ const BasicForm = React.forwardRef(({ onChange }, forwardRef) => {
             }
         </ATForm>
     )
-})
+}
 
 export default BasicForm;

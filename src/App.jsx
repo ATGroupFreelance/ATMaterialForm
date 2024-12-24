@@ -51,7 +51,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'TabsInForm'
+const ACTIVE_EXAMPLE = 'BasicForm'
 
 function App() {
   const formRef = useRef(null)

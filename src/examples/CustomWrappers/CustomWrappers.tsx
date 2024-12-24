@@ -59,16 +59,16 @@ const CustomWrappers = React.forwardRef<ATForm, any>(({ onChange }: any, forward
             {
                 formBuilder.createColumnBuilder(
                     [
-                        // formBuilder.createTextBox({
-                        //     id: 'TextBoxWithWrapperA',
-                        //     size: gridSize,
-                        //     onChange: onTextBoxChange,
-                        //     wrapperRenderer: MyWrapperTypeA,
-                        //     wrapperRendererProps: {
-                        //         isValidNumber,
-                        //         onClick: onWrapperTypeAClick
-                        //     },
-                        // }),
+                        formBuilder.createTextBox({
+                            id: 'TextBoxWithWrapperA',
+                            size: gridSize,
+                            onChange: onTextBoxChange,
+                            wrapperRenderer: MyWrapperTypeA,
+                            wrapperRendererProps: {
+                                isValidNumber,
+                                onClick: onWrapperTypeAClick
+                            },
+                        }),
                         formBuilder.createTextBox({
                             id: 'TextBoxWithWrapperB',
                             size: 12,
