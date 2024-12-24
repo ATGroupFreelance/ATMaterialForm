@@ -11,7 +11,7 @@ import { CircularProgress, Grid2 } from '@mui/material';
 //Context
 import ATFormContext from './ATFormContext/ATFormContext';
 
-const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelClick, cancelButtonEnabled = true, onSubmitClick, onChange, children, submitLoading, cancelLoading, getActions, loading, submitButtonProps, cancelButtonProps, fullWidth, maxWidth, PaperProps, ...restProps }, forwardedRef) => {
+const ATFormDialog = ({ ref, title, titleStyle, onClose, onCancelClick, cancelButtonEnabled = true, onSubmitClick, onChange, children, submitLoading, cancelLoading, getActions, loading, submitButtonProps, cancelButtonProps, fullWidth, maxWidth, PaperProps, ...restProps }) => {
     const { localText } = useContext(ATFormContext)
 
     const mFormData = useRef({ formData: null, formDataKeyValue: null, formDataSemiKeyValue: null })
@@ -82,7 +82,7 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
                     loading && <CircularProgress />
                 }
                 {
-                    !loading && <ATForm ref={forwardedRef} onChange={onFormChange} {...restProps}>
+                    !loading && <ATForm ref={ref} onChange={onFormChange} {...restProps}>
                         {children}
                     </ATForm>
                 }
@@ -101,6 +101,6 @@ const ATFormDialog = React.forwardRef(({ title, titleStyle, onClose, onCancelCli
             </Grid2>
         </DialogActions>
     </Dialog>
-})
+}
 
 export default ATFormDialog;

@@ -3,16 +3,16 @@ import React, { useState } from 'react';
 import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
 import ServiceManager from '@/serviceManager/serviceManager';
 
-const HowToUseContainerWithTable = React.forwardRef(({ onChange }, forwardedRef) => {
+const HowToUseContainerWithTable = ({ ref, onChange }) => {
     const [A, setA] = useState(0)
-    const [B, setB] = useState(0)    
+    const [B, setB] = useState(0)
 
     return (
-        <ATForm ref={forwardedRef} onChange={onChange} validationDisabled={true}>
+        <ATForm ref={ref} onChange={onChange} validationDisabled={true}>
             {[
                 formBuilder.createTextBox({ id: 'OutsideContainer_TextBox1', size: 12 }),
                 formBuilder.createContainerWithTable({
-                    id: 'ContainerWithTable',                    
+                    id: 'ContainerWithTable',
                     elements: [
                         formBuilder.createTextBox({ id: 'Name' }),
                         formBuilder.createComboBox({ id: 'Countries', options: ServiceManager.getCountries }),
@@ -25,6 +25,6 @@ const HowToUseContainerWithTable = React.forwardRef(({ onChange }, forwardedRef)
             ]}
         </ATForm>
     )
-})
+}
 
 export default HowToUseContainerWithTable;

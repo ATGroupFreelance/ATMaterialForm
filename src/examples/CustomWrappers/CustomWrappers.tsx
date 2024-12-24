@@ -37,7 +37,7 @@ const MyWrapperTypeB = ({ childProps, children }: any) => {
     </Grid2>
 }
 
-const CustomWrappers = React.forwardRef<ATForm, any>(({ onChange }: any, forwardRef) => {
+const CustomWrappers = ({ ref, onChange }: any) => {
     const [isValidNumber, setIsValidNumber] = useState(false)
     const [gridSize, setGridSize] = useState(12)
 
@@ -55,7 +55,7 @@ const CustomWrappers = React.forwardRef<ATForm, any>(({ onChange }: any, forward
     console.log('CustomWrappers')
 
     return (
-        <ATForm ref={forwardRef} validationDisabled={false}>
+        <ATForm ref={ref} validationDisabled={false}>
             {
                 formBuilder.createColumnBuilder(
                     [
@@ -80,6 +80,6 @@ const CustomWrappers = React.forwardRef<ATForm, any>(({ onChange }: any, forward
             }
         </ATForm>
     )
-})
+}
 
 export default CustomWrappers;

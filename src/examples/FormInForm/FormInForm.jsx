@@ -1,9 +1,9 @@
 import React from 'react';
 import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
 
-const FormInForm = React.forwardRef(({ onChange }, forwardRef) => {
+const FormInForm = ({ ref, onChange }) => {
     return (
-        <ATForm ref={forwardRef} onChange={onChange} tabs={[{ label: 'FormA' }, { label: 'FormB' }]}>
+        <ATForm ref={ref} onChange={onChange} tabs={[{ label: 'FormA' }, { label: 'FormB' }]}>
             {[
                 formBuilder.createForm({
                     id: 'FormA',
@@ -26,6 +26,6 @@ const FormInForm = React.forwardRef(({ onChange }, forwardRef) => {
             ]}
         </ATForm>
     )
-})
+}
 
 export default FormInForm;

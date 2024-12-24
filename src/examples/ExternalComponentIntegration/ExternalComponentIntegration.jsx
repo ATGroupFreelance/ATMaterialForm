@@ -2,9 +2,9 @@ import React from 'react';
 
 import { ATForm, formBuilder } from "@/lib";
 
-const ExternalComponentIntegration = React.forwardRef(({ onChange }, forwardRef) => {
+const ExternalComponentIntegration = ({ ref, onChange }) => {
     return (
-        <ATForm onChange={onChange} ref={forwardRef}>
+        <ATForm onChange={onChange} ref={ref}>
             {
                 [
                     formBuilder.createTextBox({ id: 'Form Text Box' }),
@@ -18,6 +18,6 @@ const ExternalComponentIntegration = React.forwardRef(({ onChange }, forwardRef)
             }
         </ATForm>
     )
-})
+}
 
 export default ExternalComponentIntegration;

@@ -1,7 +1,7 @@
 import React from 'react';
 import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
 
-const TabInTab = React.forwardRef(({ onChange }, forwardRef) => {
+const TabInTab = ({ ref, onChange }) => {
     const tabs = [
         {
             label: 'tab1',
@@ -28,7 +28,7 @@ const TabInTab = React.forwardRef(({ onChange }, forwardRef) => {
     }
 
     return (
-        <ATForm ref={forwardRef} tabs={tabs} onChange={onChange} onTabChange={onTabChange} groupDataEnabled={true}>
+        <ATForm ref={ref} tabs={tabs} onChange={onChange} onTabChange={onTabChange} groupDataEnabled={true}>
             {[
                 formBuilder.createTextBox({ id: 'Tab1', tabIndex: 0 }),
                 formBuilder.createTextBox({ id: 'Tab2', tabIndex: 1 }),
@@ -40,6 +40,6 @@ const TabInTab = React.forwardRef(({ onChange }, forwardRef) => {
             ]}
         </ATForm>
     )
-})
+}
 
 export default TabInTab;

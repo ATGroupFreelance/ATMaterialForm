@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import { ATFormDialog, formBuilder } from "@/lib";
 
-const FormDialog = React.forwardRef((props, forwardRef) => {
+const FormDialog = ({ ref, ...props }) => {
     const [dialog, setDialog] = useState(null)
 
     const onDialogSubmit = (event, { startLoading, stopLoading, formData, formDataKeyValue, formDataSemiKeyValue }) => {
@@ -17,7 +17,7 @@ const FormDialog = React.forwardRef((props, forwardRef) => {
     }
 
     const onOpenDialogClick = () => {
-        const newDialog = <ATFormDialog ref={forwardRef} title={'Form Dialog Title'} onClose={() => setDialog(null)} onSubmitClick={onDialogSubmit} {...props}>
+        const newDialog = <ATFormDialog ref={ref} title={'Form Dialog Title'} onClose={() => setDialog(null)} onSubmitClick={onDialogSubmit} {...props}>
             {
                 [
                     formBuilder.createTextBox({ id: 'formDialogTextBox' }),
@@ -29,7 +29,7 @@ const FormDialog = React.forwardRef((props, forwardRef) => {
     }
 
     const onOpenCustomizedDialogClick = () => {
-        const newDialog = <ATFormDialog ref={forwardRef} title={'Form Dialog Title'} onClose={() => setDialog(null)}  {...props}
+        const newDialog = <ATFormDialog ref={ref} title={'Form Dialog Title'} onClose={() => setDialog(null)}  {...props}
             getActions={(oldActions) => {
                 return [
                     ...oldActions,
@@ -67,6 +67,6 @@ const FormDialog = React.forwardRef((props, forwardRef) => {
             {dialog}
         </div>
     )
-})
+}
 
 export default FormDialog;

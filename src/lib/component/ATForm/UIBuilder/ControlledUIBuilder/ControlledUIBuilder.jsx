@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useImperativeHandle, forwardRef, useEffect, useContext } from 'react';
+import React, { Suspense, useState, useImperativeHandle, useEffect, useContext } from 'react';
 //Context
 import ATFormContext from '../../ATFormContext/ATFormContext';
 
@@ -41,7 +41,7 @@ const getInitialValue = (typeInfo, defaultValue) => {
 
 //Sometimes you might want to pass a prop to a component that is already taken, that is when you use the atComponentProps, an example would be type: number for textfield
 //which is already taken by ATMaterialForm
-const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, defaultValue, onChange, atComponentProps, ...restProps }, forwardedRef) => {
+const ControlledUIBuilder = ({ ref, _formProps_, _typeInfo_, id, type, value, defaultValue, onChange, atComponentProps, ...restProps }) => {
     const { customComponents } = useContext(ATFormContext)
 
     const { onChildChange, errors } = _formProps_
@@ -66,7 +66,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         // eslint-disable-next-line
     }, [value])
 
-    useImperativeHandle(forwardedRef, () => {
+    useImperativeHandle(ref, () => {
         return {
             reset: reset,
         }
@@ -91,6 +91,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
     const helperText = errors?.[id]?.message
 
     const commonProps = {
+        ref: ref,
         _formProps_: _formProps_,
         ...(atComponentProps || {}),
         ...restProps,
@@ -116,7 +117,7 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
         {type === 'DatePicker' && <DatePicker {...commonProps} />}
         {type === 'UploadButton' && <UploadButton {...commonProps} />}
         {type === 'UploadImageButton' && <UploadImageButton {...commonProps} />}
-        {type === 'FileViewer' && <FileViewer {...commonProps} />}        
+        {type === 'FileViewer' && <FileViewer {...commonProps} />}
         {type === 'CascadeComboBox' && <CascadeComboBox {...commonProps} />}
         {type === 'MultiValueCascadeComboBox' && <MultiValueCascadeComboBox {...commonProps} />}
         {type === 'CheckBox' && <CheckBox {...commonProps} />}
@@ -135,4 +136,4 @@ const ControlledUIBuilder = ({ _formProps_, _typeInfo_, id, type, value, default
     </Suspense>
 }
 
-export default forwardRef(ControlledUIBuilder);
+export default ControlledUIBuilder;

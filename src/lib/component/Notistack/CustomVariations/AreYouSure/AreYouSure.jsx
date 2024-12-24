@@ -12,7 +12,7 @@ import StyleClasses from './AreYouSure.module.css';
 //Context
 import ATFormContext from '../../../ATForm/ATFormContext/ATFormContext';
 
-const AreYouSure = React.forwardRef(({ id, style, message, modalDisabled, onYesClick, onNoClick, reason }, ref) => {
+const AreYouSure = ({ ref, id, style, message, modalDisabled, onYesClick, onNoClick, reason }) => {
     const { localText } = useContext(ATFormContext)
 
     const [visible, setVisible] = useState(true)
@@ -67,6 +67,6 @@ const AreYouSure = React.forwardRef(({ id, style, message, modalDisabled, onYesC
             {visible && content}
         </SnackbarContent>
     );
-})
+}
 
 export default AreYouSure;

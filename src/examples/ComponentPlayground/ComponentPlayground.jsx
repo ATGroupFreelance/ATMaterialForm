@@ -1,7 +1,7 @@
 import React from 'react';
 import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
 
-const ComponentPlayground = React.forwardRef(({ onChange }, forwardRef) => {
+const ComponentPlayground = ({ ref, onChange }) => {
     const extraFiles = []
     for (let i = 0; i < 20; i++) {
         extraFiles.push({
@@ -40,7 +40,7 @@ const ComponentPlayground = React.forwardRef(({ onChange }, forwardRef) => {
     }
 
     return (
-        <ATForm ref={forwardRef} onChange={onChange} validationDisabled={false} defaultValue={defaultValue} >
+        <ATForm ref={ref} onChange={onChange} validationDisabled={false} defaultValue={defaultValue} >
             {
                 formBuilder.createColumnBuilder(
                     [
@@ -70,6 +70,6 @@ const ComponentPlayground = React.forwardRef(({ onChange }, forwardRef) => {
             }
         </ATForm>
     )
-})
+}
 
 export default ComponentPlayground;

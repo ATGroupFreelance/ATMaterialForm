@@ -17,7 +17,7 @@ import {
     NumberFilterModule
 } from 'ag-grid-community';
 
-const ATAgGrid = React.forwardRef(({ rowData, columnDefs, height, domLayout, ...restProps }, forwardedRef) => {
+const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, ...restProps }) => {
 
     const { rtl, enums, agGridLocalText, getLocalText } = useContext(ATFormContext)
 
@@ -41,7 +41,7 @@ const ATAgGrid = React.forwardRef(({ rowData, columnDefs, height, domLayout, ...
     return <div className="ag-theme-alpine" style={{ height: domLayout ? undefined : (height || '80vh'), width: '100%' }}>
         <AgGridReact
             theme={themeBalham}
-            ref={forwardedRef}
+            ref={ref}
             rowData={rowData}
             columnDefs={newColumnDefs}
             localeText={agGridLocalText}
@@ -60,6 +60,6 @@ const ATAgGrid = React.forwardRef(({ rowData, columnDefs, height, domLayout, ...
             {...restProps}
         />
     </div>
-})
+}
 
 export default ATAgGrid;

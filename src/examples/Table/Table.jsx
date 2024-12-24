@@ -2,14 +2,14 @@ import React from 'react';
 
 import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
 
-const Table = React.forwardRef(({ onChange }, forwardedRef) => {
+const Table = ({ ref, onChange }) => {
     return (
-        <ATForm ref={forwardedRef} onChange={onChange} validationDisabled={true}>
+        <ATForm ref={ref} onChange={onChange} validationDisabled={true}>
             {[
                 formBuilder.createTable({ id: 'Table', label: 'Documents', data: [{ a: '10', b: '2000', c: '5000' }] }),
             ]}
         </ATForm>
     )
-})
+}
 
 export default Table;
