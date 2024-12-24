@@ -1,15 +1,24 @@
 import React, { useContext } from 'react';
 
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
-
-import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
-import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 //Context
 import ATFormContext from '../ATForm/ATFormContext/ATFormContext';
 //Utils
 import { getTitleByEnums } from '../ATForm/UITypeUtils/UITypeUtils';
 
-const ATAgGrid = React.forwardRef(({ rowData, columnDefs, height, domLayout,...restProps }, forwardedRef) => {
+import {
+    ClientSideRowModelModule,
+    ClientSideRowModelApiModule,
+    ValidationModule,
+    LocaleModule,
+    themeBalham,
+    RowApiModule,
+    TextFilterModule,
+    NumberFilterModule
+} from 'ag-grid-community';
+
+const ATAgGrid = React.forwardRef(({ rowData, columnDefs, height, domLayout, ...restProps }, forwardedRef) => {
+
     const { rtl, enums, agGridLocalText, getLocalText } = useContext(ATFormContext)
 
     const newColumnDefs = []
@@ -26,11 +35,12 @@ const ATAgGrid = React.forwardRef(({ rowData, columnDefs, height, domLayout,...r
                 ...restColumnDefs
             })
         }
-        
+
     }
 
     return <div className="ag-theme-alpine" style={{ height: domLayout ? undefined : (height || '80vh'), width: '100%' }}>
         <AgGridReact
+            theme={themeBalham}
             ref={forwardedRef}
             rowData={rowData}
             columnDefs={newColumnDefs}
@@ -38,6 +48,15 @@ const ATAgGrid = React.forwardRef(({ rowData, columnDefs, height, domLayout,...r
             rowHeight={48}
             enableRtl={rtl}
             domLayout={domLayout}
+            modules={[
+                ClientSideRowModelModule,
+                ClientSideRowModelApiModule,
+                ValidationModule,
+                LocaleModule,
+                RowApiModule,
+                TextFilterModule,
+                NumberFilterModule
+            ]}
             {...restProps}
         />
     </div>

@@ -7,9 +7,8 @@ const UIRender = ({
     ui,
     skipForm,
     skipRender,
-    // eslint-disable-line @typescript-eslint/no-unused-vars
-    tabIndex
-    , size,
+    tabIndex, // eslint-disable-line @typescript-eslint/no-unused-vars
+    size,
     wrapperRenderer,
     wrapperRendererProps = {},
     ...restProps }: any
@@ -18,16 +17,15 @@ const UIRender = ({
     //Please note wrapper variable must be pascal because its a react component
     let Wrapper = Grid2
     const wrapperProps = {
-        ...wrapperRendererProps
+        //Pass the size as the wrapper props, this is the wrappers can use it but its not passed to children,
+        //if size does not exists use 12 as the default value
+        size: size || 12,        
+        ...wrapperRendererProps,
     }
 
     if (wrapperRenderer) {
         Wrapper = wrapperRenderer
         wrapperProps['childProps'] = restProps
-    }
-    else {
-        //If wrapper is flex grid pass the size as the wrapper props if size does not exists use 12 as the default value
-        wrapperProps['size'] = size || 12
     }
 
     const children = (
@@ -50,9 +48,9 @@ const UIRender = ({
     )
 
     if (!Wrapper)
-        return children
+        return children    
 
-    return <Wrapper {...wrapperProps} {...wrapperRendererProps}>
+    return <Wrapper {...wrapperProps}>
         {children}
     </Wrapper>
 }

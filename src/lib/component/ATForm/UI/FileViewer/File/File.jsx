@@ -13,7 +13,7 @@ function isImage(url) {
 const File = ({ id, name, size, authToken, width, height }) => {
     const theme = useTheme()
     const { getFile, localText } = useContext(ATFormContext)
-    const [thumbnail, setThumbnail] = useState('')
+    const [thumbnail, setThumbnail] = useState(null)
 
     useEffect(() => {
         if (id && name && getFile && isImage(name))
