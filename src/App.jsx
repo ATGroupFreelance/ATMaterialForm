@@ -14,13 +14,6 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { AdapterDateFnsJalali } from '@mui/x-date-pickers/AdapterDateFnsJalaliV3';
 //CustomComponents
 import MyTextField from '@/CustomComponents/MyTextField/MyTextField';
-//Notistack
-//Notistack custom variations
-import AreYouSure from '@/lib/component/Notistack/CustomVariations/AreYouSure/AreYouSure';
-//Notistack ClasslessSnackbar Snackbar
-import { SnackbarUtilsConfigurator } from '@/lib/component/Notistack/ClasslessSnackbar/ClasslessSnackbar';
-//Notistack Provider
-import { SnackbarProvider } from 'notistack';
 //MUI Theme provider
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 //Examples
@@ -38,6 +31,8 @@ import TabInTab from '@/examples/TabInTab/TabInTab';
 import ComponentPlayground from '@/examples/ComponentPlayground/ComponentPlayground';
 import Playground from '@/examples/Playground/Playground';
 import CustomWrappers from './examples/CustomWrappers/CustomWrappers';
+import ATToastContainer from './lib/component/ATToast/ATToastContainer/ATToastContainer';
+import ToastPlayground from './examples/ToastPlayground/ToastPlayground';
 
 const RTL = true
 
@@ -51,7 +46,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'BasicForm'
+const ACTIVE_EXAMPLE = 'ToastPlayground'
 
 function App() {
   const formRef = useRef(null)
@@ -188,10 +183,16 @@ function App() {
       refEnabled: true,
       onChangeEnabled: true,
     },
+    {
+      id: 'ToastPlayground',
+      component: ToastPlayground,
+    }
   ]
 
+  console.log('App Renderer')
   return (
     <div className='App'>
+      <ATToastContainer />
       <ThemeProvider theme={theme}>
         <ATFormContextProvider value={{
           rtl: RTL,
@@ -210,78 +211,69 @@ function App() {
             }
           ]
         }}>
-          <SnackbarProvider
-            maxSnack={3}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            Components={{
-              areYouSure: AreYouSure
-            }}
-          >
-            <LocalizationProvider dateAdapter={RTL ? AdapterDateFnsJalali : AdapterMoment} >
-              <SnackbarUtilsConfigurator />
-              <Tabs
-                value={selectedTab}
-                onChange={onTabChange}
-                variant="scrollable"
-                scrollButtons="auto"
-                allowScrollButtonsMobile
-                TabScrollButtonProps={{
-                  sx: {
-                    width: 'auto',
-                    minWidth: 0,
-                    height: '100%',
-                  },
-                }}
-                sx={{
-                  '& .MuiTabs-scrollButtons': {
-                    alignItems: 'center',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  },
-                  '& .MuiTabs-scrollButtons.Mui-disabled': {
-                    opacity: 0.3,
-                  },
-                }}
-              >
-                {exampleList.map(item => (
-                  <Tab
-                    key={item.id}
-                    label={item.id.replace(/([A-Z])/g, ' $1').trim()}
-                    value={item.id}
-                    sx={{
-                      fontSize: '14px',
-                      textTransform: 'none',
-                    }}
-                  />
-                ))}
-              </Tabs>
-              <Grid2 container spacing={3}>
-                <Grid2 size={12}>
-                  <div>
-                    Form data key value :
-                  </div>
-                  {JSON.stringify(realTimeFormData || {})}
-                </Grid2>
-                <Grid2 size={4}>
-                  <Button onClick={onLoadLastSubmitClick}>load last submit</Button>
-                </Grid2>
-                <Grid2 size={4}>
-                  <Button onClick={onSetDefaultValueClick}>set default value </Button>
-                </Grid2>
-                <Grid2 size={4}>
-                  <Button onClick={onSubmitClick}>Submit from outside the form</  Button>
-                </Grid2>
-                <Grid2 container size={12} spacing={2}>
-                  {
-                    exampleList.filter(item => item.id === selectedTab).map(item => {
-                      return <item.component key={item.id} ref={item.refEnabled ? formRef : null} onChange={item.onChangeEnabled ? onFormChange : null} />
-                    })
-                  }
-                </Grid2>
+          <LocalizationProvider dateAdapter={RTL ? AdapterDateFnsJalali : AdapterMoment} >
+            <Tabs
+              value={selectedTab}
+              onChange={onTabChange}
+              variant="scrollable"
+              scrollButtons="auto"
+              allowScrollButtonsMobile
+              TabScrollButtonProps={{
+                sx: {
+                  width: 'auto',
+                  minWidth: 0,
+                  height: '100%',
+                },
+              }}
+              sx={{
+                '& .MuiTabs-scrollButtons': {
+                  alignItems: 'center',
+                  display: 'flex',
+                  justifyContent: 'center',
+                },
+                '& .MuiTabs-scrollButtons.Mui-disabled': {
+                  opacity: 0.3,
+                },
+              }}
+            >
+              {exampleList.map(item => (
+                <Tab
+                  key={item.id}
+                  label={item.id.replace(/([A-Z])/g, ' $1').trim()}
+                  value={item.id}
+                  sx={{
+                    fontSize: '14px',
+                    textTransform: 'none',
+                  }}
+                />
+              ))}
+            </Tabs>
+            <Grid2 container spacing={3}>
+              <Grid2 size={12}>
+                <div>
+                  Form data key value :
+                </div>
+                {JSON.stringify(realTimeFormData || {})}
               </Grid2>
+              <Grid2 size={4}>
+                <Button onClick={onLoadLastSubmitClick}>load last submit</Button>
+              </Grid2>
+              <Grid2 size={4}>
+                <Button onClick={onSetDefaultValueClick}>set default value </Button>
+              </Grid2>
+              <Grid2 size={4}>
+                <Button onClick={onSubmitClick}>Submit from outside the form</  Button>
+              </Grid2>
+              <Grid2 container size={12} spacing={2}>
+                {
+                  exampleList.filter(item => item.id === selectedTab).map(item => {
+                    return <item.component key={item.id} ref={item.refEnabled ? formRef : null} onChange={item.onChangeEnabled ? onFormChange : null} />
+                  })
+                }
+              </Grid2>
+            </Grid2>
 
-            </LocalizationProvider>
-          </SnackbarProvider>
+          </LocalizationProvider>
         </ATFormContextProvider>
       </ThemeProvider>
     </div>

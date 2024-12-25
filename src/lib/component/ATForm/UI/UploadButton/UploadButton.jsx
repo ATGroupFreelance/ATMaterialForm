@@ -13,8 +13,8 @@ import ShowFilesIconButton from './ShowFilesIconButton/ShowFilesIconButton';
 import ATFormContext from '../../ATFormContext/ATFormContext';
 //Dialog
 import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
-import { enqueueSnackbar } from 'notistack';
 import { useTheme } from "@mui/material";
+import ATToast from '@/lib/component/ATToast/ATToast';
 
 const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, authToken, readOnly }) => {
     const theme = useTheme()
@@ -47,7 +47,7 @@ const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, e
 
             if (maxUploadButtonFileSizeInBytes) {
                 if (filesSizeSum > maxUploadButtonFileSizeInBytes) {
-                    enqueueSnackbar(localText[`File size exceeds the limit. Please select a smaller file`], { variant: 'error' })
+                    ATToast.error(localText[`File size exceeds the limit. Please select a smaller file`])                    
                     return null;
                 }
             }
