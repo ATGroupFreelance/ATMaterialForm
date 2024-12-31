@@ -87,8 +87,8 @@ class ATForm extends PureComponent {
 
         //New Values
         const newFormData_value = { value: event.target.value, type: type }
-        const newFormDataKeyValue_value = found.convertToKeyValue ? found.convertToKeyValue(event, element, enums) : event.target.value
-        const newFormDataSemiKeyValue_value = found.convertToSemiKeyValue ? found.convertToSemiKeyValue(event, element, enums) : event.target.value
+        const newFormDataKeyValue_value = found.convertToKeyValue ? found.convertToKeyValue({ event, element, enums }) : event.target.value
+        const newFormDataSemiKeyValue_value = found.convertToSemiKeyValue ? found.convertToSemiKeyValue({ event, element, enums }) : event.target.value
 
         //If we don't copy the object and directly mutate it everything will seem okay but outside the component when set state is called it will not cause reRender !, it seems even hook sestate does a casual compare 
         //and if it can't detect object change it will not render.

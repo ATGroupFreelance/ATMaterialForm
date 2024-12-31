@@ -1,4 +1,4 @@
-type StringKeyedObject = {
+export type StringKeyedObject = {
     [key: string]: any;
 };
 
@@ -14,3 +14,7 @@ export interface ATFormCoreElementProps {
     wrapper?: any,
     wrapperProps?: any,
 }
+
+export type ATEnumType = Array<{ ID: number | string; Title: string }>;
+
+export type ATEnumsType = { [key: string]: ATEnumType } | null | undefined;

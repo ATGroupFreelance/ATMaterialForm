@@ -63,16 +63,17 @@ const MultiSelectTextBox = ({ _formProps_, label, onChange, autoComplete = 'disa
         fullWidth={true}
         options={value || []}
         renderTags={(value, getTagProps) =>
-            value.map((option, index) => (
-                <Chip
-                    key={option}
+            value.map((option, index) => {
+                const { key, ...restPropsChip } = getTagProps({ index })
+                return <Chip
+                    key={key}
                     variant="outlined"
                     label={option}
                     color={'secondary'}
-                    {...getTagProps({ index })}
+                    {...restPropsChip}
                     onDelete={() => onChipDeleteClick(option)}
                 />
-            ))
+            })
         }
         renderInput={
             (params) => <TextField

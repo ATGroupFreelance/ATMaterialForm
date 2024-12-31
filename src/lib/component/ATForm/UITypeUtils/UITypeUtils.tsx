@@ -1,6 +1,7 @@
 import moment from 'moment';
 //Cell Renderers
 import UploadButtonCellRenderer from '../UI/UploadButton/UploadButtonCellRenderer/UploadButtonCellRenderer';
+import { ATConvertInterface, ATCreateCustomComponentInterface, ATGetTitleByEnumsInterface, ATReverseConvertInterface, ATTypeInterface } from '../../../types/UITypeUtils';
 
 export const UITypes = {
     Button: 'Button',
@@ -32,8 +33,8 @@ export const UITypes = {
     ColorTextBox: 'ColorTextBox',
 }
 
-export const getTypeInfo = (type, customTypes) => {
-    const newTypes = [
+export const getTypeInfo = (type: any, customTypes: any): ATTypeInterface | undefined => {
+    const newTypes: ATTypeInterface[] = [
         ...types,
         ...(customTypes || [])
     ]
@@ -47,7 +48,7 @@ export const getTypeInfo = (type, customTypes) => {
     return found
 }
 
-export const getTitleByEnums = ({ id, enumsID, options, enums, value }) => {
+export const getTitleByEnums = ({ id, enumsID, options, enums, value }: ATGetTitleByEnumsInterface) => {
     if (value === null)
         return ''
 
@@ -61,7 +62,7 @@ export const getTitleByEnums = ({ id, enumsID, options, enums, value }) => {
             result = String(found.Title)
     }
     else if (enums && enums[searchID]) {
-        const found = enums[searchID].find(item => String(item.ID) === stringValue)
+        const found = enums[searchID].find((item: any) => String(item.ID) === stringValue)
         if (found)
             result = String(found.Title)
     }
@@ -69,7 +70,7 @@ export const getTitleByEnums = ({ id, enumsID, options, enums, value }) => {
     return result
 }
 
-export const createValidation = ({ errorMessage, ...props }) => {
+export const createValidation = ({ errorMessage, ...props }: any) => {
     return {
         ...props,
         errorMessage: errorMessage ? errorMessage : 'This field can not be empty'
@@ -81,7 +82,7 @@ export const createValidation = ({ errorMessage, ...props }) => {
 //2- If initialValue is not inside an object it means the object is uncontrolled
 //3- If you want to set the initialValue to null please set "isNullValueValid" to true
 
-export const createType = ({ type, initialValue, isNullValueValid, convertToKeyValue, reverseConvertToKeyValue, convertToSemiKeyValue, reverseConvertToSemiKeyValue, validation, getAgGridColumnDef }) => {
+export const createType = ({ type, initialValue, isNullValueValid, convertToKeyValue, reverseConvertToKeyValue, convertToSemiKeyValue, reverseConvertToSemiKeyValue, validation, getAgGridColumnDef }: ATTypeInterface) => {
     return {
         type,
         initialValue,
@@ -96,7 +97,7 @@ export const createType = ({ type, initialValue, isNullValueValid, convertToKeyV
     }
 }
 
-const getLeafNodes = (nodes, result = []) => {
+const getLeafNodes = (nodes: any[], result: any[] = []) => {
     for (var i = 0, length = nodes.length; i < length; i++) {
         if (!nodes[i].children || nodes[i].children.length === 0) {
             result.push(nodes[i]);
@@ -107,7 +108,7 @@ const getLeafNodes = (nodes, result = []) => {
     return result;
 }
 
-const getParentNode = (tree, node) => {
+const getParentNode = (tree: any, node: any): any => {
     let result = null
 
     for (let i = 0; i < tree.length; i++) {
@@ -145,7 +146,7 @@ export const types = [
         type: 'IntegerTextBox',
         initialValue: null,
         validation: createValidation({ anyOf: [{ type: 'integer' }] }),
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value && value !== 0)
                 return null
             else if (typeof value === "string")
@@ -155,7 +156,7 @@ export const types = [
         },
         getAgGridColumnDef: () => {
             return {
-                valueFormatter: ({ value }) => {
+                valueFormatter: ({ value }: any) => {
                     return value === null ? '' : value
                 }
             }
@@ -165,7 +166,7 @@ export const types = [
         type: 'FloatTextBox',
         initialValue: null,
         validation: createValidation({ anyOf: [{ type: 'number' }] }),
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value && value !== 0)
                 return null
             else if (typeof value === "string")
@@ -175,7 +176,7 @@ export const types = [
         },
         getAgGridColumnDef: () => {
             return {
-                valueFormatter: ({ value }) => {
+                valueFormatter: ({ value }: any) => {
                     return value === null ? '' : value
                 }
             }
@@ -185,13 +186,13 @@ export const types = [
         type: 'ComboBox',
         initialValue: null,
         validation: createValidation({ type: 'integer' }),
-        convertToKeyValue: (event) => {
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
             if (!event.target.value)
                 return event.target.value
 
             return event.target.value.ID
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             console.log('element', value, element)
             if (value === null || value === undefined)
                 return null
@@ -206,16 +207,16 @@ export const types = [
         type: 'MultiComboBox',
         initialValue: [],
         validation: createValidation({ type: 'array', minItems: 1 }),
-        convertToKeyValue: (event) => {
-            return event.target.value.map(item => item.ID).join(',')
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
+            return event.target.value.map((item: any) => item.ID).join(',')
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
             else {
                 const valueArray = value.split(',')
 
-                return valueArray.map(item => {
+                return valueArray.map((item: any) => {
                     return {
                         ID: item,
                         Title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value: item })
@@ -223,14 +224,14 @@ export const types = [
                 })
             }
         },
-        convertToSemiKeyValue: (event) => {
-            return event.target.value.map(item => item.ID)
+        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
+            return event.target.value.map((item: any) => item.ID)
         },
-        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+        reverseConvertToSemiKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
             else {
-                return value.map(item => {
+                return value.map((item: any) => {
                     return {
                         ID: item,
                         Title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value: item })
@@ -243,8 +244,8 @@ export const types = [
         type: 'DatePicker',
         initialValue: null,
         validation: createValidation({ type: 'string', minLength: 1 }),
-        convertToKeyValue: (event) => moment(event.target.value).isValid() ? moment(event.target.value).format('YYYY-MM-DD') : null,
-        reverseConvertToKeyValue: ({ value, element, enums, rtl }) => {
+        convertToKeyValue: ({ event }: ATConvertInterface) => moment(event.target.value).isValid() ? moment(event.target.value).format('YYYY-MM-DD') : null,
+        reverseConvertToKeyValue: ({ value, element, enums, rtl }: ATReverseConvertInterface) => {
             if (value === undefined || value === null)
                 return null
             else
@@ -255,25 +256,25 @@ export const types = [
         type: 'UploadButton',
         initialValue: [],
         validation: createValidation({ type: 'array', minItems: 1 }),
-        convertToKeyValue: (event) => {
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
             return JSON.stringify(event.target.value)
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
 
             return JSON.parse(value)
         },
-        convertToSemiKeyValue: (event) => {
+        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
             return event.target.value
         },
-        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+        reverseConvertToSemiKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
 
             return value
         },
-        getAgGridColumnDef: ({ enums }) => {
+        getAgGridColumnDef: ({ enums }: any) => {
             return {
                 cellRenderer: UploadButtonCellRenderer,
             }
@@ -283,10 +284,10 @@ export const types = [
         type: 'UploadImageButton',
         initialValue: null,
         validation: createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
-        convertToKeyValue: (event) => {
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
             return event.target.value
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             return value
         },
     }),
@@ -294,25 +295,25 @@ export const types = [
         type: 'FileViewer',
         initialValue: [],
         validation: createValidation({ type: 'array', minItems: 1 }),
-        convertToKeyValue: (event) => {
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
             return JSON.stringify(event.target.value)
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
 
             return JSON.parse(value)
         },
-        convertToSemiKeyValue: (event) => {
+        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
             return event.target.value
         },
-        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+        reverseConvertToSemiKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
 
             return value
         },
-        getAgGridColumnDef: ({ enums }) => {
+        getAgGridColumnDef: ({ enums }: any) => {
             return {
                 cellRenderer: UploadButtonCellRenderer,
             }
@@ -322,11 +323,11 @@ export const types = [
         type: 'CascadeComboBox',
         initialValue: null,
         validation: createValidation({ type: 'integer' }),
-        convertToKeyValue: (event, element) => {
+        convertToKeyValue: ({ event, element }: ATConvertInterface) => {
             if (!event.target.value)
                 return event.target.value
 
-            const result = {}
+            const result: { [key: string]: any[] } = {}
 
             const leafs = getLeafNodes(element.design)
 
@@ -350,7 +351,7 @@ export const types = [
 
             return result[leaf.id]
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (value === undefined || value === null)
                 return null
 
@@ -365,14 +366,15 @@ export const types = [
                 return null
             }
 
-            const getLeafCascadeValue = (leaf, value) => {
+            const getLeafCascadeValue = (leaf: any, value: any | undefined | null): any => {
                 if (!leaf)
                     return {}
 
-                const found = enums[leaf.enumKey].find(item => String(item.ID) === String(value))
+                const found = enums?.[leaf.enumKey]?.find((item: any) => String(item.ID) === String(value))
 
                 if (leaf.enumParentKey) {
-                    const parentValueResult = getLeafCascadeValue(getParentNode(element.design, leaf), found[leaf.enumParentKey])
+                    //@ts-expect-error 
+                    const parentValueResult = getLeafCascadeValue(getParentNode(element.design, leaf), found?.[leaf.enumParentKey])
                     console.log('parentValueResult', found, parentValueResult, leaf)
 
                     return {
@@ -397,11 +399,11 @@ export const types = [
         type: 'MultiValueCascadeComboBox',
         initialValue: null,
         validation: createValidation({ type: 'object', eachPropIsValid: true, errorMessage: 'This field can not be empty' }),
-        convertToKeyValue: (event) => {
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
             if (!event.target.value)
                 return event.target.value
 
-            const result = {}
+            const result: { [key: string]: any[] } = {}
 
             for (let key in event.target.value) {
                 if (Array.isArray(event.target.value[key]))
@@ -412,12 +414,12 @@ export const types = [
 
             return JSON.stringify(result)
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (value === undefined || value === null)
                 return null
 
             const parsedValue = JSON.parse(value)
-            const result = {}
+            const result: { [key: string]: any | null[] } = {}
 
             for (let key in parsedValue) {
                 if (parsedValue[key] === undefined || parsedValue[key] === null) {
@@ -436,11 +438,11 @@ export const types = [
 
             return result
         },
-        convertToSemiKeyValue: (event) => {
+        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
             if (!event.target.value)
                 return event.target.value
 
-            const result = {}
+            const result: { [key: string]: any[] } = {}
 
             for (let key in event.target.value) {
                 if (Array.isArray(event.target.value[key]))
@@ -451,12 +453,12 @@ export const types = [
 
             return result
         },
-        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+        reverseConvertToSemiKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (value === undefined || value === null)
                 return null
 
             const parsedValue = value
-            const result = {}
+            const result: { [key: string]: any | null[] } = {}
 
             for (let key in parsedValue) {
                 if (parsedValue[key] === undefined || parsedValue[key] === null) {
@@ -506,19 +508,19 @@ export const types = [
         type: 'ContainerWithTable',
         initialValue: [],
         validation: createValidation({ type: 'array', minItems: 1 }),
-        convertToKeyValue: (event) => {
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
             return JSON.stringify(event.target.value)
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
 
             return JSON.parse(value)
         },
-        convertToSemiKeyValue: (event) => {
+        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
             return event.target.value
         },
-        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+        reverseConvertToSemiKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
 
@@ -529,19 +531,19 @@ export const types = [
         type: 'MultiSelectTextBox',
         initialValue: [],
         validation: createValidation({ type: 'array', minItems: 1 }),
-        convertToKeyValue: (event) => {
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
             return JSON.stringify(event.target.value)
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
             else
                 return JSON.parse(value)
         },
-        convertToSemiKeyValue: (event) => {
+        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
             return event.target.value
         },
-        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+        reverseConvertToSemiKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
             else
@@ -558,19 +560,19 @@ export const types = [
         type: 'MultiSelectGrid',
         initialValue: [],
         validation: createValidation({ type: 'array', minItems: 1 }),
-        convertToKeyValue: (event) => {
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
             return JSON.stringify(event.target.value)
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
             else
                 return JSON.parse(value)
         },
-        convertToSemiKeyValue: (event) => {
+        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
             return event.target.value
         },
-        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+        reverseConvertToSemiKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
             else
@@ -580,19 +582,19 @@ export const types = [
     createType({
         type: 'ImageSelect',
         initialValue: [],
-        convertToKeyValue: (event) => {
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
             return JSON.stringify(event.target.value)
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
 
             return JSON.parse(value)
         },
-        convertToSemiKeyValue: (event) => {
+        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
             return event.target.value
         },
-        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+        reverseConvertToSemiKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return []
 
@@ -606,19 +608,19 @@ export const types = [
     createType({
         type: 'Form',
         initialValue: null,
-        convertToKeyValue: (event) => {
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
             return JSON.stringify(event.target.value)
         },
-        reverseConvertToKeyValue: ({ value, element, enums }) => {
+        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return null
 
             return JSON.parse(value)
         },
-        convertToSemiKeyValue: (event) => {
+        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
             return event.target.value
         },
-        reverseConvertToSemiKeyValue: ({ value, element, enums }) => {
+        reverseConvertToSemiKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
                 return null
 
@@ -632,8 +634,8 @@ export const types = [
     }),
 ]
 
-export const createCustomComponent = ({ component, type, initialValue, isControlledUI = true }) => {
-    const typeInfo = {
+export const createCustomComponent = ({ component, type, initialValue, isControlledUI = true }: ATCreateCustomComponentInterface) => {
+    const typeInfo: ATTypeInterface = {
         type
     }
 
