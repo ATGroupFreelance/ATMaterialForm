@@ -14,7 +14,7 @@ const AreYouSure = ({ closeToast, data, isPaused, toastProps, onYesClick, onNoCl
             onYesClick(event, { closeToast, ...props })
     }
 
-    console.log('AreYouSure', { closeToast, data, isPaused, toastProps, onYesClick, onNoClick, toastContent })
+    // console.log('AreYouSure', { closeToast, data, isPaused, toastProps, onYesClick, onNoClick, toastContent })
 
     return <Grid2 container spacing={2}>
         <Grid2 size={12}>

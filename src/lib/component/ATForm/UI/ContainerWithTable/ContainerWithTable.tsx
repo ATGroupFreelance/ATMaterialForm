@@ -1,3 +1,4 @@
+//@ts-expect-error
 import React, { useCallback, useRef, useContext, useEffect, useState } from 'react';
 
 //MUI
@@ -36,7 +37,7 @@ const initializeOnChangeInterface = () => {
     }
 }
 
-const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATContainerWithTableProps) => {
+const ContainerWithTable = ({ _formProps_, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATContainerWithTableProps) => {
     const { enums, rtl, localText } = useContext(ATFormContext)
 
     const [currentGridRef, setCurrentGridRef] = useState<ATAgGridRef>(null)
@@ -271,7 +272,9 @@ const ContainerWithTable = ({ _formProps_, id, value, elements, getGridColumnDef
                 ]}
                 //@ts-ignore
                 getRowId={getRowId ? getRowId() : (params) => String(params.data[DEFAULT_ROW_ID_KEY])}
-            />
+                ref={undefined}
+                rowData={undefined}
+                domLayout={undefined} />
         </div>
     </div >
 }
