@@ -22,6 +22,31 @@ const AgGridCellRendererTemplates = () => {
         <ATAgGrid
             rowData={rowData}
             columnDefs={columnDefs}
+            tColumns={[
+                {
+                    id: 'Show_Index1',
+                    type: 'FormDialog',
+                    index: 1,
+                    colProps: {
+                        cellRendererParams: {
+                            color: 'error'
+                        },
+                    },
+                    typeProps: {
+                        title: "Show Index 1 Dialog",
+                        children: [
+                            {
+                                id: 'Name',
+                                type: 'TextBox'
+                            }
+                        ]
+                    }
+                },
+                {
+                    id: 'Show_NoIndex',
+                    type: 'FormDialog',
+                }
+            ]}
         />
     )
 }

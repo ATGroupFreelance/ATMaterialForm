@@ -1,12 +1,20 @@
 import { ColDef } from "ag-grid-community";
 import { AgGridReactProps } from "ag-grid-react";
+import { ATButtonOnClickHandler } from "./Button";
 
 export interface ATAgGridProps extends AgGridReactProps {
+    ref?: any,
     height?: any;
+    tColumns?: ATAgGridTColumnInterface[],
+}
+
+export interface ATAgGridExtendedColDef extends ColDef {
+    enumID?: any;
+    enumOptions?: any;
 }
 
 export interface AgGridCellRendererBaseProps {
-    data,
+    data?: any,
     colDef: ColDef,
     api: any,
     setValue: any,
@@ -14,7 +22,7 @@ export interface AgGridCellRendererBaseProps {
 }
 
 export interface CellRendererButtonBaseProps {
-    onClick: any,
+    onClick: ATButtonOnClickHandler<Partial<AgGridCellRendererBaseProps>>,
     confirmationMessage?: string,
     getCellRendererParams?: any,
     color?: string,
@@ -23,7 +31,7 @@ export interface CellRendererButtonBaseProps {
 }
 
 export interface CellRendererIconButtonBaseProps {
-    onClick: any,
+    onClick: ATButtonOnClickHandler,
     icon?: any,
     confirmationMessage?: string
     tooltip?: string,
@@ -41,4 +49,13 @@ export interface CellRendererButtonColumnDefProps extends ColDef {
 
 export interface CellRendererIconButtonColumnDefProps extends ColDef {
     cellRendererParams: CellRendererIconButtonBaseProps;
+}
+
+//TColumns
+export interface ATAgGridTColumnInterface {
+    id: string,
+    type: 'FormDialog',
+    index?: integer,
+    typeProps?: any,
+    colProps?: ATAgGridExtendedColDef,
 }
