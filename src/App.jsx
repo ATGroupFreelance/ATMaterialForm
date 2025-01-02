@@ -33,6 +33,7 @@ import Playground from '@/examples/Playground/Playground';
 import CustomWrappers from './examples/CustomWrappers/CustomWrappers';
 import ATToastContainer from './lib/component/ATToast/ATToastContainer/ATToastContainer';
 import ToastPlayground from './examples/ToastPlayground/ToastPlayground';
+import AgGridCellRendererTemplates from './examples/AgGridCellRendererTemplates/AgGridCellRendererTemplates';
 
 const RTL = true
 
@@ -46,7 +47,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'ToastPlayground'
+const ACTIVE_EXAMPLE = 'AgGridCellRendererTemplates'
 
 function App() {
   const formRef = useRef(null)
@@ -186,6 +187,10 @@ function App() {
     {
       id: 'ToastPlayground',
       component: ToastPlayground,
+    },
+    {
+      id: 'AgGridCellRendererTemplates',
+      component: AgGridCellRendererTemplates
     }
   ]
 

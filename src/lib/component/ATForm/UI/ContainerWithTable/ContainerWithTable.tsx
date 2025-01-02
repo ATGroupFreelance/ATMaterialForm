@@ -20,6 +20,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { GridApi } from "ag-grid-community";
 import { ATContainerWithTableProps } from '@/lib/types/ContainerWithTable';
 import { ATFormOnChangeInterface } from '@/lib/types/Common';
+import { ATButtonOnClickHandler } from '@/lib/types/Button';
 
 const DEFAULT_ROW_ID_KEY = 'JSONID'
 const INTERFACE_TYPES = {
@@ -146,7 +147,7 @@ const ContainerWithTable = ({ _formProps_, value, elements, getGridColumnDefs, o
             console.error('Invalid interface type inside containerWithTable component, possible values: ', INTERFACE_TYPES)
     }
 
-    const onEditClick = (_event: any, { data }: ATButtonOnClickInterface) => {
+    const onEditClick: ATButtonOnClickHandler<{data?: any}> = (_event: any, { data }) => {
         setRecordDialog({
             show: true,
             editMode: true,
@@ -154,7 +155,7 @@ const ContainerWithTable = ({ _formProps_, value, elements, getGridColumnDefs, o
         })
     }
 
-    const onRemoveClick = (_event: any, { data }: ATButtonOnClickInterface) => {
+    const onRemoveClick: ATButtonOnClickHandler<{data?: any}> = (_event: any, { data }) => {
         if (currentGridRef) {
             currentGridRef.api.applyTransaction({ remove: [data] });
 
