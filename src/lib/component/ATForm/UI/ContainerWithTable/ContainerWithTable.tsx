@@ -147,7 +147,7 @@ const ContainerWithTable = ({ _formProps_, value, elements, getGridColumnDefs, o
             console.error('Invalid interface type inside containerWithTable component, possible values: ', INTERFACE_TYPES)
     }
 
-    const onEditClick: ATButtonOnClickHandler<{data?: any}> = (_event: any, { data }) => {
+    const onEditClick: ATButtonOnClickHandler<{ data?: any }> = (_event: any, { data }) => {
         setRecordDialog({
             show: true,
             editMode: true,
@@ -155,7 +155,7 @@ const ContainerWithTable = ({ _formProps_, value, elements, getGridColumnDefs, o
         })
     }
 
-    const onRemoveClick: ATButtonOnClickHandler<{data?: any}> = (_event: any, { data }) => {
+    const onRemoveClick: ATButtonOnClickHandler<{ data?: any }> = (_event: any, { data }) => {
         if (currentGridRef) {
             currentGridRef.api.applyTransaction({ remove: [data] });
 
@@ -266,16 +266,16 @@ const ContainerWithTable = ({ _formProps_, value, elements, getGridColumnDefs, o
                 height={height}
                 columnDefs={[
                     ...(gridColumnDefs || []),
-                    //@ts-ignore
-                    ColumnDefTemplates.createEdit({ onClick: onEditClick, pinned: 'left' }),
-                    //@ts-ignore
-                    ColumnDefTemplates.createRemove({ onClick: onRemoveClick, pinned: 'left' })
+                    ColumnDefTemplates.createEdit({ cellRendererParams: { onClick: onEditClick }, pinned: 'left' }),
+                    ColumnDefTemplates.createRemove({ cellRendererParams: { onClick: onRemoveClick }, pinned: 'left' })
                 ]}
                 //@ts-ignore
                 getRowId={getRowId ? getRowId() : (params) => String(params.data[DEFAULT_ROW_ID_KEY])}
                 ref={undefined}
                 rowData={undefined}
-                domLayout={undefined} />
+                domLayout={undefined}
+                tColumns={undefined}
+            />
         </div>
     </div >
 }

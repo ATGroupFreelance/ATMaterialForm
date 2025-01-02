@@ -17,7 +17,7 @@ import {
     NumberFilterModule
 } from 'ag-grid-community';
 
-const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, ...restProps }) => {
+const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, ...restProps }) => {
 
     const { rtl, enums, agGridLocalText, getLocalText } = useContext(ATFormContext)
 
@@ -35,10 +35,9 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, ...restProps })
                 ...restColumnDefs
             })
         }
+    }    
 
-    }
-
-    return <div className="ag-theme-alpine" style={{ height: domLayout ? undefined : (height || '80vh'), width: '100%' }}>
+    return <div style={{ height: domLayout ? undefined : (height || '80vh'), width: '100%' }}>
         <AgGridReact
             theme={themeBalham}
             ref={ref}

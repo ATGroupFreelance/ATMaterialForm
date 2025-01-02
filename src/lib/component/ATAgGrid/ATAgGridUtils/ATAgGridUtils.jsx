@@ -34,7 +34,3 @@ export const getColumnDefsByATFormElements = ({ formElements, enums, getTypeInfo
 
     return result;
 }
-
-export const createEdit = ColumnDefTemplates.createEdit
-export const createRemove = ColumnDefTemplates.createRemove
-export const createButton = ColumnDefTemplates.createButton

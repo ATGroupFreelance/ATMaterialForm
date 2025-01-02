@@ -1,12 +1,13 @@
+import { CellRendererButtonProps } from "@/lib/types/ATAgGrid";
 import ATButton from "../../../ATForm/UI/Button/Button";
 
-const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, variant, color, confirmationMessage, api, setValue, commonEventProps }) => {
-    let props = {}
+const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, variant, color, confirmationMessage, api, setValue, commonEventProps }: CellRendererButtonProps) => {
+    let props: any = {}
 
     if (getCellRendererParams) {
-        props = getCellRendererParams(data)
+        props = getCellRendererParams({ data, colDef })
     }
-        
+
     const { headerName, ["onClick"]: getCellRendererParamsOnClick, ...restProps } = props
 
     return <ATButton

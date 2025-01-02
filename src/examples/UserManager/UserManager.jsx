@@ -69,8 +69,8 @@ const UserManager = () => {
     }
 
     const columnDefs = [
-        ColumnDefTemplates.createRemove({ onClick: onRemoveClick }),
-        ColumnDefTemplates.createEdit({ onClick: onEditClick }),
+        ColumnDefTemplates.createRemove({ cellRendererParams: { onClick: onRemoveClick } }),
+        ColumnDefTemplates.createEdit({ cellRendererParams: { onClick: onEditClick } }),
         ...Columns.map(item => {
             return {
                 field: item.id,

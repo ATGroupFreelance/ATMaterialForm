@@ -1,3 +1,5 @@
+import { ColDef } from "ag-grid-community";
+
 export type StringKeyedObject = {
     [key: string]: any;
 };
