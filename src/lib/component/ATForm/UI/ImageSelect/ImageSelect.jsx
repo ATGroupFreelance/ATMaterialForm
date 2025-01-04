@@ -39,7 +39,7 @@ const Image = ({ id, name, src, onClick, imageWidth, imageHeight, selected }) =>
     </Button>
 }
 
-const ImageSelect = ({ _formProps_, id, authToken, label, imageWidth = 128, imageHeight = 128, onChange, value, multiple = false, imageGrid = null, ...restProps }) => {
+const ImageSelect = ({ atFormProvidedProps, id, authToken, label, imageWidth = 128, imageHeight = 128, onChange, value, multiple = false, imageGrid = null, ...restProps }) => {
     const { getFile } = useContext(ATFormContext)
     const [data, setData] = useState([])
 

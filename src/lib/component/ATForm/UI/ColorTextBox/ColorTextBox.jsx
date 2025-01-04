@@ -7,7 +7,7 @@ import ColorTextBoxColorPickerDialog from './ColorTextBoxColorPickerDialog/Color
 //ATForm
 import ATFormContext from '../../ATFormContext/ATFormContext';
 
-const ColorTextBox = ({ _formProps_, id, TextBox, readOnly, InputProps, value, onChange, ...restProps }) => {
+const ColorTextBox = ({ atFormProvidedProps, id, TextBox, readOnly, InputProps, value, onChange, ...restProps }) => {
     const { localText } = useContext(ATFormContext)
     const [dialog, setDialog] = useState(null)
 

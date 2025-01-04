@@ -3,7 +3,7 @@ import React from 'react';
 import TextBox from '../TextBox/TextBox';
 import { convertNoneEnglishNumbers } from '../../FormUtils/FormUtils';
 
-const IntegerTextBox = ({ _formProps_, id, value, onChange, ...restProps }) => {
+const IntegerTextBox = ({ atFormProvidedProps, id, value, onChange, ...restProps }) => {
 
     const onInternalChange = (event) => {
         const newValue = convertNoneEnglishNumbers(event.target.value)

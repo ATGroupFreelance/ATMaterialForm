@@ -38,7 +38,7 @@ const initializeOnChangeInterface = () => {
     }
 }
 
-const ContainerWithTable = ({ _formProps_, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATContainerWithTableProps) => {
+const ContainerWithTable = ({ atFormProvidedProps, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATContainerWithTableProps) => {
     const { enums, rtl, localText } = useContext(ATFormContext)
 
     const [currentGridRef, setCurrentGridRef] = useState<ATAgGridRef>(null)
@@ -163,7 +163,7 @@ const ContainerWithTable = ({ _formProps_, value, elements, getGridColumnDefs, o
         }
     }
 
-    const baseGridColumnDefs = getGridColumnDefs ? getGridColumnDefs(getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: _formProps_.getTypeInfo })) : getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: _formProps_.getTypeInfo })
+    const baseGridColumnDefs = getGridColumnDefs ? getGridColumnDefs(getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: atFormProvidedProps.getTypeInfo })) : getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: atFormProvidedProps.getTypeInfo })
 
     const gridColumnDefs = baseGridColumnDefs?.map((item: any) => {
         if (item.cellRenderer) {

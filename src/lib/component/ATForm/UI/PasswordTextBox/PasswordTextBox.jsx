@@ -7,7 +7,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import './PasswordTextBox.css';
 import TextBox from '../TextBox/TextBox';
 
-const Password = ({ _formProps_, id, showPassword = false, onToggleShowPasswordClick, error, helperText,readOnly, ...restProps }) => {
+const Password = ({ atFormProvidedProps, id, showPassword = false, onToggleShowPasswordClick, error, helperText,readOnly, ...restProps }) => {
     const [lShowPassword, setLShowPassword] = useState(showPassword)
 
     useEffect(() => {

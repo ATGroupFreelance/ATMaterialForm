@@ -9,7 +9,7 @@ const IconButton = ({ onClick, icon, data, confirmationMessage, tooltip, getCell
     }
 
     return <ATIconButton
-        _formProps_={undefined}
+        atFormProvidedProps={undefined}
         disabled={undefined}
         children={undefined}
         onClick={(event: any, props: any) => onClick(event, { ...props, data })}

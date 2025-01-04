@@ -3,7 +3,7 @@ import React from 'react';
 import TextBox from '../TextBox/TextBox';
 import { convertNoneEnglishNumbers } from '../../FormUtils/FormUtils';
 
-const FloatTextBox = ({ _formProps_, id, value, onChange, ...restProps }) => {
+const FloatTextBox = ({ atFormProvidedProps, id, value, onChange, ...restProps }) => {
 
     const onInternalChange = (event) => {
         const newValue = convertNoneEnglishNumbers(event.target.value)

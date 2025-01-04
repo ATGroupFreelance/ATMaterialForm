@@ -14,7 +14,7 @@ import { isFunction } from '../../FormUtils/FormUtils';
 //[{label: 'uk'}, {label: 'us'}]
 
 
-const ComboBox = ({ _formProps_, label, options, onChange, autoComplete = 'off', error, helperText, value, getInputProps, ...restProps }) => {
+const ComboBox = ({ atFormProvidedProps, label, options, onChange, autoComplete = 'off', error, helperText, value, getInputProps, ...restProps }) => {
     const [data, setData] = useState([])
 
     useEffect(() => {

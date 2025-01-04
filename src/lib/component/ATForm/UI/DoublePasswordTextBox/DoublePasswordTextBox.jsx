@@ -4,7 +4,7 @@ import PasswordTextBox from '../PasswordTextBox/PasswordTextBox';
 //Context
 import ATFormContext from '../../ATFormContext/ATFormContext';
 
-const DoublePasswordTextBox = ({ _formProps_, id, showPassword = false, onChange, value, error, helperText, label, ...restProps }) => {
+const DoublePasswordTextBox = ({ atFormProvidedProps, id, showPassword = false, onChange, value, error, helperText, label, ...restProps }) => {
     const { localText } = useContext(ATFormContext)
 
     const [valueA, setValueA] = useState('')

@@ -6,11 +6,11 @@ const Button = React.lazy(() => import('../../UI/Button/Button'));
 const Label = React.lazy(() => import('../../UI/Label/Label'));
 const Table = React.lazy(() => import('../../UI/Table/Table'));
 
-const UncontrolledUIBuilder = ({ _formProps_, _typeInfo_, type, value, defaultValue, onChange, ...restProps }) => {
+const UncontrolledUIBuilder = ({ atFormProvidedProps, _typeInfo_, type, value, defaultValue, onChange, ...restProps }) => {
     const { customComponents } = useContext(ATFormContext)
 
     const commonProps = {
-        _formProps_: _formProps_,
+        atFormProvidedProps: atFormProvidedProps,
         ...restProps,
     }
 

@@ -16,9 +16,9 @@ import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
 import { useTheme } from "@mui/material";
 import ATToast from '@/lib/component/ATToast/ATToast';
 
-const UploadButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, authToken, readOnly }) => {
+const UploadButton = ({ atFormProvidedProps, label, onChange, value, disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, authToken, readOnly }) => {
     const theme = useTheme()
-    const { onLockdownChange } = _formProps_
+    const { onLockdownChange } = atFormProvidedProps
     const { uploadFilesToServer, localText, maxUploadButtonFileSizeInBytes } = useContext(ATFormContext)
 
     const [loading, setLoading] = useState(false)

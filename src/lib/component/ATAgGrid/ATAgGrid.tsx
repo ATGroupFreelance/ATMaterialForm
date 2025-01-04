@@ -22,7 +22,12 @@ import { ColumnDefTemplates } from './ColumnDefTemplates/ColumnDefTemplates';
 import ATFormDialog from '../ATForm/ATFormDialog';
 import { ATButtonOnClickHandler } from '@/lib/types/Button';
 
-const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, ...restProps }: ATAgGridProps) => {
+const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, height, domLayout, tColumns, ...restProps }: ATAgGridProps) => {
+    /**Ignore unused variables using void */
+    void atFormProvidedProps;
+    void id;
+    void label;
+
     const [dialog, setDialog] = useState<any>(null)
 
     const { rtl, enums, agGridLocalText, getLocalText } = useContext(ATFormContext)

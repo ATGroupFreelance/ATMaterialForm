@@ -6,8 +6,8 @@ import { Button } from '@mui/material';
 //Resizer
 import Resizer from "react-image-file-resizer";
 
-const Avatar = ({ _formProps_, id, value, accept, avatarSize = 42, width = 128, height = 128, readOnly, onChange, error, helperText, ...restProps }) => {
-    const { onLockdownChange } = _formProps_
+const Avatar = ({ atFormProvidedProps, id, value, accept, avatarSize = 42, width = 128, height = 128, readOnly, onChange, error, helperText, ...restProps }) => {
+    const { onLockdownChange } = atFormProvidedProps
 
     const resizeImage = (file) => {
         return new Promise((resolve, reject) => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import BaseComboBox from './BaseComboBox/BaseComboBox';
 
-const CascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComplete = 'disabled', error, helperText, ...restProps }) => {
+const CascadeComboBox = ({ atFormProvidedProps, label, design, onChange, value, autoComplete = 'disabled', error, helperText, ...restProps }) => {
     const [localValue, setLocalValue] = useState(null)
 
     useEffect(() => {

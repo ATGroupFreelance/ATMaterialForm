@@ -386,7 +386,7 @@ class ATForm extends PureComponent {
         }
 
         return {
-            _formProps_: {
+            atFormProvidedProps: {
                 onChildChange: ({ event, callFormOnChangeDisabled }) => this.onChildChange({ id, type, event, element: restProps, callFormOnChangeDisabled, groupDataID }),
                 onLockdownChange: (state) => this.onLockdownChange(id, state),
                 // ref: (node) => this.onGetChildRef(id, node),

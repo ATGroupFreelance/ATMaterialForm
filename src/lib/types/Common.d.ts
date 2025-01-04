@@ -25,7 +25,7 @@ export interface ATFormChildProps {
     wrapperRenderer?: any;
     wrapperRendererProps?: any;
     ref?: any;
-    _formProps_?: any;
+    atFormProvidedProps?: any;
     _typeInfo_?: any;
     value?: any;
     onChange?: (event: any) => void;
@@ -33,7 +33,7 @@ export interface ATFormChildProps {
 }
 
 export interface UIBuilderProps {
-    _formProps_: any;
+    atFormProvidedProps: any;
     id: string;
     label?: string;
     type: string;
@@ -46,12 +46,12 @@ export interface ATFormElementProps {
     label?: string;
     validation?: any;
     defaultValue?: any;
-    _formProps_?: any;
+    atFormProvidedProps?: any;
 }
 
 export interface ATFormControlledElementProps {
     ref: ref,
-    _formProps_: _formProps_,
+    atFormProvidedProps: atFormProvidedProps,
     id: id,
     value: localValue,
     onChange: internalOnChange,
@@ -60,7 +60,9 @@ export interface ATFormControlledElementProps {
 }
 
 export interface ATFormUncontrolledElementProps {
-    _formProps_: any
+    atFormProvidedProps?: any,
+    id?: string,
+    label?: string,
 }
 
 export type ATEnumType = Array<{ ID: number | string; Title: string }>;

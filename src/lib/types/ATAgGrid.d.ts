@@ -1,8 +1,9 @@
 import { ColDef } from "ag-grid-community";
 import { AgGridReactProps } from "ag-grid-react";
 import { ATButtonOnClickHandler } from "./Button";
+import { ATFormUncontrolledElementProps } from "./Common";
 
-export interface ATAgGridProps extends AgGridReactProps {
+export interface ATAgGridProps extends AgGridReactProps, ATFormUncontrolledElementProps {
     ref?: any,
     height?: any;
     tColumns?: ATAgGridTColumnInterface[],

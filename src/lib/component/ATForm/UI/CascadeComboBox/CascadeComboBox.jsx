@@ -2,7 +2,7 @@ import React from 'react';
 
 import BaseComboBox from './BaseComboBox/BaseComboBox';
 
-const CascadeComboBox = ({ _formProps_, label, design, onChange, value, autoComplete = 'disabled', error, helperText, readOnly, ...restProps }) => {
+const CascadeComboBox = ({ atFormProvidedProps, label, design, onChange, value, autoComplete = 'disabled', error, helperText, readOnly, ...restProps }) => {
     const onInternalChange = (id, event, children) => {
         const newValue = {
             ...(value || {}),

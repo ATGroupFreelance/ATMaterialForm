@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import ATFormContext from '../../ATFormContext/ATFormContext';
 import { Typography } from '@mui/material';
 
-const Table = ({ _formProps_, id, data, columns, label, cellStyle, labelStyle, columnCellStyle, hideColumns }) => {
+const Table = ({ atFormProvidedProps, id, data, columns, label, cellStyle, labelStyle, columnCellStyle, hideColumns }) => {
     const { getLocalText } = useContext(ATFormContext)
 
     const newColumns = [

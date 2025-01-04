@@ -4,7 +4,7 @@ import MUIButton from '@mui/material/Button';
 import ATToast from '../../../ATToast/ATToast';
 import { ATButtonProps } from '@/lib/types/Button';
 
-const Button = ({ ref, _formProps_, onClick, loading = false, color = 'primary', label, disabled, children, confirmationMessage, ...restProps }: ATButtonProps) => {
+const Button = ({ ref, atFormProvidedProps, onClick, loading = false, color = 'primary', label, disabled, children, confirmationMessage, ...restProps }: ATButtonProps) => {
     console.log('restProps', restProps)
     const [internalLoading, setInternalLoading] = useState(loading)
 

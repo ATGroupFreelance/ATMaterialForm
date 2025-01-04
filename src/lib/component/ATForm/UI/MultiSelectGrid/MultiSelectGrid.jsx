@@ -9,7 +9,7 @@ import { Grid2, Typography } from '@mui/material';
 
 const DEFAULT_UNIQUE_KEY = 'AT_GRID_INDEX'
 
-const MultiSelectGrid = ({ _formProps_, id, value, label, onChange, columnDefs, uniqueKey = DEFAULT_UNIQUE_KEY, onConfirmButtonClick, confirmButtonProps = {}, rowSelection = 'multiple', height = '50vh', ...restProps }) => {
+const MultiSelectGrid = ({ atFormProvidedProps, id, value, label, onChange, columnDefs, uniqueKey = DEFAULT_UNIQUE_KEY, onConfirmButtonClick, confirmButtonProps = {}, rowSelection = 'multiple', height = '50vh', ...restProps }) => {
     const { localText } = useContext(ATFormContext)
 
     const ref = useRef(null)

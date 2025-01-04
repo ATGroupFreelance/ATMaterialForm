@@ -13,7 +13,7 @@ import Chip from '@mui/material/Chip';
 //['uk', 'us']
 //[{label: 'uk'}, {label: 'us'}]
 
-const MultiSelectTextBox = ({ _formProps_, label, onChange, autoComplete = 'disabled', error, helperText, value, ...restProps }) => {
+const MultiSelectTextBox = ({ atFormProvidedProps, label, onChange, autoComplete = 'disabled', error, helperText, value, ...restProps }) => {
     const [textFieldValue, setTextFieldValue] = useState('')
 
     const onTextFieldChange = (event) => {

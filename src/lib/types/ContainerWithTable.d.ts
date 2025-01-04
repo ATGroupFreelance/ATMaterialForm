@@ -1,5 +1,5 @@
 export interface ATContainerWithTableProps {
-    _formProps_: any,
+    atFormProvidedProps: any,
     id: string,
     value: Array<any>,
     elements: any,

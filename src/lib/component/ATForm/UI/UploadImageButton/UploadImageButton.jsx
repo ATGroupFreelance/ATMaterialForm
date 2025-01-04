@@ -4,9 +4,9 @@ import ATFormContext from '../../ATFormContext/ATFormContext';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Button, CircularProgress, Typography } from '@mui/material';
 
-const UploadImageButton = ({ _formProps_, label, onChange, value, disabled, accept, error, helperText, authToken, width = 128, height = 128, readOnly }) => {
+const UploadImageButton = ({ atFormProvidedProps, label, onChange, value, disabled, accept, error, helperText, authToken, width = 128, height = 128, readOnly }) => {
     const [loading, setLoading] = useState(null)
-    const { onLockdownChange } = _formProps_
+    const { onLockdownChange } = atFormProvidedProps
     const { uploadFilesToServer, getFile, localText } = useContext(ATFormContext)
     const [src, setSrc] = useState(null)
 
