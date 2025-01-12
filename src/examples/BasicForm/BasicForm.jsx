@@ -23,7 +23,7 @@ const multiLeafCascadeDesign = [
     },
 ]
 
-const BasicForm = ({ ref, onChange}) => {
+const BasicForm = ({ ref, onChange }) => {
     console.log('BasicForm', ref)
     const { enums } = useContext(ATFormContext)
 

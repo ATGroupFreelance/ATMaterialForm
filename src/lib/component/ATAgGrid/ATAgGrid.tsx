@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import _React, { useContext, useState } from 'react';
 
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
@@ -50,6 +51,8 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
     }
 
     const onTColumnFormDialogClick: ATButtonOnClickHandler<{ data?: any, tColumn: ATAgGridTColumnInterface }> = (_event, { data, tColumn }) => {
+        void data;
+
         setDialog(
             <ATFormDialog
                 ref={undefined}
