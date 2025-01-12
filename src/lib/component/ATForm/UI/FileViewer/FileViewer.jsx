@@ -1,14 +1,12 @@
-import { useContext } from "react";
-
 import { Badge, Box, Grid2, Typography } from "@mui/material";
 import File from "./File/File";
-import ATFormContext from '@/lib/component/ATForm/ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
 import { DescriptionOutlined } from "@mui/icons-material";
 import { useTheme } from "@mui/material";
 
 const FileViewer = ({ value, label, fileWidth = 150, fileHeight = 128, getSortedFiles }) => {
     const theme = useTheme()
-    const { localText } = useContext(ATFormContext)
+    const { localText } = useATFormProvider()
 
     const sortedValue = getSortedFiles ? getSortedFiles(value) : value
 

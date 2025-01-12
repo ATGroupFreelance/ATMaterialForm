@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 //Context
-import ATFormContext from '../../ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Button, CircularProgress, Typography } from '@mui/material';
 
 const UploadImageButton = ({ atFormProvidedProps, label, onChange, value, disabled, accept, error, helperText, authToken, width = 128, height = 128, readOnly }) => {
     const [loading, setLoading] = useState(null)
     const { onLockdownChange } = atFormProvidedProps
-    const { uploadFilesToServer, getFile, localText } = useContext(ATFormContext)
+    const { uploadFilesToServer, getFile, localText } = useATFormProvider()
     const [src, setSrc] = useState(null)
 
     useEffect(() => {

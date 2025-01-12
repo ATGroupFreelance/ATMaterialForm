@@ -1,7 +1,7 @@
-import React, { useCallback, useRef, useContext } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 //Context
-import ATFormContext from '../../ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
 //Components
 import ATAgGrid from '@/lib/component/ATAgGrid/ATAgGrid';
 import Button from '../Button/Button';
@@ -10,7 +10,7 @@ import { Grid2, Typography } from '@mui/material';
 const DEFAULT_UNIQUE_KEY = 'AT_GRID_INDEX'
 
 const MultiSelectGrid = ({ atFormProvidedProps, id, value, label, onChange, columnDefs, uniqueKey = DEFAULT_UNIQUE_KEY, onConfirmButtonClick, confirmButtonProps = {}, rowSelection = 'multiple', height = '50vh', ...restProps }) => {
-    const { localText } = useContext(ATFormContext)
+    const { localText } = useATFormProvider()
 
     const ref = useRef(null)
 

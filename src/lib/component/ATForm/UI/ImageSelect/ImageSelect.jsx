@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 //Context
-import ATFormContext from '../../ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
 //UI
 import Button from '@mui/material/Button';
 import { Grid2, Typography, Box } from '@mui/material';
@@ -40,7 +40,7 @@ const Image = ({ id, name, src, onClick, imageWidth, imageHeight, selected }) =>
 }
 
 const ImageSelect = ({ atFormProvidedProps, id, authToken, label, imageWidth = 128, imageHeight = 128, onChange, value, multiple = false, imageGrid = null, ...restProps }) => {
-    const { getFile } = useContext(ATFormContext)
+    const { getFile } = useATFormProvider()
     const [data, setData] = useState([])
 
     useEffect(() => {

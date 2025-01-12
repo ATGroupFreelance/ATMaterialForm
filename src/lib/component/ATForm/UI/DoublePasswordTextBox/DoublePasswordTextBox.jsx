@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import PasswordTextBox from '../PasswordTextBox/PasswordTextBox';
 //Context
-import ATFormContext from '../../ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
 
 const DoublePasswordTextBox = ({ atFormProvidedProps, id, showPassword = false, onChange, value, error, helperText, label, ...restProps }) => {
-    const { localText } = useContext(ATFormContext)
+    const { localText } = useATFormProvider()
 
     const [valueA, setValueA] = useState('')
     const [valueB, setValueB] = useState('')

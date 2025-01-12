@@ -1,6 +1,6 @@
-import React, { Suspense, useState, useImperativeHandle, useEffect, useContext } from 'react';
+import React, { Suspense, useState, useImperativeHandle, useEffect } from 'react';
 //Context
-import ATFormContext from '../../ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
 
 const TextBox = React.lazy(() => import('../../UI/TextBox/TextBox'));
 const IntegerTextBox = React.lazy(() => import('../../UI/IntegerTextBox/IntegerTextBox'));
@@ -42,7 +42,7 @@ const getInitialValue = (typeInfo, defaultValue) => {
 //Sometimes you might want to pass a prop to a component that is already taken, that is when you use the atComponentProps, an example would be type: number for textfield
 //which is already taken by ATMaterialForm
 const ControlledUIBuilder = ({ ref, atFormProvidedProps, _typeInfo_, id, type, value, defaultValue, onChange, atComponentProps, ...restProps }) => {
-    const { customComponents } = useContext(ATFormContext)
+    const { customComponents } = useATFormProvider()
 
     const { onChildChange, errors } = atFormProvidedProps
     const [localValue, setLocalValue] = useState(getInitialValue(_typeInfo_, defaultValue))

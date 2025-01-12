@@ -1,15 +1,15 @@
 //React
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 //MUI
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid2 } from '@mui/material';
 //ATForm
-import ATFormContext from '../../../ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../../hooks/useATFormProvider/useATFormProvider';
 //Others
 //'@uiw/react-color-sketch' Package Size is 12kb
 import Sketch from '@uiw/react-color-sketch';
 
 function ColorTextBoxColorPickerDialog({ defaultValue, onClose, onSubmitClick, ...restProps }) {
-    const { localText } = useContext(ATFormContext)
+    const { localText } = useATFormProvider()
     const [hex, setHex] = useState(defaultValue)
 
     const onChange = (newColor) => {

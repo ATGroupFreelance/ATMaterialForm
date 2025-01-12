@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
 //MUI
 import { InputAdornment, TextField } from '@mui/material';
@@ -10,7 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Button from '../Button/Button';
 import ShowFilesIconButton from './ShowFilesIconButton/ShowFilesIconButton';
 //Context
-import ATFormContext from '../../ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
 //Dialog
 import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
 import { useTheme } from "@mui/material";
@@ -19,7 +19,7 @@ import ATToast from '@/lib/component/ATToast/ATToast';
 const UploadButton = ({ atFormProvidedProps, label, onChange, value, disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, authToken, readOnly }) => {
     const theme = useTheme()
     const { onLockdownChange } = atFormProvidedProps
-    const { uploadFilesToServer, localText, maxUploadButtonFileSizeInBytes } = useContext(ATFormContext)
+    const { uploadFilesToServer, localText, maxUploadButtonFileSizeInBytes } = useATFormProvider()
 
     const [loading, setLoading] = useState(false)
     const [dialog, setDialog] = useState(null)
@@ -47,7 +47,7 @@ const UploadButton = ({ atFormProvidedProps, label, onChange, value, disabled, a
 
             if (maxUploadButtonFileSizeInBytes) {
                 if (filesSizeSum > maxUploadButtonFileSizeInBytes) {
-                    ATToast.error(localText[`File size exceeds the limit. Please select a smaller file`])                    
+                    ATToast.error(localText[`File size exceeds the limit. Please select a smaller file`])
                     return null;
                 }
             }

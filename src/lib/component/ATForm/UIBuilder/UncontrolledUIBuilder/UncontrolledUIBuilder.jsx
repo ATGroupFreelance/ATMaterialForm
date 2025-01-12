@@ -1,13 +1,13 @@
-import React, { Suspense, useContext } from 'react';
+import React, { Suspense } from 'react';
 //Context
-import ATFormContext from '../../ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
 
 const Button = React.lazy(() => import('../../UI/Button/Button'));
 const Label = React.lazy(() => import('../../UI/Label/Label'));
 const Table = React.lazy(() => import('../../UI/Table/Table'));
 
 const UncontrolledUIBuilder = ({ atFormProvidedProps, _typeInfo_, type, value, defaultValue, onChange, ...restProps }) => {
-    const { customComponents } = useContext(ATFormContext)
+    const { customComponents } = useATFormProvider()
 
     const commonProps = {
         atFormProvidedProps: atFormProvidedProps,

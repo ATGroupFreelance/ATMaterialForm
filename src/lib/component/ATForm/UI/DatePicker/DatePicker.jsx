@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import ATFormContext from '../../ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
 
 //When date picker value is null, The datepicker is empty which shows the user he has to pick a date
 const DatePicker = ({ atFormProvidedProps, onChange, error, helperText, readOnly,...restProps }) => {
-    const { rtl } = useContext(ATFormContext)
+    const { rtl } = useATFormProvider()
 
     const onInternalChange = (newValue) => {
         if (onChange) {

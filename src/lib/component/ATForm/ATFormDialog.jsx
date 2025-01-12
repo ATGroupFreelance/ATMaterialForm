@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useRef } from 'react';
 //MUI
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -8,11 +8,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import ATForm from './ATForm';
 import Button from './UI/Button/Button';
 import { CircularProgress, Grid2 } from '@mui/material';
-//Context
-import ATFormContext from './ATFormContext/ATFormContext';
+import useATFormProvider from '../../hooks/useATFormProvider/useATFormProvider';
 
 const ATFormDialog = ({ ref, title, titleStyle, onClose, onCancelClick, cancelButtonEnabled = true, onSubmitClick, onChange, children, submitLoading, cancelLoading, getActions, loading, submitButtonProps, cancelButtonProps, fullWidth, maxWidth, PaperProps, ...restProps }) => {
-    const { localText } = useContext(ATFormContext)
+    const { localText } = useATFormProvider()
 
     const mFormData = useRef({ formData: null, formDataKeyValue: null, formDataSemiKeyValue: null })
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 //MUI
 import Button from '@/lib/component/ATForm/UI/Button/Button';
@@ -9,10 +9,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Grid2 } from '@mui/material';
 
 //Context
-import ATFormContext from '@/lib/component/ATForm/ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../../../../hooks/useATFormProvider/useATFormProvider';
 
 const ViewImageDialog = ({ onClose, image, name }) => {
-    const { localText } = useContext(ATFormContext)
+    const { localText } = useATFormProvider()
 
     return <Dialog open={true} onClose={onClose} maxWidth={'620px'}>
         <DialogTitle>{localText['View Image']}</DialogTitle>

@@ -1,5 +1,5 @@
 //@ts-expect-error
-import React, { useCallback, useRef, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
 
 //MUI
 import { Grid2, Typography } from '@mui/material';
@@ -11,7 +11,7 @@ import ATAgGrid from '../../../ATAgGrid/ATAgGrid';
 import { getColumnDefsByATFormElements } from '../.././../ATAgGrid/ATAgGridUtils/ATAgGridUtils';
 import { ColumnDefTemplates } from '../../../ATAgGrid/ColumnDefTemplates/ColumnDefTemplates';
 //Context
-import ATFormContext from '../../ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
 import Button from '../Button/Button';
 //Styles
 import StyleClasses from './ContainerWithTable.module.css';
@@ -39,7 +39,7 @@ const initializeOnChangeInterface = () => {
 }
 
 const ContainerWithTable = ({ atFormProvidedProps, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATContainerWithTableProps) => {
-    const { enums, rtl, localText } = useContext(ATFormContext)
+    const { enums, rtl, localText } = useATFormProvider()
 
     const [currentGridRef, setCurrentGridRef] = useState<ATAgGridRef>(null)
     const formRef = useRef<ATFormRef>(null)

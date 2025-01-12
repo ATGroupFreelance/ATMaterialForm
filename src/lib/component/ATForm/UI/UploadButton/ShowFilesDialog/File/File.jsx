@@ -7,8 +7,8 @@ import StyleClasses from './File.module.css';
 //Components
 import Button from '../../../Button/Button';
 //Context
-import { useContext, useEffect, useState } from 'react';
-import ATFormContext from '../../../../ATFormContext/ATFormContext';
+import { useEffect, useState } from 'react';
+import useATFormProvider from '../../../../../../hooks/useATFormProvider/useATFormProvider';
 import ViewImageDialog from './ViewImageDialog/ViewImageDialog';
 
 function isImage(url) {
@@ -16,7 +16,7 @@ function isImage(url) {
 }
 
 const File = ({ id, name, size, onRemove, showRemoveIcon, authToken }) => {
-    const { getFile, localText } = useContext(ATFormContext)
+    const { getFile, localText } = useATFormProvider()
     const [thumbnail, setThumbnail] = useState('')
     const [dialog, setDialog] = useState(null)
 

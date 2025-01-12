@@ -1,14 +1,14 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 
 import TextField from '@mui/material/TextField';
 import { PaletteOutlined } from '@mui/icons-material';
 import { IconButton, InputAdornment, Tooltip } from '@mui/material';
 import ColorTextBoxColorPickerDialog from './ColorTextBoxColorPickerDialog/ColorTextBoxColorPickerDialog';
 //ATForm
-import ATFormContext from '../../ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
 
 const ColorTextBox = ({ atFormProvidedProps, id, TextBox, readOnly, InputProps, value, onChange, ...restProps }) => {
-    const { localText } = useContext(ATFormContext)
+    const { localText } = useATFormProvider()
     const [dialog, setDialog] = useState(null)
 
     const onOpenColorPickerClick = () => {

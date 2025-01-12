@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import MUITable from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,11 +7,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import ATFormContext from '../../ATFormContext/ATFormContext';
 import { Typography } from '@mui/material';
+//Hooks
+import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
 
 const Table = ({ atFormProvidedProps, id, data, columns, label, cellStyle, labelStyle, columnCellStyle, hideColumns }) => {
-    const { getLocalText } = useContext(ATFormContext)
+    const { getLocalText } = useATFormProvider()
 
     const newColumns = [
         ...(columns || [])

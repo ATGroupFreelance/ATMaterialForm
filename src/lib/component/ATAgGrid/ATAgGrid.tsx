@@ -1,9 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import _React, { useContext, useState } from 'react';
+import _React, { useState } from 'react';
 
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
-//Context
-import ATFormContext from '../ATForm/ATFormContext/ATFormContext';
 //Utils
 import { getTitleByEnums } from '../ATForm/UITypeUtils/UITypeUtils';
 
@@ -12,26 +10,31 @@ import {
     ClientSideRowModelApiModule,
     ValidationModule,
     LocaleModule,
-    themeBalham,
     RowApiModule,
     TextFilterModule,
     NumberFilterModule,
-    ColDef
+    ColDef,
+    themeBalham
 } from 'ag-grid-community';
-import { ATAgGridExtendedColDef, ATAgGridProps, ATAgGridTColumnInterface } from '@/lib/types/ATAgGrid';
+import { useTheme } from '@mui/material';
+//ATForm
+import { ATAgGridExtendedColDef, ATAgGridProps, ATAgGridTColumnInterface } from '../../types/ATAgGrid';
+import { ATButtonOnClickHandler } from '../../types/Button';
+import useATFormProvider from '../../hooks/useATFormProvider/useATFormProvider';
+//Components
 import { ColumnDefTemplates } from './ColumnDefTemplates/ColumnDefTemplates';
 import ATFormDialog from '../ATForm/ATFormDialog';
-import { ATButtonOnClickHandler } from '@/lib/types/Button';
 
 const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, height, domLayout, tColumns, ...restProps }: ATAgGridProps) => {
+    const theme = useTheme()
+    const { rtl, enums, agGridLocalText, getLocalText } = useATFormProvider()
+
     /**Ignore unused variables using void */
     void atFormProvidedProps;
     void id;
     void label;
 
     const [dialog, setDialog] = useState<any>(null)
-
-    const { rtl, enums, agGridLocalText, getLocalText } = useContext(ATFormContext)
 
     const newColumnDefs: ColDef[] = []
 
@@ -114,7 +117,8 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
 
     return <div style={{ height: domLayout ? undefined : (height || '80vh'), width: '100%' }}>
         <AgGridReact
-            theme={themeBalham}
+            //@ts-expect-error
+            theme={theme?.atConfig?.gridTheme || themeBalham}
             ref={ref}
             rowData={rowData}
             columnDefs={newColumnDefs}

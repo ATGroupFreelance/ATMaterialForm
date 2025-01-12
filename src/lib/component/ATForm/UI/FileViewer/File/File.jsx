@@ -1,8 +1,8 @@
 //Components
 import Button from '@/lib/component/ATForm/UI/Button/Button';
 //Context
-import { useContext, useEffect, useState } from 'react';
-import ATFormContext from '@/lib/component/ATForm/ATFormContext/ATFormContext';
+import { useEffect, useState } from 'react';
+import useATFormProvider from '../../../../../hooks/useATFormProvider/useATFormProvider';
 import { Box, Grid2, Tooltip, Typography } from '@mui/material';
 import { useTheme } from "@mui/material";
 
@@ -12,7 +12,7 @@ function isImage(url) {
 
 const File = ({ id, name, size, authToken, width, height }) => {
     const theme = useTheme()
-    const { getFile, localText } = useContext(ATFormContext)
+    const { getFile, localText } = useATFormProvider()
     const [thumbnail, setThumbnail] = useState(null)
 
     useEffect(() => {

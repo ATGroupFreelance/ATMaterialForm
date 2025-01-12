@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
 //MUI
 import Button from '../../Button/Button';
@@ -11,10 +11,10 @@ import { Grid2, Typography } from '@mui/material';
 //Components
 import File from './File/File';
 //Context
-import ATFormContext from '@/lib/component/ATForm/ATFormContext/ATFormContext';
+import useATFormProvider from '../../../../../hooks/useATFormProvider/useATFormProvider';
 
 const ShowFilesDialog = ({ onSave, onClose, files, readOnly, authToken }) => {
-    const { localText } = useContext(ATFormContext)
+    const { localText } = useATFormProvider()
 
     console.log('files', files)
 
