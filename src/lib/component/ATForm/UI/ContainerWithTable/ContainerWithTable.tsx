@@ -85,6 +85,7 @@ const ContainerWithTable = ({ atFormProvidedProps, value, elements, getGridColum
             currentGridRef.api.forEachNode((node) => {
                 //@ts-ignore
                 const { [DEFAULT_ROW_ID_KEY]: id, ...restData } = node.data
+                void id;
                 gridData.push({ ...restData })
             })
 

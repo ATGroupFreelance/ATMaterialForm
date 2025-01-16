@@ -11,14 +11,14 @@ const ContainerWithTablePlayground = ({ onChange }) => {
 
     useEffect(() => {
         if (formRef && round) {
-            formRef.current.reset(data.current[round.ID], true, true)
+            formRef.current.reset(data.current[round.id], true, true)
         }
     }, [round])
 
     const onFormChange = ({ formDataSemiKeyValue }) => {
         // console.log('round onFormChange', round)
         // if (round) 
-        //     data.current[round.ID] = {
+        //     data.current[round.id] = {
         //         ...formDataSemiKeyValue,
         //     }
 
@@ -30,7 +30,7 @@ const ContainerWithTablePlayground = ({ onChange }) => {
     return (
         <>
             <Grid2 container>
-                <ComboBox options={[{ Title: '1', ID: 1 }, { Title: '2', ID: 2 }]} onChange={(event) => setRound(event.target.value)} />
+                <ComboBox options={[{ title: '1', id: 1 }, { title: '2', id: 2 }]} onChange={(event) => setRound(event.target.value)} />
             </Grid2>
             <Grid2 container>
                 {

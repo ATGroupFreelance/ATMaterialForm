@@ -117,7 +117,7 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
 
     return <div style={{ height: domLayout ? undefined : (height || '80vh'), width: '100%' }}>
         <AgGridReact
-            //@ts-expect-error
+            //@ts-ignore
             theme={theme?.atConfig?.gridTheme || themeBalham}
             ref={ref}
             rowData={rowData}

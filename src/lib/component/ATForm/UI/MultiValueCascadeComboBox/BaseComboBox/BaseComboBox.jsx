@@ -27,9 +27,9 @@ const BaseComboBox = ({ id, value, parentID, data, multiple, size = { xs: 12, md
             const keyValue = {}
             for (let key in value) {
                 if (Array.isArray(value[key]))
-                    keyValue[key] = value[key].map(item => item.ID)
+                    keyValue[key] = value[key].map(item => item.id)
                 else
-                    keyValue[key] = value[key] ? value[key].ID : null
+                    keyValue[key] = value[key] ? value[key].id : null
             }
 
             setParentPrevValue(value[parentID])

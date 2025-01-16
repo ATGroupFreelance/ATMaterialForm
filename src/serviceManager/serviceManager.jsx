@@ -30,12 +30,12 @@ class ServiceManager {
             setTimeout(() => {
                 resolve([
                     {
-                        ID: 'A1_1',
-                        Title: 'A1_1',
+                        id: 'A1_1',
+                        title: 'A1_1',
                     },
                     {
-                        ID: 'A1_2',
-                        Title: 'A1_2',
+                        id: 'A1_2',
+                        title: 'A1_2',
                     }
                 ])
             })
@@ -47,12 +47,12 @@ class ServiceManager {
             setTimeout(() => {
                 resolve([
                     {
-                        ID: `${layerA}_AB1_1`,
-                        Title: `${layerA}_AB1_1`,
+                        id: `${layerA}_AB1_1`,
+                        title: `${layerA}_AB1_1`,
                     },
                     {
-                        ID: `${layerA}_AB1_2`,
-                        Title: `${layerA}_AB1_2`,
+                        id: `${layerA}_AB1_2`,
+                        title: `${layerA}_AB1_2`,
                     }
                 ])
             })
@@ -64,8 +64,8 @@ class ServiceManager {
             setTimeout(() => {
                 resolve([
                     {
-                        ID: `${layerA}_${layerAB}_ABC1`,
-                        Title: `${layerA}_${layerAB}_ABC1`,
+                        id: `${layerA}_${layerAB}_ABC1`,
+                        title: `${layerA}_${layerAB}_ABC1`,
                     }
                 ])
             })
@@ -77,12 +77,12 @@ class ServiceManager {
             setTimeout(() => {
                 resolve([
                     {
-                        ID: `${layerA}_${layerAB}_ABC2_1`,
-                        Title: `${layerA}_${layerAB}_ABC2_1`,
+                        id: `${layerA}_${layerAB}_ABC2_1`,
+                        title: `${layerA}_${layerAB}_ABC2_1`,
                     },
                     {
-                        ID: `${layerA}_${layerAB}_ABC2_2`,
-                        Title: `${layerA}_${layerAB}_ABC2_2`,
+                        id: `${layerA}_${layerAB}_ABC2_2`,
+                        title: `${layerA}_${layerAB}_ABC2_2`,
                     }
                 ])
             })
@@ -92,7 +92,7 @@ class ServiceManager {
     getCountries = () => {
         return new Promise((resolve) => {
             setTimeout(() => {
-                resolve([{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }])
+                resolve([{ title: 'UK', id: 1 }, { title: 'US', id: 2 }])
             }, 500)
         })
     }
@@ -109,10 +109,10 @@ class ServiceManager {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 const enums = {
-                    "Countries": [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }],
-                    "StateAndCapitals": [{ ID: 0, Title: "England2", Country: 1 }, { ID: 1, Title: "England", Country: 1 }, { ID: 2, Title: "Alabama", Country: 2 }, { ID: 3, Title: "EnglandCapital", ParentID: 1 }, { ID: 4, Title: "AlabamaCapital", ParentID: 2 }],
-                    "CountriesIDVALUE": [{ Title: 'UK', ID: 1 }, { Title: 'US', ID: 2 }],
-                    "layerA": [{ ID: 'A1_1', Title: 'A1_1' }, { ID: 'A1_2', Title: 'A1_2' }],
+                    "Countries": [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }],
+                    "StateAndCapitals": [{ id: 0, title: "England2", Country: 1 }, { id: 1, title: "England", Country: 1 }, { id: 2, title: "Alabama", Country: 2 }, { id: 3, title: "EnglandCapital", ParentID: 1 }, { id: 4, title: "AlabamaCapital", ParentID: 2 }],
+                    "CountriesIDVALUE": [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }],
+                    "layerA": [{ id: 'A1_1', title: 'A1_1' }, { id: 'A1_2', title: 'A1_2' }],
                 }
 
                 resolve(enums)

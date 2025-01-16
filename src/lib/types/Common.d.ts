@@ -65,6 +65,6 @@ export interface ATFormUncontrolledElementProps {
     label?: string,
 }
 
-export type ATEnumType = Array<{ ID: number | string; Title: string }>;
+export type ATEnumType = Array<{ id: number | string; title: string }>;
 
 export type ATEnumsType = { [key: string]: ATEnumType } | null | undefined;

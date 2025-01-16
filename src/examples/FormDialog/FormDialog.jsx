@@ -17,7 +17,7 @@ const FormDialog = ({ ref, ...props }) => {
     }
 
     const onOpenDialogClick = () => {
-        const newDialog = <ATFormDialog ref={ref} title={'Form Dialog Title'} onClose={() => setDialog(null)} onSubmitClick={onDialogSubmit} {...props}>
+        const newDialog = <ATFormDialog ref={ref} title={'Form Dialog title'} onClose={() => setDialog(null)} onSubmitClick={onDialogSubmit} {...props}>
             {
                 [
                     formBuilder.createTextBox({ id: 'formDialogTextBox' }),

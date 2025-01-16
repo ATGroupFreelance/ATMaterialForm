@@ -37,23 +37,23 @@ const ComboBox = ({ atFormProvidedProps, label, options, onChange, autoComplete 
         fullWidth={true}
         options={data || []}
         onChange={onInternalChange}
-        getOptionLabel={(option) => option.Title}
-        isOptionEqualToValue={(option, value) => String(option.ID) === String(value.ID)}
+        getOptionLabel={(option) => option.title}
+        isOptionEqualToValue={(option, value) => String(option.id) === String(value.id)}
         renderInput={(params) => {
             let newInputProps = null
 
             if (getInputProps)
-                newInputProps = getInputProps({ params, value })            
+                newInputProps = getInputProps({ params, value })
 
-            const { InputProps, ...restParams } = params            
+            const { InputProps, ...restParams } = params
 
             return <TextField
                 error={error}
                 helperText={helperText}
                 label={label}
                 inputProps={{ ...params.inputProps, autoComplete: autoComplete }}
-                InputProps={{...InputProps, ...(newInputProps || {})}}
-                {...restParams}                
+                InputProps={{ ...InputProps, ...(newInputProps || {}) }}
+                {...restParams}
             />
         }
         }

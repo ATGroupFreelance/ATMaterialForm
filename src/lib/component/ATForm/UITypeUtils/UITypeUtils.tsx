@@ -57,14 +57,14 @@ export const getTitleByEnums = ({ id, enumsID, options, enums, value }: ATGetTit
     let result = stringValue
 
     if (options && Array.isArray(options)) {
-        const found = options.find(item => String(item.ID) === stringValue)
+        const found = options.find(item => String(item.id) === stringValue)
         if (found)
-            result = String(found.Title)
+            result = String(found.title)
     }
     else if (enums && enums[searchID]) {
-        const found = enums[searchID].find((item: any) => String(item.ID) === stringValue)
+        const found = enums[searchID].find((item: any) => String(item.id) === stringValue)
         if (found)
-            result = String(found.Title)
+            result = String(found.title)
     }
 
     return result
@@ -190,7 +190,7 @@ export const types = [
             if (!event.target.value)
                 return event.target.value
 
-            return event.target.value.ID
+            return event.target.value.id
         },
         reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             console.log('element', value, element)
@@ -198,8 +198,8 @@ export const types = [
                 return null
             else
                 return {
-                    ID: value,
-                    Title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value })
+                    id: value,
+                    title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value })
                 }
         },
     }),
@@ -208,7 +208,7 @@ export const types = [
         initialValue: [],
         validation: createValidation({ type: 'array', minItems: 1 }),
         convertToKeyValue: ({ event }: ATConvertInterface) => {
-            return event.target.value.map((item: any) => item.ID).join(',')
+            return event.target.value.map((item: any) => item.id).join(',')
         },
         reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
@@ -218,14 +218,14 @@ export const types = [
 
                 return valueArray.map((item: any) => {
                     return {
-                        ID: item,
-                        Title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value: item })
+                        id: item,
+                        title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value: item })
                     }
                 })
             }
         },
         convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
-            return event.target.value.map((item: any) => item.ID)
+            return event.target.value.map((item: any) => item.id)
         },
         reverseConvertToSemiKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
             if (!value)
@@ -233,8 +233,8 @@ export const types = [
             else {
                 return value.map((item: any) => {
                     return {
-                        ID: item,
-                        Title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value: item })
+                        id: item,
+                        title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value: item })
                     }
                 })
             }
@@ -344,9 +344,9 @@ export const types = [
 
             for (const key in event.target.value) {
                 if (Array.isArray(event.target.value[key]))
-                    result[key] = event.target.value[key].map(item => item.ID)
+                    result[key] = event.target.value[key].map(item => item.id)
                 else
-                    result[key] = event.target.value[key] ? event.target.value[key].ID : null
+                    result[key] = event.target.value[key] ? event.target.value[key].id : null
             }
 
             return result[leaf.id]
@@ -370,7 +370,7 @@ export const types = [
                 if (!leaf)
                     return {}
 
-                const found = enums?.[leaf.enumKey]?.find((item: any) => String(item.ID) === String(value))
+                const found = enums?.[leaf.enumKey]?.find((item: any) => String(item.id) === String(value))
 
                 if (leaf.enumParentKey) {
                     //@ts-expect-error 
@@ -407,9 +407,9 @@ export const types = [
 
             for (const key in event.target.value) {
                 if (Array.isArray(event.target.value[key]))
-                    result[key] = event.target.value[key].map(item => item.ID)
+                    result[key] = event.target.value[key].map(item => item.id)
                 else
-                    result[key] = event.target.value[key] ? event.target.value[key].ID : null
+                    result[key] = event.target.value[key] ? event.target.value[key].id : null
             }
 
             return JSON.stringify(result)
@@ -428,11 +428,11 @@ export const types = [
                 }
 
                 if (Array.isArray(parsedValue[key]))
-                    result[key] = parsedValue[key].map(item => ({ ID: item, Title: getTitleByEnums({ id: key, enums, value: item }) }))
+                    result[key] = parsedValue[key].map(item => ({ id: item, title: getTitleByEnums({ id: key, enums, value: item }) }))
                 else
                     result[key] = {
-                        ID: parsedValue[key],
-                        Title: getTitleByEnums({ id: key, enums, value: parsedValue[key] })
+                        id: parsedValue[key],
+                        title: getTitleByEnums({ id: key, enums, value: parsedValue[key] })
                     }
             }
 
@@ -446,9 +446,9 @@ export const types = [
 
             for (const key in event.target.value) {
                 if (Array.isArray(event.target.value[key]))
-                    result[key] = event.target.value[key].map(item => item.ID)
+                    result[key] = event.target.value[key].map(item => item.id)
                 else
-                    result[key] = event.target.value[key] ? event.target.value[key].ID : null
+                    result[key] = event.target.value[key] ? event.target.value[key].id : null
             }
 
             return result
@@ -467,11 +467,11 @@ export const types = [
                 }
 
                 if (Array.isArray(parsedValue[key]))
-                    result[key] = parsedValue[key].map(item => ({ ID: item, Title: getTitleByEnums({ id: key, enums, value: item }) }))
+                    result[key] = parsedValue[key].map(item => ({ id: item, title: getTitleByEnums({ id: key, enums, value: item }) }))
                 else
                     result[key] = {
-                        ID: parsedValue[key],
-                        Title: getTitleByEnums({ id: key, enums, value: parsedValue[key] })
+                        id: parsedValue[key],
+                        title: getTitleByEnums({ id: key, enums, value: parsedValue[key] })
                     }
             }
 
