@@ -7,6 +7,8 @@ export interface ATAgGridProps extends AgGridReactProps, ATFormUncontrolledEleme
     ref?: any,
     height?: any;
     tColumns?: ATAgGridTColumnInterface[],
+    tUniqueKey?: string,
+    tTranslateUniqueKey?: boolean,
 }
 
 export interface ATAgGridExtendedColDef extends ColDef {

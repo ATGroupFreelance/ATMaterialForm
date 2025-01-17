@@ -25,7 +25,7 @@ import useATFormProvider from '../../hooks/useATFormProvider/useATFormProvider';
 import { ColumnDefTemplates } from './ColumnDefTemplates/ColumnDefTemplates';
 import ATFormDialog from '../ATForm/ATFormDialog';
 
-const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, height, domLayout, tColumns, ...restProps }: ATAgGridProps) => {
+const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, height, domLayout, tColumns, tUniqueKey, tTranslateUniqueKey, ...restProps }: ATAgGridProps) => {
     const theme = useTheme()
     const { rtl, enums, agGridLocalText, getLocalText } = useATFormProvider()
 
@@ -45,9 +45,13 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
             newColumnDefs.push({
                 field,
                 headerName: ((headerName === undefined) || (headerName === null)) ? getLocalText(field) : headerName,
-                valueFormatter: (params: any) => {
-                    return getTitleByEnums({ id: enumID || params.colDef.field, enums, value: params.value, options: enumOptions })
-                },
+                /**Do not translate tUniqueKey columns */
+                valueFormatter: (field === tUniqueKey && !tTranslateUniqueKey) ?
+                    undefined
+                    :
+                    (params: any) => {
+                        return getTitleByEnums({ id: enumID || params.colDef.field, enums, value: params.value, options: enumOptions })
+                    },
                 ...restColumnDefs
             })
         }
@@ -135,6 +139,7 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
                 TextFilterModule,
                 NumberFilterModule
             ]}
+            getRowId={tUniqueKey ? (params) => String(params.data[tUniqueKey]) : undefined}
             {...restProps}
         />
         {dialog}

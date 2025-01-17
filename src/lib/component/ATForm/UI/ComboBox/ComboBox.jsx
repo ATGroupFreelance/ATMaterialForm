@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { isFunction } from '../../FormUtils/FormUtils';
+import useATFormProvider from '@/lib/hooks/useATFormProvider/useATFormProvider';
 
 //Facts about autocomplete:
 //If "multiple" is false, value/initvalue must be string or null, if initvalue is set to "" it throws a warning that no match was found
@@ -13,8 +14,8 @@ import { isFunction } from '../../FormUtils/FormUtils';
 //['uk', 'us']
 //[{label: 'uk'}, {label: 'us'}]
 
-
-const ComboBox = ({ atFormProvidedProps, label, options, onChange, autoComplete = 'off', error, helperText, value, getInputProps, ...restProps }) => {
+const ComboBox = ({ id, atFormProvidedProps, label, options, onChange, autoComplete = 'off', error, helperText, value, getInputProps, ...restProps }) => {
+    const { enums } = useATFormProvider()
     const [data, setData] = useState([])
 
     useEffect(() => {
@@ -35,7 +36,7 @@ const ComboBox = ({ atFormProvidedProps, label, options, onChange, autoComplete 
 
     return <Autocomplete
         fullWidth={true}
-        options={data || []}
+        options={(options ? data : enums?.[id]) || []}
         onChange={onInternalChange}
         getOptionLabel={(option) => option.title}
         isOptionEqualToValue={(option, value) => String(option.id) === String(value.id)}
