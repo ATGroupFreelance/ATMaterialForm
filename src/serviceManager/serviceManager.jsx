@@ -1,6 +1,6 @@
 //import ServiceManager from '@/serviceManager/serviceManager';
 
-class ServiceManager {
+class ServiceManagerClass {
     uploadFilesToServer = (requestBody) => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -110,9 +110,132 @@ class ServiceManager {
             setTimeout(() => {
                 const enums = {
                     "Countries": [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }],
-                    "StateAndCapitals": [{ id: 0, title: "England2", Country: 1 }, { id: 1, title: "England", Country: 1 }, { id: 2, title: "Alabama", Country: 2 }, { id: 3, title: "EnglandCapital", ParentID: 1 }, { id: 4, title: "AlabamaCapital", ParentID: 2 }],
+                    "StateAndCapitals": [
+                        { id: 0, title: "England2", Country: 1 },
+                        { id: 1, title: "England", Country: 1 },
+                        { id: 2, title: "Alabama", Country: 2 },
+                        { id: 3, title: "EnglandCapital", ParentID: 1 },
+                        { id: 4, title: "AlabamaCapital", ParentID: 2 }
+                    ],
                     "CountriesIDVALUE": [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }],
                     "layerA": [{ id: 'A1_1', title: 'A1_1' }, { id: 'A1_2', title: 'A1_2' }],
+                    "business_id": [
+                        {
+                            "meta_table_id": 8,
+                            "schema_name": "uac",
+                            "table_name": "businesses",
+                            "id": 1,
+                            "title": "Water",
+                            "key_name": "wat"
+                        },
+                        {
+                            "meta_table_id": 8,
+                            "schema_name": "uac",
+                            "table_name": "businesses",
+                            "id": 2,
+                            "title": "Electricity",
+                            "key_name": "elt"
+                        },
+                        {
+                            "meta_table_id": 8,
+                            "schema_name": "uac",
+                            "table_name": "businesses",
+                            "id": 3,
+                            "title": "Gas",
+                            "key_name": "gas"
+                        },
+                        {
+                            "meta_table_id": 8,
+                            "schema_name": "uac",
+                            "table_name": "businesses",
+                            "id": 4,
+                            "title": "Telecom",
+                            "key_name": "tci"
+                        }
+                    ],
+                    system_id: [
+                        {
+                            "meta_table_id": 17,
+                            "schema_name": "uac",
+                            "table_name": "systems",
+                            "id": 1,
+                            "title": "Provisioning",
+                            "key_name": "prov",
+                            "business_id": 4
+                        },
+                        {
+                            "meta_table_id": 17,
+                            "schema_name": "uac",
+                            "table_name": "systems",
+                            "id": 2,
+                            "title": "Billing",
+                            "key_name": "billing",
+                            "business_id": 4
+                        },
+                        {
+                            "meta_table_id": 17,
+                            "schema_name": "uac",
+                            "table_name": "systems",
+                            "id": 3,
+                            "title": "CRM",
+                            "key_name": "crm",
+                            "business_id": 4
+                        },
+                        {
+                            "meta_table_id": 17,
+                            "schema_name": "uac",
+                            "table_name": "systems",
+                            "id": 4,
+                            "title": "Mediation",
+                            "key_name": "med",
+                            "business_id": 4
+                        },
+                        {
+                            "meta_table_id": 17,
+                            "schema_name": "uac",
+                            "table_name": "systems",
+                            "id": 5,
+                            "title": "User Management",
+                            "key_name": "uac",
+                            "business_id": 4
+                        },
+                        {
+                            "meta_table_id": 17,
+                            "schema_name": "uac",
+                            "table_name": "systems",
+                            "id": 41,
+                            "title": "WaterSystem",
+                            "key_name": "WaterSystemKeyName",
+                            "business_id": 1
+                        },
+                        {
+                            "meta_table_id": 17,
+                            "schema_name": "uac",
+                            "table_name": "systems",
+                            "id": 42,
+                            "title": "ElecSystem",
+                            "key_name": "ElecSystemKeyName",
+                            "business_id": 2
+                        },
+                        {
+                            "meta_table_id": 17,
+                            "schema_name": "uac",
+                            "table_name": "systems",
+                            "id": 43,
+                            "title": "GasSystem",
+                            "key_name": "GasSystemKeyName",
+                            "business_id": 3
+                        },
+                        {
+                            "meta_table_id": 17,
+                            "schema_name": "uac",
+                            "table_name": "systems",
+                            "id": 44,
+                            "title": "TelecomSystem",
+                            "key_name": "TelecomSystemKeyName",
+                            "business_id": 4
+                        }
+                    ]
                 }
 
                 resolve(enums)
@@ -121,6 +244,6 @@ class ServiceManager {
     }
 }
 
-const instance = new ServiceManager()
+const ServiceManager = new ServiceManagerClass()
 
-export default instance;
+export default ServiceManager;

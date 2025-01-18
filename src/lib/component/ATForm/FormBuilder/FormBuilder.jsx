@@ -267,11 +267,30 @@ export const createFileViewer = ({ id, size = 12, fileWidth = 150, fileHeight = 
     })
 }
 
-export const createCascadeComboBox = ({ id, size = 12, wrapperRendererProps = {}, ...restProps }) => {
+export const createCascadeDesign = (nodes, parentKey = null) => {
+    return nodes.map(({ id, enumKey, enumParentKey, children, ...restProps }) => {
+
+        const newNode = {
+            id: id,
+            enumKey: enumKey || id,
+            enumParentKey: enumParentKey || parentKey,
+            children: children ?
+                createCascadeDesign(children, id)
+                :
+                undefined,
+            ...restProps,
+        }
+
+        return newNode;
+    });
+};
+
+export const createCascadeComboBox = ({ id, size = 12, design, wrapperRendererProps = {}, ...restProps }) => {
     return create({
         id,
         type: 'CascadeComboBox',
         size,
+        design,
         wrapperRendererProps: {
             container: true,
             spacing: 2,

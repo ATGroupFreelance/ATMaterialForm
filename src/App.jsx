@@ -34,6 +34,8 @@ import CustomWrappers from './examples/CustomWrappers/CustomWrappers';
 import ATToastContainer from './lib/component/ATToast/ATToastContainer/ATToastContainer';
 import ToastPlayground from './examples/ToastPlayground/ToastPlayground';
 import AgGridCellRendererTemplates from './examples/AgGridCellRendererTemplates/AgGridCellRendererTemplates';
+import CascadeComboBoxPlayground from './examples/CascadeComboBoxPlayground/CascadeComboBoxPlayground';
+import ATToast from './lib/component/ATToast/ATToast';
 
 const RTL = true
 
@@ -47,7 +49,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'AgGridCellRendererTemplates'
+const ACTIVE_EXAMPLE = 'CascadeComboBoxPlayground'
 
 function App() {
   const formRef = useRef(null)
@@ -91,7 +93,9 @@ function App() {
         console.log('Submitting...', {
           ...(mFormData.current || {}),
         })
+
         setSavedFormData(mFormData.current.formDataKeyValue)
+        ATToast.success('Formdata submitted successfully!')
       }, 1000)
     })
   }
@@ -191,7 +195,13 @@ function App() {
     {
       id: 'AgGridCellRendererTemplates',
       component: AgGridCellRendererTemplates
-    }
+    },
+    {
+      id: 'CascadeComboBoxPlayground',
+      component: CascadeComboBoxPlayground,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
   ]
 
   console.log('App Renderer')

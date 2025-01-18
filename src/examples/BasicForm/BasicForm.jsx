@@ -37,16 +37,16 @@ const BasicForm = ({ ref, onChange }) => {
                     id: 'State',
                     enumKey: 'StateAndCapitals',
                     enumParentKey: 'Country',
-                    data: ({ Country }) => new Promise((resolve) => {
-                        resolve(enums?.StateAndCapitals.filter(item => !item.ParentID && item.Country === Country))
+                    data: ({ keyValue }) => new Promise((resolve) => {
+                        resolve(enums?.StateAndCapitals.filter((item) => !item.ParentID && item.Country === keyValue?.Country))
                     }),
                     children: [
                         {
                             id: 'Capital',
                             enumKey: 'StateAndCapitals',
                             enumParentKey: 'ParentID',
-                            data: ({ State }) => new Promise((resolve) => {
-                                resolve(enums?.StateAndCapitals.filter(item => item.ParentID === State))
+                            data: ({ keyValue }) => new Promise((resolve) => {
+                                resolve(enums?.StateAndCapitals.filter((item) => item.ParentID === keyValue?.State))
                             }),
                         },
                     ]
