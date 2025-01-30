@@ -1,3 +1,5 @@
+import { formBuilder } from "../ATForm";
+
 export const create = ({ id, ...restProps }) => {
     return {
         id,
@@ -13,12 +15,14 @@ export const splitCapitalBySpace = (input) => {
 class ColumnBuilder {
     constructor(columns) {
         this.columns = columns.map((item, index) => {
-            return {
+            const rawColumns = {
                 id: item.id,
                 label: item.label,
                 size: 3,
                 ...(item.uiProps ? item.uiProps : item)
             }
+
+            return formBuilder[`create${rawColumns.type}`](rawColumns)
         })
     }
 
@@ -290,10 +294,11 @@ export const createCascadeComboBox = ({ id, size = 12, design, wrapperRendererPr
         id,
         type: 'CascadeComboBox',
         size,
-        design,
+        design: createCascadeDesign(design),
         wrapperRendererProps: {
             container: true,
             spacing: 2,
+            size: 12,
             ...wrapperRendererProps,
         },
         ...restProps,
