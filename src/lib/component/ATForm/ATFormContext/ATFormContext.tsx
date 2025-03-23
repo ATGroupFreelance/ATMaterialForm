@@ -9,12 +9,12 @@ const ATFormContext = createContext<ATFormContextType | undefined>(undefined);
 // Define the type for the provider props
 interface ATFormContextProviderProps {
   children: ReactNode;
-  value: Omit<ATFormContextType, 'getLocalText'>; // The provider will calculate `getLocalText`
+  value: ATFormContextType;
 }
 
 // Provider component
 export const ATFormContextProvider: React.FC<ATFormContextProviderProps> = ({ children, value }) => {
-  const { localText, ...restValue } = value;
+  const { localText, getLocalText, ...restValue } = value;
 
   // Merge localText with defaults
   const newLocalText: Record<string, string> = {
@@ -23,21 +23,18 @@ export const ATFormContextProvider: React.FC<ATFormContextProviderProps> = ({ ch
   };
 
   // Function to get localized text
-  const getLocalText = (id: string | null | undefined, label?: string): string => {
-    if (label !== undefined) return label;
+  const fallbackGetLocalText = (id: string | null | undefined, fallbackLabel?: string): string | null | undefined => {
+    if (!id)
+      return id
 
-    if (id === null || id === undefined) {
-      console.error(`getLocalText input id parameter was undefined for id: ${id}`);
-      return 'Error, Undefined ID!';
-    }
+    if (typeof id !== "string") 
+      return id    
 
-    const found = newLocalText[id] || newLocalText[id.toUpperCase()] || newLocalText[id.toLowerCase()];
-
-    return found !== undefined ? found : id;
+    return newLocalText[id] || newLocalText[id.toUpperCase()] || newLocalText[id.toLowerCase()] || fallbackLabel || id;
   };
 
   return (
-    <ATFormContext.Provider value={{ ...restValue, localText: newLocalText, getLocalText }}>
+    <ATFormContext.Provider value={{ ...restValue, localText: newLocalText, getLocalText: getLocalText || fallbackGetLocalText }}>
       {children}
     </ATFormContext.Provider>
   );

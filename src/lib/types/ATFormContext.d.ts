@@ -6,5 +6,5 @@ export interface ATFormContextType {
     localText: Record<string, string>;
     agGridLocalText: Record<string, string>;
     customComponents: any;
-    getLocalText: (id: string | null | undefined, label?: string) => string;
+    getLocalText: (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined;
 }

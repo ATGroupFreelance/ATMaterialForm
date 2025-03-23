@@ -16,7 +16,8 @@ import {
     NumberFilterModule,
     ColDef,
     themeBalham,
-    PaginationModule
+    PaginationModule,
+    CellContextMenuEvent
 } from 'ag-grid-community';
 import { useTheme } from '@mui/material';
 //ATForm
@@ -26,10 +27,12 @@ import useATFormProvider from '../../hooks/useATFormProvider/useATFormProvider';
 //Components
 import { ColumnDefTemplates } from './ColumnDefTemplates/ColumnDefTemplates';
 import ATFormDialog from '../ATForm/ATFormDialog';
+import ATAgGridContextMenu from './ATAgGridContextMenu/ATAgGridContextMenu';
 
 const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, height, domLayout, tColumns, tUniqueKey, tTranslateUniqueKey, ...restProps }: ATAgGridProps) => {
     const theme = useTheme()
     const { rtl, enums, agGridLocalText, getLocalText } = useATFormProvider()
+    const [contextMenu, setContextMenu] = useState<any>(null)
 
     /**Ignore unused variables using void */
     void atFormProvidedProps;
@@ -74,7 +77,7 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
                 const { cellRendererParams, ...restColProps } = currentTColumn.colProps || {}
                 return ColumnDefTemplates.createButton({
                     field: currentTColumn.id,
-                    headerName: ((currentTColumn.colProps?.headerName === undefined) || (currentTColumn.colProps?.headerName === null)) ? getLocalText(currentTColumn.id) : currentTColumn.colProps?.headerName,
+                    headerName: ((currentTColumn.colProps?.headerName === undefined) || (currentTColumn.colProps?.headerName === null)) ? getLocalText(currentTColumn.id) ?? undefined : currentTColumn.colProps?.headerName,
                     cellRendererParams: {
                         onClick: (event, props) => onTColumnFormDialogClick(event, { ...props, tColumn: currentTColumn }),
                         ...cellRendererParams
@@ -94,15 +97,19 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
 
                 result.push({
                     field,
-                    headerName: ((headerName === undefined) || (headerName === null)) ? getLocalText(field) : headerName,
-                    /**Do not translate tUniqueKey columns */
+                    headerName: ((headerName === undefined) || (headerName === null)) ? getLocalText(field) ?? undefined : headerName,
+                    /**Do not translate tUniqueKey columns unless tTranslateUniqueKey is true*/
                     valueFormatter: (field === tUniqueKey && !tTranslateUniqueKey) ?
                         undefined
                         :
                         (params: any) => {
-                            return getTitleByEnums({ id: enumID || params.colDef.field, enums, value: params.value, options: enumOptions })
+                            const enumValue = getTitleByEnums({ id: enumID || params.colDef.field, enums, value: params.value, options: enumOptions })
+
+                            if (enumValue && enumValue !== params.value)
+                                return enumValue
+                            else
+                                return getLocalText(params.value) ?? params.value
                         },
-                    flex: 1,
                     ...restColumnDefs
                 })
             }
@@ -136,48 +143,75 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
         return result;
     }, [basicColumnDefs, tColumns, tColumnTypes])
 
-    const basicColumnDefs3: ColDef[] = useMemo(() => {
-        const result: ColDef[] = [
-            ...basicColumnDefs2
-        ]
+    // const basicColumnDefs3: ColDef[] = useMemo(() => {
+    //     const result: ColDef[] = [
+    //         ...basicColumnDefs2
+    //     ]
 
-        if (!rowData?.length)
-            return result
+    //     if (!rowData?.length)
+    //         return result
 
-        const colDefsWidth: { [key: string]: any } = {}
+    //     const colDefsWidth: { [key: string]: any } = {}
 
-        for (let i = 0; i < Math.min(rowData.length - 1, 100); i++) {
-            const currentRowData = rowData[i]
+    //     for (let i = 0; i < Math.min(rowData.length - 1, 100); i++) {
+    //         const currentRowData = rowData[i]
 
-            result.filter(colDef => !colDef.width).forEach(colDef => {
-                if (colDef.field && !colDef.width) {
-                    const currentCell = currentRowData[colDef.field]
-                    const currentLength = Math.max(currentCell?.length || 0, colDef.field?.length || 0, 0)
+    //         result.filter(colDef => !colDef.width).forEach(colDef => {
+    //             if (colDef.field && !colDef.width) {
+    //                 const currentCell = currentRowData[colDef.field]
+    //                 const currentLength = Math.max(currentCell?.length || 0, colDef.field?.length || 0, 0)
 
-                    const { field } = colDef
-                    const minWidth = 20
-                    const newWidth = minWidth + currentLength * 13
+    //                 const { field } = colDef
+    //                 const minWidth = 20
+    //                 const newWidth = minWidth + currentLength * 13
 
-                    colDefsWidth[field] = Math.max((colDefsWidth[field] || 0), newWidth)
-                }
-            })
-        }
+    //                 colDefsWidth[field] = Math.max((colDefsWidth[field] || 0), newWidth)
+    //             }
+    //         })
+    //     }
 
-        result.filter(colDef => colDef.field && !colDef.width).forEach(colDef => {
-            if (!colDef.width && !colDef.minWidth)
-                colDef.minWidth = Math.max(colDefsWidth[colDef.field!], 100)
-        })
+    //     result.filter(colDef => colDef.field && !colDef.width).forEach(colDef => {
+    //         if (!colDef.width && !colDef.minWidth)
+    //             colDef.minWidth = Math.max(colDefsWidth[colDef.field!], 100)
+    //     })
 
-        return result
-    }, [rowData, basicColumnDefs2])
+    //     return result
+    // }, [rowData, basicColumnDefs2])  
 
-    return <div style={{ height: domLayout ? undefined : (height || '80vh'), width: '100%' }}>
+    const onContextMenu = (agEvent: CellContextMenuEvent) => {
+        console.log('onContextMenu Main', agEvent)
+        const mouseEvent = agEvent.event as MouseEvent;
+
+        if (!mouseEvent?.clientX || !mouseEvent.clientY)
+            return null
+
+        mouseEvent.preventDefault()
+        mouseEvent.stopPropagation()
+        mouseEvent.stopImmediatePropagation()
+
+        setContextMenu(
+            agEvent
+        );
+    };
+
+    const onContextMenuClose = () => {
+        setContextMenu(null)
+    }
+
+
+    return <div
+        style={{ height: domLayout ? undefined : (height || '80vh'), width: '100%' }}
+        onContextMenu={(event) => {
+            // Prevent the browser's default context menu, using aggrid suppressContextMenu or onContextMenu prevent default did not work!!!
+            event.preventDefault();
+        }}
+    >
         <AgGridReact
             //@ts-ignore
             theme={theme?.atConfig?.gridTheme || themeBalham}
             ref={ref}
             rowData={rowData}
-            columnDefs={basicColumnDefs3}
+            columnDefs={basicColumnDefs2}
             localeText={agGridLocalText}
             rowHeight={48}
             enableRtl={rtl}
@@ -194,7 +228,15 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
                 PaginationModule
             ]}
             getRowId={tUniqueKey ? (params) => String(params.data[tUniqueKey]) : undefined}
+            defaultColDef={{
+                filter: true,
+            }}
+            onCellContextMenu={onContextMenu}
             {...restProps}
+        />
+        <ATAgGridContextMenu
+            agEvent={contextMenu}
+            onClose={onContextMenuClose}
         />
         {dialog}
     </div>

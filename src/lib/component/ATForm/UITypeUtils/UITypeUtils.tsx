@@ -49,7 +49,7 @@ export const getTypeInfo = (type: any, customTypes: any): ATTypeInterface | unde
 }
 
 export const getTitleByEnums = ({ id, enumsID, options, enums, value }: ATGetTitleByEnumsInterface) => {
-    if (value === null)
+    if (value === null || value === undefined)
         return ''
 
     const searchID = enumsID || id
