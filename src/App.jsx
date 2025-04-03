@@ -38,6 +38,7 @@ import CascadeComboBoxPlayground from './examples/CascadeComboBoxPlayground/Casc
 import ATToast from './lib/component/ATToast/ATToast';
 //Beta Components
 import ConditionalRender from './beta/ConditionalRender/ConditionalRender';
+import MultiForm from './beta/MultiForm/MultiForm';
 
 const RTL = true
 
@@ -51,7 +52,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'ConditionalRender'
+const ACTIVE_EXAMPLE = 'MultiForm'
 
 function App() {
   const formRef = useRef(null)
@@ -210,6 +211,12 @@ function App() {
       refEnabled: true,
       onChangeEnabled: true,
     },
+    {
+      id: 'MultiForm',
+      component: MultiForm,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },    
   ]
 
   console.log('App Renderer')

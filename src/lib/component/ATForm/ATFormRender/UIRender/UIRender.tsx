@@ -28,6 +28,8 @@ const UIRender = ({
         wrapperProps['childProps'] = restProps
     }
 
+    // console.log('UIRender', {skipForm, isValid: React.isValidElement(ui), ui})
+
     const children = (
         !skipRender
         &&
