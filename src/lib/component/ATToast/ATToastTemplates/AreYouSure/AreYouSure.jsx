@@ -1,5 +1,5 @@
 import Button from "@/lib/component/ATForm/UI/Button/Button";
-import { Backdrop, Box, Grid2, Modal, Typography } from "@mui/material";
+import { Backdrop, Box, Grid, Modal, Typography } from "@mui/material";
 
 const AreYouSure = ({ closeToast, data, isPaused, toastProps, onYesClick, onNoClick, toastContent }) => {
     const onInternalNoClick = (event, props) => {
@@ -16,20 +16,20 @@ const AreYouSure = ({ closeToast, data, isPaused, toastProps, onYesClick, onNoCl
 
     // console.log('AreYouSure', { closeToast, data, isPaused, toastProps, onYesClick, onNoClick, toastContent })
 
-    return <Grid2 container spacing={2}>
-        <Grid2 size={12}>
+    return <Grid container spacing={2}>
+        <Grid size={12}>
             <Typography variant="h6">{toastContent}</Typography>
-        </Grid2>
-        <Grid2 size={4}>
+        </Grid>
+        <Grid size={4}>
             <Button variant={'outlined'} onClick={onInternalNoClick} color={'error'}>No</Button>
-        </Grid2>
-        <Grid2 size={'grow'}>
+        </Grid>
+        <Grid size={'grow'}>
 
-        </Grid2>
-        <Grid2 size={4}>
+        </Grid>
+        <Grid size={4}>
             <Button variant={'outlined'} onClick={onInternalYesClick}>Yes</Button>
-        </Grid2>
-    </Grid2>
+        </Grid>
+    </Grid>
 }
 
 export default AreYouSure;

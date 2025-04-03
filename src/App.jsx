@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import './App.css';
-import { Button, Divider, Grid2, Tab, Tabs } from '@mui/material';
+import { Button, Divider, Grid, Tab, Tabs } from '@mui/material';
 //UI Utils
 import * as UITypeUtils from '@/lib/component/ATForm/UITypeUtils/UITypeUtils';
 //Context
@@ -271,33 +271,33 @@ function App() {
                 />
               ))}
             </Tabs>
-            <Grid2 container spacing={3}>
-              <Grid2 size={12}>
+            <Grid container spacing={3}>
+              <Grid size={12}>
                 <div>
                   Form data key value :
                 </div>
                 {JSON.stringify(realTimeFormData || {})}
-              </Grid2>
-              <Grid2 size={4}>
+              </Grid>
+              <Grid size={4}>
                 <Button onClick={onLoadLastSubmitClick}>load last submit</Button>
-              </Grid2>
-              <Grid2 size={4}>
+              </Grid>
+              <Grid size={4}>
                 <Button onClick={onSetDefaultValueClick}>set default value </Button>
-              </Grid2>
-              <Grid2 size={4}>
+              </Grid>
+              <Grid size={4}>
                 <Button onClick={onSubmitClick}>Submit from outside the form</  Button>
-              </Grid2>
-              <Grid2 size={12}>
+              </Grid>
+              <Grid size={12}>
                 <Divider/>
-              </Grid2>
-              <Grid2 container size={12} spacing={2}>
+              </Grid>
+              <Grid container size={12} spacing={2}>
                 {
                   exampleList.filter(item => item.id === selectedTab).map(item => {
                     return <item.component key={item.id} ref={item.refEnabled ? formRef : null} onChange={item.onChangeEnabled ? onFormChange : null} />
                   })
                 }
-              </Grid2>
-            </Grid2>
+              </Grid>
+            </Grid>
           </LocalizationProvider>
         </ATFormContextProvider>
       </ThemeProvider>

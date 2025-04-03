@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Button from "../../Button/Button";
 import ShowFilesDialog from "../ShowFilesDialog/ShowFilesDialog";
-import { Grid2, Tooltip } from '@mui/material';
+import { Grid, Tooltip } from '@mui/material';
 import localText from '../../../ATFormContext/LocalText';
 
 const UploadButtonCellRenderer = ({ data, colDef, ...props }) => {
@@ -25,8 +25,8 @@ const UploadButtonCellRenderer = ({ data, colDef, ...props }) => {
         />)
     }
 
-    //TODO This was also item md={12} but im not sure how to impant this in Grid2
-    return <Grid2 container justifyContent={'center'} sx={{ height: '100%' }}>
+    //TODO This was also item md={12} but im not sure how to impant this in Grid
+    return <Grid container justifyContent={'center'} sx={{ height: '100%' }}>
         <Tooltip
             title={files.map(item => item.name).join(' , ')}
             onMouseEnter={() => { setShowTooltip(true) }}
@@ -40,7 +40,7 @@ const UploadButtonCellRenderer = ({ data, colDef, ...props }) => {
             </span>
         </Tooltip>
         {dialog}
-    </Grid2>
+    </Grid>
 }
 
 export default UploadButtonCellRenderer;

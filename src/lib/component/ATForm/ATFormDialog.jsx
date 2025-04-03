@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 //ATForm
 import ATForm from './ATForm';
 import Button from './UI/Button/Button';
-import { CircularProgress, Grid2 } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
 import useATFormProvider from '../../hooks/useATFormProvider/useATFormProvider';
 
 const ATFormDialog = ({ ref, title, titleStyle, onClose, onCancelClick, cancelButtonEnabled = true, onSubmitClick, onChange, children, submitLoading, cancelLoading, getActions, loading, submitButtonProps, cancelButtonProps, fullWidth, maxWidth, PaperProps, ...restProps }) => {
@@ -76,7 +76,7 @@ const ATFormDialog = ({ ref, title, titleStyle, onClose, onCancelClick, cancelBu
     return <Dialog open={true} onClose={onClose} fullWidth={fullWidth === undefined ? true : fullWidth} maxWidth={maxWidth === undefined ? '800' : maxWidth} PaperProps={PaperProps} >
         <DialogTitle sx={{ ...(titleStyle || {}) }}>{title}</DialogTitle>
         <DialogContent>
-            <Grid2 container spacing={2} sx={{ marginTop: '5px', marginBottom: '5px' }}>
+            <Grid container spacing={2} sx={{ marginTop: '5px', marginBottom: '5px' }}>
                 {
                     loading && <CircularProgress />
                 }
@@ -85,19 +85,19 @@ const ATFormDialog = ({ ref, title, titleStyle, onClose, onCancelClick, cancelBu
                         {children}
                     </ATForm>
                 }
-            </Grid2>
+            </Grid>
         </DialogContent>
         <DialogActions>
-            <Grid2 container spacing={2}>
+            <Grid container spacing={2}>
                 {
                     newActions.map(item => {
                         const { grid, id, label, onClick, disabled, ...restItem } = item
-                        return <Grid2 key={id} size={{ ...(grid ? grid : { xs: 12, size: 2 }) }}>
+                        return <Grid key={id} size={{ ...(grid ? grid : { xs: 12, size: 2 }) }}>
                             <Button label={label ? label : id} onClick={(event, { ...buttonProps }) => onClick(event, { ...buttonProps, formData: mFormData.current.formData, formDataKeyValue: mFormData.current.formDataKeyValue, formDataSemiKeyValue: mFormData.current.formDataSemiKeyValue })} disabled={loading || disabled} {...restItem} />
-                        </Grid2>
+                        </Grid>
                     })
                 }
-            </Grid2>
+            </Grid>
         </DialogActions>
     </Dialog>
 }

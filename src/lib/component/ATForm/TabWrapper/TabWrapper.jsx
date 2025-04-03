@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // MUI (Material-UI)
-import { Grid2 } from "@mui/material";
+import { Grid } from "@mui/material";
 // Utils
 import * as FormUtils from '../FormUtils/FormUtils';
 // Components
@@ -22,7 +22,7 @@ const TabWrapper = ({ tabs, tabsGridProps, children, formChildrenProps, onChange
         // Use `display: 'none'` to hide elements of unselected tabs. This ensures the values of hidden elements are retained during tab changes.
         // Avoid using conditional rendering (like skipping rendering entirely) as it would reset the values of those elements.
         // Note: To make `wrapperRendererProps` and tabs work properly, ensure a `wrapper` is provided.
-        // The default wrapper used here is MUI's `Grid2`.
+        // The default wrapper used here is MUI's `Grid`.
         return {
             ...item,
             wrapperRendererProps: {
@@ -51,13 +51,13 @@ const TabWrapper = ({ tabs, tabsGridProps, children, formChildrenProps, onChange
         <>
             {
                 tabs &&
-                <Grid2 size={12} {...(tabsGridProps || {})}>
+                <Grid size={12} {...(tabsGridProps || {})}>
                     <TabView 
                         tabs={tabs} 
                         activeTabIndex={selectedTabIndexArray?.[0] || 0} 
                         onTabChange={onInternalTabChange} 
                     />
-                </Grid2>
+                </Grid>
             }
             {
                 FormUtils.getFlatChildren(children).map(item => {

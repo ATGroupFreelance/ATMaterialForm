@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import ComboBox from '../../ComboBox/ComboBox';
-import { Grid2 } from "@mui/material";
+import { Grid } from "@mui/material";
 
 const BaseComboBox = ({ id, value, parentID, data, multiple, size = { xs: 12, md: 3, lg: 3, xl: 3 }, ...restProps }) => {
     const [options, setOptions] = useState(null)
@@ -54,11 +54,11 @@ const BaseComboBox = ({ id, value, parentID, data, multiple, size = { xs: 12, md
     if (!newValue)
         newValue = multiple ? [] : null
 
-    return <Grid2 size={size}>
+    return <Grid size={size}>
         {
             <ComboBox options={options} value={newValue} disabled={disabled || !options || forceDisabled} multiple={multiple} {...restProps} />
         }
-    </Grid2>
+    </Grid>
 }
 
 export default BaseComboBox;

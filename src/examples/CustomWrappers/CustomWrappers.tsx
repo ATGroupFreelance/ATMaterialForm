@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
-import { Button, Grid2 } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 
 const MyWrapperTypeA = ({ childProps, children, isValidNumber, onClick }: any) => {
     console.log('CustomWrappers A')
-    return <Grid2 size={childProps.size}>
+    return <Grid size={childProps.size}>
         <div style={{ border: '1px dotted red', padding: '5px' }}>
             isValidNumber ? {String(isValidNumber)}
             <Button onClick={onClick}>Click Me!</Button>
             {children}
         </div>
-    </Grid2>
+    </Grid>
 }
 
 const MyWrapperTypeB = ({ childProps, children }: any) => {
@@ -28,13 +28,13 @@ const MyWrapperTypeB = ({ childProps, children }: any) => {
         setIsValidNumber(!isNaN(event.target.value))
     }
 
-    return <Grid2 size={gridSize}>
+    return <Grid size={gridSize}>
         <div style={{ border: '1px dotted red', padding: '5px' }}>
             isValidNumber ? {String(isValidNumber)}
             <Button onClick={onWrapperClick}>Click Me!</Button>
             {React.cloneElement(children, { ...childProps, onChange: onTextBoxChange })}
         </div>
-    </Grid2>
+    </Grid>
 }
 
 const CustomWrappers = ({ ref, onChange }: any) => {

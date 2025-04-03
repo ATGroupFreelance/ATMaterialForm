@@ -3,7 +3,7 @@ import Button from '@/lib/component/ATForm/UI/Button/Button';
 //Context
 import { useEffect, useState } from 'react';
 import useATFormProvider from '../../../../../hooks/useATFormProvider/useATFormProvider';
-import { Box, Grid2, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, Tooltip, Typography } from '@mui/material';
 import { useTheme } from "@mui/material";
 
 function isImage(url) {
@@ -53,15 +53,15 @@ const File = ({ id, name, size, authToken, width, height }) => {
     }
 
     return <Box sx={{ display: 'inline-block', border: '1px solid #c3c3c3', width: `${width}px`, height: `${height}px`, margin: '1px', borderRadius: '15px' }}>
-        <Grid2 container direction={'row'} justifyContent={'center'} sx={{ width: `${width}px` }} >
-            <Grid2 size={12} sx={{ height: '20px', textAlign: 'center', marginBottom: '3px' }}>
+        <Grid container direction={'row'} justifyContent={'center'} sx={{ width: `${width}px` }} >
+            <Grid size={12} sx={{ height: '20px', textAlign: 'center', marginBottom: '3px' }}>
                 <Tooltip title={name} sx={{ fontWeight: 'bold' }}>
                     <Typography sx={{ fontWeight: 'bold', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', maringRight: '5px', marginLeft: '5px' }}>
                         {name}
                     </Typography>
                 </Tooltip>
-            </Grid2>
-            <Grid2 size={12} sx={{ height: `${height - 65}px`, textAlign: 'center' }} justifyContent={'center'}>
+            </Grid>
+            <Grid size={12} sx={{ height: `${height - 65}px`, textAlign: 'center' }} justifyContent={'center'}>
                 {
                     isImage(name)
                     &&
@@ -71,14 +71,14 @@ const File = ({ id, name, size, authToken, width, height }) => {
                         </Button>
                     </Tooltip>
                 }
-            </Grid2>
-            <Grid2 size={12} sx={{ height: '37px', marginTop: '5px', paddingTop: '3px' }} justifyContent="flex-end">
+            </Grid>
+            <Grid size={12} sx={{ height: '37px', marginTop: '5px', paddingTop: '3px' }} justifyContent="flex-end">
                 <Button onClick={onOpenClick} variant={'text'} sx={{ fontSize: '0.7rem', borderRadius: '0px', borderBottomRightRadius: '15px', borderBottomLeftRadius: '15px', ...(theme?.atConfig?.fileViewer?.file?.downloadButton || {}) }}>
                     {localText['Download']}
                     {`(${Math.ceil(size / 1024)} kB)`}
                 </Button>
-            </Grid2>
-        </Grid2>
+            </Grid>
+        </Grid>
     </Box>
 }
 

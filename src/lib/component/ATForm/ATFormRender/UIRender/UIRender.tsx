@@ -1,7 +1,7 @@
 import React from "react"
 
 import UIBuilder from "../../UIBuilder/UIBuilder"
-import { Grid2 } from "@mui/material"
+import { Grid } from "@mui/material"
 
 const UIRender = ({
     ui,
@@ -15,7 +15,7 @@ const UIRender = ({
 ) => {
     //default wrapper is a flex grid
     //Please note wrapper variable must be pascal because its a react component
-    let Wrapper = Grid2
+    let Wrapper = Grid
     const wrapperProps = {
         //Pass the size as the wrapper props, this is the wrappers can use it but its not passed to children,
         //if size does not exists use 12 as the default value

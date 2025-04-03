@@ -5,7 +5,7 @@ import { Columns } from './Columns';
 import Button from '@/lib/component/ATForm/UI/Button/Button';
 import RecordDialog from './RecordDialog';
 import { ColumnDefTemplates } from '@/lib/component/ATAgGrid/ColumnDefTemplates/ColumnDefTemplates';
-import { Grid2 } from '@mui/material';
+import { Grid } from '@mui/material';
 
 const UserManager = () => {
     const [rowData, setRowData] = useState([{ id: 1, A: 10, B: 10, 'A + B': 20 }])
@@ -80,11 +80,11 @@ const UserManager = () => {
     ]
 
     return (
-        <Grid2 size={12}>
+        <Grid size={12}>
             <ATAgGrid columnDefs={columnDefs} rowData={rowData} />
             <Button onClick={onAddClick} label={'Add'} />
             {dialog}
-        </Grid2>
+        </Grid>
     )
 }
 

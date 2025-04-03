@@ -6,7 +6,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Grid2 } from '@mui/material';
+import { Grid } from '@mui/material';
 
 //Context
 import useATFormProvider from '../../../../../../../hooks/useATFormProvider/useATFormProvider';
@@ -20,11 +20,11 @@ const ViewImageDialog = ({ onClose, image, name }) => {
             <img style={{ width: '600px', height: '800px' }} src={image} alt={name} />
         </DialogContent>
         <DialogActions>
-            <Grid2 container spacing={2} justifyContent={'center'} >
-                <Grid2 size={{ xs: 12, md: 6 }}>
+            <Grid container spacing={2} justifyContent={'center'} >
+                <Grid size={{ xs: 12, md: 6 }}>
                     <Button onClick={onClose} color={'secondary'}>{localText['Cancel']}</Button>
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         </DialogActions>
     </Dialog>
 }

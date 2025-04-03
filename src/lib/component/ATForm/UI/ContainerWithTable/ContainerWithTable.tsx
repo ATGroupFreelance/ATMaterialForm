@@ -2,7 +2,7 @@
 import React, { useCallback, useRef, useEffect, useState } from 'react';
 
 //MUI
-import { Grid2, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 //ATForm
 import ATForm from '../../ATForm';
 import ATFormDialog from '../../ATFormDialog';
@@ -201,7 +201,7 @@ const ContainerWithTable = ({ atFormProvidedProps, value, elements, getGridColum
             </div>
         }
         <div className={classesArray.join(' ')} style={{ width: !rtl && showHeader ? '98%' : '100%' }}>
-            <Grid2 container spacing={2} sx={{ marginBottom: '5px' }}>
+            <Grid container spacing={2} sx={{ marginBottom: '5px' }}>
                 {
                     recordDialog.show &&
                     //@ts-ignore
@@ -241,26 +241,26 @@ const ContainerWithTable = ({ atFormProvidedProps, value, elements, getGridColum
                     </ATForm>
                 }
 
-            </Grid2>
-            <Grid2 container sx={{ marginBottom: '4px', justifyContent: addButtonOrigin === 'right' ? 'end' : 'start', ...(actionPanelStyle || {}) }}>
+            </Grid>
+            <Grid container sx={{ marginBottom: '4px', justifyContent: addButtonOrigin === 'right' ? 'end' : 'start', ...(actionPanelStyle || {}) }}>
                 {
                     showHeaderlessTitle
                     &&
                     <>
-                        <Grid2 size={2}>
+                        <Grid size={2}>
                             <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
                                 {label}
                             </Typography>
-                        </Grid2>
-                        <Grid2 size={8}>
+                        </Grid>
+                        <Grid size={8}>
 
-                        </Grid2>
+                        </Grid>
                     </>
                 }
-                <Grid2 size={2}>
+                <Grid size={2}>
                     <Button label={localText['Add']} onClick={onAddClick} disabled={disabled} {...addButtonProps || {}} />
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
             <ATAgGrid
                 //@ts-ignore
                 onGridReady={gridRefCallback}
