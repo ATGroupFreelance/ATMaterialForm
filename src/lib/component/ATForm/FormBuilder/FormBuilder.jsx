@@ -68,6 +68,14 @@ class ColumnBuilder {
         return this
     }
 
+    addIf(condition, arrayOfObjects) {
+        if (condition) {
+            return this.add(arrayOfObjects)
+        }
+        else
+            return this
+    }
+
     sort(arrayOfID) {
         this.columns.sort((a, b) => {
             const indexA = arrayOfID.indexOf(a.id)

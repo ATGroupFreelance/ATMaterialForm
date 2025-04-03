@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import './App.css';
-import { Button, Grid2, Tab, Tabs } from '@mui/material';
+import { Button, Divider, Grid2, Tab, Tabs } from '@mui/material';
 //UI Utils
 import * as UITypeUtils from '@/lib/component/ATForm/UITypeUtils/UITypeUtils';
 //Context
@@ -36,6 +36,8 @@ import ToastPlayground from './examples/ToastPlayground/ToastPlayground';
 import AgGridCellRendererTemplates from './examples/AgGridCellRendererTemplates/AgGridCellRendererTemplates';
 import CascadeComboBoxPlayground from './examples/CascadeComboBoxPlayground/CascadeComboBoxPlayground';
 import ATToast from './lib/component/ATToast/ATToast';
+//Beta Components
+import ConditionalRender from './beta/ConditionalRender/ConditionalRender';
 
 const RTL = true
 
@@ -49,7 +51,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'CascadeComboBoxPlayground'
+const ACTIVE_EXAMPLE = 'ConditionalRender'
 
 function App() {
   const formRef = useRef(null)
@@ -202,6 +204,12 @@ function App() {
       refEnabled: true,
       onChangeEnabled: true,
     },
+    {
+      id: 'ConditionalRender',
+      component: ConditionalRender,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
   ]
 
   console.log('App Renderer')
@@ -279,6 +287,9 @@ function App() {
               <Grid2 size={4}>
                 <Button onClick={onSubmitClick}>Submit from outside the form</  Button>
               </Grid2>
+              <Grid2 size={12}>
+                <Divider/>
+              </Grid2>
               <Grid2 container size={12} spacing={2}>
                 {
                   exampleList.filter(item => item.id === selectedTab).map(item => {
@@ -287,7 +298,6 @@ function App() {
                 }
               </Grid2>
             </Grid2>
-
           </LocalizationProvider>
         </ATFormContextProvider>
       </ThemeProvider>
