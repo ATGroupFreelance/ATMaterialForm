@@ -1,6 +1,6 @@
 import React, { PureComponent, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 
-// //Utils
+//Utils
 import * as FormBuilder from './FormBuilder/FormBuilder';
 import * as UITypeUtils from './UITypeUtils/UITypeUtils';
 //Validation
@@ -15,8 +15,6 @@ import { getFlatChildren } from './FormUtils/FormUtils';
 import useATFormProvider from '@/lib/hooks/useATFormProvider/useATFormProvider';
 
 const ATFormFunction = (props) => {
-    console.log('ATFORM RENDER')
-
     const mChildrenRefs = useRef({})
     const mFormData = useRef({})
     const mFormDataKeyValue = useRef({})
@@ -25,6 +23,7 @@ const ATFormFunction = (props) => {
     const mAjv = useRef(null)
     const mAjvValidate = useRef(null)
     const mPrevChildren = useRef(null)
+    const mPendingValidationCallbacks = useRef([])
     const { customComponents, enums, rtl, getLocalText } = useATFormProvider()
     const [internalDefaultValue, setInternalDefaultValue] = React.useState({})
     const [isFormOnLockdown, setIsFormOnLockdown] = React.useState(false)
@@ -356,6 +355,28 @@ const ATFormFunction = (props) => {
         return result
     }, [getLocalText])
 
+    useEffect(() => {
+        if (!mPendingValidationCallbacks.current.length)
+            return;
+
+        mPendingValidationCallbacks.current.forEach(item => {
+            const { isValid, onValid, onInvalid } = item
+
+            if (isValid) {
+                if (onValid)
+                    onValid()
+            }
+            else {
+                if (onInvalid) {
+                    onInvalid()
+                }
+                //Show a notification      
+            }
+        })
+
+        mPendingValidationCallbacks.current = [];
+    }, [validationErrors])
+
     const checkValidation = useCallback((onValid, onInvalid) => {
         if (mAjvValidate.current) {
             //! Important !, avjVaidate which equels the result of "this.ajv.compile(schema)" will change your input! 
@@ -365,19 +386,7 @@ const ATFormFunction = (props) => {
 
             setValidationErrors(newValidationErrors)
 
-            //TODO The following code is supposed be called after the set state above happens
-            setTimeout(() => {
-                if (isValid) {
-                    if (onValid)
-                        onValid()
-                }
-                else {
-                    if (onInvalid) {
-                        onInvalid()
-                    }
-                    //Show a notification      
-                }
-            }, 100);
+            mPendingValidationCallbacks.current.push({ isValid, onValid, onInvalid })
         }
         else {
             if (onValid)
@@ -421,7 +430,7 @@ const ATFormFunction = (props) => {
     }, [checkValidation, getLocalText, internalDefaultValue, isFormOnLockdown, onAssignChildRef, onChildChange, onLockdownChange, validationErrors, getTypeInfo, props.childrenProps])
 
 
-    const flatChildren = useMemo(() => {
+    const flatChildren = useMemo(() => {        
         return getFlatChildren(props.children)
     }, [props.children])
 
@@ -444,5 +453,5 @@ const ATFormFunction = (props) => {
     )
 }
 
-export const formBuilder = FormBuilder;
+
 export default ATFormFunction;
