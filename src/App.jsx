@@ -52,7 +52,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'MultiForm'
+const ACTIVE_EXAMPLE = 'BasicForm'
 
 function App() {
   const formRef = useRef(null)
@@ -216,7 +216,7 @@ function App() {
       component: MultiForm,
       refEnabled: true,
       onChangeEnabled: true,
-    },    
+    },
   ]
 
   console.log('App Renderer')
@@ -295,7 +295,7 @@ function App() {
                 <Button onClick={onSubmitClick}>Submit from outside the form</  Button>
               </Grid>
               <Grid size={12}>
-                <Divider/>
+                <Divider />
               </Grid>
               <Grid container size={12} spacing={2}>
                 {
