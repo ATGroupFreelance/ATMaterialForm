@@ -11,16 +11,17 @@ import ATAgGrid from '../../../ATAgGrid/ATAgGrid';
 import { getColumnDefsByATFormElements } from '../.././../ATAgGrid/ATAgGridUtils/ATAgGridUtils';
 import { ColumnDefTemplates } from '../../../ATAgGrid/ColumnDefTemplates/ColumnDefTemplates';
 //Context
-import useATFormProvider from '../../../../hooks/useATFormProvider/useATFormProvider';
+import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 import Button from '../Button/Button';
 //Styles
 import StyleClasses from './ContainerWithTable.module.css';
 //AgGrid
 import { AgGridReact } from 'ag-grid-react';
 import { GridApi } from "ag-grid-community";
-import { ATContainerWithTableProps } from '@/lib/types/ContainerWithTable';
-import { ATFormOnChangeInterface } from '@/lib/types/Common';
-import { ATButtonOnClickHandler } from '@/lib/types/Button';
+import { ATFormContainerWithTableProps } from '@/lib/types/ui/ContainerWithTable.type';
+import { ATFormOnChangeInterface, ATFormRefInterface } from '@/lib/types/ATForm.type';
+import { ATFormOnClickType } from '@/lib/types/Common.type';
+import useATForm from '@/lib/hooks/useATForm/useATForm';
 
 const DEFAULT_ROW_ID_KEY = 'JSONID'
 const INTERFACE_TYPES = {
@@ -29,7 +30,7 @@ const INTERFACE_TYPES = {
 }
 
 type ATAgGridRef = AgGridReact<GridApi> | null
-type ATFormRef = ATForm | null
+
 const initializeOnChangeInterface = () => {
     return {
         formData: {},
@@ -38,11 +39,12 @@ const initializeOnChangeInterface = () => {
     }
 }
 
-const ContainerWithTable = ({ atFormProvidedProps, value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATContainerWithTableProps) => {
-    const { enums, rtl, localText } = useATFormProvider()
+const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATFormContainerWithTableProps) => {
+    const { enums, rtl, localText } = useATFormConfig()
+    const { getTypeInfo } = useATForm()
 
     const [currentGridRef, setCurrentGridRef] = useState<ATAgGridRef>(null)
-    const formRef = useRef<ATFormRef>(null)
+    const formRef = useRef<ATFormRefInterface | null>(null)
     const formDataRef = useRef<ATFormOnChangeInterface>(initializeOnChangeInterface())
     const formDialogDataRef = useRef<ATFormOnChangeInterface>(initializeOnChangeInterface())
     const rowIDCounter = useRef(0)
@@ -55,7 +57,7 @@ const ContainerWithTable = ({ atFormProvidedProps, value, elements, getGridColum
         }
     }, [])
 
-    const formRefCallback = useCallback((ref: ATFormRef) => {
+    const formRefCallback = useCallback((ref: ATFormRefInterface) => {
         if (ref) {
             formRef.current = ref
         }
@@ -148,7 +150,7 @@ const ContainerWithTable = ({ atFormProvidedProps, value, elements, getGridColum
             console.error('Invalid interface type inside containerWithTable component, possible values: ', INTERFACE_TYPES)
     }
 
-    const onEditClick: ATButtonOnClickHandler<{ data?: any }> = (_event: any, { data }) => {
+    const onEditClick: ATFormOnClickType<{ data?: any }> = ({ data }) => {
         setRecordDialog({
             show: true,
             editMode: true,
@@ -156,7 +158,7 @@ const ContainerWithTable = ({ atFormProvidedProps, value, elements, getGridColum
         })
     }
 
-    const onRemoveClick: ATButtonOnClickHandler<{ data?: any }> = (_event: any, { data }) => {
+    const onRemoveClick: ATFormOnClickType<{ data?: any }> = ({ data }) => {
         if (currentGridRef) {
             currentGridRef.api.applyTransaction({ remove: [data] });
 
@@ -164,7 +166,10 @@ const ContainerWithTable = ({ atFormProvidedProps, value, elements, getGridColum
         }
     }
 
-    const baseGridColumnDefs = getGridColumnDefs ? getGridColumnDefs(getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: atFormProvidedProps.getTypeInfo })) : getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo: atFormProvidedProps.getTypeInfo })
+    const baseGridColumnDefs = getGridColumnDefs ?
+        getGridColumnDefs(getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo }))
+        :
+        getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo })
 
     const gridColumnDefs = baseGridColumnDefs?.map((item: any) => {
         if (item.cellRenderer) {
@@ -270,12 +275,7 @@ const ContainerWithTable = ({ atFormProvidedProps, value, elements, getGridColum
                     ColumnDefTemplates.createEdit({ cellRendererParams: { onClick: onEditClick }, pinned: 'left' }),
                     ColumnDefTemplates.createRemove({ cellRendererParams: { onClick: onRemoveClick }, pinned: 'left' })
                 ]}
-                //@ts-ignore
                 getRowId={getRowId ? getRowId() : (params) => String(params.data[DEFAULT_ROW_ID_KEY])}
-                ref={undefined}
-                rowData={undefined}
-                domLayout={undefined}
-                tColumns={undefined}
             />
         </div>
     </div >

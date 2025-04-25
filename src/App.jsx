@@ -5,7 +5,7 @@ import { Button, Divider, Grid, Tab, Tabs } from '@mui/material';
 //UI Utils
 import * as UITypeUtils from '@/lib/component/ATForm/UITypeUtils/UITypeUtils';
 //Context
-import { ATFormContextProvider } from './lib/component/ATForm/ATFormContext/ATFormContext';
+import { ATFormConfigProvider } from './lib/component/ATForm/ATFormConfigContext/ATFormConfigContext';
 //services
 import ServiceManager from '@/serviceManager/serviceManager';
 //DatePicker Provider
@@ -52,7 +52,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'BasicForm'
+const ACTIVE_EXAMPLE = 'MultiForm'
 
 function App() {
   const formRef = useRef(null)
@@ -224,7 +224,7 @@ function App() {
     <div className='App'>
       <ATToastContainer />
       <ThemeProvider theme={theme}>
-        <ATFormContextProvider value={{
+        <ATFormConfigProvider value={{
           rtl: RTL,
           enums: enums,
           uploadFilesToServer: ServiceManager.uploadFilesToServer,
@@ -306,7 +306,7 @@ function App() {
               </Grid>
             </Grid>
           </LocalizationProvider>
-        </ATFormContextProvider>
+        </ATFormConfigProvider>
       </ThemeProvider>
     </div>
   );

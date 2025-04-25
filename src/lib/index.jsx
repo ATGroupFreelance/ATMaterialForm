@@ -1,13 +1,14 @@
-import ATForm, { formBuilder } from './component/ATForm/ATForm';
+import ATForm from './component/ATForm/ATForm';
 import ATFormDialog from './component/ATForm/ATFormDialog';
 import { UITypes, createCustomComponent } from './component/ATForm/UITypeUtils/UITypeUtils';
-import { ATFormContextProvider } from './component/ATForm/ATFormContext/ATFormContext';
+import { ATFormConfigProvider } from './component/ATForm/ATFormConfigContext/ATFormConfigContext';
+import formBuilder from './component/ATForm/FormBuilder/FormBuilder';
 
 export {
     ATForm,
-    ATFormDialog,    
-    formBuilder,    
-    createCustomComponent,    
+    ATFormDialog,
+    formBuilder,
+    createCustomComponent,
     UITypes,
-    ATFormContextProvider
+    ATFormConfigProvider
 };

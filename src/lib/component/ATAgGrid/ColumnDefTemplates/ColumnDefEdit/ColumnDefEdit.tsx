@@ -1,5 +1,5 @@
 import { EditOutlined } from "@mui/icons-material"
-import { CellRendererIconButtonColumnDefProps } from "@/lib/types/ATAgGrid"
+import { CellRendererIconButtonColumnDefProps } from "@/lib/types/ATAgGrid.type"
 import { useTheme } from "@mui/material"
 import ColumnDefIconButton from "../ColumnDefIconButton/ColumnDefIconButton"
 

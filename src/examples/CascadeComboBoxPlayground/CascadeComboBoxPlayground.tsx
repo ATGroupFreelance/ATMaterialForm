@@ -1,9 +1,9 @@
 import ServiceManager from '@/serviceManager/serviceManager';
 import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
-import useATFormProvider from '@/lib/hooks/useATFormProvider/useATFormProvider';
+import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 
 const CascadeComboBoxPlayground = ({ ref, onChange }: any) => {
-    const { enums } = useATFormProvider()
+    const { enums } = useATFormConfig()
 
     /**Manual cascade where you define each data and how it must be filtered! */
     const singleLeafCascadeDesign = formBuilder.createCascadeDesign([

@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useMemo, useState } from 'react';
 import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
 //services
 import ServiceManager from '@/serviceManager/serviceManager';
-import ATFormContext from '@/lib/component/ATForm/ATFormContext/ATFormContext';
+import ATFormConfigContext from '@/lib/component/ATForm/ATFormConfigContext/ATFormConfigContext';
 
 const multiLeafCascadeDesign = [
     {
@@ -25,7 +25,7 @@ const multiLeafCascadeDesign = [
 
 const BasicForm = ({ ref, onChange }) => {
     console.log('BasicForm', ref)
-    const { enums } = useContext(ATFormContext)
+    const { enums } = useContext(ATFormConfigContext)
 
     const singleLeafCascadeDesign = useMemo(() => {
         return [

@@ -1,32 +1,30 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import _React, { useState } from 'react';
+import { useState } from 'react';
 
 import MUIButton from '@mui/material/Button';
 import ATToast from '../../../ATToast/ATToast';
-import { ATButtonProps } from '@/lib/types/Button';
+import { ATFormButtonProps } from '@/lib/types/ui/Button.type';
+import { ATFormOnClickProps } from '@/lib/types/Common.type';
 
-const Button = ({ ref, atFormProvidedProps, onClick, loading = false, color = 'primary', label, disabled, children, confirmationMessage, ...restProps }: ATButtonProps) => {
-    void atFormProvidedProps;
-    
+const Button = ({ id, loading = false, label, confirmationText, fullWidth, onClick, color = 'primary', disabled, children, ...restProps }: ATFormButtonProps) => {
     const [internalLoading, setInternalLoading] = useState(loading)
 
-    const onYesClick = (event: any, { closeToast }: any) => {
-        closeToast()
+    const onYesClick = (props: ATFormOnClickProps) => {
+        props.closeToast()
 
         if (onClick) {
-            onClick(event, { startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
+            onClick({ ...props, startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
         }
     }
 
     const internalOnClick = (event: any) => {
-        if (confirmationMessage) {
-            ATToast.AreYouSure(confirmationMessage, { onYesClick })
+        if (confirmationText) {
+            ATToast.AreYouSure(confirmationText, { onYesClick })
         }
         else if (onClick)
-            onClick(event, { startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
+            onClick({ event, startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
     }
-    
-    return <MUIButton ref={ref} fullWidth={true} disabled={internalLoading || disabled} onClick={internalOnClick} color={color} {...restProps}>{label}{children}</MUIButton>
+
+    return <MUIButton fullWidth={true} disabled={internalLoading || disabled} onClick={internalOnClick} color={color} {...restProps}>{label}{children}</MUIButton>
 }
 
 export default Button;

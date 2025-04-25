@@ -21,29 +21,22 @@ import {
 } from 'ag-grid-community';
 import { useTheme } from '@mui/material';
 //ATForm
-import { ATAgGridExtendedColDef, ATAgGridProps, ATAgGridTColumnInterface } from '../../types/ATAgGrid';
-import { ATButtonOnClickHandler } from '../../types/Button';
-import useATFormProvider from '../../hooks/useATFormProvider/useATFormProvider';
+import { ATAgGridExtendedColDef, ATAgGridProps, ATAgGridTColumnInterface } from '../../types/ATAgGrid.type';
+import useATFormConfig from '../../hooks/useATFormConfig/useATFormConfig';
 //Components
 import { ColumnDefTemplates } from './ColumnDefTemplates/ColumnDefTemplates';
 import ATFormDialog from '../ATForm/ATFormDialog';
 import ATAgGridContextMenu from './ATAgGridContextMenu/ATAgGridContextMenu';
+import { ATFormOnClickType } from '@/lib/types/Common.type';
 
-const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, height, domLayout, tColumns, tUniqueKey, tTranslateUniqueKey, ...restProps }: ATAgGridProps) => {
+const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqueKey, translateUniqueKey, ...restProps }: ATAgGridProps) => {
     const theme = useTheme()
-    const { rtl, enums, agGridLocalText, getLocalText } = useATFormProvider()
+    const { rtl, enums, agGridLocalText, getLocalText } = useATFormConfig()
     const [contextMenu, setContextMenu] = useState<any>(null)
-
-    /**Ignore unused variables using void */
-    void atFormProvidedProps;
-    void id;
-    void label;
 
     const [dialog, setDialog] = useState<any>(null)
 
-    const onTColumnFormDialogClick: ATButtonOnClickHandler<{ data?: any, tColumn: ATAgGridTColumnInterface }> = useCallback((_event, { data, tColumn }) => {
-        void data;
-
+    const onTColumnFormDialogClick: ATFormOnClickType<{ data?: any, tColumn: ATAgGridTColumnInterface }> = useCallback(({ tColumn }) => {
         setDialog(
             <ATFormDialog
                 ref={undefined}
@@ -79,7 +72,7 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
                     field: currentTColumn.id,
                     headerName: ((currentTColumn.colProps?.headerName === undefined) || (currentTColumn.colProps?.headerName === null)) ? getLocalText(currentTColumn.id) ?? undefined : currentTColumn.colProps?.headerName,
                     cellRendererParams: {
-                        onClick: (event, props) => onTColumnFormDialogClick(event, { ...props, tColumn: currentTColumn }),
+                        onClick: (props) => onTColumnFormDialogClick({ ...props, tColumn: currentTColumn }),
                         ...cellRendererParams
                     },
                     ...restColProps
@@ -98,8 +91,8 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
                 result.push({
                     field,
                     headerName: ((headerName === undefined) || (headerName === null)) ? getLocalText(field) ?? undefined : headerName,
-                    /**Do not translate tUniqueKey columns unless tTranslateUniqueKey is true*/
-                    valueFormatter: (field === tUniqueKey && !tTranslateUniqueKey) ?
+                    /**Do not translate uniqueKey columns unless translateUniqueKey is true*/
+                    valueFormatter: (field === uniqueKey && !translateUniqueKey) ?
                         undefined
                         :
                         (params: any) => {
@@ -116,7 +109,7 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
         }
 
         return result
-    }, [enums, tTranslateUniqueKey, tUniqueKey, columnDefs, getLocalText])
+    }, [enums, translateUniqueKey, uniqueKey, columnDefs, getLocalText])
 
     const basicColumnDefs2: ColDef[] = useMemo(() => {
         const result = [
@@ -128,11 +121,14 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
             for (let j = 0; j < tColumns.length; j++) {
                 const currentTColumn = tColumns[j]
 
+                if (currentTColumn) {
+
+                }
                 // Create the new column definition
                 const newColumn = tColumnTypes[currentTColumn.type](currentTColumn)
 
                 // Insert the column at the specified index
-                if (currentTColumn?.index >= 0 && currentTColumn?.index < result.length) {
+                if (currentTColumn.index !== undefined && currentTColumn?.index >= 0 && currentTColumn?.index < result.length) {
                     result.splice(currentTColumn.index, 0, newColumn)
                 } else {
                     result.push(newColumn)
@@ -227,7 +223,7 @@ const ATAgGrid = ({ atFormProvidedProps, id, label, ref, rowData, columnDefs, he
                 // ColumnAutoSizeModule,
                 PaginationModule
             ]}
-            getRowId={tUniqueKey ? (params) => String(params.data[tUniqueKey]) : undefined}
+            getRowId={uniqueKey ? (params) => String(params.data[uniqueKey]) : undefined}
             defaultColDef={{
                 filter: true,
             }}

@@ -1,4 +1,4 @@
-import { CellRendererIconButtonProps } from '@/lib/types/ATAgGrid';
+import { CellRendererIconButtonProps } from '@/lib/types/ATAgGrid.type';
 import ATIconButton from '../../../ATForm/UI/IconButton/IconButton';
 
 const IconButton = ({ onClick, icon, data, confirmationMessage, tooltip, getCellRendererParams }: CellRendererIconButtonProps) => {

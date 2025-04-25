@@ -1,7 +1,7 @@
 import moment from 'moment';
 //Cell Renderers
 import UploadButtonCellRenderer from '../UI/UploadButton/UploadButtonCellRenderer/UploadButtonCellRenderer';
-import { ATConvertInterface, ATCreateCustomComponentInterface, ATGetTitleByEnumsInterface, ATReverseConvertInterface, ATTypeInterface } from '../../../types/UITypeUtils';
+import { ATConvertInterface, ATGetTitleByEnumsInterface, ATReverseConvertInterface, ATTypeInterface } from '../../../types/UITypeUtils.type';
 
 export const UITypes = {
     Button: 'Button',
@@ -259,7 +259,7 @@ export const types = [
         convertToKeyValue: ({ event }: ATConvertInterface) => {
             return JSON.stringify(event.target.value)
         },
-        reverseConvertToKeyValue: ({ value}: ATReverseConvertInterface) => {
+        reverseConvertToKeyValue: ({ value }: ATReverseConvertInterface) => {
             if (!value)
                 return []
 
@@ -268,7 +268,7 @@ export const types = [
         convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
             return event.target.value
         },
-        reverseConvertToSemiKeyValue: ({ value}: ATReverseConvertInterface) => {
+        reverseConvertToSemiKeyValue: ({ value }: ATReverseConvertInterface) => {
             if (!value)
                 return []
 
@@ -287,7 +287,7 @@ export const types = [
         convertToKeyValue: ({ event }: ATConvertInterface) => {
             return event.target.value
         },
-        reverseConvertToKeyValue: ({ value}: ATReverseConvertInterface) => {
+        reverseConvertToKeyValue: ({ value }: ATReverseConvertInterface) => {
             return value
         },
     }),
@@ -298,7 +298,7 @@ export const types = [
         convertToKeyValue: ({ event }: ATConvertInterface) => {
             return JSON.stringify(event.target.value)
         },
-        reverseConvertToKeyValue: ({ value}: ATReverseConvertInterface) => {
+        reverseConvertToKeyValue: ({ value }: ATReverseConvertInterface) => {
             if (!value)
                 return []
 
@@ -372,8 +372,7 @@ export const types = [
 
                 const found = enums?.[leaf.enumKey]?.find((item: any) => String(item.id) === String(value))
 
-                if (leaf.enumParentKey) {
-                    //@ts-expect-error 
+                if (leaf.enumParentKey) {                    
                     const parentValueResult = getLeafCascadeValue(getParentNode(element.design, leaf), found?.[leaf.enumParentKey])
                     console.log('parentValueResult', found, parentValueResult, leaf)
 
@@ -585,7 +584,7 @@ export const types = [
         convertToKeyValue: ({ event }: ATConvertInterface) => {
             return JSON.stringify(event.target.value)
         },
-        reverseConvertToKeyValue: ({ value}: ATReverseConvertInterface) => {
+        reverseConvertToKeyValue: ({ value }: ATReverseConvertInterface) => {
             if (!value)
                 return []
 
@@ -633,17 +632,3 @@ export const types = [
         validation: createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
     }),
 ]
-
-export const createCustomComponent = ({ component, type, initialValue, isControlledUI = true }: ATCreateCustomComponentInterface) => {
-    const typeInfo: ATTypeInterface = {
-        type
-    }
-
-    if (isControlledUI === true)
-        typeInfo['initialValue'] = initialValue
-
-    return {
-        component,
-        typeInfo
-    }
-}
