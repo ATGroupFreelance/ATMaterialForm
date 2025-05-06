@@ -3,6 +3,11 @@ import React, { Suspense, useState, useImperativeHandle, useEffect } from 'react
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 import { ATControlledUIBuilderProps, ATFormChildResetInterface } from '@/lib/types/ATForm.type';
 import { ATTypeInterface } from '@/lib/types/UITypeUtils.type';
+import { ATFormTextBoxProps } from '@/lib/types/ui/TextBox.type';
+import { ATFormComboBoxProps } from '@/lib/types/ui/ComboBox.type';
+import { ATFormMultiComboBoxProps } from '@/lib/types/ui/MultiComboBox.type';
+import { ATFormFileViewerProps } from '@/lib/types/ui/FileViewer.type';
+import { ATFormCheckBoxProps } from '@/lib/types/ui/CheckBox.type';
 
 const TextBox = React.lazy(() => import('../../UI/TextBox/TextBox'));
 const IntegerTextBox = React.lazy(() => import('../../UI/IntegerTextBox/IntegerTextBox'));
@@ -46,7 +51,8 @@ const getInitialValue = (typeInfo: ATTypeInterface, defaultValue: any) => {
 const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
     const { customComponents } = useATFormConfig()
 
-    const [localValue, setLocalValue] = useState(getInitialValue(childProps.typeInfo, childProps.uiProps.defaultValue))
+    /**UI Builder doesn't allow any child with an undefined typeinfo to be rendered which means typeinfo is for sure not empty*/
+    const [localValue, setLocalValue] = useState(getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue))
 
     useEffect(() => {
         //We call this to initialize the formData        
@@ -59,8 +65,8 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
     //Please note that if value is gived to an element is complex and can not be compared using a shallow compare it can cause infinite loop
     //For example a controlled Textbox from outside is okay but upload button is not.
     useEffect(() => {
-        if (childProps.uiProps.value !== undefined) {
-            setLocalValue(childProps.uiProps.value)
+        if (childProps.uiProps?.value !== undefined) {
+            setLocalValue(childProps.uiProps?.value)
             //This onChange is used to update form's FormData            
             childProps.onChildChange({
                 event: { target: { value: childProps.uiProps.value } },
@@ -68,7 +74,7 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
             })
         }
         // eslint-disable-next-line
-    }, [childProps.uiProps.value])
+    }, [childProps.uiProps?.value])
 
     useImperativeHandle(childProps.tProps.ref, () => {
         return {
@@ -77,16 +83,16 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
     })
 
     const reset = ({ callFormOnChangeDisabled }: ATFormChildResetInterface) => {
-        internalOnChange({ target: { value: getInitialValue(childProps.typeInfo, childProps.uiProps.defaultValue) } }, { callFormOnChangeDisabled })
+        internalOnChange({ target: { value: getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue) } }, { callFormOnChangeDisabled })
     }
 
-    const internalOnChange = (event: any, props: ATFormChildResetInterface) => {
+    const internalOnChange = (event: any, props?: ATFormChildResetInterface) => {
         setLocalValue(event.target.value)
         //This onChange must be given outside of the form to the element, the goal is total control
-        if (childProps.uiProps.onChange)
+        if (childProps.uiProps?.onChange)
             childProps.uiProps.onChange(event)
         //This onChange is used to update form's FormData        
-        childProps.onChildChange({ event, callFormOnChangeDisabled: props.callFormOnChangeDisabled, childProps })
+        childProps.onChildChange({ event, callFormOnChangeDisabled: props?.callFormOnChangeDisabled, childProps })
     }
 
 
@@ -99,32 +105,34 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         /**Please note value and onChange that might be inside uiProps are overwritten but are called inside the internal functions */
         ...childProps.uiProps,
         value: localValue,
-        onChange: internalOnChange,
+        onChange: (event: any) => internalOnChange(event),
         error: error,
         helperText: helperText,
     }
 
     let CustomComponent = null
     if (customComponents) {
-        const found = customComponents.find((item: any) => item.typeInfo.type === type)
+        const found = customComponents.find((item: any) => item.typeInfo.type === childProps.typeInfo!.type)
         CustomComponent = found ? found.component : null
     }
 
     const type = childProps.tProps.type
 
+    console.log('Controlled UIBuilder children', childProps)
+
     return <Suspense fallback={<div>Loading...</div>}>
         {type === 'TextBox' && <TextBox {...commonProps} />}
         {type === 'IntegerTextBox' && <IntegerTextBox {...commonProps} />}
         {type === 'FloatTextBox' && <FloatTextBox {...commonProps} />}
-        {type === 'ComboBox' && <ComboBox {...commonProps} />}
-        {type === 'MultiComboBox' && <MultiComboBox {...commonProps} />}
+        {type === 'ComboBox' && <ComboBox {...commonProps as ATFormComboBoxProps} />}
+        {type === 'MultiComboBox' && <MultiComboBox {...commonProps as ATFormMultiComboBoxProps} />}
         {type === 'DatePicker' && <DatePicker {...commonProps} />}
         {type === 'UploadButton' && <UploadButton {...commonProps} />}
         {type === 'UploadImageButton' && <UploadImageButton {...commonProps} />}
-        {type === 'FileViewer' && <FileViewer {...commonProps} />}
+        {type === 'FileViewer' && <FileViewer {...commonProps as unknown as ATFormFileViewerProps} />}
         {type === 'CascadeComboBox' && <CascadeComboBox {...commonProps} />}
         {type === 'MultiValueCascadeComboBox' && <MultiValueCascadeComboBox {...commonProps} />}
-        {type === 'CheckBox' && <CheckBox {...commonProps} />}
+        {type === 'CheckBox' && <CheckBox {...commonProps as ATFormCheckBoxProps} />}
         {type === 'Slider' && <Slider {...commonProps} />}
         {type === 'PasswordTextBox' && <PasswordTextBox {...commonProps} />}
         {type === 'DoublePasswordTextBox' && <DoublePasswordTextBox {...commonProps} />}

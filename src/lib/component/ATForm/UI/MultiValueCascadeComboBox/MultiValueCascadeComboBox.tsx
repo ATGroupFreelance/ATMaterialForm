@@ -1,7 +1,7 @@
 import CascadeComboBox from '../CascadeComboBox/CascadeComboBox';
-import { ATFormMultiValueCascadeComboBox } from '@/lib/types/ui/MultiValueCascadeComboBox.type';
+import { ATFormMultiValueCascadeComboBoxProps } from '@/lib/types/ui/MultiValueCascadeComboBox.type';
 
-const MultiValueCascadeComboBox = (props: ATFormMultiValueCascadeComboBox) => {
+const MultiValueCascadeComboBox = (props: ATFormMultiValueCascadeComboBoxProps) => {
     return <CascadeComboBox {...props} />
 }
 

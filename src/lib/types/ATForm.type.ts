@@ -3,6 +3,7 @@ import type React from "react";
 import type { ColDef } from "ag-grid-community";
 import { Grid } from '@mui/material';
 import { ATFormBuilerColumnInterface } from "./FormBuilder.type";
+import { ATTypeInterface } from "./UITypeUtils.type";
 
 export type ATFormGridSize = React.ComponentProps<typeof Grid>['size'];
 export type ATFormColor = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | 'default'
@@ -63,6 +64,8 @@ export interface ATFormComponentProps {
     size?: ATFormGridSize,
     label?: string | undefined | null,
     tabIndex?: number | number[],
+    /**Only works for controlled elements and its used for form initialize */
+    defaultValue?: any,
     groupDataID?: string,
     wrapperRenderer?: any,
     wrapperRendererProps?: any,
@@ -77,7 +80,7 @@ export interface ATFormComponentProps {
 }
 
 export type ATFormChildProps = ATFormBuilerColumnInterface & {
-    typeInfo: any,
+    typeInfo: ATTypeInterface | undefined,
     errors: any,
     onChildChange: (props: ATFormOnChildChangeInterface) => void,
     isTabSelected?: boolean,

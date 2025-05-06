@@ -20,7 +20,7 @@ export interface ATFormCascadeComboBoxDesignLayer {
     uiProps?: StrictOmit<ATFormComboBoxProps, 'id' | 'value' | 'multiple' | 'readOnly' | 'size' | 'options'>,
 }
 
-export interface ATFormCascadeComboBox extends ATFormMinimalControlledUIProps {
+export interface ATFormCascadeComboBoxProps extends ATFormMinimalControlledUIProps {
     label?: string;
     design?: ATFormCascadeComboBoxDesignLayer[],
 };

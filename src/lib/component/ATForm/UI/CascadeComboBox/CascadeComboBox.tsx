@@ -1,7 +1,7 @@
 import React from 'react';
 
 import BaseComboBox from './BaseComboBox/BaseComboBox';
-import { ATFormCascadeComboBox, ATFormCascadeComboBoxBaseComboBoxProps, ATFormCascadeComboBoxDesignLayer, ATFormCascadeComboBoxDesignLayerOptionsFunctionProps } from '@/lib/types/ui/CascadeComboBox.type';
+import { ATFormCascadeComboBoxProps, ATFormCascadeComboBoxBaseComboBoxProps, ATFormCascadeComboBoxDesignLayer, ATFormCascadeComboBoxDesignLayerOptionsFunctionProps } from '@/lib/types/ui/CascadeComboBox.type';
 import { ATEnumType } from '@/lib/types/Common.type';
 import ComboBox from '../ComboBox/ComboBox';
 /**
@@ -34,7 +34,7 @@ import ComboBox from '../ComboBox/ComboBox';
     Example and Playground:
     You can provide a custom cascade tree through the design prop to define its structure. For more examples and possible combinations, refer to the CascadeComboBoxPlayground.
  */
-const CascadeComboBox = ({ label, design, onChange, value, error, helperText, readOnly }: ATFormCascadeComboBox) => {
+const CascadeComboBox = ({ label, design, onChange, value, error, helperText, readOnly }: ATFormCascadeComboBoxProps) => {
     const onInternalChange = (id: string, event: React.ChangeEvent<HTMLInputElement>, children: ATFormCascadeComboBoxDesignLayer[] | undefined) => {
         const newValue = {
             ...(value || {}),

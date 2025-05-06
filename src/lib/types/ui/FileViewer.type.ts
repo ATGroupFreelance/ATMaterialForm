@@ -1,6 +1,6 @@
 import { ATFormMinimalControlledUIProps } from "../Common.type";
 
-export interface ATFormFileViewer extends ATFormMinimalControlledUIProps {
+export interface ATFormFileViewerProps extends ATFormMinimalControlledUIProps {
     label?: string,
     fileWidth?: number,
     fileHeight?: number,

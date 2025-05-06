@@ -3,10 +3,10 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Button, CircularProgress, Typography } from '@mui/material';
-import { ATFormUploadImageButton } from '@/lib/types/ui/UploadImageButton.type';
+import { ATFormUploadImageButtonProps } from '@/lib/types/ui/UploadImageButton.type';
 import useATForm from '@/lib/hooks/useATForm/useATForm';
 
-const UploadImageButton = ({ id, label, onChange, value, disabled, accept, error, helperText, authToken, width = 128, height = 128, readOnly }: ATFormUploadImageButton) => {
+const UploadImageButton = ({ id, label, onChange, value, disabled, accept, error, helperText, authToken, width = 128, height = 128, readOnly }: ATFormUploadImageButtonProps) => {
     const [loading, setLoading] = useState<boolean>(false)
     const { onLockdownChange } = useATForm()
     const { uploadFilesToServer, getFile, localText } = useATFormConfig()
@@ -60,7 +60,8 @@ const UploadImageButton = ({ id, label, onChange, value, disabled, accept, error
                         const newValue = res?.[0]?.id
 
                         setSrc(URL.createObjectURL(selectedFiles[0]))
-                        onChange({ target: { value: newValue } })
+                        if (onChange)
+                            onChange({ target: { value: newValue } })
                     })
                     .finally(() => {
                         setLoading(false)
@@ -69,7 +70,8 @@ const UploadImageButton = ({ id, label, onChange, value, disabled, accept, error
                     })
             }
             else {
-                onChange({ target: { value: ['No uploadFilesToServer was found, please assign one usnig ATFormConfigProvider!'] } })
+                if (onChange)
+                    onChange({ target: { value: ['No uploadFilesToServer was found, please assign one usnig ATFormConfigProvider!'] } })
                 setLoading(false)
                 if (onLockdownChange && id)
                     onLockdownChange(id, false)

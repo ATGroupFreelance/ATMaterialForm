@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 //Context
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 import { ATUnControlledUIBuilderProps } from '@/lib/types/ATForm.type';
+import { ATFormTableProps } from '@/lib/types/ui/Table.type';
 
 const Button = React.lazy(() => import('../../UI/Button/Button'));
 const Label = React.lazy(() => import('../../UI/Label/Label'));
@@ -26,7 +27,7 @@ const UncontrolledUIBuilder = ({ childProps }: ATUnControlledUIBuilderProps) => 
     return <Suspense fallback={<div>Loading...</div>}>
         {type === 'Button' && <Button {...commonProps} />}
         {type === 'Label' && <Label {...commonProps} />}
-        {type === 'Table' && <Table {...commonProps} />}
+        {type === 'Table' && <Table {...commonProps as ATFormTableProps} />}
         {CustomComponent && <CustomComponent {...commonProps} />}
     </Suspense>
 }
