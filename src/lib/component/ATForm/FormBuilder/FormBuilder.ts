@@ -8,10 +8,10 @@ import { ATFormComboBoxProps } from "@/lib/types/ui/ComboBox.type";
 import { ATFormMultiComboBoxProps } from "@/lib/types/ui/MultiComboBox.type";
 import { ATFormDatePickerProps } from "@/lib/types/ui/DatePicker.type";
 import { ATFormUploadButtonProps } from "@/lib/types/ui/UploadButton.type";
-import { ATFormUploadImageButton } from "@/lib/types/ui/UploadImageButton.type";
-import { ATFormFileViewer } from "@/lib/types/ui/FileViewer.type";
-import { ATFormCascadeComboBox } from "@/lib/types/ui/CascadeComboBox.type";
-import { ATFormMultiValueCascadeComboBox } from "@/lib/types/ui/MultiValueCascadeComboBox.type";
+import { ATFormUploadImageButtonProps } from "@/lib/types/ui/UploadImageButton.type";
+import { ATFormFileViewerProps } from "@/lib/types/ui/FileViewer.type";
+import { ATFormCascadeComboBoxProps } from "@/lib/types/ui/CascadeComboBox.type";
+import { ATFormMultiValueCascadeComboBoxProps } from "@/lib/types/ui/MultiValueCascadeComboBox.type";
 import { GridProps } from "@mui/material";
 import { ATFormCheckBoxProps } from "@/lib/types/ui/CheckBox.type";
 import { ATFormSliderProps } from "@/lib/types/ui/Slider.type";
@@ -138,7 +138,7 @@ const createUploadButton = (tProps: ATFormTypelessComponentProps, uiProps?: ATFo
     })
 }
 
-const createUploadImageButton = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormUploadImageButton) => {
+const createUploadImageButton = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormUploadImageButtonProps) => {
     return create({
         type: 'UploadImageButton',
         defaultSize: 3,
@@ -147,7 +147,7 @@ const createUploadImageButton = (tProps: ATFormTypelessComponentProps, uiProps?:
     })
 }
 
-const createFileViewer = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormFileViewer) => {
+const createFileViewer = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormFileViewerProps) => {
     return create({
         type: 'FileViewer',
         defaultSize: 12,
@@ -156,7 +156,7 @@ const createFileViewer = (tProps: ATFormTypelessComponentProps, uiProps?: ATForm
     })
 }
 
-const createCascadeComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormCascadeComboBox) => {
+const createCascadeComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormCascadeComboBoxProps) => {
     return create({
         type: 'CascadeComboBox',
         defaultSize: 12,
@@ -173,7 +173,7 @@ const createCascadeComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: A
     })
 }
 
-const createMultiValueCascadeComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormMultiValueCascadeComboBox) => {
+const createMultiValueCascadeComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormMultiValueCascadeComboBoxProps) => {
     return create({
         type: 'MultiValueCascadeComboBox',
         defaultSize: 12,

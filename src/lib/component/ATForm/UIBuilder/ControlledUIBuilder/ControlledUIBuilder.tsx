@@ -81,7 +81,7 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         }
     })
 
-    const reset = ({ callFormOnChangeDisabled }: ATFormChildResetInterface) => {
+    const reset = ({ callFormOnChangeDisabled = false }: ATFormChildResetInterface = {} as ATFormChildResetInterface) => {
         internalOnChange({ target: { value: getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue) } }, { callFormOnChangeDisabled })
     }
 
@@ -98,8 +98,7 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
     const error = childProps.errors?.[childProps.tProps.id]?.error
     const helperText = childProps.errors?.[childProps.tProps.id]?.message
 
-    const commonProps = {
-        ref: childProps.tProps.ref,
+    const commonProps = {        
         id: childProps.tProps.id,
         /**Please note value and onChange that might be inside uiProps are overwritten but are called inside the internal functions */
         ...childProps.uiProps,

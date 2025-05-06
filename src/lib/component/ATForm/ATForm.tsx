@@ -195,7 +195,7 @@ const ATFormFunction = (props: ATFormProps) => {
         console.log('internalDefaultValue has changed', { internalDefaultValue, refList: mChildrenRefs.current })
         for (let key in mChildrenRefs.current) {
             if (mChildrenRefs.current[key] && mChildrenRefs.current[key].reset) {
-                mChildrenRefs.current[key].reset({ callFormOnChangeDisabled: false });
+                mChildrenRefs.current[key].reset();
             }
         }
     }, [internalDefaultValue]); // Dependency array ensures this runs after defaultValue changes
@@ -411,7 +411,18 @@ const ATFormFunction = (props: ATFormProps) => {
                 ...childProps.tProps,
                 label: childProps.tProps.label !== undefined ? childProps.tProps.label : getLocalText(childProps.tProps.id, childProps.tProps.id),
                 defaultValue: newDefaultValue,
-                ref: (newRef) => onAssignChildRef(childProps.tProps.id, newRef),
+                ref: (newRef) => {
+                    if (newRef) {
+                        onAssignChildRef(childProps.tProps.id, newRef)
+
+                        const ref = childProps.tProps.ref;
+                        if (typeof ref === 'function') {
+                            ref(newRef);
+                        } else if (ref && typeof ref === 'object' && 'current' in ref) {
+                            ref.current = newRef;
+                        }
+                    }
+                },
             },
             uiProps: childProps.uiProps,
             typeInfo,

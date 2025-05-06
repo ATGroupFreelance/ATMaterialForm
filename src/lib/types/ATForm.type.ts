@@ -1,4 +1,4 @@
-import { ATFormMinimalControlledUIProps, StringKeyedObject } from "./Common.type";
+import { StringKeyedObject } from "./Common.type";
 import type React from "react";
 import type { ColDef } from "ag-grid-community";
 import { Grid } from '@mui/material';
@@ -41,10 +41,6 @@ export interface ATFormResetInterface {
     callFormOnChangeDisabled?: boolean,
 }
 
-export interface ATFormComponentRefInterface {
-    reset?: (resetProps: ATFormResetInterface) => void,
-}
-
 export interface ATFormOnChildChangeInterface {
     event: any,
     childProps: ATFormChildProps,
@@ -58,7 +54,15 @@ export interface ATFormPendingValidationCallbackInterface {
     onInvalid: any,
 }
 
+/**Type def for tProps.ref */
+export interface ATFormComponentRefInterface {
+    reset?: (resetProps?: ATFormChildResetInterface) => void,
+}
+
+/**Type def for tProps */
 export interface ATFormComponentProps {
+    /**This is ref that gives you access to form apis that are at child level, this is not the same as uiProps.ref ! */
+    ref?: React.Ref<ATFormComponentRefInterface>,
     id: string,
     type: string,
     size?: ATFormGridSize,
@@ -72,7 +76,6 @@ export interface ATFormComponentProps {
     colDef?: ColDef,
     skipForm?: boolean,
     skipRender?: boolean,
-    ref?: React.Ref<any>,
     validation?: {
         required?: boolean;
         [key: string]: unknown;
@@ -97,7 +100,7 @@ export interface ATFormUnknownChildProps {
         wrapperRendererProps?: any,
         size?: ATFormGridSize,
     },
-    uiProps: any,
+    uiProps?: Record<string, any>,
 }
 
 export interface ATFormRenderProps {
