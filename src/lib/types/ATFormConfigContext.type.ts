@@ -14,13 +14,26 @@ interface GetFileProps {
 }
 
 export interface ATFormConfigContextInterface {
-    rtl: boolean;
-    enums: ATEnumsType;
-    uploadFilesToServer: (props: UploadFilesToServerProps) => Promise<any>;
-    maxUploadFileSizeInBytes: number,
-    getFile: (props: GetFileProps) => Promise<any>;
+    rtl?: boolean;
+    enums?: ATEnumsType;
+    uploadFilesToServer?: (props: UploadFilesToServerProps) => Promise<any>;
+    maxUploadFileSizeInBytes?: number,
+    getFile?: (props: GetFileProps) => Promise<any>;
+    localText?: Record<string, string>;
+    agGridLocalText?: Record<string, string>;
+    customComponents?: ATFormCustomComponentInterface[];
+    getLocalText?: (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined;
+    getTypeInfo?: (type: string) => ATTypeInterface | undefined,
+}
+
+export interface ATFormConfigContextGuaranteedInterface {
+    rtl?: boolean;
+    enums?: ATEnumsType;
+    uploadFilesToServer?: (props: UploadFilesToServerProps) => Promise<any>;
+    maxUploadFileSizeInBytes?: number,
+    getFile?: (props: GetFileProps) => Promise<any>;
     localText: Record<string, string>;
-    agGridLocalText: Record<string, string>;
+    agGridLocalText?: Record<string, string>;
     customComponents?: ATFormCustomComponentInterface[];
     getLocalText: (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined;
     getTypeInfo: (type: string) => ATTypeInterface | undefined,

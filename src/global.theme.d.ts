@@ -34,6 +34,7 @@ declare module '@mui/material/styles' {
       },
       uploadButton: {
         showFilesIcon: any,
+        removeIcon: any,
       },
       fileViewer: {
         labelIcon: any,

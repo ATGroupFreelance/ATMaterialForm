@@ -1,5 +1,5 @@
-import { ATFormBuilderConditionalInsertInterface, ATFormBuilderCreateInterface, ATFormBuilerColumnInterface, ATFormTypelessComponentProps } from "../../../types/FormBuilder.type";
-import ColumnBuilder from "./ColumnBuilder/ColumnBuilder";
+import { ATFormBuilderCreateInterface, ATFormBuilerColumnInterface, ATFormTypelessComponentProps } from "../../../types/FormBuilder.type";
+
 import { ATFormTextBoxProps } from "../../../types/ui/TextBox.type";
 import { ATFormIntegerTextBoxProps } from "@/lib/types/ui/IntegerTextBox.type";
 import { ATFormFloatTextBoxProps } from "@/lib/types/ui/FloatTextBox.type";
@@ -58,11 +58,6 @@ const create = (props: ATFormBuilderCreateInterface): ATFormBuilerColumnInterfac
     .build()
  * @param {columns} columns: Array of {id, label, gridProps, uiProps}
  */
-const createColumnBuilder = (columns: ATFormBuilerColumnInterface[]) => {
-    const columnBuilder = new ColumnBuilder(columns)
-
-    return columnBuilder
-}
 
 const createTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormTextBoxProps) => {
     return create({
@@ -270,13 +265,6 @@ const createContainerWithTable = (tProps: ATFormTypelessComponentProps, uiProps?
     })
 }
 
-const createConditionalInsert = ({ condition, elements }: ATFormBuilderConditionalInsertInterface) => {
-    if (!condition)
-        return []
-    else
-        return elements
-}
-
 const createMultiSelectTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormMultiSelectTextBoxProps) => {
     return create({
         type: 'MultiSelectTextBox',
@@ -356,23 +344,7 @@ const createColorTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFo
     })
 }
 
-const createColumnDefsByRowData = (rowData: any) => {
-    const result = []
-
-    if (rowData && Array.isArray(rowData) && rowData.length > 0) {
-        const firstSlot = rowData[0]
-
-        for (let key in firstSlot) {
-            result.push({
-                field: key,
-            })
-        }
-    }
-
-    return result
-}
-
-const formBuilder = {
+export const formBuilder = {
     // createColumnBuilder,
     createTextBox,
     createIntegerTextBox,
@@ -400,7 +372,5 @@ const formBuilder = {
     createImageSelect,
     createAdvanceStepper,
     createForm,
-    createColorTextBox
+    createColorTextBox,
 }
-
-export default formBuilder;

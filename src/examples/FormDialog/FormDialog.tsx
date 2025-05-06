@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { Button } from "@mui/material";
 import { ATFormDialog, formBuilder } from "@/lib";
+import { ExampleComponentInterface } from "@/App";
+import { ATFormOnClickProps } from "@/lib/types/Common.type";
 
-const FormDialog = ({ ref, ...props }) => {
-    const [dialog, setDialog] = useState(null)
+const FormDialog = ({ ref, ...props }: ExampleComponentInterface) => {
+    const [dialog, setDialog] = useState<any>(null)
 
-    const onDialogSubmit = (event, { startLoading, stopLoading, formData, formDataKeyValue, formDataSemiKeyValue }) => {
+    const onDialogSubmit = ({ startLoading, stopLoading, formData, formDataKeyValue, formDataSemiKeyValue }: ATFormOnClickProps) => {
         stopLoading()
         console.log('onDialogSubmit formDataKeyValue', formDataKeyValue)
 
@@ -30,7 +32,7 @@ const FormDialog = ({ ref, ...props }) => {
 
     const onOpenCustomizedDialogClick = () => {
         const newDialog = <ATFormDialog ref={ref} title={'Form Dialog Title'} onClose={() => setDialog(null)}  {...props}
-            getActions={(oldActions) => {
+            getActions={(oldActions: any) => {
                 return [
                     ...oldActions,
                     {
@@ -44,7 +46,7 @@ const FormDialog = ({ ref, ...props }) => {
                     {
                         id: 'save',
                         color: 'success',
-                        onClick: (event, { formData }) => console.log('formData', formData)
+                        onClick: ({ formData }: ATFormOnClickProps) => console.log('formData', formData)
                     }
                 ]
             }

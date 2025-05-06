@@ -1,22 +1,24 @@
 import ServiceManager from '@/serviceManager/serviceManager';
-import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
+import { ATForm, formBuilder, formBuilderUtils } from "@/lib";
 import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
+import { ExampleComponentInterface } from '@/App';
+import { ATFormCascadeComboBoxDesignLayer } from '@/lib/types/ui/CascadeComboBox.type';
 
-const CascadeComboBoxPlayground = ({ ref, onChange }: any) => {
+const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
     const { enums } = useATFormConfig()
 
     /**Manual cascade where you define each data and how it must be filtered! */
-    const singleLeafCascadeDesign = formBuilder.createCascadeDesign([
+    const singleLeafCascadeDesign: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'Country',
             enumKey: 'Countries',
-            data: ServiceManager.getCountries,
+            options: ServiceManager.getCountries,
             children: [
                 {
                     id: 'State',
                     enumKey: 'StateAndCapitals',
                     enumParentKey: 'Country',
-                    data: ({ keyValue }: any) => new Promise((resolve) => {
+                    options: ({ keyValue }: any) => new Promise((resolve) => {
                         resolve(enums?.StateAndCapitals.filter((item: any) => !item.ParentID && item.Country === keyValue?.Country))
                     }),
                     children: [
@@ -24,7 +26,7 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: any) => {
                             id: 'Capital',
                             enumKey: 'StateAndCapitals',
                             enumParentKey: 'ParentID',
-                            data: ({ keyValue }: any) => new Promise((resolve) => {
+                            options: ({ keyValue }: any) => new Promise((resolve) => {
                                 resolve(enums?.StateAndCapitals.filter((item: any) => item.ParentID === keyValue?.State))
                             }),
                         },
@@ -32,9 +34,9 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: any) => {
                 },
             ]
         },
-    ])
+    ]
 
-    const singleLeafCascadeDesign2 = formBuilder.createCascadeDesign([
+    const singleLeafCascadeDesign2: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'Country',
             enumKey: 'Countries',
@@ -53,10 +55,10 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: any) => {
                 },
             ]
         },
-    ])
+    ]
 
 
-    const singleLeafCascadeDesign3 = formBuilder.createCascadeDesign([
+    const singleLeafCascadeDesign3: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'Country',
             enumKey: 'Countries',
@@ -74,10 +76,10 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: any) => {
                 },
             ]
         },
-    ])
+    ]
 
 
-    const singleLeafCascadeDesign4 = formBuilder.createCascadeDesign([
+    const singleLeafCascadeDesign4: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'business_id',
             enumKey: 'business_id',
@@ -89,9 +91,9 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: any) => {
                 },
             ]
         },
-    ])
+    ]
 
-    const singleLeafCascadeDesign5 = formBuilder.createCascadeDesign([
+    const singleLeafCascadeDesign5: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'business_id',
             children: [
@@ -100,18 +102,18 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: any) => {
                 },
             ]
         },
-    ])
+    ]
 
     return (
         <ATForm ref={ref} onChange={onChange}>
             {
-                formBuilder.createColumnBuilder(
+                formBuilderUtils.createColumnBuilder(
                     [
-                        formBuilder.createCascadeComboBox({ id: 'CountryA', design: singleLeafCascadeDesign }),
-                        formBuilder.createCascadeComboBox({ id: 'CountryB', design: singleLeafCascadeDesign2 }),
-                        formBuilder.createCascadeComboBox({ id: 'CountryC', design: singleLeafCascadeDesign3 }),
-                        formBuilder.createCascadeComboBox({ id: 'cascadeComboBox1', design: singleLeafCascadeDesign4 }),
-                        formBuilder.createCascadeComboBox({ id: 'cascadeComboBox2', design: singleLeafCascadeDesign5 }),
+                        formBuilder.createCascadeComboBox({ id: 'CountryA' }, { design: singleLeafCascadeDesign }),
+                        formBuilder.createCascadeComboBox({ id: 'CountryB' }, { design: singleLeafCascadeDesign2 }),
+                        formBuilder.createCascadeComboBox({ id: 'CountryC' }, { design: singleLeafCascadeDesign3 }),
+                        formBuilder.createCascadeComboBox({ id: 'cascadeComboBox1' }, { design: singleLeafCascadeDesign4 }),
+                        formBuilder.createCascadeComboBox({ id: 'cascadeComboBox2' }, { design: singleLeafCascadeDesign5 }),
                     ]
                 )
                     .build()

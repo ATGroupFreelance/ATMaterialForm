@@ -1,7 +1,7 @@
-import React from 'react';
-import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
+import { ATForm, formBuilder, formBuilderUtils } from "@/lib";
+import { ExampleComponentInterface } from '@/App';
 
-const ComponentPlayground = ({ ref, onChange }) => {
+const ComponentPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
     const extraFiles = []
     for (let i = 0; i < 20; i++) {
         extraFiles.push({
@@ -42,7 +42,7 @@ const ComponentPlayground = ({ ref, onChange }) => {
     return (
         <ATForm ref={ref} onChange={onChange} validationDisabled={false} defaultValue={defaultValue} >
             {
-                formBuilder.createColumnBuilder(
+                formBuilderUtils.createColumnBuilder(
                     [
                         formBuilder.createTextBox({ id: 'Textbox_Text', size: 4 }),
                         formBuilder.createTextBox({ id: 'Textbox_Text2', size: 4 }),

@@ -17,7 +17,7 @@ const TabWrapper = ({ tabs, tabsGridProps, children, childrenProps, onChange }: 
 
     const [selectedTabIndexArray, setSelectedTabIndexArray] = useState([0]);
 
-    const newChildrenProps: ATFormChildProps[] | ATFormUnknownChildProps[] = childrenProps.map(item => {
+    const newChildrenProps: (ATFormChildProps | ATFormUnknownChildProps)[] = childrenProps.map(item => {
         const tabIndexAsArray: number[] = Array.isArray(item?.tProps?.tabIndex) ? item.tProps.tabIndex as Array<number> : (item?.tProps?.tabIndex ? [item.tProps.tabIndex] : [])
 
         // If tabs are enabled and the current item does not belong to the selected tab(s), hide it.

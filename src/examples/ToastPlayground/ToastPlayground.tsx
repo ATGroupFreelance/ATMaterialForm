@@ -1,5 +1,5 @@
 import React from 'react';
-import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
+import { ATForm, formBuilder } from '@/lib';
 import ATToast from '@/lib/component/ATToast/ATToast';
 
 const ToastPlayground = ({ ref, onChange }) => {

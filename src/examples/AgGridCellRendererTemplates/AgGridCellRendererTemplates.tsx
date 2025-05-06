@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import ATAgGrid from '@/lib/component/ATAgGrid/ATAgGrid';
 
 const AgGridCellRendererTemplates = () => {
-    const [rowData, setRowData] = useState(null)
+    const [rowData, setRowData] = useState<any>(null)
     const columnDefs = useMemo(() => [
         { headerName: 'Make', field: 'make' },
         { headerName: 'Model', field: 'model' },

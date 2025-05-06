@@ -9,6 +9,7 @@ import { getFlatChildren } from './FormUtils/FormUtils';
 import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 import { ATFormChildProps, ATFormComponentProps, ATFormComponentRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps } from '@/lib/types/ATForm.type';
 import { ATFormContextProvider } from './ATFormContext/ATFormContext';
+import { ATFormBuilerColumnInterface } from '@/lib/types/FormBuilder.type';
 
 const ATFormFunction = (props: ATFormProps) => {
     const mChildrenRefs = useRef<Record<string, ATFormComponentRefInterface>>({})
@@ -41,8 +42,7 @@ const ATFormFunction = (props: ATFormProps) => {
             const requiredList: any[] = []
 
             flatChildren.forEach(item => {
-                //@ts-ignore
-                const tProps: ATFormComponentProps = React.isValidElement(item) ? item.props?.tProps : item.tProps
+                const tProps: ATFormComponentProps = React.isValidElement(item) ? (item.props as ATFormBuilerColumnInterface)?.tProps : item.tProps
 
                 const typeInfo = getTypeInfo(tProps?.type)
 
@@ -398,18 +398,18 @@ const ATFormFunction = (props: ATFormProps) => {
         }
     }, [normalizeErrors])
 
-    const getChildProps = useCallback((childProps: ATFormChildProps): ATFormChildProps => {
+    const getChildProps = useCallback((childProps: ATFormBuilerColumnInterface): ATFormChildProps => {
         const typeInfo = getTypeInfo(childProps.tProps.type)
 
-        const newDefaultValue = internalDefaultValue[childProps.tProps.id] === undefined ? childProps.uiProps.defaultValue : internalDefaultValue[childProps.tProps.id]
+        const newDefaultValue = internalDefaultValue[childProps.tProps.id] === undefined ? childProps.uiProps?.defaultValue : internalDefaultValue[childProps.tProps.id]
 
-        let newOnClick = childProps.uiProps.onClick
+        let newOnClick = childProps.uiProps?.onClick
 
-        if (String(childProps.uiProps.inputType).toLowerCase() === 'submit' && newOnClick) {
+        if (String(childProps.uiProps?.inputType).toLowerCase() === 'submit' && childProps.uiProps?.onClick) {
             newOnClick = (event: any, props: any) => {
                 checkValidation(
                     () => {
-                        childProps.uiProps.onClick(event, { ...props, formData: mFormData.current, formDataKeyValue: mFormDataKeyValue.current, formDataSemiKeyValue: mFormDataSemiKeyValue.current })
+                        childProps.uiProps?.onClick(event, { ...props, formData: mFormData.current, formDataKeyValue: mFormDataKeyValue.current, formDataSemiKeyValue: mFormDataSemiKeyValue.current })
                     }
                 )
             }

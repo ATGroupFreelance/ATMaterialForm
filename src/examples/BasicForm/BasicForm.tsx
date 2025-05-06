@@ -1,21 +1,24 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react';
-import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
+import { useCallback, useMemo, useState } from 'react';
 //services
 import ServiceManager from '@/serviceManager/serviceManager';
-import ATFormConfigContext from '@/lib/component/ATForm/ATFormConfigContext/ATFormConfigContext';
+import { ATForm, formBuilder, formBuilderUtils } from "@/lib";
+import { ExampleComponentInterface } from '@/App';
+import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
+import { ATFormOnClickProps } from '@/lib/types/Common.type';
+import { ATFormCascadeComboBoxDesignLayer } from '@/lib/types/ui/CascadeComboBox.type';
 
-const multiLeafCascadeDesign = [
+const multiLeafCascadeDesign: ATFormCascadeComboBoxDesignLayer[] = [
     {
         id: 'layerA',
-        data: ServiceManager.getData_layerA,
+        options: ServiceManager.getData_layerA,
         children: [
             {
                 id: 'layerAB',
-                data: ServiceManager.getData_layerAB,
+                options: () => ServiceManager.getData_layerAB(),
                 children: [
                     {
                         id: 'layerABC1',
-                        data: ServiceManager.getData_layerABC1,
+                        options: () => ServiceManager.getData_layerABC1(),
                     },
                 ]
             },
@@ -23,22 +26,22 @@ const multiLeafCascadeDesign = [
     },
 ]
 
-const BasicForm = ({ ref, onChange }) => {
+const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
     console.log('BasicForm', ref)
-    const { enums } = useContext(ATFormConfigContext)
+    const { enums } = useATFormConfig()
 
-    const singleLeafCascadeDesign = useMemo(() => {
+    const singleLeafCascadeDesign: ATFormCascadeComboBoxDesignLayer[] = useMemo(() => {
         return [
             {
                 id: 'Country',
                 enumKey: 'Countries',
-                data: ServiceManager.getCountries,
+                options: ServiceManager.getCountries,
                 children: [
                     {
                         id: 'State',
                         enumKey: 'StateAndCapitals',
                         enumParentKey: 'Country',
-                        data: ({ keyValue }) => new Promise((resolve) => {
+                        options: ({ keyValue }: any) => new Promise((resolve) => {
                             resolve(enums?.StateAndCapitals.filter((item) => !item.ParentID && item.Country === keyValue?.Country))
                         }),
                         children: [
@@ -46,7 +49,7 @@ const BasicForm = ({ ref, onChange }) => {
                                 id: 'Capital',
                                 enumKey: 'StateAndCapitals',
                                 enumParentKey: 'ParentID',
-                                data: ({ keyValue }) => new Promise((resolve) => {
+                                options: ({ keyValue }: any) => new Promise((resolve) => {
                                     resolve(enums?.StateAndCapitals.filter((item) => item.ParentID === keyValue?.State))
                                 }),
                             },
@@ -62,7 +65,7 @@ const BasicForm = ({ ref, onChange }) => {
     const [A, setA] = useState(0)
     const [B, setB] = useState(0)
 
-    const onSubmitClick = (event, { startLoading, stopLoading }) => {
+    const onSubmitClick = ({ startLoading, stopLoading }: ATFormOnClickProps) => {
         startLoading()
         setTimeout(() => {
             console.log('form submit')
@@ -70,31 +73,31 @@ const BasicForm = ({ ref, onChange }) => {
         }, 500)
     }
 
-    const onHideSmoeElementsClick = useCallback((event, { startLoading, stopLoading }) => {
+    const onHideSomeElementClick = useCallback(() => {
         setHideElements(!hideElements)
     }, [hideElements])
 
     const formJSON = useMemo(() => {
-        return formBuilder.createColumnBuilder(
+        return formBuilderUtils.createColumnBuilder(
             [
                 formBuilder.createMultiSelectTextBox({ id: 'MultiSelectTextBox' }),
-                formBuilder.createAvatar({ id: 'Avatar1', size: 12, avatarSize: 128 }),
-                formBuilder.createTextBox({ id: 'A', onChange: (event) => setA(event.target.value), value: A }),
-                formBuilder.createTextBox({ id: 'B', onChange: (event) => setB(event.target.value), value: B }),
-                formBuilder.createTextBox({ id: 'A + B', value: Number(A) + Number(B), tabIndex: 1 }),
-                formBuilder.createButton({ id: 'Random A', onClick: () => setA(Math.random() * 10) }),
+                formBuilder.createAvatar({ id: 'Avatar1', size: 12 }, { avatarSize: 128 }),
+                formBuilder.createTextBox({ id: 'A' }, { onChange: (event) => setA(event.target.value), value: A }),
+                formBuilder.createTextBox({ id: 'B' }, { onChange: (event) => setB(event.target.value), value: B }),
+                formBuilder.createTextBox({ id: 'A + B', tabIndex: 1 }, { value: Number(A) + Number(B) }),
+                formBuilder.createButton({ id: 'Random A' }, { onClick: () => setA(Math.random() * 10) }),
                 formBuilder.createLabel({ id: 'Label', label: 'Hi im a label' }),
                 formBuilder.createTextBox({ id: 'Name', validation: { required: true } }),
                 formBuilder.createPasswordTextBox({ id: 'Password' }),
                 formBuilder.createDoublePasswordTextBox({ id: 'DoublePassword', size: 6 }),
                 formBuilder.createAvatar({ id: 'Avatar2' }),
-                formBuilder.createComboBox({ id: 'Countries', options: ServiceManager.getCountries, validation: { required: true }, tabIndex: 1 }),
-                formBuilder.createComboBox({ id: 'ComboBoxWithEnumsID', enumsID: 'Countries', options: ServiceManager.getCountries }),
-                formBuilder.createComboBox({ id: 'ComboBoxEnumsless', options: [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }] }),
-                formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', options: [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }], validation: { required: true } }),
+                formBuilder.createComboBox({ id: 'Countries', validation: { required: true }, tabIndex: 1 }, { options: ServiceManager.getCountries }),
+                formBuilder.createComboBox({ id: 'ComboBoxWithEnumsID', }, { options: ServiceManager.getCountries }),
+                formBuilder.createComboBox({ id: 'ComboBoxEnumsless' }, { options: [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }] }),
+                formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', validation: { required: true } }, { options: [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }] }),
                 formBuilder.createDatePicker({ id: 'DatePicker', }),
-                formBuilder.createUploadButton({ id: 'UploadButtonType1', size: 6, uploadButtonViewType: 1 }),
-                formBuilder.createUploadButton({ id: 'UploadButtonType2', size: 6, uploadButtonViewType: 2 }),
+                formBuilder.createUploadButton({ id: 'UploadButtonType1', size: 6 }, { uploadButtonViewType: 1 }),
+                formBuilder.createUploadButton({ id: 'UploadButtonType2', size: 6 }, { uploadButtonViewType: 2 }),
                 formBuilder.createUploadImageButton({ id: 'UploadImageButton', validation: { required: true } }),
                 formBuilder.createCheckBox({ id: 'CheckBox' }),
                 ...(
@@ -106,15 +109,15 @@ const BasicForm = ({ ref, onChange }) => {
                         :
                         []
                 ),
-                formBuilder.createCascadeComboBox({ id: 'cascadeComboBox', design: singleLeafCascadeDesign, tabIndex: 1 }),
-                formBuilder.createMultiValueCascadeComboBox({ id: 'MultiValueCascadeComboBox', design: multiLeafCascadeDesign, tabIndex: 1 }),
+                formBuilder.createCascadeComboBox({ id: 'cascadeComboBox', tabIndex: 1 }, { design: singleLeafCascadeDesign }),
+                formBuilder.createMultiValueCascadeComboBox({ id: 'MultiValueCascadeComboBox', tabIndex: 1 }, { design: multiLeafCascadeDesign }),
                 formBuilder.createAdvanceStepper({ id: 'AdvanceStepper', size: 6 }),
                 formBuilder.createGrid({
                     id: 'grid01',
                     size: 12,
                 }),
-                formBuilder.createButton({ id: 'Hide some elements', onClick: onHideSmoeElementsClick }),
-                formBuilder.createButton({ id: 'Submit Button', onClick: onSubmitClick, inputType: 'submit' }),
+                formBuilder.createButton({ id: 'Hide some elements' }, { onClick: onHideSomeElementClick }),
+                formBuilder.createButton({ id: 'Submit Button' }, { onClick: onSubmitClick, inputType: 'submit' }),
                 formBuilder.createTextBox({ id: 'Textbox_Text', size: 4 }),
                 formBuilder.createIntegerTextBox({ id: 'Textbox_Integer', size: 4 }),
                 formBuilder.createFloatTextBox({ id: 'Textbox_Float', size: 4 }),
@@ -122,7 +125,7 @@ const BasicForm = ({ ref, onChange }) => {
         )
             // .filter(item => ['cascadeComboBox'].includes(item.id))
             // .required(['Textbox_Text', 'Textbox_Integer', 'Textbox_Float'])
-            .map(item => {
+            .map((item: any) => {
                 return {
                     ...item,
                     tabIndex: item.tabIndex === undefined ? 0 : item.tabIndex,
@@ -130,7 +133,7 @@ const BasicForm = ({ ref, onChange }) => {
                 }
             })
             .build()
-    }, [A, B, hideElements, onHideSmoeElementsClick, singleLeafCascadeDesign])
+    }, [A, B, hideElements, onHideSomeElementClick, singleLeafCascadeDesign])
 
     return (
         <ATForm ref={ref} onChange={onChange} validationDisabled={false}>

@@ -29,7 +29,7 @@ export interface ATFormMinimalControlledUIProps<
     onChange?: T['onChange'];
     error?: boolean;
     helperText?: string;
-    readOnly?: boolean;
+    readOnly?: boolean;    
 }
 
 export interface ATFormMinimalUncontrolledUIProps {

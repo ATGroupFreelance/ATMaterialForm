@@ -7,12 +7,12 @@ export interface ATFormBuilderCreateInterface {
     type: string,
     defaultSize: number,
     tProps: ATFormTypelessComponentProps,
-    uiProps: any,
+    uiProps: Record<string, any>,
 }
 
 export interface ATFormBuilerColumnInterface {
     tProps: ATFormComponentProps,
-    uiProps: any,
+    uiProps?: Record<string, any>,
 }
 
 export interface ATFormBuilderConditionalInsertInterface {

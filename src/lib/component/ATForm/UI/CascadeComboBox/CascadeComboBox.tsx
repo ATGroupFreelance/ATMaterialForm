@@ -56,10 +56,11 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
         if (children)
             resetChildrenValue(children)
 
+        if (onChange)
         onChange({ target: { value: newValue } })
     }
 
-    const getRenderableComboBoxFlatList = (designLayer: ATFormCascadeComboBoxDesignLayer[], parentID: string | null = null) => {
+    const getRenderableComboBoxFlatList = (designLayer?: ATFormCascadeComboBoxDesignLayer[], parentID: string | null = null) => {
         const result: ATFormCascadeComboBoxBaseComboBoxProps[] = []
         /**enumKey and enumParentKey are used for reverse convert from a single leaf to a whole object of values */
         designLayer?.forEach(({ id, children, options, multiple, readOnly, enumKey, enumParentKey, uiProps }: ATFormCascadeComboBoxDesignLayer) => {
@@ -67,7 +68,7 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
                 options
                 :
                 (props: ATFormCascadeComboBoxDesignLayerOptionsFunctionProps) => new Promise<ATEnumType>((resolve) => {
-                    const currentEnum = props?.enums?.[enumKey]
+                    const currentEnum = enumKey ? props?.enums?.[enumKey] : null
                     if (!currentEnum)
                         return resolve([] as ATEnumType)
 
@@ -77,7 +78,7 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
                             return item?.[enumParentKey] === props?.keyValue?.[parentID]
                         else
                             /**Handle situations where the parent is not defined using parent_id but the enumParentKey */
-                            return !item.parent_id && item?.[enumParentKey] === props?.keyValue?.[enumParentKey]
+                            return enumParentKey && !item.parent_id && item?.[enumParentKey] === props?.keyValue?.[enumParentKey]
                     })
 
                     resolve(options)

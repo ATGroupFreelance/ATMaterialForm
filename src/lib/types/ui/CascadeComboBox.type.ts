@@ -7,22 +7,22 @@ export interface ATFormCascadeComboBoxDesignLayerOptionsFunctionProps {
     keyValue: Record<string, string | Array<ATEnumItemType>> | null
 }
 
-export type ATFormCascadeComboBoxOptionsType = ATEnumType | ((props: ATFormCascadeComboBoxDesignLayerOptionsFunctionProps) => Promise<ATEnumType>) | null
+export type ATFormCascadeComboBoxOptionsType = ATEnumType | ((props: ATFormCascadeComboBoxDesignLayerOptionsFunctionProps) => Promise<ATEnumType | null | undefined>) | null | undefined
 
 export interface ATFormCascadeComboBoxDesignLayer {
     id: string,
-    options: ATFormCascadeComboBoxOptionsType,
+    options?: ATFormCascadeComboBoxOptionsType,
     multiple?: boolean,
     readOnly?: boolean,
-    enumKey: string,
-    enumParentKey: string,
+    enumKey?: string,
+    enumParentKey?: string,
     children?: ATFormCascadeComboBoxDesignLayer[],
     uiProps?: StrictOmit<ATFormComboBoxProps, 'id' | 'value' | 'multiple' | 'readOnly' | 'size' | 'options'>,
 }
 
 export interface ATFormCascadeComboBox extends ATFormMinimalControlledUIProps {
-    label: string;
-    design: ATFormCascadeComboBoxDesignLayer[],
+    label?: string;
+    design?: ATFormCascadeComboBoxDesignLayer[],
 };
 
 export interface ATFormCascadeComboBoxBaseComboBoxProps {

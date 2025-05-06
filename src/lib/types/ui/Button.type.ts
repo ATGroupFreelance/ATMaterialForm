@@ -6,4 +6,5 @@ export type ATFormButtonProps = ATFormMinimalUncontrolledUIProps & StrictOmit<Bu
     loading?: boolean;
     confirmationText?: string;
     label?: string,
+    inputType?: string,
 }

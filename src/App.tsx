@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import './App.css';
 import { Button, Divider, Grid, Tab, Tabs } from '@mui/material';
@@ -39,6 +39,14 @@ import ATToast from './lib/component/ATToast/ATToast';
 //Beta Components
 import ConditionalRender from './beta/ConditionalRender/ConditionalRender';
 import MultiForm from './beta/MultiForm/MultiForm';
+import { ATFormOnChangeInterface, ATFormRefInterface } from './lib/types/ATForm.type';
+import { StringKeyedObject } from './lib/types/Common.type';
+import BasicForm2 from './examples/BasicForm2/BasicForm2';
+
+export interface ExampleComponentInterface {
+  ref?: any,
+  onChange?: any,
+}
 
 const RTL = true
 
@@ -52,13 +60,13 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'MultiForm'
+const ACTIVE_EXAMPLE = 'BasicForm2'
 
 function App() {
-  const formRef = useRef(null)
-  const mFormData = useRef(null)
-  const [savedFormData, setSavedFormData] = useState(null)
-  const [realTimeFormData, setRealtimeFormData] = useState(null)
+  const formRef = useRef<ATFormRefInterface>(null)
+  const mFormData = useRef<ATFormOnChangeInterface>(null)
+  const [savedFormData, setSavedFormData] = useState<StringKeyedObject | null | undefined>(null)
+  const [realTimeFormData, setRealtimeFormData] = useState<StringKeyedObject | null | undefined>(null)
   const [enums, setEnums] = useState(null)
   const [selectedTab, setSelectedTab] = useState(ACTIVE_EXAMPLE)
 
@@ -69,7 +77,7 @@ function App() {
       })
   }, [])
 
-  const onFormChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }) => {
+  const onFormChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }: ATFormOnChangeInterface) => {
     mFormData.current = {
       formData: formData,
       formDataKeyValue: formDataKeyValue,
@@ -79,31 +87,34 @@ function App() {
     setRealtimeFormData(formDataKeyValue)
   }
 
-  const onSetDefaultValueClick = (event) => {
-    formRef.current.reset()
+  const onSetDefaultValueClick = () => {
+    if (formRef.current)
+      formRef.current.reset()
   }
 
-  const onLoadLastSubmitClick = (event) => {
+  const onLoadLastSubmitClick = () => {
     console.log('savedFormData', savedFormData)
-    if (savedFormData)
+    if (savedFormData && formRef.current)
       formRef.current.reset(savedFormData)
   }
 
-  const onSubmitClick = (event) => {
+  const onSubmitClick = () => {
     console.log('on External Submit')
-    formRef.current.checkValidation(() => {
-      setTimeout(() => {
-        console.log('Submitting...', {
-          ...(mFormData.current || {}),
-        })
+    if (formRef.current)
+      formRef.current.checkValidation(
+        () => {
+          setTimeout(() => {
+            console.log('Submitting...', {
+              ...(mFormData.current || {}),
+            })
 
-        setSavedFormData(mFormData.current.formDataKeyValue)
-        ATToast.success('Formdata submitted successfully!')
-      }, 1000)
-    })
+            setSavedFormData(mFormData.current?.formDataKeyValue)
+            ATToast.success('Formdata submitted successfully!')
+          }, 1000)
+        })
   }
 
-  const onTabChange = (event, newTab) => {
+  const onTabChange = (_event: any, newTab: any) => {
     setSelectedTab(newTab)
   }
 
@@ -120,6 +131,12 @@ function App() {
     {
       id: 'BasicForm',
       component: BasicForm,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'BasicForm2',
+      component: BasicForm2,
       refEnabled: true,
       onChangeEnabled: true,
     },
@@ -224,36 +241,40 @@ function App() {
     <div className='App'>
       <ATToastContainer />
       <ThemeProvider theme={theme}>
-        <ATFormConfigProvider value={{
-          rtl: RTL,
-          enums: enums,
-          uploadFilesToServer: ServiceManager.uploadFilesToServer,
-          localText: atFormLocalText,
-          agGridLocalText: agGridLocalText,
-          customComponents: [
-            {
-              component: MyTextField,
-              typeInfo: UITypeUtils.createType({
-                type: 'MyTextField',
-                initialValue: '',
-                validation: UITypeUtils.createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
-              })
-            }
-          ]
-        }}>
-          <LocalizationProvider dateAdapter={RTL ? AdapterDateFnsJalali : AdapterMoment} >
+        <ATFormConfigProvider
+          value={{
+            rtl: RTL,
+            enums: enums,
+            uploadFilesToServer: ServiceManager.uploadFilesToServer,
+            localText: atFormLocalText,
+            agGridLocalText: agGridLocalText,
+            customComponents: [
+              {
+                component: MyTextField,
+                typeInfo: UITypeUtils.createType({
+                  type: 'MyTextField',
+                  initialValue: '',
+                  validation: UITypeUtils.createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
+                })
+              }
+            ]
+          }}
+        >
+          <LocalizationProvider dateAdapter={(RTL ? AdapterDateFnsJalali : AdapterMoment) as any} >
             <Tabs
               value={selectedTab}
               onChange={onTabChange}
               variant="scrollable"
               scrollButtons="auto"
               allowScrollButtonsMobile
-              TabScrollButtonProps={{
-                sx: {
-                  width: 'auto',
-                  minWidth: 0,
-                  height: '100%',
-                },
+              slotProps={{
+                scrollButtons: {
+                  sx: {
+                    width: 'auto',
+                    minWidth: 0,
+                    height: '100%',
+                  },
+                }
               }}
               sx={{
                 '& .MuiTabs-scrollButtons': {

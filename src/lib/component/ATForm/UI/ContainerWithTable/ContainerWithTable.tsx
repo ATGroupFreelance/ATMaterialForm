@@ -40,7 +40,7 @@ const initializeOnChangeInterface = () => {
 }
 
 const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATFormContainerWithTableProps) => {
-    const { enums, rtl, localText } = useATFormConfig()
+    const { enums, rtl,  localText } = useATFormConfig()
     const { getTypeInfo } = useATForm()
 
     const [currentGridRef, setCurrentGridRef] = useState<ATAgGridRef>(null)

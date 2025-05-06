@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
+import { ATForm, formBuilder, formBuilderUtils } from "@/lib";
 import { Button, Grid } from '@mui/material';
+import { ExampleComponentInterface } from '@/App';
 
 const MyWrapperTypeA = ({ childProps, children, isValidNumber, onClick }: any) => {
     console.log('CustomWrappers A')
@@ -37,7 +38,7 @@ const MyWrapperTypeB = ({ childProps, children }: any) => {
     </Grid>
 }
 
-const CustomWrappers = ({ ref, onChange }: any) => {
+const CustomWrappers = ({ ref, onChange }: ExampleComponentInterface) => {
     const [isValidNumber, setIsValidNumber] = useState(false)
     const [gridSize, setGridSize] = useState(12)
 
@@ -57,18 +58,17 @@ const CustomWrappers = ({ ref, onChange }: any) => {
     return (
         <ATForm ref={ref} validationDisabled={false}>
             {
-                formBuilder.createColumnBuilder(
+                formBuilderUtils.createColumnBuilder(
                     [
                         formBuilder.createTextBox({
                             id: 'TextBoxWithWrapperA',
                             size: gridSize,
-                            onChange: onTextBoxChange,
                             wrapperRenderer: MyWrapperTypeA,
                             wrapperRendererProps: {
                                 isValidNumber,
                                 onClick: onWrapperTypeAClick
                             },
-                        }),
+                        }, { onChange: onTextBoxChange, }),
                         formBuilder.createTextBox({
                             id: 'TextBoxWithWrapperB',
                             size: 12,

@@ -69,7 +69,8 @@ const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText
                             ...res,
                         ]
 
-                        onChange({ target: { value: newValue } })
+                        if (onChange)
+                            onChange({ target: { value: newValue } })
                     })
                     .finally(() => {
                         setLoading(false)
@@ -78,7 +79,8 @@ const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText
                     })
             }
             else {
-                onChange({ target: { value: ['No uploadFilesToServer was found, please assign one usnig ATFormConfigProvider!'] } })
+                if (onChange)
+                    onChange({ target: { value: ['No uploadFilesToServer was found, please assign one usnig ATFormConfigProvider!'] } })
                 setLoading(false)
                 if (onLockdownChange && id)
                     onLockdownChange(id, false)
@@ -88,7 +90,8 @@ const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText
 
 
     const onRemoveFilesClick = () => {
-        onChange({ target: { value: [] } })
+        if (onChange)
+            onChange({ target: { value: [] } })
     }
 
     const onShowFilesClick = () => {
@@ -103,8 +106,9 @@ const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText
         )
     }
 
-    const onShowFilesDialogSaveChangesClick: ATFormOnClickType = (_event, { removeIDList }) => {
-        onChange({ target: { value: value.filter((item: ATFormButtonFileType) => !removeIDList.includes(item.id)) } })
+    const onShowFilesDialogSaveChangesClick: ATFormOnClickType = ({ removeIDList }) => {
+        if (onChange)
+            onChange({ target: { value: value.filter((item: ATFormButtonFileType) => !removeIDList.includes(item.id)) } })
 
         setDialog(null)
     }
@@ -130,7 +134,7 @@ const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText
                             :
                             <InputAdornment position="end">
                                 <Button variant="text" fullWidth={true} component="label" loading={loading} disabled={disabled || readOnly} sx={{ marginRight: '3px' }}>
-                                    <Add fontSize='16' />
+                                    <Add fontSize='small' />
                                     {loading ? localText['Uploading'] : localText['Upload']}
                                     <input hidden multiple={multiple} type="file" accept={accept} onChange={onInternalChange} />
                                 </Button>

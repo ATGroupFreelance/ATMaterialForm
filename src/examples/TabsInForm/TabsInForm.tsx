@@ -1,5 +1,5 @@
 import React from 'react';
-import ATForm, { formBuilder } from '../../lib/component/ATForm/ATForm';
+import { ATForm, formBuilder } from '@/lib';
 
 const TabsInForm = ({ ref, onChange }) => {
     return (

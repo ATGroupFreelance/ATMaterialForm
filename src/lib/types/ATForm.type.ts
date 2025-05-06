@@ -1,7 +1,8 @@
-import { StringKeyedObject } from "./Common.type";
+import { ATFormMinimalControlledUIProps, StringKeyedObject } from "./Common.type";
 import type React from "react";
 import type { ColDef } from "ag-grid-community";
 import { Grid } from '@mui/material';
+import { ATFormBuilerColumnInterface } from "./FormBuilder.type";
 
 export type ATFormGridSize = React.ComponentProps<typeof Grid>['size'];
 export type ATFormColor = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | 'default'
@@ -16,13 +17,13 @@ export interface ATFormOnChangeInterface {
 
 export interface ATFormRefInterface {
     reset: (props?: ATFormResetInterface) => void;
-    checkValidation: (onValid: any, onInvalid: any) => void;
+    checkValidation: (onValid: any, onInvalid?: any) => void;
     getFormData: () => ATFormOnChangeInterface;
 }
 
 export interface ATFormProps {
     ref?: React.Ref<ATFormRefInterface>,
-    children?: ATFormChildProps[],
+    children?: ATFormBuilerColumnInterface[],
     validationDisabled?: boolean,
     defaultValue?: any,
     defaultValueFormat?: ATFormDefaultValueFormat,
@@ -75,14 +76,25 @@ export interface ATFormComponentProps {
     },
 }
 
-export interface ATFormChildProps {
-    tProps: ATFormComponentProps,
-    uiProps: any,
+export type ATFormChildProps = ATFormBuilerColumnInterface & {
     typeInfo: any,
     errors: any,
     onChildChange: (props: ATFormOnChildChangeInterface) => void,
     isTabSelected?: boolean,
-}
+};
+// {
+//     tProps: ATFormComponentProps,
+//     //TODO Fix extra props
+//     uiProps: ATFormMinimalControlledUIProps & {
+//         defaultValue?: any,
+//         onClick?: any,
+//         inputType?: any,
+//     },
+//     // typeInfo: any,
+//     // errors: any,
+//     // onChildChange: (props: ATFormOnChildChangeInterface) => void,
+//     // isTabSelected?: boolean,
+// }
 
 export interface ATFormUnknownChildProps {
     isTabSelected?: boolean,
@@ -100,7 +112,7 @@ export interface ATFormUnknownChildProps {
 
 export interface ATFormRenderProps {
     children: any,
-    childrenProps: ATFormChildProps[] | ATFormUnknownChildProps[],
+    childrenProps: (ATFormChildProps | ATFormUnknownChildProps)[],
 }
 
 export interface ATUIRenderProps {
@@ -124,7 +136,7 @@ export interface ATTabWrapper {
     tabs?: any[],
     tabsGridProps: any,
     children: any,
-    childrenProps: ATFormChildProps[] | ATFormUnknownChildProps[],
+    childrenProps: (ATFormChildProps | ATFormUnknownChildProps)[],
     onChange?: (event: any, props: ATTabWrapperOnChangeInterface) => void,
 }
 

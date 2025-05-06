@@ -1,5 +1,5 @@
 import { ATFormBuilerColumnInterface } from "@/lib/types/FormBuilder.type"
-import formBuilder from "../FormBuilder";
+import { formBuilder } from "../FormBuilder";
 
 class ColumnBuilder {
     private columns: ATFormBuilerColumnInterface[];
@@ -88,7 +88,7 @@ class ColumnBuilder {
         this.columns.sort((a, b) => {
             const indexA = arrayOfID.indexOf(a.tProps.id);
             const indexB = arrayOfID.indexOf(b.tProps.id);
-            return indexA - indexB; 
+            return indexA - indexB;
         });
 
         return this;
