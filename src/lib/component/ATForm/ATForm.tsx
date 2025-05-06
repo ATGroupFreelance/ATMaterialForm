@@ -136,7 +136,7 @@ const ATFormFunction = (props: ATFormProps) => {
             newDefaultValue = reverseConvertToKeyValueDefaultValue
         }
 
-        console.log('newDefaultValue', newDefaultValue)
+        console.log('reset newDefaultValue', newDefaultValue)
 
         setInternalDefaultValue(newDefaultValue || {})
     }, [enums, getTypeInfo, props.children, rtl])
@@ -192,9 +192,10 @@ const ATFormFunction = (props: ATFormProps) => {
     }, [props.defaultValue, props.defaultValueFormat, reset])
 
     useEffect(() => {
+        console.log('internalDefaultValue has changed', { internalDefaultValue, refList: mChildrenRefs.current })
         for (let key in mChildrenRefs.current) {
             if (mChildrenRefs.current[key] && mChildrenRefs.current[key].reset) {
-                mChildrenRefs.current[key].reset({ callFormOnChangeDisabled: true });
+                mChildrenRefs.current[key].reset({ callFormOnChangeDisabled: false });
             }
         }
     }, [internalDefaultValue]); // Dependency array ensures this runs after defaultValue changes
@@ -236,7 +237,9 @@ const ATFormFunction = (props: ATFormProps) => {
         console.log('onChange', {
             newFormData,
             newFormDataKeyValue,
-            newFormDataSemiKeyValue
+            newFormDataSemiKeyValue,
+            callFormOnChangeDisabled,
+            onChange: props.onChange
         })
 
         const onChange = props.onChange
@@ -403,34 +406,19 @@ const ATFormFunction = (props: ATFormProps) => {
 
         const newDefaultValue = internalDefaultValue[childProps.tProps.id] === undefined ? childProps.uiProps?.defaultValue : internalDefaultValue[childProps.tProps.id]
 
-        let newOnClick = childProps.uiProps?.onClick
-
-        if (String(childProps.uiProps?.inputType).toLowerCase() === 'submit' && childProps.uiProps?.onClick) {
-            newOnClick = (event: any, props: any) => {
-                checkValidation(
-                    () => {
-                        childProps.uiProps?.onClick(event, { ...props, formData: mFormData.current, formDataKeyValue: mFormDataKeyValue.current, formDataSemiKeyValue: mFormDataSemiKeyValue.current })
-                    }
-                )
-            }
-        }
-
         return {
             tProps: {
                 ...childProps.tProps,
-                label: getLocalText(childProps.tProps.id, childProps.tProps.id),
-            },
-            uiProps: {
-                ...childProps.uiProps,
+                label: childProps.tProps.label !== undefined ? childProps.tProps.label : getLocalText(childProps.tProps.id, childProps.tProps.id),
                 defaultValue: newDefaultValue,
-                onClick: newOnClick,
+                ref: (newRef) => onAssignChildRef(childProps.tProps.id, newRef),
             },
+            uiProps: childProps.uiProps,
             typeInfo,
             onChildChange,
             errors: validationErrors,
         }
     }, [checkValidation, getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors])
-
 
     const flatChildren = useMemo(() => {
         return getFlatChildren(props.children)
@@ -459,8 +447,9 @@ const ATFormFunction = (props: ATFormProps) => {
             isFormOnLockdown,
             errors: validationErrors,
             getTypeInfo,
+            checkValidation
         }
-    }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo])
+    }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo, checkValidation])
 
     return (
         <ATFormContextProvider value={formContextValue}>

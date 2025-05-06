@@ -95,7 +95,7 @@ function App() {
   const onLoadLastSubmitClick = () => {
     console.log('savedFormData', savedFormData)
     if (savedFormData && formRef.current)
-      formRef.current.reset(savedFormData)
+      formRef.current.reset({ inputDefaultValue: savedFormData })
   }
 
   const onSubmitClick = () => {
@@ -110,7 +110,7 @@ function App() {
 
             setSavedFormData(mFormData.current?.formDataKeyValue)
             ATToast.success('Formdata submitted successfully!')
-          }, 1000)
+          }, 500)
         })
   }
 

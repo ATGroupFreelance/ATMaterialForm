@@ -92,7 +92,7 @@ function App() {
             formBuilder.createDatePicker({ id: 'DatePicker' }),
             formBuilder.createUploadButton({ id: 'UploadButton' }),
             formBuilder.createButton({ id: 'SetDefaultValue', onClick: onSetDefaultValueClick }),
-            formBuilder.createButton({ id: 'SubmitButton', onClick: onSubmitClick, inputType: 'submit' }),
+            formBuilder.createButton({ id: 'SubmitButton', onClick: onSubmitClick }),
           ]}
         </ATForm>
       </Grid>

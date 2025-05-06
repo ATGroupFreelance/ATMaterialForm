@@ -13,7 +13,8 @@ const UncontrolledUIBuilder = ({ childProps }: ATUnControlledUIBuilderProps) => 
 
     const commonProps = {
         id: childProps.tProps.id,
-        ...childProps.uiProps
+        ...childProps.uiProps,
+        label: childProps.uiProps?.label !== undefined ? childProps.uiProps.label : childProps.tProps.label
     }
 
     let CustomComponent = null

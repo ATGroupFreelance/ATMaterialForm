@@ -3,7 +3,6 @@ import React, { Suspense, useState, useImperativeHandle, useEffect } from 'react
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 import { ATControlledUIBuilderProps, ATFormChildResetInterface } from '@/lib/types/ATForm.type';
 import { ATTypeInterface } from '@/lib/types/UITypeUtils.type';
-import { ATFormTextBoxProps } from '@/lib/types/ui/TextBox.type';
 import { ATFormComboBoxProps } from '@/lib/types/ui/ComboBox.type';
 import { ATFormMultiComboBoxProps } from '@/lib/types/ui/MultiComboBox.type';
 import { ATFormFileViewerProps } from '@/lib/types/ui/FileViewer.type';
@@ -108,6 +107,7 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         onChange: (event: any) => internalOnChange(event),
         error: error,
         helperText: helperText,
+        label: childProps.uiProps?.label !== undefined ? childProps.uiProps.label : childProps.tProps.label
     }
 
     let CustomComponent = null

@@ -85,19 +85,6 @@ export type ATFormChildProps = ATFormBuilerColumnInterface & {
     onChildChange: (props: ATFormOnChildChangeInterface) => void,
     isTabSelected?: boolean,
 };
-// {
-//     tProps: ATFormComponentProps,
-//     //TODO Fix extra props
-//     uiProps: ATFormMinimalControlledUIProps & {
-//         defaultValue?: any,
-//         onClick?: any,
-//         inputType?: any,
-//     },
-//     // typeInfo: any,
-//     // errors: any,
-//     // onChildChange: (props: ATFormOnChildChangeInterface) => void,
-//     // isTabSelected?: boolean,
-// }
 
 export interface ATFormUnknownChildProps {
     isTabSelected?: boolean,

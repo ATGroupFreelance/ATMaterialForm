@@ -5,7 +5,7 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
     return <ATForm {...props}>
         {
             [
-                formBuilder.createTextBox({ id: 'MyTextBox1' })
+                formBuilder.createTextBox({ id: 'MyTextBox1', })
             ]
         }
     </ATForm>

@@ -117,7 +117,7 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                     size: 12,
                 }),
                 formBuilder.createButton({ id: 'Hide some elements' }, { onClick: onHideSomeElementClick }),
-                formBuilder.createButton({ id: 'Submit Button' }, { onClick: onSubmitClick, inputType: 'submit' }),
+                formBuilder.createButton({ id: 'Submit Button' }, { onClick: onSubmitClick }),
                 formBuilder.createTextBox({ id: 'Textbox_Text', size: 4 }),
                 formBuilder.createIntegerTextBox({ id: 'Textbox_Integer', size: 4 }),
                 formBuilder.createFloatTextBox({ id: 'Textbox_Float', size: 4 }),
