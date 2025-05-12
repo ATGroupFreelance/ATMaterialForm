@@ -1,8 +1,8 @@
-import React from 'react';
-import { ATForm, formBuilder } from '@/lib';
+import { ATForm, formBuilder, formBuilderUtils } from '@/lib';
 import ATToast from '@/lib/component/ATToast/ATToast';
+import { ExampleComponentInterface } from '@/App';
 
-const ToastPlayground = ({ ref, onChange }) => {
+const ToastPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
     const onSimpleNotificationClick = () => {
         ATToast.info('This is a simple notification')
     }
@@ -11,12 +11,12 @@ const ToastPlayground = ({ ref, onChange }) => {
         ATToast.info('This is a persistent notification', { autoClose: false })
     }
 
-    const onAreYouSureClick = (event, { startLoading, stopLoading }) => {
+    const onAreYouSureClick = () => {
         ATToast.AreYouSure('Thank you for confirming that you are sure!')
     }
 
     const onCustomNotificationClick = () => {
-        ATToast.info((...props) => {
+        ATToast.info((...props: any) => {
             console.log('onCustomNotificationClick ATToast Custom Component Props', props)
 
             return <div>This is a custom component</div>
@@ -26,12 +26,12 @@ const ToastPlayground = ({ ref, onChange }) => {
     return (
         <ATForm ref={ref} onChange={onChange} validationDisabled={false} >
             {
-                formBuilder.createColumnBuilder(
+                formBuilderUtils.createColumnBuilder(
                     [
-                        formBuilder.createButton({ id: 'Simple Notifiation', onClick: onSimpleNotificationClick }),
-                        formBuilder.createButton({ id: 'Persistent Notification', onClick: onPersistentNotificationClick, color: 'error' }),
-                        formBuilder.createButton({ id: 'Show Are you sure!', confirmationMessage: 'Are you sure?', onClick: onAreYouSureClick, color: 'warning' }),
-                        formBuilder.createButton({ id: 'Custom Notification', onClick: onCustomNotificationClick, color: 'success' }),
+                        formBuilder.createButton({ id: 'Simple Notifiation' }, { onClick: onSimpleNotificationClick }),
+                        formBuilder.createButton({ id: 'Persistent Notification' }, { onClick: onPersistentNotificationClick, color: 'error' }),
+                        formBuilder.createButton({ id: 'Show Are you sure!' }, { confirmationText: 'Are you sure?', onClick: onAreYouSureClick, color: 'warning' }),
+                        formBuilder.createButton({ id: 'Custom Notification' }, { onClick: onCustomNotificationClick, color: 'success' }),
                     ]
                 )
                     .build()

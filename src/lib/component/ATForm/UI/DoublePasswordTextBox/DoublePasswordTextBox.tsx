@@ -21,10 +21,12 @@ const DoublePasswordTextBox = ({ value, onChange, showPassword, helperText, erro
     }, [value])
 
     const onInternalChange = (newValueA: string, newValueB: string) => {
-        if (newValueA === newValueB)
-            onChange({ target: { value: newValueA } })
-        else
-            onChange({ target: { value: '' } })
+        if (onChange) {
+            if (newValueA === newValueB)
+                onChange({ target: { value: newValueA } })
+            else
+                onChange({ target: { value: '' } })
+        }
     }
 
     const internalOnChangeA = (event: any) => {

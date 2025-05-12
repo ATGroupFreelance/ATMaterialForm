@@ -10,9 +10,13 @@ export interface ATFormBuilderCreateInterface {
     uiProps?: Record<string, any>,
 }
 
-export interface ATFormBuilerColumnInterface {
+export interface ATFormBuilerColumnGenericProps {
+    uiProps?: Record<string, any>;
+}
+
+export interface ATFormBuilerColumnInterface<T extends ATFormBuilerColumnGenericProps = {}> {
     tProps: ATFormComponentProps,
-    uiProps?: Record<string, any>,
+    uiProps?: T["uiProps"] extends undefined ? Record<string, any> : T["uiProps"];
 }
 
 export interface ATFormBuilderConditionalInsertInterface {

@@ -1,11 +1,14 @@
+import { ATFormChildProps } from "./ATForm.type";
 import { ATEnumsType } from "./Common.type";
+import { ATFormBuilerColumnGenericProps } from "./FormBuilder.type";
+import { ATFormComboBoxOptionsType } from "./ui/ComboBox.type";
 
-export interface ATTypeInterface {
+export interface ATTypeInterface<T extends ATFormBuilerColumnGenericProps = {}> {
     type: string,
     initialValue?: any,
     isNullValueValid?: boolean,
-    convertToKeyValue?: any,
-    reverseConvertToKeyValue?: any,
+    convertToKeyValue?: (props: ATConvertInterface<T>) => any,
+    reverseConvertToKeyValue?: (props: ATReverseConvertInterface<T>) => any,
     convertToSemiKeyValue?: any,
     reverseConvertToSemiKeyValue?: any,
     validation?: any,
@@ -13,23 +16,23 @@ export interface ATTypeInterface {
     isControlledUI?: boolean,
 }
 
-export interface ATConvertInterface {
-    event: any,
-    element: any,
+export interface ATConvertInterface<T extends ATFormBuilerColumnGenericProps = {}> {
+    event: { target: { value: any } },
+    childProps: ATFormChildProps<T>,
     enums: ATEnumsType
 }
 
-export interface ATReverseConvertInterface {
+export interface ATReverseConvertInterface<T extends ATFormBuilerColumnGenericProps = {}> {
     value: any,
-    element: any,
+    childProps: ATFormChildProps<T>,
     enums: ATEnumsType,
-    rtl: boolean,
+    rtl?: boolean,
 }
 
 export interface ATGetTitleByEnumsInterface {
     id: string,
     enumsID?: string,
-    options?: any[],
+    options?: ATFormComboBoxOptionsType,
     enums: any,
     value: any,
 }

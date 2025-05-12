@@ -50,10 +50,13 @@ const MultiSelectTextBox = ({ label, onChange, autoComplete = false, error, help
 
         if (reason === 'clear') {
             setTextFieldValue('')
-            onChange({ target: { value: [] } })
+
+            if (onChange)
+                onChange({ target: { value: [] } })
         }
         else if (reason === 'removeOption') {
-            onChange({ target: { value: [...newValue] } })
+            if (onChange)
+                onChange({ target: { value: [...newValue] } })
         }
     }
 
@@ -92,7 +95,7 @@ const MultiSelectTextBox = ({ label, onChange, autoComplete = false, error, help
                     }
                 }}
                 slotProps={{
-                    htmlInput: { ...params.inputProps, autoComplete }
+                    htmlInput: { ...params.inputProps }
                 }}
             />
         }

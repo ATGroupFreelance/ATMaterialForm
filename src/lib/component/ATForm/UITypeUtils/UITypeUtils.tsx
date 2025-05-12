@@ -2,6 +2,9 @@ import moment from 'moment';
 //Cell Renderers
 import UploadButtonCellRenderer from '../UI/UploadButton/UploadButtonCellRenderer/UploadButtonCellRenderer';
 import { ATConvertInterface, ATGetTitleByEnumsInterface, ATReverseConvertInterface, ATTypeInterface } from '../../../types/UITypeUtils.type';
+import { ATFormComboBoxProps } from '@/lib/types/ui/ComboBox.type';
+import { ATFormMultiComboBoxProps } from '@/lib/types/ui/MultiComboBox.type';
+import { ATFormCascadeComboBoxProps } from '@/lib/types/ui/CascadeComboBox.type';
 
 export const UITypes = {
     Button: 'Button',
@@ -97,7 +100,10 @@ export const createType = ({ type, initialValue, isNullValueValid, convertToKeyV
     }
 }
 
-const getLeafNodes = (nodes: any[], result: any[] = []) => {
+const getLeafNodes = (nodes: any[] | undefined, result: any[] = []) => {
+    if (!nodes)
+        return result;
+
     for (let i = 0, length = nodes.length; i < length; i++) {
         if (!nodes[i].children || nodes[i].children.length === 0) {
             result.push(nodes[i]);
@@ -192,15 +198,15 @@ export const types = [
 
             return event.target.value.id
         },
-        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
-            console.log('element', value, element)
+        reverseConvertToKeyValue: ({ value, childProps, enums }: ATReverseConvertInterface<{ uiProps?: ATFormComboBoxProps }>): null | { id: number | string, title: string } => {
             if (value === null || value === undefined)
                 return null
-            else
+            else {
                 return {
                     id: value,
-                    title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value })
+                    title: getTitleByEnums({ id: childProps.tProps.id, enumsID: childProps.uiProps?.enumsID, options: childProps?.uiProps?.options, enums, value })
                 }
+            }
         },
     }),
     createType({
@@ -210,7 +216,7 @@ export const types = [
         convertToKeyValue: ({ event }: ATConvertInterface) => {
             return event.target.value.map((item: any) => item.id).join(',')
         },
-        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
+        reverseConvertToKeyValue: ({ value, childProps, enums }: ATReverseConvertInterface<{ uiProps?: ATFormMultiComboBoxProps }>) => {
             if (!value)
                 return []
             else {
@@ -219,7 +225,7 @@ export const types = [
                 return valueArray.map((item: any) => {
                     return {
                         id: item,
-                        title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value: item })
+                        title: getTitleByEnums({ id: childProps.tProps.id, enumsID: childProps.uiProps?.enumsID, options: childProps.uiProps?.options, enums, value: item })
                     }
                 })
             }
@@ -227,14 +233,14 @@ export const types = [
         convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
             return event.target.value.map((item: any) => item.id)
         },
-        reverseConvertToSemiKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
+        reverseConvertToSemiKeyValue: ({ value, childProps, enums }: ATReverseConvertInterface<{ uiProps?: ATFormMultiComboBoxProps }>) => {
             if (!value)
                 return []
             else {
                 return value.map((item: any) => {
                     return {
                         id: item,
-                        title: getTitleByEnums({ id: element.id, enumsID: element.enumsID, options: element.options, enums, value: item })
+                        title: getTitleByEnums({ id: childProps.tProps.id, enumsID: childProps.uiProps?.enumsID, options: childProps.uiProps?.options, enums, value: item })
                     }
                 })
             }
@@ -323,13 +329,13 @@ export const types = [
         type: 'CascadeComboBox',
         initialValue: null,
         validation: createValidation({ type: 'integer' }),
-        convertToKeyValue: ({ event, element }: ATConvertInterface) => {
+        convertToKeyValue: ({ event, childProps }: ATConvertInterface<{ uiProps?: ATFormCascadeComboBoxProps }>) => {
             if (!event.target.value)
                 return event.target.value
 
             const result: { [key: string]: any[] } = {}
 
-            const leafs = getLeafNodes(element.design)
+            const leafs = getLeafNodes(childProps.uiProps?.design)
 
             if (leafs.length > 1) {
                 console.error('Design can not have more than 1 leaf!!!, if you want multiple leafs use MultiValueCascadeComboBox! leafs: ', leafs)
@@ -351,11 +357,11 @@ export const types = [
 
             return result[leaf.id]
         },
-        reverseConvertToKeyValue: ({ value, element, enums }: ATReverseConvertInterface) => {
+        reverseConvertToKeyValue: ({ value, childProps, enums }: ATReverseConvertInterface<{ uiProps?: ATFormCascadeComboBoxProps }>) => {
             if (value === undefined || value === null)
                 return null
 
-            const leafs = getLeafNodes(element.design)
+            const leafs = getLeafNodes(childProps.uiProps?.design)
 
             if (leafs.length > 1) {
                 console.error('Design can not have more than 1 leaf!!!, if you want multiple leafs use MultiValueCascadeComboBox! leafs: ', leafs)
@@ -372,8 +378,8 @@ export const types = [
 
                 const found = enums?.[leaf.enumKey]?.find((item: any) => String(item.id) === String(value))
 
-                if (leaf.enumParentKey) {                    
-                    const parentValueResult = getLeafCascadeValue(getParentNode(element.design, leaf), found?.[leaf.enumParentKey])
+                if (leaf.enumParentKey) {
+                    const parentValueResult = getLeafCascadeValue(getParentNode(childProps.uiProps?.design, leaf), found?.[leaf.enumParentKey])
                     console.log('parentValueResult', found, parentValueResult, leaf)
 
                     return {

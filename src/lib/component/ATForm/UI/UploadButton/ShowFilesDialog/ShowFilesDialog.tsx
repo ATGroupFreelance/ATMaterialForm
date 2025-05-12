@@ -55,7 +55,7 @@ const ShowFilesDialog = ({ onSave, onClose, files, readOnly, authToken }: ATForm
                 !readOnly && onSave
                 &&
                 <Button
-                    onClick={(event, { startLoading, stopLoading }) => onSave(event, { startLoading, stopLoading, removeIDList })}
+                    onClick={(props) => onSave({ ...props, removeIDList })}
                     disabled={!removeIDList.length}>
                     {localText['Save']}
                 </Button>

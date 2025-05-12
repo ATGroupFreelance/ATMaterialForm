@@ -2,7 +2,7 @@ import { StringKeyedObject } from "./Common.type";
 import type React from "react";
 import type { ColDef } from "ag-grid-community";
 import { Grid } from '@mui/material';
-import { ATFormBuilerColumnInterface } from "./FormBuilder.type";
+import { ATFormBuilerColumnGenericProps, ATFormBuilerColumnInterface } from "./FormBuilder.type";
 import { ATTypeInterface } from "./UITypeUtils.type";
 
 export type ATFormGridSize = React.ComponentProps<typeof Grid>['size'];
@@ -82,7 +82,7 @@ export interface ATFormComponentProps {
     },
 }
 
-export type ATFormChildProps = ATFormBuilerColumnInterface & {
+export type ATFormChildProps<T extends ATFormBuilerColumnGenericProps = {}> = ATFormBuilerColumnInterface<T> & {
     typeInfo: ATTypeInterface | undefined,
     errors: any,
     onChildChange: (props: ATFormOnChildChangeInterface) => void,
@@ -125,17 +125,20 @@ export interface ATUnControlledUIBuilderProps {
     childProps: ATFormChildProps,
 }
 
+export type ATTabWrapperOnChangeProps = {
+    event: any,
+    newIndexArray: number[],
+    selectedTab: any,
+}
+
+export type ATTabWrapperOnChangeType = (props: ATTabWrapperOnChangeProps) => void;
+
 export interface ATTabWrapper {
     tabs?: any[],
     tabsGridProps: any,
     children: any,
     childrenProps: (ATFormChildProps | ATFormUnknownChildProps)[],
-    onChange?: (event: any, props: ATTabWrapperOnChangeInterface) => void,
-}
-
-export interface ATTabWrapperOnChangeInterface {
-    newIndexArray: number[],
-    selectedTab: any,
+    onChange?: ATTabWrapperOnChangeType,
 }
 
 export interface ATFormChildResetInterface {

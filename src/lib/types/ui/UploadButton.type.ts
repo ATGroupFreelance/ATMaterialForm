@@ -1,5 +1,5 @@
 import { ColDef } from "ag-grid-community";
-import { ATFormMinimalControlledUIProps } from "../Common.type";
+import { ATFormMinimalControlledUIProps, ATFormOnClickType } from "../Common.type";
 
 export type ATFormButtonFileType = {
     id?: string,
@@ -22,8 +22,8 @@ export interface ATFormUploadButtonProps extends ATFormMinimalControlledUIProps 
 };
 
 export interface ATFormUploadButtonShowFilesDialogProps {
-    onSave?: (event: any, props: any) => void,
-    onClose: (event: any, props: any) => void,
+    onSave?: ATFormOnClickType,
+    onClose: ATFormOnClickType,
     files: ATFormButtonFileType[] | null | undefined,
     readOnly: boolean,
     authToken?: string,

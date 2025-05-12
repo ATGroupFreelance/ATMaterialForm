@@ -1,7 +1,8 @@
-import React from 'react';
 import { ATForm, formBuilder } from '@/lib';
+import { ATTabWrapperOnChangeType } from '@/lib/types/ATForm.type';
+import { ExampleComponentInterface } from '@/App';
 
-const TabInTab = ({ ref, onChange }) => {
+const TabInTab = ({ ref, onChange }: ExampleComponentInterface) => {
     const tabs = [
         {
             label: 'tab1',
@@ -20,15 +21,15 @@ const TabInTab = ({ ref, onChange }) => {
         { label: 'tab2' }
     ]
 
-    const onTabChange = (event, newIndex, selectedTab) => {
+    const onTabChange: ATTabWrapperOnChangeType = (props) => {
         console.log('onTabChange', {
-            newIndex,
-            selectedTab,
+            props
         })
     }
 
     return (
-        <ATForm ref={ref} tabs={tabs} onChange={onChange} onTabChange={onTabChange} groupDataEnabled={true}>
+        // groupDataEnabled={true}
+        <ATForm ref={ref} tabs={tabs} onChange={onChange} onTabChange={onTabChange}>
             {[
                 formBuilder.createTextBox({ id: 'Tab1', tabIndex: 0 }),
                 formBuilder.createTextBox({ id: 'Tab2', tabIndex: 1 }),

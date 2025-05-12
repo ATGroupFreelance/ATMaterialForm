@@ -91,56 +91,6 @@ const ATFormFunction = (props: ATFormProps) => {
             mAjvValidate.current = null
     }, [getTypeInfo, props.validationDisabled])
 
-    const reset = useCallback(({ inputDefaultValue, reverseConvertToKeyValueEnabled = true, inputDefaultValueFormat = 'FormDataSemiKeyValue', callFormOnChangeDisabled = false }: ATFormResetInterface = {} as ATFormResetInterface) => {
-        const flatChildren = getFlatChildren(props.children)
-
-        const ungroupedInputDefaultValue = inputDefaultValue
-
-        //If default value is not key value just use it!
-        let newDefaultValue = ungroupedInputDefaultValue
-
-        //If default value is a key value, process it so it becomes a formData format
-        if (reverseConvertToKeyValueEnabled && ungroupedInputDefaultValue) {
-            const reverseConvertToKeyValueDefaultValue: Record<string, any> = {}
-
-            for (let key in ungroupedInputDefaultValue) {
-                //Find the elemenet of the value using id match
-                const found = flatChildren.find((item) => String(item.id) === String(key))
-
-                //TODO HANDLE CONDITIONAL INSERT:
-                //If you have used conditional insertion, in some cases, such as datepicker, this "found" variable will be null on the first run.
-                //This means that the date is not reverse converted to a value, and after the condition is met, 
-                //it will throw an error because the element is initialized with a value that was not reversed.
-                //One easy solution is to initialize your insertion condition using a default value.
-                if (found) {
-                    //Find the element's type inside types which is inisde UITypeUtils, using this type we can do a reverseConvertToKeyValue
-                    const foundType = getTypeInfo(found.type)
-
-                    if (!foundType) {
-                        console.warn('Type not found', { type: found.type, id: key })
-                        return reverseConvertToKeyValueDefaultValue[key] = ungroupedInputDefaultValue[key]
-                    }
-
-                    //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
-                    if (inputDefaultValueFormat === 'FormDataKeyValue' && foundType.reverseConvertToKeyValue)
-                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToKeyValue({ value: ungroupedInputDefaultValue[key], element: found, enums, rtl })
-                    else if (inputDefaultValueFormat === 'FormDataSemiKeyValue' && foundType.reverseConvertToSemiKeyValue)
-                        reverseConvertToKeyValueDefaultValue[key] = foundType.reverseConvertToSemiKeyValue({ value: ungroupedInputDefaultValue[key], element: found, enums, rtl })
-                    else
-                        reverseConvertToKeyValueDefaultValue[key] = ungroupedInputDefaultValue[key]
-                }
-                else
-                    reverseConvertToKeyValueDefaultValue[key] = ungroupedInputDefaultValue[key]
-            }
-
-            newDefaultValue = reverseConvertToKeyValueDefaultValue
-        }
-
-        console.log('reset newDefaultValue', newDefaultValue)
-
-        setInternalDefaultValue(newDefaultValue || {})
-    }, [enums, getTypeInfo, props.children, rtl])
-
     /**In ReactJS the useEffect that comes first is called first which means this use effect is called before the compileAJV one */
     useEffect(() => {
         if (!mAjv.current) {
@@ -185,11 +135,6 @@ const ATFormFunction = (props: ATFormProps) => {
         mPrevChildren.current = props.children
 
     }, [props.children, compileAJV])
-
-    useEffect(() => {
-        if (props.defaultValue)
-            reset({ inputDefaultValue: props.defaultValue, inputDefaultValueFormat: props.defaultValueFormat })
-    }, [props.defaultValue, props.defaultValueFormat, reset])
 
     useEffect(() => {
         console.log('internalDefaultValue has changed', { internalDefaultValue, refList: mChildrenRefs.current })
@@ -404,7 +349,7 @@ const ATFormFunction = (props: ATFormProps) => {
     const getChildProps = useCallback((childProps: ATFormBuilerColumnInterface): ATFormChildProps => {
         const typeInfo = getTypeInfo(childProps.tProps.type)
 
-        const newDefaultValue = internalDefaultValue[childProps.tProps.id] === undefined ? childProps.uiProps?.defaultValue : internalDefaultValue[childProps.tProps.id]
+        const newDefaultValue = internalDefaultValue[childProps.tProps.id] === undefined ? childProps.tProps?.defaultValue : internalDefaultValue[childProps.tProps.id]
 
         return {
             tProps: {
@@ -431,25 +376,83 @@ const ATFormFunction = (props: ATFormProps) => {
         }
     }, [checkValidation, getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors])
 
-    const flatChildren = useMemo(() => {
-        return getFlatChildren(props.children)
-    }, [props.children])
+    const [flatChildren, flatChildrenProps] = useMemo(() => {
+        const flatChildren = getFlatChildren(props.children)
 
-    const flatChildrenProps: (ATFormChildProps | ATFormUnknownChildProps)[] = flatChildren.map(item => {
-        const { tProps, ...restProps } = item?.props || item
+        const flatChildrenProps: (ATFormChildProps | ATFormUnknownChildProps)[] = flatChildren.map(item => {
+            const { tProps, ...restProps } = item?.props || item
 
-        const isUnknownChild = !tProps || !getTypeInfo(tProps.type)
+            const isUnknownChild = !tProps || !getTypeInfo(tProps.type)
 
-        /**Handle unknown child or child that skip the form, these childs are only rendered as they are and only use the tab system */
-        if (isUnknownChild)
-            return {
-                tProps,
-                uiProps: restProps,
-            } as ATFormUnknownChildProps
-        else {
-            return getChildProps(item)
+            /**Handle unknown child or child that skip the form, these childs are only rendered as they are and only use the tab system */
+            if (isUnknownChild)
+                return {
+                    tProps,
+                    uiProps: restProps,
+                } as ATFormUnknownChildProps
+            else {
+                return getChildProps(item)
+            }
+        })
+
+        return [flatChildren, flatChildrenProps]
+    }, [props.children, getChildProps, getTypeInfo])
+
+    const reset = useCallback(({ inputDefaultValue, reverseConvertToKeyValueEnabled = true, inputDefaultValueFormat = 'FormDataSemiKeyValue', callFormOnChangeDisabled = false }: ATFormResetInterface = {} as ATFormResetInterface) => {
+        const ungroupedInputDefaultValue = inputDefaultValue
+
+        //If default value is not key value just use it!
+        let newDefaultValue = ungroupedInputDefaultValue
+
+        //If default value is a key value, process it so it becomes a formData format
+        if (reverseConvertToKeyValueEnabled && ungroupedInputDefaultValue) {
+            const reverseConvertToKeyValueDefaultValue: Record<string, any> = {}
+
+            for (let key in ungroupedInputDefaultValue) {
+                //Find the elemenet of the value using id match
+                const foundChildProps = flatChildrenProps.find((item) => String(item.tProps?.id) === String(key))
+
+                //TODO HANDLE CONDITIONAL INSERT:
+                //If you have used conditional insertion, in some cases, such as datepicker, this "found" variable will be null on the first run.
+                //This means that the date is not reverse converted to a value, and after the condition is met, 
+                //it will throw an error because the element is initialized with a value that was not reversed.
+                //One easy solution is to initialize your insertion condition using a default value.
+                if (foundChildProps) {
+                    //Find the element's type inside types which is inisde UITypeUtils, using this type we can do a reverseConvertToKeyValue
+                    const typeInfo = (foundChildProps as ATFormChildProps)?.typeInfo
+
+                    if (!typeInfo) {
+                        console.warn('Type not found, child props is for an uknown child', { foundChildProps, id: key })
+                        return reverseConvertToKeyValueDefaultValue[key] = ungroupedInputDefaultValue[key]
+                    }
+
+                    /**Because typeInfo exists we are sure its a ATFormChildProps */
+                    const childProps = foundChildProps as ATFormChildProps
+
+                    //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
+                    if (inputDefaultValueFormat === 'FormDataKeyValue' && typeInfo.reverseConvertToKeyValue)
+                        reverseConvertToKeyValueDefaultValue[key] = typeInfo.reverseConvertToKeyValue({ value: ungroupedInputDefaultValue[key], childProps, enums, rtl })
+                    else if (inputDefaultValueFormat === 'FormDataSemiKeyValue' && typeInfo.reverseConvertToSemiKeyValue)
+                        reverseConvertToKeyValueDefaultValue[key] = typeInfo.reverseConvertToSemiKeyValue({ value: ungroupedInputDefaultValue[key], childProps, enums, rtl })
+                    else
+                        reverseConvertToKeyValueDefaultValue[key] = ungroupedInputDefaultValue[key]
+                }
+                else
+                    reverseConvertToKeyValueDefaultValue[key] = ungroupedInputDefaultValue[key]
+            }
+
+            newDefaultValue = reverseConvertToKeyValueDefaultValue
         }
-    })
+
+        console.log('reset newDefaultValue', newDefaultValue)
+
+        setInternalDefaultValue(newDefaultValue || {})
+    }, [enums, getTypeInfo, rtl, flatChildrenProps])
+
+    useEffect(() => {
+        if (props.defaultValue)
+            reset({ inputDefaultValue: props.defaultValue, inputDefaultValueFormat: props.defaultValueFormat })
+    }, [props.defaultValue, props.defaultValueFormat, reset])
 
     const formContextValue = useMemo(() => {
         return {

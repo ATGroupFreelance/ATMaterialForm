@@ -25,7 +25,7 @@ const ImageSelect = ({ id, authToken, label, width = 128, height = 128, onChange
                                 ...found,
                                 ...item
                             })
-                        else
+                        else if (getFile)
                             getFile({ id: item.id, authToken, width, height })
                                 .then(res => {
                                     const objectURL = window.URL.createObjectURL(res)

@@ -33,7 +33,7 @@ const File = ({ id, name, size, onRemove, showRemoveIcon, authToken }: ATFormUpl
 
     }, [id, name, authToken, getFile])
 
-    const onOpenClick: ATFormOnClickType = (_event, { startLoading, stopLoading }) => {
+    const onOpenClick: ATFormOnClickType = ({ startLoading, stopLoading }) => {
         startLoading()
 
         if (getFile && id) {
@@ -58,7 +58,7 @@ const File = ({ id, name, size, onRemove, showRemoveIcon, authToken }: ATFormUpl
 
     }
 
-    const onViewImageClick: ATFormOnClickType = (_event, { startLoading, stopLoading }) => {
+    const onViewImageClick: ATFormOnClickType = ({ startLoading, stopLoading }) => {
         startLoading()
 
         if (getFile && id) {
@@ -107,7 +107,7 @@ const File = ({ id, name, size, onRemove, showRemoveIcon, authToken }: ATFormUpl
         {
             showRemoveIcon
             &&
-            <Tooltip title={localText['Delete']} onClick={() => onRemove(id)}  >           
+            <Tooltip title={localText['Delete']} onClick={() => onRemove(id)}  >
                 <IconButton color={'error'} sx={{ display: 'inline-block' }}>
                     <DeleteForeverTwoToneIcon />
                 </IconButton>

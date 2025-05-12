@@ -1,6 +1,7 @@
 import { ExampleComponentInterface } from "@/App";
 import { ATForm, formBuilder } from "@/lib";
 import { ATFormComponentRefInterface } from "@/lib/types/ATForm.type";
+import ServiceManager from "@/serviceManager/serviceManager";
 import { useRef } from "react";
 
 const BasicForm2 = (props: ExampleComponentInterface) => {
@@ -20,7 +21,21 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
     return <ATForm {...props}>
         {
             [
-                formBuilder.createTextBox({ id: 'MyTextBox1', ref: mTPropsRef }, { ref: mUIPropsRef }),
+                formBuilder.createCascadeComboBox(
+                    {
+                        id: 'CascadeComboBox1'
+                    },
+                    {
+                        design: [
+                            {
+                                id: 'Layer1',
+                                options: ServiceManager.getCountries
+                            }
+                        ]
+                    }
+                ),
+                formBuilder.createComboBox({ id: 'ComboBox1' }, { options: ServiceManager.getCountries }),
+                // formBuilder.createTextBox({ id: 'MyTextBox1', ref: mTPropsRef }, { ref: mUIPropsRef }),
                 formBuilder.createButton({ id: 'MyButton1', label: 'Click Me!' }, { onClick: onButton1Click }),
             ]
         }

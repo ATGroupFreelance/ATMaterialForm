@@ -5,7 +5,7 @@ import { Grid } from "@mui/material";
 // Components
 import ATTabs from "./ATTabs/ATTabs";
 import ATFormRender from "../ATFormRender/ATFormRender";
-import { ATFormChildProps, ATFormUnknownChildProps, ATTabWrapper, ATTabWrapperOnChangeInterface } from "@/lib/types/ATForm.type";
+import { ATFormChildProps, ATFormUnknownChildProps, ATTabWrapper, ATTabWrapperOnChangeType } from "@/lib/types/ATForm.type";
 
 const TabWrapper = ({ tabs, tabsGridProps, children, childrenProps, onChange }: ATTabWrapper) => {
     /**If tabs does not exist just skip and go to render stage */
@@ -36,14 +36,14 @@ const TabWrapper = ({ tabs, tabsGridProps, children, childrenProps, onChange }: 
         };
     });
 
-    const onInternalTabChange = (event: any, { newIndexArray, selectedTab }: ATTabWrapperOnChangeInterface) => {
+    const onInternalTabChange: ATTabWrapperOnChangeType = ({ newIndexArray, selectedTab, ...restProps }) => {
         setSelectedTabIndexArray(newIndexArray);
 
         if (onChange) {
             if (newIndexArray.length === 1) {
-                onChange(event, { newIndexArray: [newIndexArray[0]], selectedTab });
+                onChange({ newIndexArray: [newIndexArray[0]], selectedTab, ...restProps });
             } else {
-                onChange(event, { newIndexArray, selectedTab });
+                onChange({ newIndexArray, selectedTab, ...restProps });
             }
         }
     };

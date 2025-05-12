@@ -95,7 +95,7 @@ function App() {
   const onLoadLastSubmitClick = () => {
     console.log('savedFormData', savedFormData)
     if (savedFormData && formRef.current)
-      formRef.current.reset({ inputDefaultValue: savedFormData })
+      formRef.current.reset({ inputDefaultValue: savedFormData, inputDefaultValueFormat: "FormDataKeyValue" })
   }
 
   const onSubmitClick = () => {
