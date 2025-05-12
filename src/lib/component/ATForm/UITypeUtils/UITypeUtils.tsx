@@ -51,11 +51,11 @@ export const getTypeInfo = (type: any, customTypes: any): ATTypeInterface | unde
     return found
 }
 
-export const getTitleByEnums = ({ id, enumsID, options, enums, value }: ATGetTitleByEnumsInterface) => {
+export const getTitleByEnums = ({ id, enumsKey, options, enums, value }: ATGetTitleByEnumsInterface) => {
     if (value === null || value === undefined)
         return ''
 
-    const searchID = enumsID || id
+    const searchID = enumsKey || id
     const stringValue = String(value)
     let result = stringValue
 
@@ -204,7 +204,7 @@ export const types = [
             else {
                 return {
                     id: value,
-                    title: getTitleByEnums({ id: childProps.tProps.id, enumsID: childProps.uiProps?.enumsID, options: childProps?.uiProps?.options, enums, value })
+                    title: getTitleByEnums({ id: childProps.tProps.id, enumsKey: childProps.uiProps?.enumsKey, options: childProps?.uiProps?.options, enums, value })
                 }
             }
         },
@@ -225,7 +225,7 @@ export const types = [
                 return valueArray.map((item: any) => {
                     return {
                         id: item,
-                        title: getTitleByEnums({ id: childProps.tProps.id, enumsID: childProps.uiProps?.enumsID, options: childProps.uiProps?.options, enums, value: item })
+                        title: getTitleByEnums({ id: childProps.tProps.id, enumsKey: childProps.uiProps?.enumsKey, options: childProps.uiProps?.options, enums, value: item })
                     }
                 })
             }
@@ -240,7 +240,7 @@ export const types = [
                 return value.map((item: any) => {
                     return {
                         id: item,
-                        title: getTitleByEnums({ id: childProps.tProps.id, enumsID: childProps.uiProps?.enumsID, options: childProps.uiProps?.options, enums, value: item })
+                        title: getTitleByEnums({ id: childProps.tProps.id, enumsKey: childProps.uiProps?.enumsKey, options: childProps.uiProps?.options, enums, value: item })
                     }
                 })
             }
@@ -376,7 +376,7 @@ export const types = [
                 if (!leaf)
                     return {}
 
-                const found = enums?.[leaf.enumKey]?.find((item: any) => String(item.id) === String(value))
+                const found = enums?.[leaf.enumsKey]?.find((item: any) => String(item.id) === String(value))
 
                 if (leaf.enumParentKey) {
                     const parentValueResult = getLeafCascadeValue(getParentNode(childProps.uiProps?.design, leaf), found?.[leaf.enumParentKey])

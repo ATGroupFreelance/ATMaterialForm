@@ -11,12 +11,12 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
     const singleLeafCascadeDesign: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'Country',
-            enumKey: 'Countries',
+            enumsKey: 'Countries',
             options: ServiceManager.getCountries,
             children: [
                 {
                     id: 'State',
-                    enumKey: 'StateAndCapitals',
+                    enumsKey: 'StateAndCapitals',
                     enumParentKey: 'Country',
                     options: ({ keyValue }: any) => new Promise((resolve) => {
                         resolve(enums?.StateAndCapitals.filter((item: any) => !item.ParentID && item.Country === keyValue?.Country))
@@ -24,7 +24,7 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
                     children: [
                         {
                             id: 'Capital',
-                            enumKey: 'StateAndCapitals',
+                            enumsKey: 'StateAndCapitals',
                             enumParentKey: 'ParentID',
                             options: ({ keyValue }: any) => new Promise((resolve) => {
                                 resolve(enums?.StateAndCapitals.filter((item: any) => item.ParentID === keyValue?.State))
@@ -39,16 +39,16 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
     const singleLeafCascadeDesign2: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'Country',
-            enumKey: 'Countries',
+            enumsKey: 'Countries',
             children: [
                 {
                     id: 'State',
-                    enumKey: 'StateAndCapitals',
+                    enumsKey: 'StateAndCapitals',
                     enumParentKey: 'Country',
                     children: [
                         {
                             id: 'Capital',
-                            enumKey: 'StateAndCapitals',
+                            enumsKey: 'StateAndCapitals',
                             enumParentKey: 'ParentID',
                         },
                     ]
@@ -61,15 +61,15 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
     const singleLeafCascadeDesign3: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'Country',
-            enumKey: 'Countries',
+            enumsKey: 'Countries',
             children: [
                 {
                     id: 'State',
-                    enumKey: 'StateAndCapitals',
+                    enumsKey: 'StateAndCapitals',
                     children: [
                         {
                             id: 'Capital',
-                            enumKey: 'StateAndCapitals',
+                            enumsKey: 'StateAndCapitals',
                             enumParentKey: 'ParentID',
                         },
                     ]
@@ -82,11 +82,11 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
     const singleLeafCascadeDesign4: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'business_id',
-            enumKey: 'business_id',
+            enumsKey: 'business_id',
             children: [
                 {
                     id: 'system_id',
-                    enumKey: 'system_id',
+                    enumsKey: 'system_id',
                     enumParentKey: 'business_id',
                 },
             ]

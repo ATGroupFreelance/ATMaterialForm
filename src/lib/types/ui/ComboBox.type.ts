@@ -14,16 +14,16 @@ export type ATFormComboBoxStaticOptions = ATEnumType | null | undefined;
 // Options type for async
 export type ATFormComboBoxAsyncOptions = () => Promise<ATEnumType | null | undefined>;
 
-// Props variant: static (no enumsID required)
+// Props variant: static (no enumsKey required)
 export type ATFormComboBoxStaticProps = ATFormComboBoxBaseProps & {
   options: ATFormComboBoxStaticOptions;
-  enumsID?: string;
+  enumsKey?: string;
 };
 
-// Props variant: async (enumsID required)
+// Props variant: async (enumsKey required)
 export type ATFormComboBoxAsyncProps = ATFormComboBoxBaseProps & {
   options: ATFormComboBoxAsyncOptions;
-  enumsID: string;
+  enumsKey: string;
 };
 
 // Final union type for export

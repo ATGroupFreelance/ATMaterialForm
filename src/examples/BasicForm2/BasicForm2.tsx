@@ -4,7 +4,7 @@ import { ATFormComponentRefInterface } from "@/lib/types/ATForm.type";
 import ServiceManager from "@/serviceManager/serviceManager";
 import { useRef } from "react";
 
-const BasicForm2 = (props: ExampleComponentInterface) => {        
+const BasicForm2 = (props: ExampleComponentInterface) => {
     const mTPropsRef = useRef<ATFormComponentRefInterface>(null)
     const mUIPropsRef = useRef(null)
 
@@ -30,12 +30,12 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                             {
                                 id: 'Layer1',
                                 options: ServiceManager.getCountries,
-                                enumKey: 'Countries'
+                                enumsKey: 'Countries'
                             }
                         ]
                     }
                 ),
-                formBuilder.createComboBox({ id: 'ComboBox1' }, { options: ServiceManager.getCountries, enumsID: 'Countries' }),
+                formBuilder.createComboBox({ id: 'ComboBox1' }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
                 // formBuilder.createTextBox({ id: 'MyTextBox1', ref: mTPropsRef }, { ref: mUIPropsRef }),
                 formBuilder.createButton({ id: 'MyButton1', label: 'Click Me!' }, { onClick: onButton1Click }),
             ]

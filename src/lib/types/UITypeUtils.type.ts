@@ -31,7 +31,7 @@ export interface ATReverseConvertInterface<T extends ATFormBuilerColumnGenericPr
 
 export interface ATGetTitleByEnumsInterface {
     id: string;
-    enumsID?: string;
+    enumsKey?: string;
     options?: ATFormComboBoxStaticOptions | ATFormComboBoxAsyncOptions;
     enums: any;
     value: any;

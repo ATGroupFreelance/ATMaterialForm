@@ -26,20 +26,20 @@ export interface ATFormCascadeComboBoxDesignLayerBase {
     uiProps?: StrictOmit<ATFormComboBoxProps, 'id' | 'value' | 'multiple' | 'readOnly' | 'size' | 'options'>;
 }
 
-// Static: no enumKey required
+// Static: no enumsKey required
 export interface ATFormCascadeComboBoxStaticDesignLayer
     extends ATFormCascadeComboBoxDesignLayerBase {
     options?: ATFormCascadeComboBoxStaticOptions;
-    enumKey?: string; // optional
+    enumsKey?: string; // optional
     enumParentKey?: string;
 }
 
 
-// Async: enumKey required
+// Async: enumsKey required
 export interface ATFormCascadeComboBoxAsyncDesignLayer
     extends ATFormCascadeComboBoxDesignLayerBase {
     options: ATFormCascadeComboBoxAsyncOptions;
-    enumKey: string; // required
+    enumsKey: string; // required
     enumParentKey?: string;
 }
 

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 //services
 import ServiceManager from '@/serviceManager/serviceManager';
 import { ATForm, formBuilder, formBuilderUtils } from "@/lib";
@@ -7,39 +7,55 @@ import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 import { ATFormOnClickProps } from '@/lib/types/Common.type';
 import { ATFormCascadeComboBoxDesignLayer } from '@/lib/types/ui/CascadeComboBox.type';
 
-const multiLeafCascadeDesign: ATFormCascadeComboBoxDesignLayer[] = [
-    {
-        id: 'layerA',
-        options: ServiceManager.getData_layerA,
-        children: [
-            {
-                id: 'layerAB',
-                options: () => ServiceManager.getData_layerAB(),
-                children: [
-                    {
-                        id: 'layerABC1',
-                        options: () => ServiceManager.getData_layerABC1(),
-                    },
-                ]
-            },
-        ]
-    },
-]
-
 const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
-    console.log('BasicForm', ref)
     const { enums } = useATFormConfig()
+    const [optionList, setOptionList] = useState({ layerAOptions: null, layerABOptions: null, layerABC1Options: null })
+
+    useEffect(() => {
+        const updateOptionList = async () => {
+            const layerAOptions = await ServiceManager.getData_layerA()
+            const layerABOptions = await ServiceManager.getData_layerAB()
+            const layerABC1Options = await ServiceManager.getData_layerABC1()
+
+            setOptionList({
+                layerAOptions,
+                layerABOptions,
+                layerABC1Options
+            })
+        }
+
+        updateOptionList()
+    }, [])
+
+    const multiLeafCascadeDesign: ATFormCascadeComboBoxDesignLayer[] = [
+        {
+            id: 'layerA',
+            options: optionList?.layerAOptions,
+            children: [
+                {
+                    id: 'layerAB',
+                    options: optionList?.layerABOptions,
+                    children: [
+                        {
+                            id: 'layerABC1',
+                            options: optionList?.layerABC1Options,
+                        },
+                    ]
+                },
+            ]
+        },
+    ]
 
     const singleLeafCascadeDesign: ATFormCascadeComboBoxDesignLayer[] = useMemo(() => {
         return [
             {
                 id: 'Country',
-                enumKey: 'Countries',
+                enumsKey: 'Countries',
                 options: ServiceManager.getCountries,
                 children: [
                     {
                         id: 'State',
-                        enumKey: 'StateAndCapitals',
+                        enumsKey: 'StateAndCapitals',
                         enumParentKey: 'Country',
                         options: ({ keyValue }: any) => new Promise((resolve) => {
                             resolve(enums?.StateAndCapitals.filter((item) => !item.ParentID && item.Country === keyValue?.Country))
@@ -47,7 +63,7 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                         children: [
                             {
                                 id: 'Capital',
-                                enumKey: 'StateAndCapitals',
+                                enumsKey: 'StateAndCapitals',
                                 enumParentKey: 'ParentID',
                                 options: ({ keyValue }: any) => new Promise((resolve) => {
                                     resolve(enums?.StateAndCapitals.filter((item) => item.ParentID === keyValue?.State))
@@ -91,8 +107,8 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                 formBuilder.createPasswordTextBox({ id: 'Password' }),
                 formBuilder.createDoublePasswordTextBox({ id: 'DoublePassword', size: 6 }),
                 formBuilder.createAvatar({ id: 'Avatar2' }),
-                formBuilder.createComboBox({ id: 'Countries', validation: { required: true }, tabIndex: 1 }, { options: ServiceManager.getCountries }),
-                formBuilder.createComboBox({ id: 'ComboBoxWithEnumsID', }, { options: ServiceManager.getCountries }),
+                formBuilder.createComboBox({ id: 'Countries', validation: { required: true }, tabIndex: 1 }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
+                formBuilder.createComboBox({ id: 'ComboBoxWithEnumsID', }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
                 formBuilder.createComboBox({ id: 'ComboBoxEnumsless' }, { options: [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }] }),
                 formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', validation: { required: true } }, { options: [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }] }),
                 formBuilder.createDatePicker({ id: 'DatePicker', }),

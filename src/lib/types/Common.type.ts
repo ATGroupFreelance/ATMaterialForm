@@ -1,7 +1,7 @@
 export type StrictOmit<T, K extends keyof T> = Omit<T, K>;
 
 export interface ATEnumCompatibleComponentProps {
-    enumsID?: string,
+    enumsKey?: string,
 }
 
 /**_--------------------------------------- */
