@@ -1,9 +1,9 @@
 import React from 'react';
 
 import BaseComboBox from './BaseComboBox/BaseComboBox';
-import { ATFormCascadeComboBoxProps, ATFormCascadeComboBoxBaseComboBoxProps, ATFormCascadeComboBoxDesignLayer, ATFormCascadeComboBoxDesignLayerOptionsFunctionProps } from '@/lib/types/ui/CascadeComboBox.type';
-import { ATEnumType } from '@/lib/types/Common.type';
+import { ATFormCascadeComboBoxProps, ATFormCascadeComboBoxBaseComboBoxProps, ATFormCascadeComboBoxDesignLayer, ATFormCascadeComboBoxAsyncOptions } from '@/lib/types/ui/CascadeComboBox.type';
 import ComboBox from '../ComboBox/ComboBox';
+import { isAsyncOptions } from '../../FormUtils/FormUtils';
 /**
     Cascade Overview:
 
@@ -57,55 +57,68 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
             resetChildrenValue(children)
 
         if (onChange)
-        onChange({ target: { value: newValue } })
+            onChange({ target: { value: newValue } })
     }
 
-    const getRenderableComboBoxFlatList = (designLayer?: ATFormCascadeComboBoxDesignLayer[], parentID: string | null = null) => {
-        const result: ATFormCascadeComboBoxBaseComboBoxProps[] = []
+    const getRenderableComboBoxFlatList = (designLayer?: ATFormCascadeComboBoxDesignLayer[], parentID: string | null = null): ATFormCascadeComboBoxBaseComboBoxProps[] => {
+        const result: ATFormCascadeComboBoxBaseComboBoxProps[] = [];
         /**enumKey and enumParentKey are used for reverse convert from a single leaf to a whole object of values */
-        designLayer?.forEach(({ id, children, options, multiple, readOnly, enumKey, enumParentKey, uiProps }: ATFormCascadeComboBoxDesignLayer) => {
-            const newOptions = options ?
-                options
-                :
-                (props: ATFormCascadeComboBoxDesignLayerOptionsFunctionProps) => new Promise<ATEnumType>((resolve) => {
-                    const currentEnum = enumKey ? props?.enums?.[enumKey] : null
-                    if (!currentEnum)
-                        return resolve([] as ATEnumType)
+        designLayer?.forEach(({ id, children, options, multiple, readOnly, enumKey, enumParentKey, uiProps }) => {
+            // Default async fallback
+            const defaultAsyncOptions: ATFormCascadeComboBoxAsyncOptions = async (props) => {
+                const currentEnum = enumKey ? props?.enums?.[enumKey] : null;
+                if (!currentEnum)
+                    return [];
 
-                    const options: ATEnumType = currentEnum.filter((item: any) => {
-                        /**If you can find a key named parent_id and parentID is not null*/
-                        if (enumParentKey === "parent_id" && parentID)
-                            return item?.[enumParentKey] === props?.keyValue?.[parentID]
-                        else
-                            /**Handle situations where the parent is not defined using parent_id but the enumParentKey */
-                            return enumParentKey && !item.parent_id && item?.[enumParentKey] === props?.keyValue?.[enumParentKey]
-                    })
+                return currentEnum.filter((item: any) => {
+                    /**If you can find a key named parent_id and parentID is not null*/
+                    if (enumParentKey === "parent_id" && parentID) {
+                        return item?.[enumParentKey] === props?.keyValue?.[parentID];
+                    }
+                    else {
+                        /**Handle situations where the parent is not defined using parent_id but the enumParentKey */
+                        return enumParentKey && !item.parent_id && item?.[enumParentKey] === props?.keyValue?.[enumParentKey];
+                    }
+                });
+            };
 
-                    resolve(options)
-                })
+            const resolvedOptions = options ?? defaultAsyncOptions;
 
-            result.push({
+            const sharedProps = {
                 id,
                 value,
                 parentID,
-                options: newOptions,
                 multiple,
                 readOnly,
                 uiProps: {
                     onChange: (event: any) => onInternalChange(id, event, children),
                     ...(uiProps || {}),
                 },
-            })
+            };
+
+            if (isAsyncOptions(resolvedOptions)) {
+                result.push({
+                    ...sharedProps,
+                    //ATFormCascadeComboBoxAsyncOptions
+                    options: resolvedOptions,
+                });
+            }
+            else {
+                result.push({
+                    ...sharedProps,
+                    //ATEnumType
+                    options: resolvedOptions,
+                });
+            }
 
             if (children) {
-                const childrenResult = getRenderableComboBoxFlatList(children, id)
-                childrenResult.forEach(cItem => result.push(cItem))
+                const childrenResult = getRenderableComboBoxFlatList(children, id);
+                result.push(...childrenResult);
             }
-        })
+        });
 
-        return result
-    }
-
+        return result;
+    };
     const elementList = getRenderableComboBoxFlatList(design, null)
 
     return <React.Fragment>

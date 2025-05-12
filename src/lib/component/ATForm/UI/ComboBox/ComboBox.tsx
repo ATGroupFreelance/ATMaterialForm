@@ -14,7 +14,7 @@ import { ATEnumType } from '@/lib/types/Common.type';
 //Option can be like this: 
 //['uk', 'us']
 //[{label: 'uk'}, {label: 'us'}]
-const ComboBox = ({ id, onChange, value, readOnly, error, helperText, options, renderInput, label, ...restProps }: ATFormComboBoxProps) => {
+const ComboBox = ({ id, onChange, value, readOnly, error, helperText, options, renderInput, label, enumsID, ...restProps }: ATFormComboBoxProps) => {
     const { enums } = useATFormConfig()
     const [data, setData] = useState<ATEnumType>([])
 
@@ -43,9 +43,11 @@ const ComboBox = ({ id, onChange, value, readOnly, error, helperText, options, r
         />
     }
 
+    const searchID = enumsID || id
+
     return <Autocomplete
         fullWidth={true}
-        options={(options ? data : id ? enums?.[id] : null) || []}
+        options={(options ? data : searchID ? enums?.[searchID] : null) || []}
         onChange={onInternalChange}
         getOptionLabel={(option) => option.title}
         isOptionEqualToValue={(option, value) => String(option.id) === String(value.id)}

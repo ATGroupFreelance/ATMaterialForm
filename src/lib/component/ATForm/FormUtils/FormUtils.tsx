@@ -1,9 +1,11 @@
-export const capitalizeFirstLetter = (string) => {
+import { ATFormCascadeComboBoxAsyncOptions, ATFormCascadeComboBoxOptionsType } from "@/lib/types/ui/CascadeComboBox.type";
+
+export const capitalizeFirstLetter = (string: any) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export const convertToKeyValue = (formData) => {
-    const result = {}
+export const convertToKeyValue = (formData: any) => {
+    const result: Record<string, any> = {}
 
     for (let key in formData) {
         result[key] = formData.value
@@ -12,19 +14,19 @@ export const convertToKeyValue = (formData) => {
     return result
 }
 
-export const isLiteralObject = (a) => {
+export const isLiteralObject = (a: any) => {
     return (!!a) && (a.constructor === Object);
 };
 
-export const groupKeyValueAsTableData = (formDataKeyValue, groupID, idList) => {
-    const result = {}
-    const groupedValues = {}
+export const groupKeyValueAsTableData = (formDataKeyValue: any, groupID: any, idList: any) => {
+    const result: Record<string, any> = {}
+    const groupedValues: Record<string, any> = {}
 
     let counter = 0
 
 
     for (let key in formDataKeyValue) {
-        const found = idList.find(item => item === key)
+        const found = idList.find((item: any) => item === key)
 
         if (found) {
             counter = counter + 1
@@ -41,7 +43,7 @@ export const groupKeyValueAsTableData = (formDataKeyValue, groupID, idList) => {
     return result
 }
 
-export const reverseGroupKeyValueAsTableData = (formDataKeyValue, groupID) => {
+export const reverseGroupKeyValueAsTableData = (formDataKeyValue: any, groupID: any) => {
     const { [groupID]: groupObject, ...rest } = formDataKeyValue
 
     let parsedGroupObject = []
@@ -56,11 +58,11 @@ export const reverseGroupKeyValueAsTableData = (formDataKeyValue, groupID) => {
 }
 
 //Used for knowing if option or data is function or a real data!
-export const isFunction = (obj) => {
+export const isFunction = (obj: any) => {
     return !!(obj && obj.constructor && obj.call && obj.apply);
 }
 
-export const convertNoneEnglishNumbers = (str) => {
+export const convertNoneEnglishNumbers = (str: any) => {
     const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g]
     const arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g]
 
@@ -74,7 +76,7 @@ export const convertNoneEnglishNumbers = (str) => {
     return str;
 }
 
-export const getFlatChildren = (children) => {
+export const getFlatChildren = (children: any) => {
     let arrayChildren = []
     if (children) {
         if (Array.isArray(children))
@@ -84,4 +86,8 @@ export const getFlatChildren = (children) => {
     }
 
     return arrayChildren.flat(1)
+}
+
+export function isAsyncOptions(options: ATFormCascadeComboBoxOptionsType): options is ATFormCascadeComboBoxAsyncOptions {
+    return typeof options === 'function';
 }

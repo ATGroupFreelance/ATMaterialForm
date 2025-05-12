@@ -1,7 +1,7 @@
 import { ATFormChildProps } from "./ATForm.type";
 import { ATEnumsType } from "./Common.type";
 import { ATFormBuilerColumnGenericProps } from "./FormBuilder.type";
-import { ATFormComboBoxOptionsType } from "./ui/ComboBox.type";
+import { ATFormComboBoxAsyncOptions, ATFormComboBoxStaticOptions } from "./ui/ComboBox.type";
 
 export interface ATTypeInterface<T extends ATFormBuilerColumnGenericProps = {}> {
     type: string,
@@ -30,11 +30,11 @@ export interface ATReverseConvertInterface<T extends ATFormBuilerColumnGenericPr
 }
 
 export interface ATGetTitleByEnumsInterface {
-    id: string,
-    enumsID?: string,
-    options?: ATFormComboBoxOptionsType,
-    enums: any,
-    value: any,
+    id: string;
+    enumsID?: string;
+    options?: ATFormComboBoxStaticOptions | ATFormComboBoxAsyncOptions;
+    enums: any;
+    value: any;
 }
 
 export interface ATFormCustomComponentInterface {
