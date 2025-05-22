@@ -30,7 +30,31 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                             {
                                 id: 'Layer1',
                                 options: ServiceManager.getCountries,
-                                enumsKey: 'Countries'
+                                enumsKey: 'Countries',
+                            }
+                        ]
+                    }
+                ),
+                formBuilder.createCascadeComboBox(
+                    {
+                        id: 'CascadeComboBox2'
+                    },
+                    {
+                        design: [
+                            {
+                                id: 'Layer1',
+                                options: ServiceManager.getData_layerA,
+                                enumsKey: 'layerA',
+                                children: [
+                                    {
+                                        id: 'Layer2',
+                                        options: ({ values }) => {
+                                            return ServiceManager.getData_layerAB({ layerA: values?.Layer1 })
+                                        },
+                                        enumsKey: 'layerAB',
+                                        enumsParentKey: "layerA"
+                                    }
+                                ]
                             }
                         ]
                     }

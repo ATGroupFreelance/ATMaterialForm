@@ -17,17 +17,17 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
                 {
                     id: 'State',
                     enumsKey: 'StateAndCapitals',
-                    enumParentKey: 'Country',
-                    options: ({ keyValue }: any) => new Promise((resolve) => {
-                        resolve(enums?.StateAndCapitals.filter((item: any) => !item.ParentID && item.Country === keyValue?.Country))
+                    enumsParentKey: 'Country',
+                    options: ({ values }: any) => new Promise((resolve) => {
+                        resolve(enums?.StateAndCapitals.filter((item: any) => !item.ParentID && item.Country === values?.Country))
                     }),
                     children: [
                         {
                             id: 'Capital',
                             enumsKey: 'StateAndCapitals',
-                            enumParentKey: 'ParentID',
-                            options: ({ keyValue }: any) => new Promise((resolve) => {
-                                resolve(enums?.StateAndCapitals.filter((item: any) => item.ParentID === keyValue?.State))
+                            enumsParentKey: 'ParentID',
+                            options: ({ values }: any) => new Promise((resolve) => {
+                                resolve(enums?.StateAndCapitals.filter((item: any) => item.ParentID === values?.State))
                             }),
                         },
                     ]
@@ -44,12 +44,12 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
                 {
                     id: 'State',
                     enumsKey: 'StateAndCapitals',
-                    enumParentKey: 'Country',
+                    enumsParentKey: 'Country',
                     children: [
                         {
                             id: 'Capital',
                             enumsKey: 'StateAndCapitals',
-                            enumParentKey: 'ParentID',
+                            enumsParentKey: 'ParentID',
                         },
                     ]
                 },
@@ -70,7 +70,7 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
                         {
                             id: 'Capital',
                             enumsKey: 'StateAndCapitals',
-                            enumParentKey: 'ParentID',
+                            enumsParentKey: 'ParentID',
                         },
                     ]
                 },
@@ -87,7 +87,7 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
                 {
                     id: 'system_id',
                     enumsKey: 'system_id',
-                    enumParentKey: 'business_id',
+                    enumsParentKey: 'business_id',
                 },
             ]
         },

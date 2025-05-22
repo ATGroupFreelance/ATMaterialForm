@@ -119,6 +119,7 @@ class ServiceManagerClass {
                     ],
                     "CountriesIDVALUE": [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }],
                     "layerA": [{ id: 'A1_1', title: 'A1_1' }, { id: 'A1_2', title: 'A1_2' }],
+                    "layerAB": [{ id: 'A1_1_AB1_1', title: 'A1_1_AB1_1', layerA: 'A1_1' }],
                     "business_id": [
                         {
                             "meta_table_id": 8,

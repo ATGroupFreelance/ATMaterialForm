@@ -378,8 +378,8 @@ export const types = [
 
                 const found = enums?.[leaf.enumsKey]?.find((item: any) => String(item.id) === String(value))
 
-                if (leaf.enumParentKey) {
-                    const parentValueResult = getLeafCascadeValue(getParentNode(childProps.uiProps?.design, leaf), found?.[leaf.enumParentKey])
+                if (leaf.enumsParentKey) {
+                    const parentValueResult = getLeafCascadeValue(getParentNode(childProps.uiProps?.design, leaf), found?.[leaf.enumsParentKey])
                     console.log('parentValueResult', found, parentValueResult, leaf)
 
                     return {

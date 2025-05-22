@@ -17,18 +17,18 @@ import { isAsyncOptions } from '../../FormUtils/FormUtils';
 
     enumsKey: Specifies which enum is used to map a single leaf value back into the full object containing all combo box values.
 
-    enumParentKey: Indicates the key in the current enum that identifies the parent ID of the current value.
-    For example, if the current layer has id and title, it will also have another property named by enumParentKey, which helps locate the parent ID.
+    enumsParentKey: Indicates the key in the current enum that identifies the parent ID of the current value.
+    For example, if the current layer has id and title, it will also have another property named by enumsParentKey, which helps locate the parent ID.
 
     data: A function that returns a promise, providing the data for the current combo box.
-    You can filter this data based on enumParentKey and the current enum?.enumsKey.
-    If no data is provided, it will be auto-generated using enumsKey and enumParentKey.
+    You can filter this data based on enumsParentKey and the current enum?.enumsKey.
+    If no data is provided, it will be auto-generated using enumsKey and enumsParentKey.
 
     Default Behavior:
 
-    If enumsKey and enumParentKey are not provided, the createCascadeDesign function will:
+    If enumsKey and enumsParentKey are not provided, the createCascadeDesign function will:
     Use id to deduce the enumsKey.
-    Determine the enumParentKey based on the parent-child relationship.
+    Determine the enumsParentKey based on the parent-child relationship.
     Automatically generate the data.
     
     Example and Playground:
@@ -62,8 +62,8 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
 
     const getRenderableComboBoxFlatList = (designLayer?: ATFormCascadeComboBoxDesignLayer[], parentID: string | null = null): ATFormCascadeComboBoxBaseComboBoxProps[] => {
         const result: ATFormCascadeComboBoxBaseComboBoxProps[] = [];
-        /**enumsKey and enumParentKey are used for reverse convert from a single leaf to a whole object of values */
-        designLayer?.forEach(({ id, children, options, multiple, readOnly, enumsKey, enumParentKey, uiProps }) => {
+        /**enumsKey and enumsParentKey are used for reverse convert from a single leaf to a whole object of values */
+        designLayer?.forEach(({ id, children, options, multiple, readOnly, enumsKey, enumsParentKey, uiProps }) => {
             // Default async fallback
             const defaultAsyncOptions: ATFormCascadeComboBoxAsyncOptions = async (props) => {
                 const currentEnum = enumsKey ? props?.enums?.[enumsKey] : null;
@@ -72,12 +72,12 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
 
                 return currentEnum.filter((item: any) => {
                     /**If you can find a key named parent_id and parentID is not null*/
-                    if (enumParentKey === "parent_id" && parentID) {
-                        return item?.[enumParentKey] === props?.keyValue?.[parentID];
+                    if (enumsParentKey === "parent_id" && parentID) {
+                        return item?.[enumsParentKey] === props?.values?.[parentID];
                     }
                     else {
-                        /**Handle situations where the parent is not defined using parent_id but the enumParentKey */
-                        return enumParentKey && !item.parent_id && item?.[enumParentKey] === props?.keyValue?.[enumParentKey];
+                        /**Handle situations where the parent is not defined using parent_id but the enumsParentKey */
+                        return enumsParentKey && !item.parent_id && item?.[enumsParentKey] === props?.values?.[enumsParentKey];
                     }
                 });
             };

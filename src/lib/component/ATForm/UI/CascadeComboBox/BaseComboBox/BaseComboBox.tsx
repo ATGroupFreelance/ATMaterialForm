@@ -19,7 +19,7 @@ const BaseComboBox = ({ id, value, parentID, options, multiple, readOnly, size =
         /**If its not a child and its a parent it must use its full options and doesn't need to filter it */
         if (parentID === null) {
             if (typeof options === 'function')
-                options({ enums, keyValue: null })
+                options({ enums, values: null })
                     .then((res: ATFormComboBoxOptionsType) => {
                         setlocalOptions(res)
                     })
@@ -40,20 +40,20 @@ const BaseComboBox = ({ id, value, parentID, options, multiple, readOnly, size =
     useEffect(() => {
         /**If its a child its data must be filtered based on its parent's value */
         if (parentID && value && value[parentID] && (parentPrevValue !== value[parentID])) {
-            const keyValue: Record<string, string | Array<ATEnumItemType>> = {}
+            const values: Record<string, string | Array<ATEnumItemType>> = {}
 
             for (let key in value) {
                 if (Array.isArray(value[key]))
-                    keyValue[key] = value[key].map(item => item.id)
+                    values[key] = value[key].map(item => item.id)
                 else
-                    keyValue[key] = value[key] ? value[key].id : null
+                    values[key] = value[key] ? value[key].id : null
             }
 
             setParentPrevValue(value[parentID])
             setForceDisabled(true)
 
             if (typeof options === 'function')
-                options({ enums, keyValue })
+                options({ enums, values })
                     .then(res => {
                         setlocalOptions(res)
                     })

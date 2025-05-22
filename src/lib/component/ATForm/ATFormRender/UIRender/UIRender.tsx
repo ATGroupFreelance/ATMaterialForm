@@ -31,7 +31,7 @@ const UIRender = ({ children, childProps }: ATUIRenderProps) => {
                     children
                     :
                     //Example: <TextBox/>
-                    React.cloneElement(children, { ...childProps.uiProps })
+                    React.cloneElement(children, { ...(childProps?.uiProps || {}) })
                 :
                 //Example: {
                 //     type: 'TextBox'

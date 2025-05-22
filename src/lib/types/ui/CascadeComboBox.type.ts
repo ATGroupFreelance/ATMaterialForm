@@ -4,7 +4,7 @@ import { ATFormGridSize } from "../ATForm.type";
 
 export interface ATFormCascadeComboBoxDesignLayerOptionsFunctionProps {
     enums: ATEnumsType,
-    keyValue: Record<string, string | Array<ATEnumItemType>> | null
+    values: Record<string, string | Array<ATEnumItemType>> | null
 }
 
 export type ATFormCascadeComboBoxStaticOptions = ATEnumType | null | undefined;
@@ -31,7 +31,7 @@ export interface ATFormCascadeComboBoxStaticDesignLayer
     extends ATFormCascadeComboBoxDesignLayerBase {
     options?: ATFormCascadeComboBoxStaticOptions;
     enumsKey?: string; // optional
-    enumParentKey?: string;
+    enumsParentKey?: string;
 }
 
 
@@ -40,7 +40,7 @@ export interface ATFormCascadeComboBoxAsyncDesignLayer
     extends ATFormCascadeComboBoxDesignLayerBase {
     options: ATFormCascadeComboBoxAsyncOptions;
     enumsKey: string; // required
-    enumParentKey?: string;
+    enumsParentKey?: string;
 }
 
 export type ATFormCascadeComboBoxDesignLayer =

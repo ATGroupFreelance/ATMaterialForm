@@ -1,11 +1,11 @@
-import React from 'react';
-import { ATForm, formBuilder } from '@/lib';
+import { ExampleComponentInterface } from '@/App';
+import { ATForm, formBuilder, formBuilderUtils } from '@/lib';
 
-const TabsInForm = ({ ref, onChange }) => {
+const TabsInForm = ({ ref, onChange }: ExampleComponentInterface) => {
     return (
         <ATForm ref={ref} onChange={onChange} validationDisabled={false} tabs={[{ label: 'Tab Title 1' }, { label: 'Tab Title 2' }]}>
             {
-                formBuilder.createColumnBuilder(
+                formBuilderUtils.createColumnBuilder(
                     [
                         formBuilder.createTextBox({ id: 'imInTab2', tabIndex: 1 }),
                         formBuilder.createTextBox({ id: 'imInTab1', tabIndex: 0 }),
