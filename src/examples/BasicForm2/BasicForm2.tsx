@@ -23,7 +23,8 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
             [
                 formBuilder.createCascadeComboBox(
                     {
-                        id: 'CascadeComboBox1'
+                        id: 'CascadeComboBox1',
+                        size: 3,
                     },
                     {
                         design: [
@@ -31,13 +32,15 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                                 id: 'Layer1',
                                 options: ServiceManager.getCountries,
                                 enumsKey: 'Countries',
+                                size: 12
                             }
                         ]
                     }
                 ),
                 formBuilder.createCascadeComboBox(
                     {
-                        id: 'CascadeComboBox2'
+                        id: 'CascadeComboBox2',
+                        size: 6,
                     },
                     {
                         design: [
@@ -45,6 +48,7 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                                 id: 'Layer1',
                                 options: ServiceManager.getData_layerA,
                                 enumsKey: 'layerA',
+                                size: 6,
                                 children: [
                                     {
                                         id: 'Layer2',
@@ -52,16 +56,25 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                                             return ServiceManager.getData_layerAB({ layerA: values?.Layer1 })
                                         },
                                         enumsKey: 'layerAB',
-                                        enumsParentKey: "layerA"
+                                        enumsParentKey: "layerA",
+                                        size: 6
                                     }
                                 ]
                             }
                         ]
                     }
                 ),
-                formBuilder.createComboBox({ id: 'ComboBox1' }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
-                // formBuilder.createTextBox({ id: 'MyTextBox1', ref: mTPropsRef }, { ref: mUIPropsRef }),
-                formBuilder.createButton({ id: 'MyButton1', label: 'Click Me!' }, { onClick: onButton1Click }),
+                formBuilder.createComboBox({ id: 'ComboBox1', size: 3 }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
+                formBuilder.createTextBox({ id: 'MyTextBox1', ref: mTPropsRef }, { ref: mUIPropsRef }),
+                formBuilder.createButton({ id: 'MyButton1', label: 'Click Me to reset MyTextBox1!' }, { onClick: onButton1Click }),
+                formBuilder.createContainerWithTable(
+                    {
+                        id: 'ContainerWithTable'
+                    },
+                    {
+
+                    }
+                )
             ]
         }
     </ATForm>

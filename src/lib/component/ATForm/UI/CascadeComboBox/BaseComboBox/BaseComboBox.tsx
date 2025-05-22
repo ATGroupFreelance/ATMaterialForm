@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import ComboBox from '../../ComboBox/ComboBox';
 import { Grid } from "@mui/material";
 import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 import { ATFormCascadeComboBoxBaseComboBoxProps } from '@/lib/types/ui/CascadeComboBox.type';
-import { ATFormComboBoxOptionsType } from '@/lib/types/ui/ComboBox.type';
+import { ATFormComboBoxStaticOptions } from '@/lib/types/ui/ComboBox.type';
 import { ATEnumItemType } from '@/lib/types/Common.type';
 
 const BaseComboBox = ({ id, value, parentID, options, multiple, readOnly, size = { xs: 12, md: 3, lg: 3, xl: 3 }, uiProps }: ATFormCascadeComboBoxBaseComboBoxProps) => {
     const [localValue, setLocalValue] = useState(value)
-    const [localOptions, setlocalOptions] = useState<ATFormComboBoxOptionsType>(null)
+    const [localOptions, setlocalOptions] = useState<ATFormComboBoxStaticOptions>(null)
     const [parentPrevValue, setParentPrevValue] = useState(null)
     const [forceDisabled, setForceDisabled] = useState(false)
     const { enums } = useATFormConfig()
@@ -20,7 +20,7 @@ const BaseComboBox = ({ id, value, parentID, options, multiple, readOnly, size =
         if (parentID === null) {
             if (typeof options === 'function')
                 options({ enums, values: null })
-                    .then((res: ATFormComboBoxOptionsType) => {
+                    .then((res: ATFormComboBoxStaticOptions) => {
                         setlocalOptions(res)
                     })
                     .catch(() => {

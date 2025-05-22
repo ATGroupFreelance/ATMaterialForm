@@ -163,8 +163,7 @@ const createCascadeComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: A
         tProps: {
             wrapperRendererProps: {
                 container: true,
-                spacing: 2,
-                size: 12,
+                spacing: 2,                
                 ...(tProps?.wrapperRendererProps) || {},
             },
             ...tProps,
@@ -180,8 +179,7 @@ const createMultiValueCascadeComboBox = (tProps: ATFormTypelessComponentProps, u
         tProps: {
             wrapperRendererProps: {
                 container: true,
-                spacing: 2,
-                size: 12,
+                spacing: 2,                
                 ...(tProps?.wrapperRendererProps) || {},
             },
             ...tProps,

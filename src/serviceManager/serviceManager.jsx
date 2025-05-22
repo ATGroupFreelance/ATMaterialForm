@@ -49,10 +49,12 @@ class ServiceManagerClass {
                     {
                         id: `${layerA}_AB1_1`,
                         title: `${layerA}_AB1_1`,
+                        layerA,
                     },
                     {
                         id: `${layerA}_AB1_2`,
                         title: `${layerA}_AB1_2`,
+                        layerA,
                     }
                 ])
             })
@@ -66,6 +68,8 @@ class ServiceManagerClass {
                     {
                         id: `${layerA}_${layerAB}_ABC1`,
                         title: `${layerA}_${layerAB}_ABC1`,
+                        layerA,
+                        layerAB,
                     }
                 ])
             })

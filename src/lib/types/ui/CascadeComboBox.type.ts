@@ -24,6 +24,7 @@ export interface ATFormCascadeComboBoxDesignLayerBase {
     readOnly?: boolean;
     children?: ATFormCascadeComboBoxDesignLayer[];
     uiProps?: StrictOmit<ATFormComboBoxProps, 'id' | 'value' | 'multiple' | 'readOnly' | 'size' | 'options'>;
+    size?: ATFormGridSize,
 }
 
 // Static: no enumsKey required

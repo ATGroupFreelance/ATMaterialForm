@@ -57,16 +57,16 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                         id: 'State',
                         enumsKey: 'StateAndCapitals',
                         enumsParentKey: 'Country',
-                        options: ({ values }: any) => new Promise((resolve) => {
-                            resolve(enums?.StateAndCapitals.filter((item) => !item.ParentID && item.Country === values?.Country))
+                        options: ({ keyValue }: any) => new Promise((resolve) => {
+                            resolve(enums?.StateAndCapitals.filter((item) => !item.ParentID && item.Country === keyValue?.Country))
                         }),
                         children: [
                             {
                                 id: 'Capital',
                                 enumsKey: 'StateAndCapitals',
                                 enumsParentKey: 'ParentID',
-                                options: ({ values }: any) => new Promise((resolve) => {
-                                    resolve(enums?.StateAndCapitals.filter((item) => item.ParentID === values?.State))
+                                options: ({ keyValue }: any) => new Promise((resolve) => {
+                                    resolve(enums?.StateAndCapitals.filter((item) => item.ParentID === keyValue?.State))
                                 }),
                             },
                         ]

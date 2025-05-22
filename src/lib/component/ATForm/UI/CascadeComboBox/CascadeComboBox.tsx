@@ -63,7 +63,7 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
     const getRenderableComboBoxFlatList = (designLayer?: ATFormCascadeComboBoxDesignLayer[], parentID: string | null = null): ATFormCascadeComboBoxBaseComboBoxProps[] => {
         const result: ATFormCascadeComboBoxBaseComboBoxProps[] = [];
         /**enumsKey and enumsParentKey are used for reverse convert from a single leaf to a whole object of values */
-        designLayer?.forEach(({ id, children, options, multiple, readOnly, enumsKey, enumsParentKey, uiProps }) => {
+        designLayer?.forEach(({ id, children, options, multiple, readOnly, enumsKey, enumsParentKey, uiProps, size }) => {
             // Default async fallback
             const defaultAsyncOptions: ATFormCascadeComboBoxAsyncOptions = async (props) => {
                 const currentEnum = enumsKey ? props?.enums?.[enumsKey] : null;
@@ -91,9 +91,11 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
                 multiple,
                 readOnly,
                 uiProps: {
+                    label: label + '_' + id,
                     onChange: (event: any) => onInternalChange(id, event, children),
                     ...(uiProps || {}),
                 },
+                size,
             };
 
             if (isAsyncOptions(resolvedOptions)) {
