@@ -14,8 +14,10 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
     })
 
     const onButton1Click = () => {
-        if (mTPropsRef.current?.reset)
+        if (mTPropsRef.current?.reset) {
+            console.log('calling onButton1Click')
             mTPropsRef.current?.reset()
+        }
     }
 
     return <ATForm {...props} defaultValue={{ MyTextBox1: "Test" }}>
@@ -76,7 +78,7 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                     }
                 )
             ]
-                .filter(item => item.tProps.id === "MyTextBox1")
+            // .filter(item => item.tProps.id === "MyTextBox1")
         }
     </ATForm>
 }

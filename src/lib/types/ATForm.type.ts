@@ -82,7 +82,7 @@ export interface ATFormComponentProps {
     },
 }
 
-export type ATFormChildProps<T extends ATFormBuilerColumnGenericProps = {}> = ATFormBuilerColumnInterface<T> & {
+export type ATFormChildProps<T extends ATFormBuilerColumnGenericProps = ATFormBuilerColumnGenericProps> = ATFormBuilerColumnInterface<T> & {
     typeInfo: ATTypeInterface | undefined,
     errors: any,
     onChildChange: (props: ATFormOnChildChangeInterface) => void,
