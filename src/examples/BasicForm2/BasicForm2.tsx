@@ -18,7 +18,7 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
             mTPropsRef.current?.reset()
     }
 
-    return <ATForm {...props}>
+    return <ATForm {...props} defaultValue={{ MyTextBox1: "Test" }}>
         {
             [
                 formBuilder.createCascadeComboBox(
@@ -76,6 +76,7 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                     }
                 )
             ]
+                .filter(item => item.tProps.id === "MyTextBox1")
         }
     </ATForm>
 }

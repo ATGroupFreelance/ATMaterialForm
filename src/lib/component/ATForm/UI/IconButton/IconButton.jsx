@@ -19,7 +19,7 @@ const IconButton = ({ atFormProvidedProps, onClick, loading = false, disabled, i
         if (confirmationMessage)
             ATToast.AreYouSure(confirmationMessage, { onYesClick })
         else if (onClick)
-            onClick(event, { startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
+            onClick({ event, startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
     }
 
     const output = <MUIIconButton disabled={internalLoading || disabled} onClick={internalOnClick} {...restProps}>{icon}{children}</MUIIconButton>

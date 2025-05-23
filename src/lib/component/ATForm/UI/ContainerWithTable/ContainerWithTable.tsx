@@ -40,7 +40,7 @@ const initializeOnChangeInterface = () => {
 }
 
 const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATFormContainerWithTableProps) => {
-    const { enums, rtl,  localText } = useATFormConfig()
+    const { enums, rtl, localText } = useATFormConfig()
     const { getTypeInfo } = useATForm()
 
     const [currentGridRef, setCurrentGridRef] = useState<ATAgGridRef>(null)
@@ -91,6 +91,8 @@ const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getR
                 gridData.push({ ...restData })
             })
 
+            console.log('AddRowB', { gridData })
+
             onChange({ target: { value: gridData } })
         }
     }
@@ -111,13 +113,18 @@ const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getR
 
     const getNewRowID = () => {
         rowIDCounter.current = rowIDCounter.current + 1
+        console.log('rowIDCounter', rowIDCounter)
         return rowIDCounter.current
     }
 
     const addRow = ({ formDataKeyValue }: Partial<ATFormOnChangeInterface>) => {
         if (currentGridRef) {
+            const newID = getNewRowID()
+            const newAddOperation = [{ [DEFAULT_ROW_ID_KEY]: newID, ...formDataKeyValue }]
             //@ts-ignore
-            currentGridRef.api.applyTransaction({ add: [{ [DEFAULT_ROW_ID_KEY]: getNewRowID(), ...formDataKeyValue }] });
+            currentGridRef.api.applyTransaction({ add: newAddOperation });
+
+            console.log('AddRowA', { newID, newAddOperation })
 
             if (resetFormAfterAdd && formRef) {
                 formRef.current?.reset()
@@ -151,6 +158,7 @@ const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getR
     }
 
     const onEditClick: ATFormOnClickType<{ data?: any }> = ({ data }) => {
+        console.log('onEditClick', data)
         setRecordDialog({
             show: true,
             editMode: true,
@@ -159,6 +167,7 @@ const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getR
     }
 
     const onRemoveClick: ATFormOnClickType<{ data?: any }> = ({ data }) => {
+        console.log('onRemoveClick', data)
         if (currentGridRef) {
             currentGridRef.api.applyTransaction({ remove: [data] });
 
@@ -197,15 +206,28 @@ const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getR
         classesArray.push(StyleClasses.Header)
     }
 
-    return <div style={{ width: '100%' }}>
-        {showHeader &&
-            <div className={StyleClasses.HeaderBar} style={{ textAlign: rtl ? 'right' : 'left' }}>
-                <Typography variant='h5' sx={{ marginLeft: '12px', marginRight: '12px', paddingTop: '6px' }}>
-                    {label}
-                </Typography>
+    return <div className={StyleClasses.Default}>
+        {showHeader && (
+            <div className={StyleClasses.Header}>
+                <div
+                    className={StyleClasses.HeaderBar}
+                    style={{ textAlign: rtl ? 'right' : 'left' }}
+                >
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            marginLeft: rtl ? '0' : '12px',
+                            marginRight: rtl ? '12px' : '0',
+                            paddingTop: '6px'
+                        }}
+                    >
+                        {label}
+                    </Typography>
+                </div>
             </div>
-        }
-        <div className={classesArray.join(' ')} style={{ width: !rtl && showHeader ? '98%' : '100%' }}>
+        )}
+
+        <div className={classesArray.join(' ')} style={{ width: !rtl ? '100%' : undefined, padding: '20px', paddingTop: '20px' }}>
             <Grid container spacing={2} sx={{ marginBottom: '5px' }}>
                 {
                     recordDialog.show &&
@@ -275,7 +297,14 @@ const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getR
                     ColumnDefTemplates.createEdit({ cellRendererParams: { onClick: onEditClick }, pinned: 'left' }),
                     ColumnDefTemplates.createRemove({ cellRendererParams: { onClick: onRemoveClick }, pinned: 'left' })
                 ]}
-                getRowId={getRowId ? getRowId() : (params) => String(params.data[DEFAULT_ROW_ID_KEY])}
+                getRowId={getRowId ? getRowId() : (params) => {
+                    console.log('params', {
+                        params,
+                        data: params.data,
+                        value: String(params.data?.[DEFAULT_ROW_ID_KEY])
+                    })
+                    return String(params.data[DEFAULT_ROW_ID_KEY])
+                }}
             />
         </div>
     </div >

@@ -12,7 +12,7 @@ const IconButton = ({ onClick, icon, data, confirmationMessage, tooltip, getCell
         atFormProvidedProps={undefined}
         disabled={undefined}
         children={undefined}
-        onClick={(event: any, props: any) => onClick(event, { ...props, data })}
+        onClick={(props: any) => onClick({ ...props, data })}
         icon={icon}
         confirmationMessage={confirmationMessage}
         tooltip={tooltip}

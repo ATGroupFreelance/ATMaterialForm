@@ -24,7 +24,9 @@ const ATFormFunction = (props: ATFormProps) => {
     const { getTypeInfo, enums, rtl, getLocalText } = useATFormConfig()
     const [internalDefaultValue, setInternalDefaultValue] = React.useState<Record<string, any>>({})
     const [isFormOnLockdown, setIsFormOnLockdown] = React.useState(false)
-    const [validationErrors, setValidationErrors] = React.useState<Record<string, any> | null>(null)
+    const [validationErrors, setValidationErrors] = React.useState<Record<string, any> | null>(null)    
+    /**We make sure the default value passed using props is only called once using this flag. */
+    const mIsDefaultValueResetCalledOnMount = useRef(false)
 
     useImperativeHandle(props.ref, () => {
         return {
@@ -394,7 +396,7 @@ const ATFormFunction = (props: ATFormProps) => {
                 return getChildProps(item)
             }
         })
-
+    
         return [flatChildren, flatChildrenProps]
     }, [props.children, getChildProps, getTypeInfo])
 
@@ -450,8 +452,10 @@ const ATFormFunction = (props: ATFormProps) => {
     }, [enums, getTypeInfo, rtl, flatChildrenProps])
 
     useEffect(() => {
-        if (props.defaultValue)
+        if (props.defaultValue && !mIsDefaultValueResetCalledOnMount.current) {
             reset({ inputDefaultValue: props.defaultValue, inputDefaultValueFormat: props.defaultValueFormat })
+            mIsDefaultValueResetCalledOnMount.current = true
+        }            
     }, [props.defaultValue, props.defaultValueFormat, reset])
 
     const formContextValue = useMemo(() => {
