@@ -74,11 +74,13 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                         id: 'ContainerWithTable'
                     },
                     {
-
+                        formChildren: [
+                            formBuilder.createTextBox({ id: "Test" }),
+                        ]
                     }
                 )
             ]
-            // .filter(item => item.tProps.id === "MyTextBox1")
+                .filter(item => item.tProps.id === "ContainerWithTable")
         }
     </ATForm>
 }

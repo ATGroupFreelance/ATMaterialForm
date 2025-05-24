@@ -8,7 +8,7 @@ import ATForm from '../../ATForm';
 import ATFormDialog from '../../ATFormDialog';
 //AgGrid
 import ATAgGrid from '../../../ATAgGrid/ATAgGrid';
-import { getColumnDefsByATFormElements } from '../.././../ATAgGrid/ATAgGridUtils/ATAgGridUtils';
+import { getColumnDefsByATFormChildren } from '../.././../ATAgGrid/ATAgGridUtils/ATAgGridUtils';
 import { ColumnDefTemplates } from '../../../ATAgGrid/ColumnDefTemplates/ColumnDefTemplates';
 //Context
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
@@ -39,7 +39,7 @@ const initializeOnChangeInterface = () => {
     }
 }
 
-const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATFormContainerWithTableProps) => {
+const ContainerWithTable = ({ value, formChildren, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATFormContainerWithTableProps) => {
     const { enums, rtl, localText } = useATFormConfig()
     const { getTypeInfo } = useATForm()
 
@@ -66,6 +66,7 @@ const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getR
     useEffect(() => {
         if (currentGridRef && currentGridRef.api) {
             let newValue = value
+            console.log('rowIDCounter newValue', newValue)
 
             if (value && Array.isArray(value)) {
                 newValue = value.map(item => {
@@ -120,6 +121,7 @@ const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getR
     const addRow = ({ formDataKeyValue }: Partial<ATFormOnChangeInterface>) => {
         if (currentGridRef) {
             const newID = getNewRowID()
+            console.log('rowIDCounter addRow', newID)
             const newAddOperation = [{ [DEFAULT_ROW_ID_KEY]: newID, ...formDataKeyValue }]
             //@ts-ignore
             currentGridRef.api.applyTransaction({ add: newAddOperation });
@@ -176,9 +178,9 @@ const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getR
     }
 
     const baseGridColumnDefs = getGridColumnDefs ?
-        getGridColumnDefs(getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo }))
+        getGridColumnDefs(getColumnDefsByATFormChildren({ formChildren, enums, getTypeInfo }))
         :
-        getColumnDefsByATFormElements({ formElements: elements, enums, getTypeInfo })
+        getColumnDefsByATFormChildren({ formChildren, enums, getTypeInfo })
 
     const gridColumnDefs = baseGridColumnDefs?.map((item: any) => {
         if (item.cellRenderer) {
@@ -248,7 +250,7 @@ const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getR
                     >
                         {
                             [
-                                ...(elements || []),
+                                ...(formChildren || []),
                             ]
                         }
                     </ATFormDialog>
@@ -262,7 +264,7 @@ const ContainerWithTable = ({ value, elements, getGridColumnDefs, onChange, getR
                     >
                         {
                             [
-                                ...(elements || []),
+                                ...(formChildren || []),
                             ]
                         }
                     </ATForm>

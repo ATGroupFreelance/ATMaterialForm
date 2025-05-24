@@ -23,7 +23,7 @@ export interface ATFormConfigContextInterface {
     agGridLocalText?: Record<string, string>;
     customComponents?: ATFormCustomComponentInterface[];
     getLocalText?: (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined;
-    getTypeInfo?: (type: string) => ATTypeInterface | undefined,
+    getTypeInfo?: GetTypeInfoFunctionType,
 }
 
 export interface ATFormConfigContextGuaranteedInterface {
@@ -36,5 +36,7 @@ export interface ATFormConfigContextGuaranteedInterface {
     agGridLocalText?: Record<string, string>;
     customComponents?: ATFormCustomComponentInterface[];
     getLocalText: (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined;
-    getTypeInfo: (type: string) => ATTypeInterface | undefined,
+    getTypeInfo: GetTypeInfoFunctionType,
 }
+
+export type GetTypeInfoFunctionType = (type: string) => ATTypeInterface | undefined
