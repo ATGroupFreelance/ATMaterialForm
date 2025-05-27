@@ -1,5 +1,5 @@
 import { ATFormMinimalControlledUIProps, ATFormOnClickType, StrictOmit } from "../Common.type";
-import { ATAgGridProps } from "../ATAgGrid.type";
+import { ATAgGridProps } from "../at-ag-grid/ATAgGrid.type";
 import { ATFormButtonProps } from "./Button.type";
 import { RowSelectionOptions } from "ag-grid-community";
 import { GridProps } from "@mui/material";

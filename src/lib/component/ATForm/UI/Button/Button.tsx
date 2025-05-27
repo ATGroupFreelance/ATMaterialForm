@@ -1,18 +1,17 @@
-import { useState } from 'react';
-
 import MUIButton from '@mui/material/Button';
 import ATToast from '../../../ATToast/ATToast';
 import { ATFormButtonProps } from '@/lib/types/ui/Button.type';
 import { ATFormOnClickProps } from '@/lib/types/Common.type';
+import useATComponentLoading from '@/lib/hooks/useATComponentLoading/useATComponentLoading';
 
-const Button = ({ id, loading = false, label, confirmationText, fullWidth, onClick, color = 'primary', disabled, children, ...restProps }: ATFormButtonProps) => {
-    const [internalLoading, setInternalLoading] = useState(loading)
+const Button = ({ id, label, confirmationText, fullWidth, onClick, color = 'primary', children, loading: loadingProp, disabled, ...restProps }: ATFormButtonProps) => {
+    const { loading, startLoading, stopLoading } = useATComponentLoading({ loading: loadingProp, disabled })
 
     const onYesClick = (props: ATFormOnClickProps) => {
         props.closeToast()
 
         if (onClick) {
-            onClick({ ...props, startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
+            onClick({ ...props, startLoading, stopLoading })
         }
     }
 
@@ -21,10 +20,10 @@ const Button = ({ id, loading = false, label, confirmationText, fullWidth, onCli
             ATToast.AreYouSure(confirmationText, { onYesClick })
         }
         else if (onClick)
-            onClick({ event, startLoading: () => setInternalLoading(true), stopLoading: () => setInternalLoading(false) })
+            onClick({ event, startLoading, stopLoading })
     }
 
-    return <MUIButton fullWidth={true} disabled={internalLoading || disabled} onClick={internalOnClick} color={color} {...restProps}>{label}{children}</MUIButton>
+    return <MUIButton fullWidth={true} disabled={loading || disabled} onClick={internalOnClick} color={color} {...restProps}>{label}{children}</MUIButton>
 }
 
 export default Button;

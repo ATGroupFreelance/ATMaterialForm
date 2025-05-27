@@ -1,4 +1,4 @@
-import { CellRendererButtonColumnDefProps } from "@/lib/types/ATAgGrid.type";
+import { CellRendererButtonColumnDefProps } from "@/lib/types/at-ag-grid/ATAgGrid.type";
 import Button from "../../CellRenderers/Button/Button";
 
 function ColumnDefButton({ cellRendererParams, ...restColDefProps }: CellRendererButtonColumnDefProps) {

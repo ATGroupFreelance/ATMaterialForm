@@ -21,7 +21,7 @@ import {
 } from 'ag-grid-community';
 import { useTheme } from '@mui/material';
 //ATForm
-import { ATAgGridExtendedColDef, ATAgGridProps, ATAgGridTColumnInterface } from '../../types/ATAgGrid.type';
+import { ATAgGridExtendedColDef, ATAgGridProps, ATAgGridTColumnInterface } from '../../types/at-ag-grid/ATAgGrid.type';
 import useATFormConfig from '../../hooks/useATFormConfig/useATFormConfig';
 //Components
 import { ColumnDefTemplates } from './ColumnDefTemplates/ColumnDefTemplates';

@@ -1,13 +1,26 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import ATAgGrid from '@/lib/component/ATAgGrid/ATAgGrid';
+import { ATAgGridCustomCellRendererProps } from '@/lib/types/at-ag-grid/ATAgGrid.type';
+
+const TestCellRenderer = (props: ATAgGridCustomCellRendererProps) => {
+    console.log('TestCellRenderer props:', props);
+    return <div>
+        {props.value}
+    </div>
+}
 
 const AgGridCellRendererTemplates = () => {
     const [rowData, setRowData] = useState<any>(null)
     const columnDefs = useMemo(() => [
         { headerName: 'Make', field: 'make' },
         { headerName: 'Model', field: 'model' },
-        { headerName: 'Price', field: 'price' }
+        { headerName: 'Price', field: 'price' },
+        {
+            field: 'test',
+            headerName: 'Test',
+            cellRenderer: TestCellRenderer,
+        }
     ], [])
 
     useEffect(() => {

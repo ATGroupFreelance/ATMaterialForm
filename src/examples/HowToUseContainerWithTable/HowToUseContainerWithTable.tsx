@@ -17,9 +17,9 @@ const HowToUseContainerWithTable = ({ ref, onChange }: ExampleComponentInterface
                         id: 'ContainerWithTable',
                     },
                     {
-                        elements: [
+                        formChildren: [
                             formBuilder.createTextBox({ id: 'Name' }),
-                            formBuilder.createComboBox({ id: 'Countries' }, { options: ServiceManager.getCountries }),
+                            formBuilder.createComboBox({ id: 'Countries' }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
                             formBuilder.createTextBox({ id: 'A' }, { onChange: (event) => setA(event.target.value) }),
                             formBuilder.createTextBox({ id: 'B' }, { onChange: (event) => setB(event.target.value) }),
                             formBuilder.createTextBox({ id: 'C' }, { value: A + B }),

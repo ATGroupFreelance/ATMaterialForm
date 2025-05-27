@@ -46,7 +46,7 @@ const ContainerWithTablePlayground = ({ onChange }: ExampleComponentInterface) =
                                 }
                                 ,
                                 {
-                                    elements: [
+                                    formChildren: [
                                         formBuilder.createTextBox({ id: 'Name', size: 9 }),
                                         formBuilder.createUploadButton({ id: 'UploadFiles', size: 3 }),
                                     ],

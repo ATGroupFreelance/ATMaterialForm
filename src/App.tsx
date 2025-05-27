@@ -60,7 +60,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'BasicForm2'
+const ACTIVE_EXAMPLE = 'AgGridCellRendererTemplates'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)

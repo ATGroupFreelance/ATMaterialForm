@@ -1,20 +1,26 @@
 import Button from "@/lib/component/ATForm/UI/Button/Button";
-import { Backdrop, Box, Grid, Modal, Typography } from "@mui/material";
+import { ATFormOnClickProps } from "@/lib/types/Common.type";
+import { Grid, Typography } from "@mui/material";
+import { ToastContentProps } from "react-toastify";
 
-const AreYouSure = ({ closeToast, data, isPaused, toastProps, onYesClick, onNoClick, toastContent }) => {
-    const onInternalNoClick = (event, props) => {
+interface AreYouSureProps extends ToastContentProps {
+    onYesClick: any,
+    onNoClick: any,
+    toastContent: any,
+}
+
+const AreYouSure = ({ closeToast, onYesClick, onNoClick, toastContent }: AreYouSureProps) => {
+    const onInternalNoClick = (props: ATFormOnClickProps) => {
         if (onNoClick)
-            onNoClick(event, { closeToast, ...props })
+            onNoClick({ ...props, closeToast })
         else
             closeToast()
     }
 
-    const onInternalYesClick = (event, props) => {
+    const onInternalYesClick = (props: ATFormOnClickProps) => {
         if (onYesClick)
-            onYesClick(event, { closeToast, ...props })
+            onYesClick({ ...props, closeToast })
     }
-
-    // console.log('AreYouSure', { closeToast, data, isPaused, toastProps, onYesClick, onNoClick, toastContent })
 
     return <Grid container spacing={2}>
         <Grid size={12}>

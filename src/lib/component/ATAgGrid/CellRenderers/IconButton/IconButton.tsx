@@ -1,22 +1,34 @@
-import { CellRendererIconButtonProps } from '@/lib/types/ATAgGrid.type';
+import { ATFormOnClickProps } from '@/lib/types/Common.type';
 import ATIconButton from '../../../ATForm/UI/IconButton/IconButton';
+import { useCallback } from 'react';
+import { ATAgGridIconButtonCellRendererProps } from '@/lib/types/at-ag-grid/cell-renderers/ATAgGridCellRendererIconButton.type';
+import { useATCellRenderer } from '@/lib/hooks/useATCellRenderer/useATCellRenderer';
 
-const IconButton = ({ onClick, icon, data, confirmationMessage, tooltip, getCellRendererParams }: CellRendererIconButtonProps) => {
-    let cellRendererParamsProps = {}
+const IconButton = (props: ATAgGridIconButtonCellRendererProps) => {
+    const { cellRendererParams } = useATCellRenderer(props)
+    const { onClick, ...restUIProps } = props.config?.uiProps || {}
 
-    if (getCellRendererParams) {
-        cellRendererParamsProps = getCellRendererParams(data)
+    let getCellRendererParamsProps: any = {}
+
+    if (props.config?.getCellRendererParams) {
+        getCellRendererParamsProps = props.config.getCellRendererParams(props)
     }
 
+    const { ["onClick"]: cellRendererParamsOnClick, ...restCellRendererParams } = cellRendererParams
+
+    const onInternalClick = useCallback((onClickProps: ATFormOnClickProps) => {
+        if (onClick)
+            onClick({ ...onClickProps, cellRendererProps: props })
+
+        if (cellRendererParamsOnClick)
+            cellRendererParamsOnClick({ ...onClickProps, cellRendererProps: props })
+    }, [onClick, cellRendererParamsOnClick, props])
+
     return <ATIconButton
-        atFormProvidedProps={undefined}
-        disabled={undefined}
-        children={undefined}
-        onClick={(props: any) => onClick({ ...props, data })}
-        icon={icon}
-        confirmationMessage={confirmationMessage}
-        tooltip={tooltip}
-        {...cellRendererParamsProps} />
+        onClick={onInternalClick}
+        {...restUIProps}
+        {...restCellRendererParams}
+    />
 }
 
 export default IconButton;

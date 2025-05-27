@@ -1,32 +1,30 @@
-import { CellRendererButtonProps } from "@/lib/types/ATAgGrid.type";
 import ATButton from "../../../ATForm/UI/Button/Button";
+import { ATAgGridButtonCellRendererProps } from "@/lib/types/at-ag-grid/cell-renderers/ATAgGridCellRendererButton.type";
+import { useATCellRenderer } from "../../../../hooks/useATCellRenderer/useATCellRenderer";
+import { useCallback } from "react";
+import { ATFormOnClickProps } from "@/lib/types/Common.type";
 
-const Button = ({ data, getCellRendererParams, colDef, onClick, disabled, variant, color, confirmationMessage, api, setValue, commonEventProps }: CellRendererButtonProps) => {
-    let props: any = {}
+const Button = (props: ATAgGridButtonCellRendererProps) => {
+    const { label, cellRendererParams } = useATCellRenderer(props)
+    const { onClick, ...newUiProps } = props.config?.uiProps || {}
 
-    if (getCellRendererParams) {
-        props = getCellRendererParams({ data, colDef })
-    }
+    const { ["onClick"]: cellRendererParamsOnClick, ...restCellRendererParams } = cellRendererParams
 
-    const { headerName, ["onClick"]: getCellRendererParamsOnClick, ...restProps } = props
+    const onInternalClick = useCallback((onClickProps: ATFormOnClickProps) => {
+        if (onClick)
+            onClick({ ...onClickProps, cellRendererProps: props })
+
+        if (cellRendererParamsOnClick)
+            cellRendererParamsOnClick({ ...onClickProps, cellRendererProps: props })
+    }, [onClick, cellRendererParamsOnClick, props])
 
     return <ATButton
-        onClick={(event, { ...props }) => {
-            if (onClick)
-                onClick(event, { ...props, api, setValue, commonEventProps, data })
-
-            if (getCellRendererParamsOnClick)
-                getCellRendererParamsOnClick(event, { ...props, api, setValue, commonEventProps, data })
-        }}
-        disabled={disabled}
-        fullWidth={true}
-        variant={variant}
-        color={color}
-        confirmationMessage={confirmationMessage}
-        {...(restProps || {})}
+        onClick={onInternalClick}
+        {...newUiProps}
+        {...(restCellRendererParams || {})}
     >
-        {headerName === undefined ? colDef.headerName : headerName}
+        {label}
     </ATButton>
 }
 
-export default Button;
+export default Button;  
