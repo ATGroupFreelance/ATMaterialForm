@@ -3,5 +3,5 @@ import { CreateATCellRendererPropsInterface } from "../ATAgGrid.type";
 
 export type ATAgGridIconButtonCellRendererProps = CreateATCellRendererPropsInterface<
     ATFormIconButtonProps,
-    { confirmationText: string }
+    { confirmationText?: string }
 >;

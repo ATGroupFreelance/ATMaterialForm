@@ -27,7 +27,7 @@ import useATFormConfig from '../../hooks/useATFormConfig/useATFormConfig';
 import { ColumnDefTemplates } from './ColumnDefTemplates/ColumnDefTemplates';
 import ATFormDialog from '../ATForm/ATFormDialog';
 import ATAgGridContextMenu from './ATAgGridContextMenu/ATAgGridContextMenu';
-import { ATFormOnClickType } from '@/lib/types/Common.type';
+import { ATFormOnClickProps, ATFormOnClickType } from '@/lib/types/Common.type';
 
 const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqueKey, translateUniqueKey, ...restProps }: ATAgGridProps) => {
     const theme = useTheme()
@@ -39,22 +39,7 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
     const onTColumnFormDialogClick: ATFormOnClickType<{ data?: any, tColumn: ATAgGridTColumnInterface }> = useCallback(({ tColumn }) => {
         setDialog(
             <ATFormDialog
-                ref={undefined}
-                title={undefined}
-                titleStyle={undefined}
                 onClose={handleDialogClose}
-                onCancelClick={undefined}
-                onSubmitClick={undefined}
-                onChange={undefined}
-                submitLoading={undefined}
-                cancelLoading={undefined}
-                getActions={undefined}
-                loading={undefined}
-                submitButtonProps={undefined}
-                cancelButtonProps={undefined}
-                fullWidth={undefined}
-                maxWidth={undefined}
-                PaperProps={undefined}
                 {...tColumn?.typeProps || {}}
             />
         )
@@ -72,7 +57,7 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
                     field: currentTColumn.id,
                     headerName: ((currentTColumn.colProps?.headerName === undefined) || (currentTColumn.colProps?.headerName === null)) ? getLocalText(currentTColumn.id) ?? undefined : currentTColumn.colProps?.headerName,
                     cellRendererParams: {
-                        onClick: (props) => onTColumnFormDialogClick({ ...props, tColumn: currentTColumn }),
+                        onClick: (props: ATFormOnClickProps) => onTColumnFormDialogClick({ ...props, tColumn: currentTColumn }),
                         ...cellRendererParams
                     },
                     ...restColProps
@@ -86,7 +71,7 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
 
         if (columnDefs) {
             for (let i = 0; i < columnDefs.length; i++) {
-                const { field, enumID, enumOptions, headerName, ...restColumnDefs }: ATAgGridExtendedColDef = columnDefs[i]
+                const { field, enumsKey, enumOptions, headerName, ...restColumnDefs }: ATAgGridExtendedColDef = columnDefs[i]
 
                 result.push({
                     field,
@@ -96,7 +81,7 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
                         undefined
                         :
                         (params: any) => {
-                            const enumValue = getTitleByEnums({ id: enumID || params.colDef.field, enums, value: params.value, options: enumOptions })
+                            const enumValue = getTitleByEnums({ id: enumsKey || params.colDef.field, enums, value: params.value, options: enumOptions })
 
                             if (enumValue && enumValue !== params.value)
                                 return enumValue

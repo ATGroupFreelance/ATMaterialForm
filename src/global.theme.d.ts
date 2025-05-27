@@ -31,6 +31,7 @@ declare module '@mui/material/styles' {
       },
       columnDefTemplates: {
         editIcon: any,
+        removeIcon: any,
       },
       uploadButton: {
         showFilesIcon: any,

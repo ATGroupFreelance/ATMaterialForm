@@ -8,7 +8,7 @@ const UIRender = ({ children, childProps }: ATUIRenderProps) => {
     //default wrapper is a flex grid
     //Please note wrapper variable must be pascal because its a react component
     let Wrapper = Grid
-    const wrapperProps = {
+    let wrapperProps = {
         //Pass the size as the wrapper props, this is the wrappers can use it but its not passed to children,
         //if size does not exists use 12 as the default value
         size: childProps.tProps?.size || 12,
@@ -17,6 +17,9 @@ const UIRender = ({ children, childProps }: ATUIRenderProps) => {
 
     if (childProps.tProps?.wrapperRenderer) {
         Wrapper = childProps.tProps?.wrapperRenderer
+        wrapperProps = {
+            childProps
+        }
     }
 
     // console.log('UIRender', {skipForm, isValid: React.isValidElement(ui), ui})

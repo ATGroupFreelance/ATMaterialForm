@@ -30,7 +30,7 @@ const FileViewer = ({ value, label, fileWidth = 150, fileHeight = 128, getSorted
                 </Grid>
             }
             <Grid size={12} sx={{ overflowY: 'hidden', overflowX: 'scroll', display: 'inline-flex' }}>
-                {sortedValue.map((item: ATFormFileViewerFile) => {
+                {sortedValue?.map((item: ATFormFileViewerFile) => {
                     return <File key={item.id} {...item} width={fileWidth} height={fileHeight} />
                 })}
             </Grid>

@@ -10,19 +10,26 @@ export type ATAgGridProps = AgGridReactProps & {
 }
 
 export interface ATAgGridExtendedColDef extends ColDef {
-    enumID?: any;
+    enumsKey?: any;
     enumOptions?: any;
 }
+
+export type ATAgGridCellRendererParamConfig<
+    UIProps = unknown,
+    ExtraParams extends object = {}
+> = {
+    /** Use this to change UI props each time the component re-renders */
+    getCellRendererParams?: (
+        params: ATAgGridCustomCellRendererProps<UIProps, ExtraParams>
+    ) => UIProps;
+    uiProps?: UIProps;
+} & ExtraParams;
 
 export type ATAgGridBaseCellRendererParams<
     UIProps = unknown,
     ExtraParams extends object = {}
 > = {
-    config?: {
-        /**Use this to change ui params each time the component rerenders */
-        getCellRendererParams?: (params: ATAgGridCustomCellRendererProps<UIProps, ExtraParams>) => UIProps;
-        uiProps?: UIProps;
-    } & ExtraParams;
+    config?: ATAgGridCellRendererParamConfig<UIProps, ExtraParams>;
 };
 
 export interface ATAgGridCustomCellRendererProps<
@@ -36,6 +43,14 @@ export type CreateATCellRendererPropsInterface<
     UIProps,
     ExtraParams extends object = {}
 > = ATAgGridCustomCellRendererProps<UIProps, ExtraParams>;
+
+export type ATAgGridColumnDefFromCellRenderer<
+    T extends { config?: any } = any
+> = ColDef & {
+    cellRendererParams?: {
+        config: NonNullable<T["config"]>;
+    };
+};
 
 //TColumns
 export interface ATAgGridTColumnInterface {

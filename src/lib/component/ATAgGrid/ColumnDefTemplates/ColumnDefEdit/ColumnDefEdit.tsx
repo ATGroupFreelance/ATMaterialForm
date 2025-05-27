@@ -1,18 +1,29 @@
 import { EditOutlined } from "@mui/icons-material"
-import { CellRendererIconButtonColumnDefProps } from "@/lib/types/at-ag-grid/ATAgGrid.type"
 import { useTheme } from "@mui/material"
 import ColumnDefIconButton from "../ColumnDefIconButton/ColumnDefIconButton"
+import { ATAgGridColumnDefEditProps } from "@/lib/types/at-ag-grid/col-def-templates/ATAgGridColumnDefEdit.type"
 
 const EditIcon = () => {
     const theme = useTheme()
 
-    //@ts-ignore
     return <EditOutlined sx={theme?.atConfig?.columnDefTemplates?.editIcon || {}} />
 }
 
-
-const ColumnDefEdit = ({ cellRendererParams, ...restProps }: CellRendererIconButtonColumnDefProps) =>
-    ColumnDefIconButton({ field: 'Edit', cellRendererParams: { ...cellRendererParams, icon: <EditIcon /> }, width: 80, ...restProps })
-
+const ColumnDefEdit = ({ cellRendererParams, ...restProps }: ATAgGridColumnDefEditProps) =>
+    ColumnDefIconButton({
+        field: 'Edit',
+        width: 80,
+        cellRendererParams: {
+            ...(cellRendererParams || {}),
+            config: {
+                ...(cellRendererParams?.config || {}),
+                uiProps: {
+                    ...(cellRendererParams?.config?.uiProps || {}),
+                    icon: <EditIcon />,
+                }
+            }
+        },
+        ...restProps
+    })
 
 export default ColumnDefEdit

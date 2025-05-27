@@ -1,16 +1,30 @@
 import { DeleteForeverOutlined } from "@mui/icons-material"
-import { CellRendererIconButtonColumnDefProps } from "@/lib/types/at-ag-grid/ATAgGrid.type"
 import { useTheme } from "@mui/material"
 import ColumnDefIconButton from "../ColumnDefIconButton/ColumnDefIconButton"
+import { ATAgGridColumnDefRemoveProps } from "@/lib/types/at-ag-grid/col-def-templates/ATAgGridColumnDefRemove.type"
 
 const DeleteIcon = () => {
     const theme = useTheme()
 
-    //@ts-ignore
-    return <DeleteForeverOutlined color={'red'} sx={theme?.atConfig?.columnDefTemplates?.removeIcon || {}} />
+    return <DeleteForeverOutlined color={'error'} sx={theme?.atConfig?.columnDefTemplates?.removeIcon || {}} />
 }
 
-const ColumnDefRemove = ({ cellRendererParams, ...restProps }: CellRendererIconButtonColumnDefProps) =>
-    ColumnDefIconButton({ field: 'Remove', cellRendererParams: { ...cellRendererParams, icon: <DeleteIcon /> }, width: 90, ...restProps })
+const ColumnDefRemove = ({ cellRendererParams, ...restProps }: ATAgGridColumnDefRemoveProps) =>
+    ColumnDefIconButton({
+        field: 'Remove',
+        width: 90,
+        cellRendererParams: {
+            ...(cellRendererParams || {}),
+            config: {
+                ...(cellRendererParams?.config || {}),
+                uiProps: {
+                    ...(cellRendererParams?.config?.uiProps || {}),
+                    icon: <DeleteIcon />,
+                }
+            }
+        },
+        ...restProps
+    })
 
-export default ColumnDefRemove
+export default ColumnDefRemove;
+

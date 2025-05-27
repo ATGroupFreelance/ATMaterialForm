@@ -1,12 +1,11 @@
+import { ATAgGridColumnDefIconButtonProps } from "@/lib/types/at-ag-grid/col-def-templates/ATAgGridColumnDefIconButton.type"
 import IconButton from "../../CellRenderers/IconButton/IconButton"
-import { CellRendererIconButtonColumnDefProps } from "@/lib/types/at-ag-grid/ATAgGrid.type"
 
-const ColumnDefIconButton = ({ cellRendererParams, ...restColDef }: CellRendererIconButtonColumnDefProps) => {
+const ColumnDefIconButton = (props: ATAgGridColumnDefIconButtonProps) => {
     return {
         cellRenderer: IconButton,
-        cellRendererParams,        
         width: 80,
-        ...restColDef,
+        ...props,
     }
 }
 
