@@ -6,7 +6,6 @@ import { useATCellRenderer } from '@/lib/hooks/useATCellRenderer/useATCellRender
 
 const IconButton = (props: ATAgGridIconButtonCellRendererProps) => {
     const { cellRendererParams } = useATCellRenderer(props)
-    const { onClick, ...restUIProps } = props.config?.uiProps || {}
 
     let getCellRendererParamsProps: any = {}
 
@@ -17,16 +16,16 @@ const IconButton = (props: ATAgGridIconButtonCellRendererProps) => {
     const { ["onClick"]: cellRendererParamsOnClick, ...restCellRendererParams } = cellRendererParams
 
     const onInternalClick = useCallback((onClickProps: ATFormOnClickProps) => {
-        if (onClick)
-            onClick({ ...onClickProps, cellRendererProps: props })
+        if (props.config?.onClick)
+            props.config.onClick({ ...onClickProps, data: props.data, cellRendererProps: props })
 
         if (cellRendererParamsOnClick)
-            cellRendererParamsOnClick({ ...onClickProps, cellRendererProps: props })
-    }, [onClick, cellRendererParamsOnClick, props])
+            cellRendererParamsOnClick({ ...onClickProps, data: props.data, cellRendererProps: props })
+    }, [props.config?.onClick, cellRendererParamsOnClick, props])
 
     return <ATIconButton
         onClick={onInternalClick}
-        {...restUIProps}
+        {...(props.config?.uiProps || {})}
         {...restCellRendererParams}
     />
 }

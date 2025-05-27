@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import ATAgGrid from '@/lib/component/ATAgGrid/ATAgGrid';
-import { ATAgGridCustomCellRendererProps } from '@/lib/types/at-ag-grid/ATAgGrid.type';
+import { ATAgGridCellRendererOnClickProps, ATAgGridCustomCellRendererProps } from '@/lib/types/at-ag-grid/ATAgGrid.type';
 import { ColumnDefTemplates } from '@/lib/component/ATAgGrid/ColumnDefTemplates/ColumnDefTemplates';
 
 const TestCellRenderer = (props: ATAgGridCustomCellRendererProps) => {
@@ -14,7 +14,7 @@ const TestCellRenderer = (props: ATAgGridCustomCellRendererProps) => {
 const AgGridCellRendererTemplates = () => {
     const [rowData, setRowData] = useState<any>(null)
 
-    const onEditClick = (props: any) => {
+    const onEditClick = (props: ATAgGridCellRendererOnClickProps) => {
         console.log('onEditClick props:', props);
     }
 
@@ -27,7 +27,7 @@ const AgGridCellRendererTemplates = () => {
             headerName: 'Test',
             cellRenderer: TestCellRenderer,
         },
-        ColumnDefTemplates.createEdit({ cellRendererParams: { config: { uiProps: { onClick: onEditClick } } } }),
+        ColumnDefTemplates.createEdit({ cellRendererParams: { config: { onClick: onEditClick } } }),
     ], [])
 
     useEffect(() => {

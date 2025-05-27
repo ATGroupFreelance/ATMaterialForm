@@ -11,7 +11,7 @@ const ComponentPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
         })
     }
     const defaultValue = {
-        FileViewer: JSON.stringify([
+        FileViewer: [
             {
                 id: '10004912230',
                 name: 'Test.pdf',
@@ -23,8 +23,8 @@ const ComponentPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
                 size: 17456,
             },
             ...extraFiles,
-        ]),
-        FileViewer2: JSON.stringify([
+        ],
+        FileViewer2: [
             {
                 id: '10004912230',
                 name: 'Test.pdf',
@@ -36,7 +36,7 @@ const ComponentPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
                 size: 17456,
             },
             ...extraFiles,
-        ])
+        ]
     }
 
     return (

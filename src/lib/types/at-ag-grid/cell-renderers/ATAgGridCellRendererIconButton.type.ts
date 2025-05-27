@@ -1,7 +1,10 @@
 import { ATFormIconButtonProps } from "../../ui/IconButton.type";
-import { CreateATCellRendererPropsInterface } from "../ATAgGrid.type";
+import { ATAgGridCellRendererOnClickType, CreateATCellRendererPropsInterface } from "../ATAgGrid.type";
 
 export type ATAgGridIconButtonCellRendererProps = CreateATCellRendererPropsInterface<
     ATFormIconButtonProps,
-    { confirmationText?: string }
+    {
+        confirmationText?: string,
+        onClick?: ATAgGridCellRendererOnClickType,
+    }
 >;

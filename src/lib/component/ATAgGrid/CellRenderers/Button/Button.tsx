@@ -6,21 +6,20 @@ import { ATFormOnClickProps } from "@/lib/types/Common.type";
 
 const Button = (props: ATAgGridButtonCellRendererProps) => {
     const { label, cellRendererParams } = useATCellRenderer(props)
-    const { onClick, ...newUiProps } = props.config?.uiProps || {}
 
     const { ["onClick"]: cellRendererParamsOnClick, ...restCellRendererParams } = cellRendererParams
 
     const onInternalClick = useCallback((onClickProps: ATFormOnClickProps) => {
-        if (onClick)
-            onClick({ ...onClickProps, cellRendererProps: props })
+        if (props.config?.onClick)
+            props.config.onClick({ ...onClickProps, data: props.data, cellRendererProps: props })
 
         if (cellRendererParamsOnClick)
             cellRendererParamsOnClick({ ...onClickProps, cellRendererProps: props })
-    }, [onClick, cellRendererParamsOnClick, props])
+    }, [props.config?.onClick, cellRendererParamsOnClick, props])
 
     return <ATButton
         onClick={onInternalClick}
-        {...newUiProps}
+        {...(props.config?.uiProps || {})}
         {...(restCellRendererParams || {})}
     >
         {label}

@@ -1,5 +1,6 @@
 import { ColDef } from "ag-grid-community";
 import { AgGridReactProps, CustomCellRendererProps } from "ag-grid-react";
+import { ATFormOnClickProps, ATFormOnClickType } from "../Common.type";
 
 export type ATAgGridProps = AgGridReactProps & {
     ref?: React.Ref<any>,
@@ -60,3 +61,6 @@ export interface ATAgGridTColumnInterface {
     typeProps?: any,
     colProps?: ATAgGridExtendedColDef,
 }
+
+export type ATAgGridCellRendererOnClickProps = ATFormOnClickProps<{ data: any, cellRendererProps: ATAgGridCustomCellRendererProps }>;
+export type ATAgGridCellRendererOnClickType = ATFormOnClickType<{ data: any, cellRendererProps: ATAgGridCustomCellRendererProps }>;

@@ -4,7 +4,7 @@ export interface ATFormFileViewerProps extends ATFormMinimalControlledUIProps {
     label?: string,
     fileWidth?: number,
     fileHeight?: number,
-    getSortedFiles: any,
+    getSortedFiles?: any,
 }
 
 export interface ATFormFileViewerFile {

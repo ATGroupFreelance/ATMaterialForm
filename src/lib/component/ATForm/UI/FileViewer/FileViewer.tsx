@@ -11,6 +11,8 @@ const FileViewer = ({ value, label, fileWidth = 150, fileHeight = 128, getSorted
 
     const sortedValue = getSortedFiles ? getSortedFiles(value) : value
 
+    console.log('sortedValue', sortedValue)
+
     return <Box>
         <Grid container spacing={2}>
             <Grid size={12} justifyContent={'start'} justifySelf={'start'} sx={{ textAlign: 'left' }}>
