@@ -7,8 +7,8 @@ const TabsInForm = ({ ref, onChange }: ExampleComponentInterface) => {
             {
                 formBuilderUtils.createColumnBuilder(
                     [
-                        formBuilder.createTextBox({ id: 'imInTab2', tabIndex: 1 }),
-                        formBuilder.createTextBox({ id: 'imInTab1', tabIndex: 0 }),
+                        formBuilder.createTextBox({ id: 'imInTab2', tabPath: 1 }),
+                        formBuilder.createTextBox({ id: 'imInTab1', tabPath: 0 }),
                     ]
                 )
                     .build()

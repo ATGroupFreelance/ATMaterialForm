@@ -8,7 +8,7 @@ const FormInForm = ({ ref, onChange }: ExampleComponentInterface) => {
                 formBuilder.createForm(
                     {
                         id: 'FormA',
-                        tabIndex: 0,
+                        tabPath: 0,
                     },
                     {
                         elements: [
@@ -21,7 +21,7 @@ const FormInForm = ({ ref, onChange }: ExampleComponentInterface) => {
                 formBuilder.createForm(
                     {
                         id: 'FormB',
-                        tabIndex: 1,
+                        tabPath: 1,
                     },
                     {
                         elements: [

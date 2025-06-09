@@ -4,6 +4,7 @@ import type { ColDef } from "ag-grid-community";
 import { Grid } from '@mui/material';
 import { ATFormBuilerColumnGenericProps, ATFormBuilerColumnInterface } from "./FormBuilder.type";
 import { ATTypeInterface } from "./UITypeUtils.type";
+import { ATFormTabConfigInterface, ATFormTabsManagerDefaultSelectedTabPathsType, ATFormTabsOnChangeType } from "./ATFormTabsManager.type";
 
 export type ATFormGridSize = React.ComponentProps<typeof Grid>['size'];
 export type ATFormColor = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | 'default'
@@ -29,9 +30,9 @@ export interface ATFormProps {
     defaultValue?: any,
     defaultValueFormat?: ATFormDefaultValueFormat,
     onChange?: (props: ATFormOnChangeInterface) => void,
-    tabs?: any[],
-    tabsGridProps?: any,
-    onTabChange?: (event: any) => void,
+    tabs?: ATFormTabConfigInterface[],    
+    onTabChange?: ATFormTabsOnChangeType,
+    defaultSelectedTabPaths?: ATFormTabsManagerDefaultSelectedTabPathsType,
 }
 
 export interface ATFormResetInterface {
@@ -67,7 +68,7 @@ export interface ATFormComponentProps {
     type: string,
     size?: ATFormGridSize,
     label?: string | undefined | null,
-    tabIndex?: number | number[],
+    tabPath?: number | number[],
     /**Only works for controlled elements and its used for form initialize */
     defaultValue?: any,
     groupDataID?: string,
@@ -93,7 +94,7 @@ export interface ATFormUnknownChildProps {
     isTabSelected?: boolean,
     tProps?: {
         id?: string,
-        tabIndex?: number | number[],
+        tabPath?: number | number[],
         skipForm?: boolean,
         skipRender?: boolean,
         wrapperRenderer?: any,
@@ -123,22 +124,6 @@ export interface ATControlledUIBuilderProps {
 
 export interface ATUnControlledUIBuilderProps {
     childProps: ATFormChildProps,
-}
-
-export type ATTabWrapperOnChangeProps = {
-    event: any,
-    newIndexArray: number[],
-    selectedTab: any,
-}
-
-export type ATTabWrapperOnChangeType = (props: ATTabWrapperOnChangeProps) => void;
-
-export interface ATTabWrapper {
-    tabs?: any[],
-    tabsGridProps: any,
-    children: any,
-    childrenProps: (ATFormChildProps | ATFormUnknownChildProps)[],
-    onChange?: ATTabWrapperOnChangeType,
 }
 
 export interface ATFormChildResetInterface {

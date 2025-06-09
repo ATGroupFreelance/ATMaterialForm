@@ -100,14 +100,14 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                 formBuilder.createAvatar({ id: 'Avatar1', size: 12 }, { avatarSize: 128 }),
                 formBuilder.createTextBox({ id: 'A' }, { onChange: (event) => setA(event.target.value), value: A }),
                 formBuilder.createTextBox({ id: 'B' }, { onChange: (event) => setB(event.target.value), value: B }),
-                formBuilder.createTextBox({ id: 'A + B', tabIndex: 1 }, { value: Number(A) + Number(B) }),
+                formBuilder.createTextBox({ id: 'A + B', tabPath: 1 }, { value: Number(A) + Number(B) }),
                 formBuilder.createButton({ id: 'Random A' }, { onClick: () => setA(Math.random() * 10) }),
                 formBuilder.createLabel({ id: 'Label', label: 'Hi im a label' }),
                 formBuilder.createTextBox({ id: 'Name', validation: { required: true } }),
                 formBuilder.createPasswordTextBox({ id: 'Password' }),
                 formBuilder.createDoublePasswordTextBox({ id: 'DoublePassword', size: 6 }),
                 formBuilder.createAvatar({ id: 'Avatar2' }),
-                formBuilder.createComboBox({ id: 'Countries', validation: { required: true }, tabIndex: 1 }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
+                formBuilder.createComboBox({ id: 'Countries', validation: { required: true }, tabPath: 1 }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
                 formBuilder.createComboBox({ id: 'ComboBoxWithEnumsID', }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
                 formBuilder.createComboBox({ id: 'ComboBoxEnumsless' }, { options: [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }] }),
                 formBuilder.createMultiComboBox({ id: 'CountriesIDVALUE', validation: { required: true } }, { options: [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }] }),
@@ -125,8 +125,8 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                         :
                         []
                 ),
-                formBuilder.createCascadeComboBox({ id: 'cascadeComboBox', tabIndex: 1 }, { design: singleLeafCascadeDesign }),
-                formBuilder.createMultiValueCascadeComboBox({ id: 'MultiValueCascadeComboBox', tabIndex: 1 }, { design: multiLeafCascadeDesign }),
+                formBuilder.createCascadeComboBox({ id: 'cascadeComboBox', tabPath: 1 }, { design: singleLeafCascadeDesign }),
+                formBuilder.createMultiValueCascadeComboBox({ id: 'MultiValueCascadeComboBox', tabPath: 1 }, { design: multiLeafCascadeDesign }),
                 formBuilder.createAdvanceStepper({ id: 'AdvanceStepper', size: 6 }),
                 formBuilder.createGrid({
                     id: 'grid01',
@@ -144,7 +144,7 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
             .map((item: any) => {
                 return {
                     ...item,
-                    tabIndex: item.tabIndex === undefined ? 0 : item.tabIndex,
+                    tabPath: item.tabPath === undefined ? 0 : item.tabPath,
                     // readOnly: true,
                 }
             })

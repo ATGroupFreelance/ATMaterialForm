@@ -40,7 +40,8 @@ const Avatar = ({ id, value, accept, avatarSize = 42, width = 128, height = 128,
                 onLockdownChange(id, true)
             resizeImage(selectedFiles[0])
                 .then(res => {
-                    onChange({ target: { value: res } })
+                    if (onChange)
+                        onChange({ target: { value: res } })
                 })
                 .finally(() => {
                     if (onLockdownChange && id)

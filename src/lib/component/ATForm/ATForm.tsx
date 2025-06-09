@@ -4,12 +4,13 @@ import React, { useCallback, useEffect, useImperativeHandle, useMemo, useRef } f
 import Ajv, { ErrorObject, ValidateFunction } from "ajv"
 import AVJErrors from 'ajv-errors';
 //Components
-import TabWrapper from './TabWrapper/TabWrapper';
 import { getFlatChildren } from './FormUtils/FormUtils';
 import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 import { ATFormChildProps, ATFormComponentProps, ATFormComponentRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps } from '@/lib/types/ATForm.type';
 import { ATFormContextProvider } from './ATFormContext/ATFormContext';
 import { ATFormBuilerColumnInterface } from '@/lib/types/FormBuilder.type';
+import ATFormTabWrapper from './ATFormTabWrapper/ATFormTabsManager';
+import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
 
 const ATFormFunction = (props: ATFormProps) => {
     const mChildrenRefs = useRef<Record<string, ATFormComponentRefInterface>>({})
@@ -24,7 +25,7 @@ const ATFormFunction = (props: ATFormProps) => {
     const { getTypeInfo, enums, rtl, getLocalText } = useATFormConfig()
     const [internalDefaultValue, setInternalDefaultValue] = React.useState<Record<string, any>>({})
     const [isFormOnLockdown, setIsFormOnLockdown] = React.useState(false)
-    const [validationErrors, setValidationErrors] = React.useState<Record<string, any> | null>(null)    
+    const [validationErrors, setValidationErrors] = React.useState<Record<string, any> | null>(null)
     /**We make sure the default value passed using props is only called once using this flag. */
     const mIsDefaultValueResetCalledOnMount = useRef(false)
 
@@ -396,7 +397,7 @@ const ATFormFunction = (props: ATFormProps) => {
                 return getChildProps(item)
             }
         })
-    
+
         return [flatChildren, flatChildrenProps]
     }, [props.children, getChildProps, getTypeInfo])
 
@@ -455,7 +456,7 @@ const ATFormFunction = (props: ATFormProps) => {
         if (props.defaultValue && !mIsDefaultValueResetCalledOnMount.current) {
             reset({ inputDefaultValue: props.defaultValue, inputDefaultValueFormat: props.defaultValueFormat })
             mIsDefaultValueResetCalledOnMount.current = true
-        }            
+        }
     }, [props.defaultValue, props.defaultValueFormat, reset])
 
     const formContextValue = useMemo(() => {
@@ -471,14 +472,14 @@ const ATFormFunction = (props: ATFormProps) => {
 
     return (
         <ATFormContextProvider value={formContextValue}>
-            <TabWrapper
+            <ATFormTabsManager
                 tabs={props.tabs}
-                tabsGridProps={props.tabsGridProps}
                 childrenProps={flatChildrenProps}
                 onChange={props.onTabChange}
+                defaultSelectedTabPaths={props.defaultSelectedTabPaths}
             >
                 {flatChildren}
-            </TabWrapper>
+            </ATFormTabsManager>
         </ATFormContextProvider>
     )
 }
