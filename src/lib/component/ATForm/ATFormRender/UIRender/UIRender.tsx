@@ -18,9 +18,10 @@ const UIRender = ({ children, childProps }: ATUIRenderProps) => {
     if (childProps.tProps?.wrapperRenderer) {
         Wrapper = childProps.tProps?.wrapperRenderer
         wrapperProps = {
-            childProps
+            childProps,
+            ...(childProps.tProps?.wrapperRendererProps || {}),
         }
-    }
+    }    
 
     // console.log('UIRender', {skipForm, isValid: React.isValidElement(ui), ui})
 

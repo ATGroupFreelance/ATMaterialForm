@@ -60,7 +60,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'TabInTab'
+const ACTIVE_EXAMPLE = 'TabsInForm'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)

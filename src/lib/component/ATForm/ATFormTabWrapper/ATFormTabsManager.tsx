@@ -141,7 +141,7 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
         if (tabPath === undefined || tabPath === null)
             return item;
 
-        const tabPathAsArray: number[] = Array.isArray(tabPath) ? tabPath as Array<number> : (tabPath ? [tabPath] : [])
+        const tabPathAsArray: number[] = Array.isArray(tabPath) ? tabPath as Array<number> : ((tabPath || tabPath === 0) ? [tabPath] : [])
 
         let isSameTabPath = false
 

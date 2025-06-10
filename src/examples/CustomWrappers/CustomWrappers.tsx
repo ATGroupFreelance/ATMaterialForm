@@ -4,7 +4,7 @@ import { Button, Grid } from '@mui/material';
 import { ExampleComponentInterface } from '@/App';
 
 const MyWrapperTypeA = ({ childProps, children, isValidNumber, onClick }: any) => {
-    console.log('CustomWrappers A')
+    console.log('CustomWrappers A', isValidNumber)
     return <Grid size={childProps.size}>
         <div style={{ border: '1px dotted red', padding: '5px' }}>
             isValidNumber ? {String(isValidNumber)}
@@ -15,7 +15,6 @@ const MyWrapperTypeA = ({ childProps, children, isValidNumber, onClick }: any) =
 }
 
 const MyWrapperTypeB = ({ childProps, children }: any) => {
-    console.log('CustomWrappers B')
     const [isValidNumber, setIsValidNumber] = useState(false)
     const [gridSize, setGridSize] = useState(12)
 
@@ -29,11 +28,13 @@ const MyWrapperTypeB = ({ childProps, children }: any) => {
         setIsValidNumber(!isNaN(event.target.value))
     }
 
+    console.log('CustomWrappers B', isValidNumber, { ...childProps, uiProps: { ... (childProps.uiProps || {}), onChange: onTextBoxChange } })
+
     return <Grid size={gridSize}>
         <div style={{ border: '1px dotted red', padding: '5px' }}>
             isValidNumber ? {String(isValidNumber)}
             <Button onClick={onWrapperClick}>Click Me!</Button>
-            {React.cloneElement(children, { ...childProps, onChange: onTextBoxChange })}
+            {React.cloneElement(children, { ...childProps, uiProps: { ... (childProps.uiProps || {}), onChange: onTextBoxChange } })}
         </div>
     </Grid>
 }
@@ -43,6 +44,7 @@ const CustomWrappers = ({ ref, onChange }: ExampleComponentInterface) => {
     const [gridSize, setGridSize] = useState(12)
 
     const onTextBoxChange = (event: any) => {
+        console.log('onTextBoxChange', isNaN(event.target.value))
         setIsValidNumber(!isNaN(event.target.value))
     }
 
@@ -53,7 +55,7 @@ const CustomWrappers = ({ ref, onChange }: ExampleComponentInterface) => {
     }
 
 
-    console.log('CustomWrappers')
+    console.log('onTextBoxChange 2  ', isValidNumber)
 
     return (
         <ATForm ref={ref} validationDisabled={false}>
