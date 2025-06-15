@@ -1,7 +1,7 @@
 import React from 'react';
 
 import BaseComboBox from './BaseComboBox/BaseComboBox';
-import { ATFormCascadeComboBoxProps, ATFormCascadeComboBoxBaseComboBoxProps, ATFormCascadeComboBoxDesignLayer, ATFormCascadeComboBoxAsyncOptions } from '@/lib/types/ui/CascadeComboBox.type';
+import { ATFormCascadeComboBoxProps, ATFormCascadeComboBoxBaseComboBoxProps, ATFormCascadeComboBoxDesignLayer, ATFormCascadeComboBoxAsyncOptions, ATFormCascadeComboBoxDesignLayerOptionsFunctionProps } from '@/lib/types/ui/CascadeComboBox.type';
 import ComboBox from '../ComboBox/ComboBox';
 import { isAsyncOptions } from '../../FormUtils/FormUtils';
 /**
@@ -108,8 +108,15 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
             else {
                 result.push({
                     ...sharedProps,
-                    //ATEnumType
-                    options: resolvedOptions,
+                    //Convert options to async for interface unity and easier access
+                    options: (props: ATFormCascadeComboBoxDesignLayerOptionsFunctionProps) => new Promise((resolve) => {
+                        resolve(resolvedOptions?.filter(item => {
+                            if (parentID)
+                                return item[parentID] === props.values?.[parentID]
+                            else
+                                return true
+                        }))
+                    }),
                 });
             }
 

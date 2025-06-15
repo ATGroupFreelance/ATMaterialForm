@@ -79,6 +79,4 @@ export interface ATFormCascadeComboBoxBaseComboBoxAsyncProps
     options: ATFormCascadeComboBoxAsyncOptions;
 }
 
-export type ATFormCascadeComboBoxBaseComboBoxProps =
-    | ATFormCascadeComboBoxBaseComboBoxStaticProps
-    | ATFormCascadeComboBoxBaseComboBoxAsyncProps;
+export type ATFormCascadeComboBoxBaseComboBoxProps = ATFormCascadeComboBoxBaseComboBoxAsyncProps;

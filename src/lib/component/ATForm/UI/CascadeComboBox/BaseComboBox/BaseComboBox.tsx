@@ -18,14 +18,13 @@ const BaseComboBox = ({ id, value, parentID, options, multiple, readOnly, size =
     useEffect(() => {
         /**If its not a child and its a parent it must use its full options and doesn't need to filter it */
         if (parentID === null) {
-            if (typeof options === 'function')
-                options({ enums, values: null })
-                    .then((res: ATFormComboBoxStaticOptions) => {
-                        setlocalOptions(res)
-                    })
-                    .catch(() => {
-                        setlocalOptions([])
-                    })
+            options({ enums, values: null })
+                .then((res: ATFormComboBoxStaticOptions) => {
+                    setlocalOptions(res)
+                })
+                .catch(() => {
+                    setlocalOptions([])
+                })
         }
         // eslint-disable-next-line
     }, [enums])
@@ -52,17 +51,17 @@ const BaseComboBox = ({ id, value, parentID, options, multiple, readOnly, size =
             setParentPrevValue(value[parentID])
             setForceDisabled(true)
 
-            if (typeof options === 'function')
-                options({ enums, values })
-                    .then(res => {
-                        setlocalOptions(res)
-                    })
-                    .catch(() => {
-                        setlocalOptions([])
-                    })
-                    .finally(() => {
-                        setForceDisabled(false)
-                    })
+            options({ enums, values })
+                .then(res => {
+                    console.log('options result', res)
+                    setlocalOptions(res)
+                })
+                .catch(() => {
+                    setlocalOptions([])
+                })
+                .finally(() => {
+                    setForceDisabled(false)
+                })
         }
         else
             setLocalValue(value)

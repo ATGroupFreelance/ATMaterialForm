@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import ATAgGrid from '@/lib/component/ATAgGrid/ATAgGrid';
 import { Columns } from './Columns';
@@ -6,20 +6,21 @@ import Button from '@/lib/component/ATForm/UI/Button/Button';
 import RecordDialog from './RecordDialog';
 import { ColumnDefTemplates } from '@/lib/component/ATAgGrid/ColumnDefTemplates/ColumnDefTemplates';
 import { Grid } from '@mui/material';
+import { ATFormOnClickType } from '@/lib/types/Common.type';
 
 const UserManager = () => {
     const [rowData, setRowData] = useState([{ id: 1, A: 10, B: 10, 'A + B': 20 }])
-    const [dialog, setDialog] = useState(null)
+    const [dialog, setDialog] = useState<any>(null)
     const idCounter = useRef(1)
 
     const handleClose = () => {
         setDialog(null)
     }
 
-    const onAddClick = (event, { startLoading, stopLoading }) => {
+    const onAddClick: ATFormOnClickType = () => {
         setDialog(
             <RecordDialog
-                onSubmitClick={(event, { formDataKeyValue }) => {
+                onSubmitClick={({ formDataKeyValue }: any) => {
                     idCounter.current = idCounter.current + 1
                     setRowData([
                         ...rowData,
@@ -35,11 +36,11 @@ const UserManager = () => {
         )
     }
 
-    const onEditClick = (event, { startLoading, stopLoading, data }) => {
+    const onEditClick: ATFormOnClickType = ({ data }) => {
         setDialog(
             <RecordDialog
                 defaultValue={data}
-                onSubmitClick={(event, { formDataKeyValue }) => {
+                onSubmitClick={({ formDataKeyValue }: any) => {
                     const foundIndex = rowData.findIndex(item => item.id === data.id)
 
                     const newRowData = [
@@ -64,17 +65,17 @@ const UserManager = () => {
         )
     }
 
-    const onRemoveClick = (event, { data }) => {
+    const onRemoveClick: ATFormOnClickType = ({ data }) => {
         setRowData(rowData.filter(item => item.id !== data.id))
     }
 
     const columnDefs = [
-        ColumnDefTemplates.createRemove({ cellRendererParams: { onClick: onRemoveClick } }),
-        ColumnDefTemplates.createEdit({ cellRendererParams: { onClick: onEditClick } }),
+        ColumnDefTemplates.createRemove({ cellRendererParams: { config: { onClick: onRemoveClick } } }),
+        ColumnDefTemplates.createEdit({ cellRendererParams: { config: { onClick: onEditClick } } }),
         ...Columns.map(item => {
             return {
-                field: item.id,
-                headerName: item.id,
+                field: item.tProps.id,
+                headerName: item.tProps.id
             }
         }),
     ]

@@ -14,8 +14,8 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
     useEffect(() => {
         const updateOptionList = async () => {
             const layerAOptions = await ServiceManager.getData_layerA()
-            const layerABOptions = await ServiceManager.getData_layerAB()
-            const layerABC1Options = await ServiceManager.getData_layerABC1()
+            const layerABOptions = await ServiceManager.getData_layerAB({ layerA: "A1_2" })
+            const layerABC1Options = await ServiceManager.getData_layerABC1({ layerA: "A1_2", layerAB: "A1_2_AB1_1" })            
 
             setOptionList({
                 layerAOptions,
@@ -46,6 +46,8 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
         },
     ]
 
+    console.log('multiLeafCascadeDesign', optionList, multiLeafCascadeDesign)
+
     const singleLeafCascadeDesign: ATFormCascadeComboBoxDesignLayer[] = useMemo(() => {
         return [
             {
@@ -57,16 +59,16 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                         id: 'State',
                         enumsKey: 'StateAndCapitals',
                         enumsParentKey: 'Country',
-                        options: ({ keyValue }: any) => new Promise((resolve) => {
-                            resolve(enums?.StateAndCapitals.filter((item) => !item.ParentID && item.Country === keyValue?.Country))
+                        options: ({ values }: any) => new Promise((resolve) => {
+                            resolve(enums?.StateAndCapitals.filter((item) => !item.ParentID && item.Country === values?.Country))
                         }),
                         children: [
                             {
                                 id: 'Capital',
                                 enumsKey: 'StateAndCapitals',
                                 enumsParentKey: 'ParentID',
-                                options: ({ keyValue }: any) => new Promise((resolve) => {
-                                    resolve(enums?.StateAndCapitals.filter((item) => item.ParentID === keyValue?.State))
+                                options: ({ values }: any) => new Promise((resolve) => {
+                                    resolve(enums?.StateAndCapitals.filter((item) => item.ParentID === values?.State))
                                 }),
                             },
                         ]
@@ -139,7 +141,7 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                 formBuilder.createFloatTextBox({ id: 'Textbox_Float', size: 4 }),
             ]
         )
-            // .filter(item => ['cascadeComboBox'].includes(item.id))
+            // .filter(item => ['MultiValueCascadeComboBox'].includes(item.tProps.id))
             // .required(['Textbox_Text', 'Textbox_Integer', 'Textbox_Float'])
             .map((item: any) => {
                 return {

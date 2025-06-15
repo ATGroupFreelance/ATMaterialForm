@@ -2,29 +2,29 @@ import { UITypes } from "@/lib";
 
 export const Columns = [
     {
-        id: 'A',
-        uiProps: {
+        tProps: {
+            id: 'A',
+            type: UITypes.TextBox,
+            size: 4,
+        },
+    },
+    {
+        tProps: {
+            id: 'B',
             type: UITypes.TextBox,
             size: 4,
         }
     },
     {
-        id: 'B',
-        uiProps: {
+        tProps: {
+            id: 'A + B',
             type: UITypes.TextBox,
             size: 4,
         }
     },
     {
-        id: 'A + B',
-        uiProps: {
-            type: UITypes.TextBox,
-            size: 4,
-        }
-    },
-    {
-        id: 'D',
-        uiProps: {
+        tProps: {
+            id: 'D',
             type: UITypes.TextBox,
             size: 8,
         }

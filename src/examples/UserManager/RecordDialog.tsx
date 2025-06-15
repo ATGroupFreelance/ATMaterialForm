@@ -2,23 +2,24 @@ import { useState } from 'react';
 
 import { Columns } from "./Columns";
 
-import { ATFormDialog, formBuilder } from '@/lib';
+import { ATFormDialog, formBuilderUtils } from '@/lib';
+import { ATFormDialogProps } from '@/lib/types/ATFormDialog.type';
 
-const RecordDialog = ({ defaultValue, onSubmitClick, onClose }) => {
+const RecordDialog = ({ defaultValue, onSubmitClick, onClose, ...restProps }: ATFormDialogProps) => {
     const [a, setA] = useState('')
     const [b, setB] = useState('')
 
-    return <ATFormDialog defaultValue={defaultValue} onSubmitClick={onSubmitClick} onClose={onClose}>
+    return <ATFormDialog defaultValue={defaultValue} onSubmitClick={onSubmitClick} onClose={onClose} {...restProps}>
         {
-            formBuilder
+            formBuilderUtils
                 .createColumnBuilder(Columns)
                 .remove(['D'])
                 .map(item => ({ ...item, size: 6 }))
                 .override(
                     {
-                        A: { onChange: (event) => setA(event.target.value) },
-                        B: { onChange: (event) => setB(event.target.value) },
-                        'A + B': { value: a + b },
+                        A: { uiProps: { onChange: (event: any) => setA(event.target.value) } },
+                        B: { uiProps: { onChange: (event: any) => setB(event.target.value) } },
+                        'A + B': { uiProps: { value: a + b } },
                     }
                 )
                 .build()
