@@ -16,7 +16,7 @@ import { ATEnumType } from '@/lib/types/Common.type';
 //[{label: 'uk'}, {label: 'us'}]
 const ComboBox = ({ id, onChange, value, readOnly, error, helperText, options, renderInput, label, enumsKey, ...restProps }: ATFormComboBoxProps) => {
     const { enums } = useATFormConfig()
-    const [data, setData] = useState<ATEnumType>([])
+    const [data, setData] = useState<ATEnumType>([])    
 
     useEffect(() => {
         if (typeof options === 'function')

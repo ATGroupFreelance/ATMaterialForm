@@ -42,6 +42,7 @@ import MultiForm from './beta/MultiForm/MultiForm';
 import { ATFormOnChangeInterface, ATFormRefInterface } from './lib/types/ATForm.type';
 import { StringKeyedObject } from './lib/types/Common.type';
 import BasicForm2 from './examples/BasicForm2/BasicForm2';
+import ConditionalRendering from './examples/ConditionalRendering/ConditionalRendering';
 
 export interface ExampleComponentInterface {
   ref?: any,
@@ -60,7 +61,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'CascadeComboBoxPlayground'
+const ACTIVE_EXAMPLE = 'ConditionalRendering'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
@@ -231,6 +232,12 @@ function App() {
     {
       id: 'MultiForm',
       component: MultiForm,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'ConditionalRendering',
+      component: ConditionalRendering,
       refEnabled: true,
       onChangeEnabled: true,
     },

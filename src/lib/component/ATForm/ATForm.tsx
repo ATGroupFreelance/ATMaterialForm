@@ -9,7 +9,6 @@ import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 import { ATFormChildProps, ATFormComponentProps, ATFormComponentRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps } from '@/lib/types/ATForm.type';
 import { ATFormContextProvider } from './ATFormContext/ATFormContext';
 import { ATFormBuilerColumnInterface } from '@/lib/types/FormBuilder.type';
-import ATFormTabWrapper from './ATFormTabWrapper/ATFormTabsManager';
 import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
 
 const ATFormFunction = (props: ATFormProps) => {

@@ -83,10 +83,14 @@ class ServiceManagerClass {
                     {
                         id: `${layerA}_${layerAB}_ABC2_1`,
                         title: `${layerA}_${layerAB}_ABC2_1`,
+                        layerA,
+                        layerAB,
                     },
                     {
                         id: `${layerA}_${layerAB}_ABC2_2`,
                         title: `${layerA}_${layerAB}_ABC2_2`,
+                        layerA,
+                        layerAB,
                     }
                 ])
             })
@@ -109,17 +113,33 @@ class ServiceManagerClass {
         })
     }
 
+    getStrictFormatState = () => {
+        return this.getEnums()
+            .then(res => {
+                return res.StrictFormatState
+            })
+    }
+
+    getStrictFormatCapital = () => {
+        return this.getEnums()
+            .then(res => {
+                return res.StrictFormatCapital
+            })
+    }
+
     getEnums = () => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 const enums = {
+                    "StrictFormatState": [{ title: 'England2', id: 1, parent_id: 1 }, { title: 'England', id: 2, parent_id: 1 }, { title: 'Alabama', id: 3, parent_id: 2 }],
+                    "StrictFormatCapital": [{ title: 'EnglandCapital', id: 4, parent_id: 2 }, { title: 'AlabamaCapital', id: 5, parent_id: 3 }],
                     "Countries": [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }],
                     "StateAndCapitals": [
-                        { id: 0, title: "England2", Country: 1 },
-                        { id: 1, title: "England", Country: 1 },
-                        { id: 2, title: "Alabama", Country: 2 },
-                        { id: 3, title: "EnglandCapital", ParentID: 1 },
-                        { id: 4, title: "AlabamaCapital", ParentID: 2 }
+                        { id: 1, title: "England2", Country: 1 },
+                        { id: 2, title: "England", Country: 1 },
+                        { id: 3, title: "Alabama", Country: 2 },
+                        { id: 4, title: "EnglandCapital", ParentID: 2 },
+                        { id: 5, title: "AlabamaCapital", ParentID: 3 }
                     ],
                     "CountriesIDVALUE": [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }],
                     "layerA": [{ id: 'A1_1', title: 'A1_1' }, { id: 'A1_2', title: 'A1_2' }],

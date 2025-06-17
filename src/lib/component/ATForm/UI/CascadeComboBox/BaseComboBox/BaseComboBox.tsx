@@ -14,10 +14,18 @@ const BaseComboBox = ({ id, value, parentID, options, multiple, readOnly, size =
     const [forceDisabled, setForceDisabled] = useState(false)
     const { enums } = useATFormConfig()
 
+    console.log('BaseComboBox', {
+        id,
+        value,
+        parentID,
+        localOptions,
+        localValue,
+    })
+
     //Handle root elements
     useEffect(() => {
         /**If its not a child and its a parent it must use its full options and doesn't need to filter it */
-        if (parentID === null) {
+        if (!parentID) {
             options({ enums, values: null })
                 .then((res: ATFormComboBoxStaticOptions) => {
                     setlocalOptions(res)

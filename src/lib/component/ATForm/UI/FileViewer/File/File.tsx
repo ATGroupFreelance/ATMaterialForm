@@ -15,7 +15,7 @@ function isImage(url: any) {
 const File = ({ id, name, size, authToken, width, height }: ATFormFileViewerFile) => {
     const theme = useTheme()
     const { getFile, localText } = useATFormConfig()
-    const [thumbnail, setThumbnail] = useState<string>("")
+    const [thumbnail, setThumbnail] = useState<string | undefined>(undefined)
 
     useEffect(() => {
         if (id && name && getFile && isImage(name))

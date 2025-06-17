@@ -1,7 +1,7 @@
 import React from 'react';
 
 import BaseComboBox from './BaseComboBox/BaseComboBox';
-import { ATFormCascadeComboBoxProps, ATFormCascadeComboBoxBaseComboBoxProps, ATFormCascadeComboBoxDesignLayer, ATFormCascadeComboBoxAsyncOptions, ATFormCascadeComboBoxDesignLayerOptionsFunctionProps } from '@/lib/types/ui/CascadeComboBox.type';
+import { ATFormCascadeComboBoxProps, ATFormCascadeComboBoxBaseComboBoxProps, ATFormCascadeComboBoxDesignLayer, ATFormCascadeComboBoxAsyncOptions, ATFormCascadeComboBoxOptionsFilterFunction } from '@/lib/types/ui/CascadeComboBox.type';
 import ComboBox from '../ComboBox/ComboBox';
 import { isAsyncOptions } from '../../FormUtils/FormUtils';
 /**
@@ -17,18 +17,18 @@ import { isAsyncOptions } from '../../FormUtils/FormUtils';
 
     enumsKey: Specifies which enum is used to map a single leaf value back into the full object containing all combo box values.
 
-    enumsParentKey: Indicates the key in the current enum that identifies the parent ID of the current value.
-    For example, if the current layer has id and title, it will also have another property named by enumsParentKey, which helps locate the parent ID.
+    enumsKeyParentIDField: Indicates the key in the current enum that identifies the parent ID of the current value.
+    For example, if the current layer has id and title, it will also have another property named by enumsKeyParentIDField, which helps locate the parent ID.
 
     data: A function that returns a promise, providing the data for the current combo box.
-    You can filter this data based on enumsParentKey and the current enum?.enumsKey.
-    If no data is provided, it will be auto-generated using enumsKey and enumsParentKey.
+    You can filter this data based on enumsKeyParentIDField and the current enum?.enumsKey.
+    If no data is provided, it will be auto-generated using enumsKey and enumsKeyParentIDField.
 
     Default Behavior:
 
-    If enumsKey and enumsParentKey are not provided, the createCascadeDesign function will:
+    If enumsKey and enumsKeyParentIDField are not provided, the createCascadeDesign function will:
     Use id to deduce the enumsKey.
-    Determine the enumsParentKey based on the parent-child relationship.
+    Determine the enumsKeyParentIDField based on the parent-child relationship.
     Automatically generate the data.
     
     Example and Playground:
@@ -60,68 +60,87 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
             onChange({ target: { value: newValue } })
     }
 
-    const getRenderableComboBoxFlatList = (designLayer?: ATFormCascadeComboBoxDesignLayer[], parentID: string | null = null): ATFormCascadeComboBoxBaseComboBoxProps[] => {
+    const getRenderableComboBoxFlatList = (designLayers?: ATFormCascadeComboBoxDesignLayer[], designLayersParent: ATFormCascadeComboBoxDesignLayer | null | undefined = null): ATFormCascadeComboBoxBaseComboBoxProps[] => {
         const result: ATFormCascadeComboBoxBaseComboBoxProps[] = [];
-        /**enumsKey and enumsParentKey are used for reverse convert from a single leaf to a whole object of values */
-        designLayer?.forEach(({ id, children, options, multiple, readOnly, enumsKey, enumsParentKey, uiProps, size }) => {
+        /**enumsKey and enumsKeyParentIDField are used for reverse convert from a single leaf to a whole object of values */
+        designLayers?.forEach((currentLayer) => {
+            const enumsKeyParentIDField = currentLayer.enumsKeyParentIDField || 'parent_id'
+
+            // Default filter fallback
+            const defaultFilterOptions: ATFormCascadeComboBoxOptionsFilterFunction = (params) => {
+                if (designLayersParent?.id) {
+                    return params.option?.[enumsKeyParentIDField] === params?.values?.[designLayersParent.id]
+                }
+                else {
+                    /**If designLayersParent?.id is undefined it means we are at the very root so we just return the options without filter  */
+                    return true
+                }
+            }
+
             // Default async fallback
             const defaultAsyncOptions: ATFormCascadeComboBoxAsyncOptions = async (props) => {
-                const currentEnum = enumsKey ? props?.enums?.[enumsKey] : null;
+                /**If enums key is provided and it exists inside enums, use it as options! */
+                const currentEnum = currentLayer.enumsKey ? props?.enums?.[currentLayer.enumsKey] : props?.enums?.[currentLayer.id];
+
                 if (!currentEnum)
                     return [];
 
-                return currentEnum.filter((item: any) => {
-                    /**If you can find a key named parent_id and parentID is not null*/
-                    if (enumsParentKey === "parent_id" && parentID) {
-                        return item?.[enumsParentKey] === props?.values?.[parentID];
-                    }
-                    else {
-                        /**Handle situations where the parent is not defined using parent_id but the enumsParentKey */
-                        return enumsParentKey && !item.parent_id && item?.[enumsParentKey] === props?.values?.[enumsParentKey];
-                    }
+                if (currentLayer.filterOptions)
+                    return currentEnum.filter((item, index) => currentLayer.filterOptions!({ index, option: item, ...props }))
+
+                return currentEnum.filter((item: any, index) => {
+                    return defaultFilterOptions({ option: item, index, ...props })
                 });
             };
 
-            const resolvedOptions = options ?? defaultAsyncOptions;
+            const resolvedOptions = currentLayer.options ?? defaultAsyncOptions;
 
             const sharedProps = {
-                id,
+                id: currentLayer.id,
                 value,
-                parentID,
-                multiple,
+                parentID: designLayersParent?.id,
+                multiple: currentLayer.multiple,
                 readOnly,
                 uiProps: {
-                    label: label + '_' + id,
-                    onChange: (event: any) => onInternalChange(id, event, children),
-                    ...(uiProps || {}),
+                    label: label + '_' + currentLayer.id,
+                    onChange: (event: any) => onInternalChange(currentLayer.id, event, currentLayer.children),
+                    ...(currentLayer.uiProps || {}),
                 },
-                size,
+                size: currentLayer.size,
             };
 
             if (isAsyncOptions(resolvedOptions)) {
                 result.push({
                     ...sharedProps,
                     //ATFormCascadeComboBoxAsyncOptions
-                    options: resolvedOptions,
+                    options: (props) => resolvedOptions(props)
+                        .then(res => {
+                            return res?.filter((item, index) => {
+                                if (currentLayer.filterOptions)
+                                    return currentLayer.filterOptions!({ index, option: item, ...props })
+
+                                return defaultFilterOptions({ option: item, index, ...props })
+                            })
+                        })
                 });
             }
             else {
                 result.push({
                     ...sharedProps,
                     //Convert options to async for interface unity and easier access
-                    options: (props: ATFormCascadeComboBoxDesignLayerOptionsFunctionProps) => new Promise((resolve) => {
-                        resolve(resolvedOptions?.filter(item => {
-                            if (parentID)
-                                return item[parentID] === props.values?.[parentID]
-                            else
-                                return true
+                    options: (props) => new Promise((resolve) => {
+                        resolve(resolvedOptions?.filter((item, index) => {
+                            if (currentLayer.filterOptions)
+                                return currentLayer.filterOptions!({ index, option: item, ...props })
+
+                            return defaultFilterOptions({ option: item, index, ...props })
                         }))
                     }),
                 });
             }
 
-            if (children) {
-                const childrenResult = getRenderableComboBoxFlatList(children, id);
+            if (currentLayer.children) {
+                const childrenResult = getRenderableComboBoxFlatList(currentLayer.children, currentLayer);
                 result.push(...childrenResult);
             }
         });
@@ -129,6 +148,8 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
         return result;
     };
     const elementList = getRenderableComboBoxFlatList(design, null)
+
+
 
     return <React.Fragment>
         {

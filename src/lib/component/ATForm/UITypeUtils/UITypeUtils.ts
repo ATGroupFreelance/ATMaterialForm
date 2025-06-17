@@ -376,10 +376,13 @@ export const types = [
                 if (!leaf)
                     return {}
 
-                const found = enums?.[leaf.enumsKey]?.find((item: any) => String(item.id) === String(value))
+                const found = enums?.[leaf.enumsKey || leaf.id]?.find((item: any) => String(item.id) === String(value))
 
-                if (leaf.enumsParentKey) {
-                    const parentValueResult = getLeafCascadeValue(getParentNode(childProps.uiProps?.design, leaf), found?.[leaf.enumsParentKey])
+                const enumsKeyParentIDField = leaf.enumsKeyParentIDField === undefined ? 'parent_id' : leaf.enumsKeyParentIDField
+                const parentID = found?.[enumsKeyParentIDField]
+
+                if (enumsKeyParentIDField && parentID) {
+                    const parentValueResult = getLeafCascadeValue(getParentNode(childProps.uiProps?.design, leaf), parentID)
                     console.log('parentValueResult', found, parentValueResult, leaf)
 
                     return {

@@ -3,51 +3,42 @@ import { ATForm, formBuilder, formBuilderUtils } from "@/lib";
 import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 import { ExampleComponentInterface } from '@/App';
 import { ATFormCascadeComboBoxDesignLayer } from '@/lib/types/ui/CascadeComboBox.type';
-import { useEffect, useState } from 'react';
 
 const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
     const { enums } = useATFormConfig()
-    const [optionList, setOptionList] = useState({ layerAOptions: null, layerABOptions: null, layerABC1Options: null })
-    console.log('enums', enums)
 
-    useEffect(() => {
-        const updateOptionList = async () => {
-            const layerAOptions = await ServiceManager.getData_layerA()
-            const layerABOptions = await ServiceManager.getData_layerAB({ layerA: "A1_2" })
-            const layerABC1Options = await ServiceManager.getData_layerABC1({ layerA: "A1_2", layerAB: "A1_2_AB1_1" })
+    const countryStates = enums?.StateAndCapitals?.filter(item => item.Country)
+    const countryCapitals = enums?.StateAndCapitals?.filter(item => !item.Country)
 
-            setOptionList({
-                layerAOptions,
-                layerABOptions,
-                layerABC1Options
-            })
-        }
-
-        updateOptionList()
-    }, [])
-
-    /**Manual cascade where you define each data and how it must be filtered! */
-    const singleLeafCascadeDesign: ATFormCascadeComboBoxDesignLayer[] = [
+    /**Type 1 : static enums options + custom enumsKeyParentIDField
+     * a- You provide an enums key for load or reverseConvertToKeyValue where from a simple id value the form will reach to a full id + title, if u do not provide a 
+     *      enumsKey it will defaults to id
+     * b- You have to filter each layer's data based on its previous layer manually using a function(): promise or make sure your data containes a field
+     *      which determines the parent.
+     *      You may use enumsKeyParentIDField which defaults to parent_id to determine what is the name of the field in the option you are providing as parent.\          
+     * */
+    const singleLeafCascadeDesign1: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'Country',
             enumsKey: 'Countries',
-            options: ServiceManager.getCountries,
             children: [
                 {
                     id: 'State',
                     enumsKey: 'StateAndCapitals',
-                    enumsParentKey: 'Country',
-                    options: ({ values }: any) => new Promise((resolve) => {
-                        resolve(enums?.StateAndCapitals.filter((item: any) => !item.ParentID && item.Country === values?.Country))
-                    }),
+                    /** The following means inside StateAndCapitals there is a field called "Country" per item*/
+                    /** "Country" determines the Country for the current State */
+                    /** The value of countryStates[index][enumsKeyParentIDField] is compared to value of the parent of this design layer  */
+                    enumsKeyParentIDField: 'Country',
+                    options: countryStates,
                     children: [
                         {
                             id: 'Capital',
                             enumsKey: 'StateAndCapitals',
-                            enumsParentKey: 'ParentID',
-                            options: ({ values }: any) => new Promise((resolve) => {
-                                resolve(enums?.StateAndCapitals.filter((item: any) => item.ParentID === values?.State))
-                            }),
+                            /** The following means inside StateAndCapitals there is a field called "ParentID" per item*/
+                            /** Parent ID determines the state for the current capital */
+                            /** The value of countryStates[index][enumsKeyParentIDField] is compared to value of the parent of this design layer  */
+                            enumsKeyParentIDField: 'ParentID',
+                            options: countryCapitals
                         },
                     ]
                 },
@@ -55,6 +46,7 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
         },
     ]
 
+    /**Type 2 : static enums options with strict formatting */
     const singleLeafCascadeDesign2: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'Country',
@@ -62,13 +54,11 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
             children: [
                 {
                     id: 'State',
-                    enumsKey: 'StateAndCapitals',
-                    enumsParentKey: 'Country',
+                    enumsKey: 'StrictFormatState',
                     children: [
                         {
                             id: 'Capital',
-                            enumsKey: 'StateAndCapitals',
-                            enumsParentKey: 'ParentID',
+                            enumsKey: 'StrictFormatCapital',
                         },
                     ]
                 },
@@ -76,20 +66,22 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
         },
     ]
 
-
+    /**Type 3 : async options with strict formatting */
     const singleLeafCascadeDesign3: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'Country',
             enumsKey: 'Countries',
+            options: ServiceManager.getCountries,
             children: [
                 {
                     id: 'State',
-                    enumsKey: 'StateAndCapitals',
+                    enumsKey: 'StrictFormatState',
+                    options: ServiceManager.getStrictFormatState,
                     children: [
                         {
                             id: 'Capital',
-                            enumsKey: 'StateAndCapitals',
-                            enumsParentKey: 'ParentID',
+                            enumsKey: 'StrictFormatCapital',
+                            options: ServiceManager.getStrictFormatCapital,
                         },
                     ]
                 },
@@ -97,8 +89,33 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
         },
     ]
 
-
+    /**Type 4 : async options with custom filter */
     const singleLeafCascadeDesign4: ATFormCascadeComboBoxDesignLayer[] = [
+        {
+            id: 'Country',
+            enumsKey: 'Countries',
+            options: ServiceManager.getCountries,
+            children: [
+                {
+                    id: 'State',
+                    enumsKey: 'StrictFormatState',
+                    options: ServiceManager.getStrictFormatState,
+                    filterOptions: (params) => params.option.parent_id === params.values?.Country,
+                    children: [
+                        {
+                            id: 'Capital',
+                            enumsKey: 'StrictFormatCapital',
+                            options: ServiceManager.getStrictFormatCapital,
+                            filterOptions: (params) => params.option.parent_id === params.values?.State,
+                        },
+                    ]
+                },
+            ]
+        },
+    ]
+
+    /**Type 5  Static options without strict formatting*/
+    const singleLeafCascadeDesign5: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'business_id',
             enumsKey: 'business_id',
@@ -106,35 +123,45 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
                 {
                     id: 'system_id',
                     enumsKey: 'system_id',
-                    enumsParentKey: 'business_id',
+                    enumsKeyParentIDField: 'business_id',
                 },
             ]
         },
     ]
 
-    const singleLeafCascadeDesign5: ATFormCascadeComboBoxDesignLayer[] = [
+    /**Type 6  Ultra simple Static options*/
+    const singleLeafCascadeDesign6: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'business_id',
             children: [
                 {
                     id: 'system_id',
+                    enumsKeyParentIDField: 'business_id',
                 },
             ]
         },
     ]
 
+    //Type 7 Multi leaf, custom async options based on values
     const multiLeafCascadeDesign: ATFormCascadeComboBoxDesignLayer[] = [
         {
             id: 'layerA',
-            options: optionList?.layerAOptions,
+            options: ServiceManager.getData_layerA,
             children: [
                 {
                     id: 'layerAB',
-                    options: optionList?.layerABOptions,
+                    options: ({ values }) => ServiceManager.getData_layerAB({ layerA: values?.layerA }),
+                    enumsKeyParentIDField: 'layerA',
                     children: [
                         {
                             id: 'layerABC1',
-                            options: optionList?.layerABC1Options,
+                            options: ({ values }) => ServiceManager.getData_layerABC1({ layerA: values?.layerA, layerAB: values?.layerAB }),
+                            enumsKeyParentIDField: 'layerAB',
+                        },
+                        {
+                            id: 'layerABC2',
+                            options: ({ values }) => ServiceManager.getData_layerABC2({ layerA: values?.layerA, layerAB: values?.layerAB }),
+                            enumsKeyParentIDField: 'layerAB',
                         },
                     ]
                 },
@@ -147,12 +174,13 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
             {
                 formBuilderUtils.createColumnBuilder(
                     [
-                        formBuilder.createCascadeComboBox({ id: 'CountryA' }, { design: singleLeafCascadeDesign }),
-                        formBuilder.createCascadeComboBox({ id: 'CountryB' }, { design: singleLeafCascadeDesign2 }),
-                        formBuilder.createCascadeComboBox({ id: 'CountryC' }, { design: singleLeafCascadeDesign3 }),
-                        formBuilder.createCascadeComboBox({ id: 'cascadeComboBox1' }, { design: singleLeafCascadeDesign4 }),
-                        formBuilder.createCascadeComboBox({ id: 'cascadeComboBox2' }, { design: singleLeafCascadeDesign5 }),
-                        formBuilder.createMultiValueCascadeComboBox({ id: 'MultiValueCascadeComboBox' }, { design: multiLeafCascadeDesign }),
+                        formBuilder.createCascadeComboBox({ id: 'Type 1 Country' }, { design: singleLeafCascadeDesign1 }),
+                        formBuilder.createCascadeComboBox({ id: 'Type 2 Country' }, { design: singleLeafCascadeDesign2 }),
+                        formBuilder.createCascadeComboBox({ id: 'Type 3 Country' }, { design: singleLeafCascadeDesign3 }),
+                        formBuilder.createCascadeComboBox({ id: 'Type 4 Country' }, { design: singleLeafCascadeDesign4 }),
+                        formBuilder.createCascadeComboBox({ id: 'Type 5 Business' }, { design: singleLeafCascadeDesign5 }),
+                        formBuilder.createCascadeComboBox({ id: 'Type 6 Business' }, { design: singleLeafCascadeDesign6 }),
+                        formBuilder.createMultiValueCascadeComboBox({ id: 'Type 7 Multi leaf' }, { design: multiLeafCascadeDesign }),
                     ]
                 )
                     .build()

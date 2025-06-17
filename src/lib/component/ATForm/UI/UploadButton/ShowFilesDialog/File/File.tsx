@@ -19,7 +19,7 @@ function isImage(url: string) {
 
 const File = ({ id, name, size, onRemove, showRemoveIcon, authToken }: ATFormUploadButtonFileProps) => {
     const { getFile, localText } = useATFormConfig()
-    const [thumbnail, setThumbnail] = useState('')
+    const [thumbnail, setThumbnail] = useState<string | undefined>(undefined)
     const [dialog, setDialog] = useState<any>(null)
 
     useEffect(() => {

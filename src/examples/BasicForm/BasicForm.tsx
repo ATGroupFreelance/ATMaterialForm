@@ -1,84 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 //services
 import ServiceManager from '@/serviceManager/serviceManager';
 import { ATForm, formBuilder, formBuilderUtils } from "@/lib";
 import { ExampleComponentInterface } from '@/App';
-import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 import { ATFormOnClickProps } from '@/lib/types/Common.type';
-import { ATFormCascadeComboBoxDesignLayer } from '@/lib/types/ui/CascadeComboBox.type';
 
 const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
-    const { enums } = useATFormConfig()
-    const [optionList, setOptionList] = useState({ layerAOptions: null, layerABOptions: null, layerABC1Options: null })
-
-    useEffect(() => {
-        const updateOptionList = async () => {
-            const layerAOptions = await ServiceManager.getData_layerA()
-            const layerABOptions = await ServiceManager.getData_layerAB({ layerA: "A1_2" })
-            const layerABC1Options = await ServiceManager.getData_layerABC1({ layerA: "A1_2", layerAB: "A1_2_AB1_1" })            
-
-            setOptionList({
-                layerAOptions,
-                layerABOptions,
-                layerABC1Options
-            })
-        }
-
-        updateOptionList()
-    }, [])
-
-    const multiLeafCascadeDesign: ATFormCascadeComboBoxDesignLayer[] = [
-        {
-            id: 'layerA',
-            options: optionList?.layerAOptions,
-            children: [
-                {
-                    id: 'layerAB',
-                    options: optionList?.layerABOptions,
-                    children: [
-                        {
-                            id: 'layerABC1',
-                            options: optionList?.layerABC1Options,
-                        },
-                    ]
-                },
-            ]
-        },
-    ]
-
-    console.log('multiLeafCascadeDesign', optionList, multiLeafCascadeDesign)
-
-    const singleLeafCascadeDesign: ATFormCascadeComboBoxDesignLayer[] = useMemo(() => {
-        return [
-            {
-                id: 'Country',
-                enumsKey: 'Countries',
-                options: ServiceManager.getCountries,
-                children: [
-                    {
-                        id: 'State',
-                        enumsKey: 'StateAndCapitals',
-                        enumsParentKey: 'Country',
-                        options: ({ values }: any) => new Promise((resolve) => {
-                            resolve(enums?.StateAndCapitals.filter((item) => !item.ParentID && item.Country === values?.Country))
-                        }),
-                        children: [
-                            {
-                                id: 'Capital',
-                                enumsKey: 'StateAndCapitals',
-                                enumsParentKey: 'ParentID',
-                                options: ({ values }: any) => new Promise((resolve) => {
-                                    resolve(enums?.StateAndCapitals.filter((item) => item.ParentID === values?.State))
-                                }),
-                            },
-                        ]
-                    },
-                ]
-            },
-        ]
-
-    }, [enums?.StateAndCapitals])
-
     const [hideElements, setHideElements] = useState(false)
     const [A, setA] = useState(0)
     const [B, setB] = useState(0)
@@ -127,8 +54,52 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                         :
                         []
                 ),
-                formBuilder.createCascadeComboBox({ id: 'cascadeComboBox', tabPath: 1 }, { design: singleLeafCascadeDesign }),
-                formBuilder.createMultiValueCascadeComboBox({ id: 'MultiValueCascadeComboBox', tabPath: 1 }, { design: multiLeafCascadeDesign }),
+                formBuilder.createCascadeComboBox(
+                    {
+                        id: 'cascadeComboBox',
+                        tabPath: 1
+                    },
+                    {
+                        design: [
+                            {
+                                id: 'business_id',
+                                children: [
+                                    {
+                                        id: 'system_id',
+                                        enumsKeyParentIDField: 'business_id',
+                                    },
+                                ]
+                            },
+                        ]
+                    }
+                ),
+                formBuilder.createMultiValueCascadeComboBox(
+                    {
+                        id: 'MultiValueCascadeComboBox', tabPath: 1
+                    },
+                    {
+                        design: [
+                            {
+                                id: 'layerA',
+                                options: ServiceManager.getData_layerA,
+                                children: [
+                                    {
+                                        id: 'layerAB',
+                                        options: ({ values }) => ServiceManager.getData_layerAB({ layerA: values?.layerA }),
+                                        enumsKeyParentIDField: 'layerA',
+                                        children: [
+                                            {
+                                                id: 'layerABC1',
+                                                options: ({ values }) => ServiceManager.getData_layerABC1({ layerA: values?.layerA, layerAB: values?.layerAB }),
+                                                enumsKeyParentIDField: 'layerAB',
+                                            },
+                                        ]
+                                    },
+                                ]
+                            },
+                        ]
+                    }
+                ),
                 formBuilder.createAdvanceStepper({ id: 'AdvanceStepper', size: 6 }),
                 formBuilder.createGrid({
                     id: 'grid01',
@@ -151,7 +122,7 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                 }
             })
             .build()
-    }, [A, B, hideElements, onHideSomeElementClick, singleLeafCascadeDesign])
+    }, [A, B, hideElements, onHideSomeElementClick])
 
     return (
         <ATForm ref={ref} onChange={onChange} validationDisabled={false}>

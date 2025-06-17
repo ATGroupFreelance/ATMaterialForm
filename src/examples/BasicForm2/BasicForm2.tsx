@@ -58,7 +58,7 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                                             return ServiceManager.getData_layerAB({ layerA: values?.Layer1 })
                                         },
                                         enumsKey: 'layerAB',
-                                        enumsParentKey: "layerA",
+                                        enumsKeyParentIDField: "layerA",
                                         size: 6
                                     }
                                 ]

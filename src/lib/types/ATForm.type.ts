@@ -27,6 +27,11 @@ export interface ATFormProps {
     ref?: React.Ref<ATFormRefInterface>,
     children?: ATFormBuilerColumnInterface[],
     validationDisabled?: boolean,
+    /**The default format for a default value is "FormDataSemiKeyValue" here is an example:
+     * { name: "Test", myDatePicker: "2025-01-01", myContainerWithTable: [{}, {}] }
+     * 
+     * Read defaultValueFormat for more information.
+     */
     defaultValue?: any,
     defaultValueFormat?: ATFormDefaultValueFormat,
     onChange?: (props: ATFormOnChangeInterface) => void,

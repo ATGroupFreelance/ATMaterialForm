@@ -2,16 +2,21 @@ import { ATEnumItemType, ATEnumsType, ATEnumType, ATFormMinimalControlledUIProps
 import { ATFormComboBoxProps } from "./ComboBox.type";
 import { ATFormGridSize } from "../ATForm.type";
 
-export interface ATFormCascadeComboBoxDesignLayerOptionsFunctionProps {
-    enums: ATEnumsType,
-    values: Record<string, string | Array<ATEnumItemType>> | null
-}
+export type ATFormCascadeComboBoxOptionsFilterFunction = (params: {
+    index: number,
+    enums: ATEnumsType;
+    values: Record<string, string | Array<ATEnumItemType>> | null;
+    option: ATEnumItemType;
+}) => boolean;
 
 export type ATFormCascadeComboBoxStaticOptions = ATEnumType | null | undefined;
 
 export type ATFormCascadeComboBoxAsyncOptions = (
-    props: ATFormCascadeComboBoxDesignLayerOptionsFunctionProps
-) => Promise<ATEnumType | null | undefined>;
+    params: {
+        enums: ATEnumsType;
+        values: Record<string, string | Array<ATEnumItemType>> | null;
+    }
+) => Promise<ATFormCascadeComboBoxStaticOptions>
 
 export type ATFormCascadeComboBoxOptionsType =
     | ATFormCascadeComboBoxStaticOptions
@@ -25,23 +30,27 @@ export interface ATFormCascadeComboBoxDesignLayerBase {
     children?: ATFormCascadeComboBoxDesignLayer[];
     uiProps?: StrictOmit<ATFormComboBoxProps, 'id' | 'value' | 'multiple' | 'readOnly' | 'size' | 'options'>;
     size?: ATFormGridSize,
+    filterOptions?: ATFormCascadeComboBoxOptionsFilterFunction,
+    /**
+     * This is used in reverseConvertValue to get the full tree from a leaf
+     * Defaults to the id field if not provided.
+     */
+    enumsKey?: string;
+    /** 
+     * The key of the parent. 
+     * Defaults to "parent_id" if not provided.
+    */
+    enumsKeyParentIDField?: string;
 }
 
-// Static: no enumsKey required
 export interface ATFormCascadeComboBoxStaticDesignLayer
     extends ATFormCascadeComboBoxDesignLayerBase {
     options?: ATFormCascadeComboBoxStaticOptions;
-    enumsKey?: string; // optional
-    enumsParentKey?: string;
 }
 
-
-// Async: enumsKey required
 export interface ATFormCascadeComboBoxAsyncDesignLayer
     extends ATFormCascadeComboBoxDesignLayerBase {
     options: ATFormCascadeComboBoxAsyncOptions;
-    enumsKey: string; // required
-    enumsParentKey?: string;
 }
 
 export type ATFormCascadeComboBoxDesignLayer =
@@ -60,7 +69,7 @@ export interface ATFormCascadeComboBoxProps extends ATFormMinimalControlledUIPro
 export interface ATFormCascadeComboBoxBaseComboBoxPropsBase {
     id: string;
     value: any;
-    parentID: string | null;
+    parentID: string | null | undefined;
     size?: ATFormGridSize;
     uiProps?: StrictOmit<ATFormComboBoxProps, 'id' | 'value' | 'multiple' | 'readOnly' | 'size' | 'options'>;
     multiple?: boolean;
