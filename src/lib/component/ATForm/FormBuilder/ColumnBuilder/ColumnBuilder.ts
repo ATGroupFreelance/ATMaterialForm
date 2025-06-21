@@ -9,7 +9,7 @@ class ColumnBuilder {
 
             const createFunction = formBuilder[`create${item.tProps.type}` as keyof typeof formBuilder];
             if (typeof createFunction === 'function') {
-                return createFunction(item.tProps, item.uiProps);
+                return createFunction(item.tProps, item.uiProps as any);
             }
 
             throw new Error(`Invalid type: ${item.tProps.type}`);
@@ -70,6 +70,8 @@ class ColumnBuilder {
 
         withoutIndex.forEach(item => {
             const { index, ...restProps } = item
+            void index;
+            
             this.columns.push({ ...restProps })
         })
 

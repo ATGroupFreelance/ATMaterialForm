@@ -106,9 +106,6 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
             for (let j = 0; j < tColumns.length; j++) {
                 const currentTColumn = tColumns[j]
 
-                if (currentTColumn) {
-
-                }
                 // Create the new column definition
                 const newColumn = tColumnTypes[currentTColumn.type](currentTColumn)
 

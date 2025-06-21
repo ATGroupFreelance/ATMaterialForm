@@ -106,7 +106,7 @@ const ATFormFunction = (props: ATFormProps) => {
                 compile: () => data => {
                     let result = true
 
-                    for (let key in data) {
+                    for (const key in data) {
                         if (data[key] === null || data[key] === undefined || data[key] === '') {
                             result = false
                             break;
@@ -140,7 +140,7 @@ const ATFormFunction = (props: ATFormProps) => {
 
     useEffect(() => {
         console.log('internalDefaultValue has changed', { internalDefaultValue, refList: mChildrenRefs.current })
-        for (let key in mChildrenRefs.current) {
+        for (const key in mChildrenRefs.current) {
             if (mChildrenRefs.current[key] && mChildrenRefs.current[key].reset) {
                 mChildrenRefs.current[key].reset();
             }
@@ -149,6 +149,9 @@ const ATFormFunction = (props: ATFormProps) => {
 
 
     const onChildChange = useCallback(({ event, childProps, callFormOnChangeDisabled, groupDataID }: ATFormOnChildChangeInterface) => {
+        //TODO add support for groupDataID
+        void groupDataID;
+
         const currentChildTypeInfo = childProps.typeInfo || getTypeInfo(childProps.tProps.type)
 
         //New Values
@@ -251,7 +254,7 @@ const ATFormFunction = (props: ATFormProps) => {
 
         let result = false
 
-        for (let key in mLockdown.current) {
+        for (const key in mLockdown.current) {
             if (mLockdown.current[key] === true) {
                 result = true
                 break
@@ -376,7 +379,7 @@ const ATFormFunction = (props: ATFormProps) => {
             onChildChange,
             errors: validationErrors,
         }
-    }, [checkValidation, getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors])
+    }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef])
 
     const [flatChildren, flatChildrenProps] = useMemo(() => {
         const flatChildren = getFlatChildren(props.children)
@@ -401,6 +404,9 @@ const ATFormFunction = (props: ATFormProps) => {
     }, [props.children, getChildProps, getTypeInfo])
 
     const reset = useCallback(({ inputDefaultValue, reverseConvertToKeyValueEnabled = true, inputDefaultValueFormat = 'FormDataSemiKeyValue', callFormOnChangeDisabled = false }: ATFormResetInterface = {} as ATFormResetInterface) => {
+        //TODO handle callFormOnChangeDisabled;
+        void callFormOnChangeDisabled;
+
         const ungroupedInputDefaultValue = inputDefaultValue
 
         //If default value is not key value just use it!
@@ -410,7 +416,7 @@ const ATFormFunction = (props: ATFormProps) => {
         if (reverseConvertToKeyValueEnabled && ungroupedInputDefaultValue) {
             const reverseConvertToKeyValueDefaultValue: Record<string, any> = {}
 
-            for (let key in ungroupedInputDefaultValue) {
+            for (const key in ungroupedInputDefaultValue) {
                 //Find the elemenet of the value using id match
                 const foundChildProps = flatChildrenProps.find((item) => String(item.tProps?.id) === String(key))
 
@@ -449,7 +455,7 @@ const ATFormFunction = (props: ATFormProps) => {
         console.log('reset newDefaultValue', newDefaultValue)
 
         setInternalDefaultValue(newDefaultValue || {})
-    }, [enums, getTypeInfo, rtl, flatChildrenProps])
+    }, [enums, rtl, flatChildrenProps])
 
     useEffect(() => {
         if (props.defaultValue && !mIsDefaultValueResetCalledOnMount.current) {
@@ -467,7 +473,7 @@ const ATFormFunction = (props: ATFormProps) => {
             getTypeInfo,
             checkValidation
         }
-    }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo, checkValidation])
+    }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo, checkValidation, onChildChange])
 
     return (
         <ATFormContextProvider value={formContextValue}>

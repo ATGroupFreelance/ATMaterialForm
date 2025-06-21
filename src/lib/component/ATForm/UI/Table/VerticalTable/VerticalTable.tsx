@@ -14,7 +14,7 @@ const VerticalTable = ({ id, data, columns, rowProps, cellProps, columnsPerRow =
     const newColumns = [...(columns || [])];
 
     if (!newColumns.length && data && data.length) {
-        for (let key in data[0]) {
+        for (const key in data[0]) {
             newColumns.push(key);
         }
     }

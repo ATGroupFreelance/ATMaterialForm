@@ -12,6 +12,8 @@ import { ATFormOnClickProps } from '@/lib/types/Common.type';
 const DEFAULT_UNIQUE_KEY = 'AT_GRID_INDEX'
 
 const MultiSelectGrid = ({ id, value, label, onChange, columnDefs, uniqueKey = DEFAULT_UNIQUE_KEY, onConfirmButtonClick, confirmButtonProps = {}, rowSelection, height = '50vh', ...restProps }: ATFormMultiSelectGridProps) => {
+    void id;
+
     const { localText } = useATFormConfig()
 
     const ref = useRef<any>(null)
@@ -80,7 +82,7 @@ const MultiSelectGrid = ({ id, value, label, onChange, columnDefs, uniqueKey = D
             rowSelection={{
                 mode: 'singleRow',
                 enableSelectionWithoutKeys: true,
-                isRowSelectable: false,
+                isRowSelectable: () => false,
                 ...rowSelection,
             }}
             columnDefs={[

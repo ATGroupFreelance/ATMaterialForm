@@ -17,7 +17,7 @@ const HorizontalTable = ({ id, data, columns, rowProps, cellProps, headerCellPro
     ]
 
     if (!newColumns.length && data && data.length) {
-        for (let key in data[0]) {
+        for (const key in data[0]) {
             newColumns.push(key)
         }
     }
@@ -43,7 +43,7 @@ const HorizontalTable = ({ id, data, columns, rowProps, cellProps, headerCellPro
                 newData.map((row, index) => {
                     const cells = []
 
-                    for (let key in row) {
+                    for (const key in row) {
                         cells.push(
                             <TableCell key={key} {...(cellProps || {})}>
                                 {row[key]}

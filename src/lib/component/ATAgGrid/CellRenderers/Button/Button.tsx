@@ -15,7 +15,7 @@ const Button = (props: ATAgGridButtonCellRendererProps) => {
 
         if (cellRendererParamsOnClick)
             cellRendererParamsOnClick({ ...onClickProps, cellRendererProps: props })
-    }, [props.config?.onClick, cellRendererParamsOnClick, props])
+    }, [cellRendererParamsOnClick, props])
 
     return <ATButton
         onClick={onInternalClick}

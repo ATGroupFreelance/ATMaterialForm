@@ -296,8 +296,8 @@ const ContainerWithTable = ({ value, formChildren, getGridColumnDefs, onChange, 
                 height={height}
                 columnDefs={[
                     ...(gridColumnDefs || []),
-                    ColumnDefTemplates.createEdit({ cellRendererParams: { onClick: onEditClick }, pinned: 'left' }),
-                    ColumnDefTemplates.createRemove({ cellRendererParams: { onClick: onRemoveClick }, pinned: 'left' })
+                    ColumnDefTemplates.createEdit({ cellRendererParams: { config: { onClick: onEditClick } }, pinned: 'left' }),
+                    ColumnDefTemplates.createRemove({ cellRendererParams: { config: { onClick: onRemoveClick } }, pinned: 'left' })
                 ]}
                 getRowId={getRowId ? getRowId() : (params) => {
                     console.log('params', {

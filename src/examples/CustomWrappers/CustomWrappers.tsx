@@ -39,7 +39,7 @@ const MyWrapperTypeB = ({ childProps, children }: any) => {
     </Grid>
 }
 
-const CustomWrappers = ({ ref, onChange }: ExampleComponentInterface) => {
+const CustomWrappers = ({ ref }: ExampleComponentInterface) => {
     const [isValidNumber, setIsValidNumber] = useState(false)
     const [gridSize, setGridSize] = useState(12)
 

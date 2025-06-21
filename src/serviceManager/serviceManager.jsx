@@ -2,7 +2,8 @@
 
 class ServiceManagerClass {
     uploadFilesToServer = (requestBody) => {
-        return new Promise((resolve, reject) => {
+        console.log('requestBody', requestBody)
+        return new Promise((resolve) => {
             setTimeout(() => {
                 resolve([
                     {
@@ -22,6 +23,7 @@ class ServiceManagerClass {
 
     getFile = (id) => {
         return {
+            id
         }
     }
 
@@ -128,7 +130,7 @@ class ServiceManagerClass {
     }
 
     getEnums = () => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             setTimeout(() => {
                 const enums = {
                     "StrictFormatState": [{ title: 'England2', id: 1, parent_id: 1 }, { title: 'England', id: 2, parent_id: 1 }, { title: 'Alabama', id: 3, parent_id: 2 }],

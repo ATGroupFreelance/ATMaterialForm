@@ -29,15 +29,37 @@ const enrichTabs = (tabs: ATFormTabConfigInterface[], parentTabPath: number[]): 
 }
 
 const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSelectedTabPaths }: ATFormTabsManagerProps) => {
+    //TODO Add suppport for defaultSelectedTabPaths
+    void defaultSelectedTabPaths;
+
+    const enrichedTabs = useMemo(() => {
+        return tabs ? enrichTabs(tabs, []) : []
+    }, [tabs])
+
+    const [selectedTabMap, setSelectedTabMap] = useState<Record<number, ATFormTabsOnChangeProps>>({});
+
+    const onTabChange = useCallback((props: ATFormTabsOnChangeProps) => {
+        setSelectedTabMap((prevState: any) => {
+            const newTabStateMap = {
+                ...prevState,
+                [props.tabContainer.primarytabPathIndex]: {
+                    ...props,
+                    tabContainer: props.tabContainer
+                }
+            }
+
+            if (onChange)
+                onChange(newTabStateMap)
+
+            return newTabStateMap
+        })
+    }, [onChange])
+
     /**If tabs does not exist just skip and go to render stage */
     if (!tabs)
         return <ATFormRender childrenProps={childrenProps}>
             {children}
         </ATFormRender>
-
-    const enrichedTabs = useMemo(() => {
-        return enrichTabs(tabs, [])
-    }, [tabs])
 
     const tabContainerList: ATFormTabContainer[] = []
 
@@ -54,6 +76,8 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
         const hastabPathChanged = String(currentPrimarytabPathIndex) !== String(lastPrimarytabPathIndex)
 
         if (hastabPathChanged && (currentPrimarytabPathIndex || currentPrimarytabPathIndex === 0)) {
+            lastPrimarytabPathIndex = currentPrimarytabPathIndex
+            
             const foundIndex = tabContainerList.findIndex((item) => item.primarytabPathIndex === currentPrimarytabPathIndex)
             const currentTab = enrichedTabs?.find(((_, index) => index === currentPrimarytabPathIndex))
 
@@ -112,26 +136,6 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
         childrenProps,
     })
 
-    const [selectedTabMap, setSelectedTabMap] = useState<Record<number, ATFormTabsOnChangeProps>>({});
-
-
-    const onTabChange = useCallback((props: ATFormTabsOnChangeProps) => {
-        setSelectedTabMap((prevState: any) => {
-            const newTabStateMap = {
-                ...prevState,
-                [props.tabContainer.primarytabPathIndex]: {
-                    ...props,
-                    tabContainer: props.tabContainer
-                }
-            }
-
-            if (onChange)
-                onChange(newTabStateMap)
-
-            return newTabStateMap
-        })
-    }, [onChange])
-
     console.log('selectedTabMap', selectedTabMap)
 
     const newChildrenProps: (ATFormChildProps | ATFormUnknownChildProps)[] = childrenProps.map(item => {
@@ -145,7 +149,7 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
 
         let isSameTabPath = false
 
-        for (let key in selectedTabMap) {
+        for (const key in selectedTabMap) {
             // Example: `tabPath: [1, 2]` means this item is inside the first tab and then inside the second tab within the first tab.
             isSameTabPath = selectedTabMap[key].selectedTabPath.join(',') === tabPathAsArray.join(',')
 

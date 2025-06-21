@@ -5,6 +5,9 @@ import { Grid } from "@mui/material"
 import { ATFormChildProps, ATUIRenderProps } from "@/lib/types/ATForm.type"
 
 const UIRender = ({ children, childProps }: ATUIRenderProps) => {
+    if (childProps.tProps?.skipRender)
+        return null;
+
     //default wrapper is a flex grid
     //Please note wrapper variable must be pascal because its a react component
     let Wrapper = Grid
@@ -21,27 +24,23 @@ const UIRender = ({ children, childProps }: ATUIRenderProps) => {
             childProps,
             ...(childProps.tProps?.wrapperRendererProps || {}),
         }
-    }    
+    }
 
-    // console.log('UIRender', {skipForm, isValid: React.isValidElement(ui), ui})
+    // console.log('UIRender', {skipForm, isValid: React.isValidElement(ui), ui})    
 
     const output = (
-        !childProps.tProps?.skipRender
-        &&
-        (
-            React.isValidElement(children) ?
-                childProps?.tProps?.skipForm ?
-                    //Example: <div skipForm={true}><TextBox/></div>
-                    children
-                    :
-                    //Example: <TextBox/>
-                    React.cloneElement(children, { ...(childProps?.uiProps || {}) })
+        React.isValidElement(children) ?
+            childProps?.tProps?.skipForm ?
+                //Example: <div skipForm={true}><TextBox/></div>
+                children
                 :
-                //Example: {
-                //     type: 'TextBox'
-                // }
-                <UIBuilder childProps={childProps as ATFormChildProps} />
-        )
+                //Example: <TextBox/>
+                React.cloneElement(children, { ...(childProps?.uiProps || {}) })
+            :
+            //Example: {
+            //     type: 'TextBox'
+            // }
+            <UIBuilder childProps={childProps as ATFormChildProps} />
     )
 
     if (!Wrapper)

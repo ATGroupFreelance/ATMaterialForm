@@ -4,7 +4,9 @@ import StepLabel from '@mui/material/StepLabel';
 import { Button } from '@mui/material';
 import { ATFormAdvanceStepperProps } from '@/lib/types/ui/AdvanceStepper.type';
 
-const AdvanceStepper = (_props: ATFormAdvanceStepperProps) => {
+const AdvanceStepper = (props: ATFormAdvanceStepperProps) => {
+    void props;
+
     const steps = [
     ];
 

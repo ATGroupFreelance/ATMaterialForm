@@ -4,7 +4,9 @@ import { ATFormButtonProps } from '@/lib/types/ui/Button.type';
 import { ATFormOnClickProps } from '@/lib/types/Common.type';
 import useATComponentLoading from '@/lib/hooks/useATComponentLoading/useATComponentLoading';
 
-const Button = ({ id, label, confirmationText, fullWidth, onClick, color = 'primary', children, loading: loadingProp, disabled, ...restProps }: ATFormButtonProps) => {
+const Button = ({ id, label, confirmationText, fullWidth = true, onClick, color = 'primary', children, loading: loadingProp, disabled, ...restProps }: ATFormButtonProps) => {
+    void id;
+    
     const { loading, startLoading, stopLoading } = useATComponentLoading({ loading: loadingProp, disabled })
 
     const onYesClick = (props: ATFormOnClickProps) => {
@@ -23,7 +25,7 @@ const Button = ({ id, label, confirmationText, fullWidth, onClick, color = 'prim
             onClick({ event, startLoading, stopLoading })
     }
 
-    return <MUIButton fullWidth={true} disabled={loading || disabled} onClick={internalOnClick} color={color} {...restProps}>{label}{children}</MUIButton>
+    return <MUIButton fullWidth={fullWidth} disabled={loading || disabled} onClick={internalOnClick} color={color} {...restProps}>{label}{children}</MUIButton>
 }
 
 export default Button;

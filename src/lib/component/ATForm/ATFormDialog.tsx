@@ -111,7 +111,7 @@ const ATFormDialog = ({
                 }
             </Grid>
         </DialogContent>
-        <DialogActions>
+        <DialogActions {...(dialogActionsProps || {})}>
             <Grid container spacing={2}>
                 {
                     newActions.map((item: any) => {

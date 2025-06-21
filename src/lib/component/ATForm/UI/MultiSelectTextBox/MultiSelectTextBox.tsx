@@ -101,6 +101,7 @@ const MultiSelectTextBox = ({ label, onChange, autoComplete = false, error, help
         }
         value={value}
         onChange={onAutocompleteChange}
+        autoComplete={autoComplete}
         {...restProps}
     />
 }

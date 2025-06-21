@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { ATForm, formBuilder } from "@/lib";
 import ComboBox from '@/lib/component/ATForm/UI/ComboBox/ComboBox';
@@ -6,7 +6,9 @@ import { Grid } from '@mui/material'
 import { ExampleComponentInterface } from '@/App';
 import { ATFormOnChangeInterface, ATFormRefInterface } from '@/lib/types/ATForm.type';
 
-const ContainerWithTablePlayground = ({ onChange }: ExampleComponentInterface) => {
+const ContainerWithTablePlayground = (props: ExampleComponentInterface) => {
+    void props
+    
     const formRef = useRef<ATFormRefInterface | null>(null)
     const data = useRef<any>({ 1: { ContainerWithTable: [{ Name: '1A' }, { Name: '1B' }] } })
     const [round, setRound] = useState<{ id: number; title: string } | null>(null)
@@ -18,6 +20,7 @@ const ContainerWithTablePlayground = ({ onChange }: ExampleComponentInterface) =
     }, [round])
 
     const onFormChange = ({ formDataSemiKeyValue }: ATFormOnChangeInterface) => {
+        console.log('onFormChange formDataSemiKeyValue', formDataSemiKeyValue)
         // console.log('round onFormChange', round)
         // if (round) 
         //     data.current[round.id] = {

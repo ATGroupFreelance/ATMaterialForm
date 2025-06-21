@@ -36,7 +36,7 @@ const ATFormTabs = ({ tabs, onTabChange, value, depth, tabContainer }: ATFormTab
                 });
             }
         }
-    }, []);
+    }, [value, tabs, tabContainer, activeTabIndex, onTabChange]);
 
     const onInternalChange = useCallback((event: React.SyntheticEvent, newIndex: number) => {
         const selectedTab = tabs[newIndex]
@@ -63,7 +63,7 @@ const ATFormTabs = ({ tabs, onTabChange, value, depth, tabContainer }: ATFormTab
                 tabContainer,
             }
         )
-    }, [onTabChange])
+    }, [onTabChange, depth, tabContainer, value?.containerTabPath, tabs])
 
     const onSubTabsChange: ATFormTabsOnChangeType = useCallback((props) => {
         onTabChange(props)

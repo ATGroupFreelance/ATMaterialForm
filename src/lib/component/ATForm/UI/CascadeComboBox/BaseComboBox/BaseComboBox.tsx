@@ -49,7 +49,7 @@ const BaseComboBox = ({ id, value, parentID, options, multiple, readOnly, size =
         if (parentID && value && value[parentID] && (parentPrevValue !== value[parentID])) {
             const values: Record<string, string | Array<ATEnumItemType>> = {}
 
-            for (let key in value) {
+            for (const key in value) {
                 if (Array.isArray(value[key]))
                     values[key] = value[key].map(item => item.id)
                 else

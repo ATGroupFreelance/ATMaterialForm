@@ -7,7 +7,7 @@ export const capitalizeFirstLetter = (string: any) => {
 export const convertToKeyValue = (formData: any) => {
     const result: Record<string, any> = {}
 
-    for (let key in formData) {
+    for (const key in formData) {
         result[key] = formData.value
     }
 
@@ -25,7 +25,7 @@ export const groupKeyValueAsTableData = (formDataKeyValue: any, groupID: any, id
     let counter = 0
 
 
-    for (let key in formDataKeyValue) {
+    for (const key in formDataKeyValue) {
         const found = idList.find((item: any) => item === key)
 
         if (found) {

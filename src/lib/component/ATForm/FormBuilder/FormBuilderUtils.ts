@@ -8,9 +8,17 @@ const createColumnBuilder = (columns: ATFormBuilerColumnInterface[]) => {
     return columnBuilder
 }
 
-const createConditionalInsert = ({ condition, elements }: ATFormBuilderConditionalInsertInterface) => {
+const insertIf = ({ condition, elements }: ATFormBuilderConditionalInsertInterface) => {
     if (!condition)
-        return []
+        return elements?.map(item => {
+            return {
+                ...item,
+                tProps: {
+                    ...item.tProps,
+                    skipRender: true,
+                }
+            }
+        })
     else
         return elements
 }
@@ -21,7 +29,7 @@ const createColumnDefsByRowData = (rowData: any) => {
     if (rowData && Array.isArray(rowData) && rowData.length > 0) {
         const firstSlot = rowData[0]
 
-        for (let key in firstSlot) {
+        for (const key in firstSlot) {
             result.push({
                 field: key,
             })
@@ -33,6 +41,6 @@ const createColumnDefsByRowData = (rowData: any) => {
 
 export const formBuilderUtils = {
     createColumnBuilder,
-    createConditionalInsert,
+    insertIf,
     createColumnDefsByRowData
 }

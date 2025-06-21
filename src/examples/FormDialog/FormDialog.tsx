@@ -8,7 +8,7 @@ import { ATFormOnClickProps } from "@/lib/types/Common.type";
 const FormDialog = ({ ref, ...props }: ExampleComponentInterface) => {
     const [dialog, setDialog] = useState<any>(null)
 
-    const onDialogSubmit = ({ startLoading, stopLoading, formData, formDataKeyValue, formDataSemiKeyValue }: ATFormOnClickProps) => {
+    const onDialogSubmit = ({ stopLoading, formDataKeyValue }: ATFormOnClickProps) => {
         stopLoading()
         console.log('onDialogSubmit formDataKeyValue', formDataKeyValue)
 

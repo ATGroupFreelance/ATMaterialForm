@@ -1,4 +1,4 @@
-import React, { JSX, useState } from 'react';
+import { JSX, useState } from 'react';
 
 import TextField from '@mui/material/TextField';
 import { PaletteOutlined } from '@mui/icons-material';
@@ -9,6 +9,8 @@ import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 import { ATFormColorTextBoxProps } from '@/lib/types/ui/ColorTextBox.type';
 
 const ColorTextBox = ({ id, slotProps, value, onChange, ...restProps }: ATFormColorTextBoxProps) => {
+    void id;
+
     const { localText } = useATFormConfig()
     const [dialog, setDialog] = useState<JSX.Element | null>(null)
 
@@ -19,7 +21,7 @@ const ColorTextBox = ({ id, slotProps, value, onChange, ...restProps }: ATFormCo
                 onSubmitClick={(_event: any, { color }: any) => {
                     if (onChange)
                         onChange({ target: { value: color } })
-                    
+
                     handleDialogClose()
                 }}
                 onClose={handleDialogClose}

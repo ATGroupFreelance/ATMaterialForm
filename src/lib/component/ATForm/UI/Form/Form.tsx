@@ -5,6 +5,8 @@ import { ATFormFormProps } from '@/lib/types/ui/Form.type';
 import { ATFormOnChangeInterface, ATFormRefInterface } from '@/lib/types/ATForm.type';
 
 const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: ATFormFormProps) => {
+    void id;
+    
     const mRef = useRef<ATFormRefInterface>(null)
     
     const refCallback = useCallback((newRef: ATFormRefInterface) => {
@@ -17,7 +19,7 @@ const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: AT
                 (ref as React.RefObject<ATFormRefInterface | null>).current = newRef;
             }
         }
-    }, [])
+    }, [ref])
 
     useEffect(() => {
         if (mRef.current) {

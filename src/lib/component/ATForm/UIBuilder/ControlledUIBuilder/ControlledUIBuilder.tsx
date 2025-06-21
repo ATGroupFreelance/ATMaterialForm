@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useImperativeHandle, useEffect } from 'react';
+import React, { Suspense, useState, useImperativeHandle, useEffect, useRef } from 'react';
 //Context
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 import { ATControlledUIBuilderProps, ATFormChildResetInterface } from '@/lib/types/ATForm.type';
@@ -48,18 +48,23 @@ const getInitialValue = (typeInfo: ATTypeInterface, defaultValue: any) => {
 //Sometimes you might want to pass a prop to a component that is already taken, that is when you use the atComponentProps, an example would be type: number for textfield
 //which is already taken by ATMaterialForm
 const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
+    const mIsInitialized = useRef(false)
     const { customComponents } = useATFormConfig()
 
     /**UI Builder doesn't allow any child with an undefined typeinfo to be rendered which means typeinfo is for sure not empty*/
     const [localValue, setLocalValue] = useState(getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue))
 
     useEffect(() => {
-        //We call this to initialize the formData        
-        childProps.onChildChange({
-            event: { target: { value: localValue } },
-            childProps,
-        })
-    }, [])
+        if (!mIsInitialized.current) {
+            mIsInitialized.current = true
+
+            //We call this to initialize the formData        
+            childProps.onChildChange({
+                event: { target: { value: localValue } },
+                childProps,
+            })
+        }
+    }, [childProps, localValue])
 
     //Please note that if value is gived to an element is complex and can not be compared using a shallow compare it can cause infinite loop
     //For example a controlled Textbox from outside is okay but upload button is not.
