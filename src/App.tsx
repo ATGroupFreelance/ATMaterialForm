@@ -11,7 +11,7 @@ import ServiceManager from '@/serviceManager/serviceManager';
 //DatePicker Provider
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { AdapterDateFnsJalali } from '@mui/x-date-pickers/AdapterDateFnsJalaliV3';
+import { AdapterDateFnsJalali } from '@mui/x-date-pickers/AdapterDateFnsJalali';
 //CustomComponents
 import MyTextField from '@/CustomComponents/MyTextField/MyTextField';
 //MUI Theme provider

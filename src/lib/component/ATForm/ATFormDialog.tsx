@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 //MUI
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
