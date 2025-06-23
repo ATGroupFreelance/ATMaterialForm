@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 //services
 import ServiceManager from '@/serviceManager/serviceManager';
-import { ATForm, formBuilder, formBuilderUtils } from "@/lib";
+import { ATForm, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from '@/App';
 import { ATFormOnClickProps } from '@/lib/types/Common.type';
 
@@ -23,7 +23,7 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
     }, [hideElements])
 
     const formJSON = useMemo(() => {
-        return formBuilderUtils.createFieldDefinitionBuilder(
+        return formBuilder.utils.createFieldDefinitionBuilder(
             [
                 formBuilder.createMultiSelectTextBox({ id: 'MultiSelectTextBox' }),
                 formBuilder.createAvatar({ id: 'Avatar1', size: 12 }, { avatarSize: 128 }),

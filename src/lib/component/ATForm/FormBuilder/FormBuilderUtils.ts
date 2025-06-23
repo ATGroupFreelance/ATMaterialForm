@@ -2,7 +2,6 @@ import { ATFormBuilderConditionalInsertInterface } from "@/lib/types/FormBuilder
 import FieldDefinitionBuilder from "./FieldDefinitionBuilder/FieldDefinitionBuilder";
 import { ATFieldDefinitionInterface } from "@/lib/types/FieldDefinitionBuilder.type";
 
-
 const createFieldDefinitionBuilder = (fieldDefinitions: ATFieldDefinitionInterface[]) => {
     const fieldDefinitionBuilder = new FieldDefinitionBuilder(fieldDefinitions)
 

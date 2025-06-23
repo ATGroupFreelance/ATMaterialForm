@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Columns } from "./Columns";
 
-import { ATFormDialog, formBuilderUtils } from '@/lib';
+import { ATFormDialog, formBuilder } from '@/lib';
 import { ATFormDialogProps } from '@/lib/types/ATFormDialog.type';
 
 const RecordDialog = ({ defaultValue, onSubmitClick, onClose, ...restProps }: ATFormDialogProps) => {
@@ -11,7 +11,7 @@ const RecordDialog = ({ defaultValue, onSubmitClick, onClose, ...restProps }: AT
 
     return <ATFormDialog defaultValue={defaultValue} onSubmitClick={onSubmitClick} onClose={onClose} {...restProps}>
         {
-            formBuilderUtils
+            formBuilder.utils
                 .createFieldDefinitionBuilder(Columns)
                 .remove(['D'])
                 .map(item => ({ ...item, size: 6 }))

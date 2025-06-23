@@ -1,4 +1,4 @@
-import { ATForm, formBuilder, formBuilderUtils } from '@/lib';
+import { ATForm, formBuilder } from '@/lib';
 import ATToast from '@/lib/component/ATToast/ATToast';
 import { ExampleComponentInterface } from '@/App';
 
@@ -26,7 +26,7 @@ const ToastPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
     return (
         <ATForm ref={ref} onChange={onChange} validationDisabled={false} >
             {
-                formBuilderUtils.createFieldDefinitionBuilder(
+                formBuilder.utils.createFieldDefinitionBuilder(
                     [
                         formBuilder.createButton({ id: 'Simple Notifiation' }, { onClick: onSimpleNotificationClick }),
                         formBuilder.createButton({ id: 'Persistent Notification' }, { onClick: onPersistentNotificationClick, color: 'error' }),

@@ -28,6 +28,7 @@ import { ATFormColorTextBoxProps } from "@/lib/types/ui/ColorTextBox.type";
 import { ATFormContainerWithTableProps } from "@/lib/types/ui/ContainerWithTable.type";
 import { ATFormMultiSelectGridProps } from "@/lib/types/ui/MultiSelectGrid.type";
 import { ATFormFieldDefinitionInterface } from "@/lib/types/ATForm.type";
+import { formBuilderUtils } from "./FormBuilderUtils";
 
 
 // const splitCapitalBySpace = (input: string) => {
@@ -56,7 +57,7 @@ const create = (props: ATFormBuilderCreateInterface): ATFormFieldDefinitionInter
             A: { onChange: (event) => setA(event.target.value) },            
         }
     )
-    .buildATForm()
+    .build()
  * @param {fieldDefinitions} columns: Array of {id, label, gridProps, uiProps}
  */
 
@@ -164,7 +165,7 @@ const createCascadeComboBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFo
         tProps: {
             wrapperRendererProps: {
                 container: true,
-                spacing: 2,                
+                spacing: 2,
                 ...(tProps?.wrapperRendererProps) || {},
             },
             ...tProps,
@@ -180,7 +181,7 @@ const createMultiValueCascadeComboBox = (tProps: ATFormFieldTypelessTProps, uiPr
         tProps: {
             wrapperRendererProps: {
                 container: true,
-                spacing: 2,                
+                spacing: 2,
                 ...(tProps?.wrapperRendererProps) || {},
             },
             ...tProps,
@@ -344,7 +345,7 @@ const createColorTextBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormC
 }
 
 export const formBuilder = {
-    // createFieldDefinitionBuilder,
+    utils: formBuilderUtils,
     createTextBox,
     createIntegerTextBox,
     createFloatTextBox,

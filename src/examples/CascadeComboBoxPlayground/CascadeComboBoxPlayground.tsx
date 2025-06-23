@@ -1,5 +1,5 @@
 import ServiceManager from '@/serviceManager/serviceManager';
-import { ATForm, formBuilder, formBuilderUtils } from "@/lib";
+import { ATForm, formBuilder } from "@/lib";
 import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 import { ExampleComponentInterface } from '@/App';
 import { ATFormCascadeComboBoxDesignLayer } from '@/lib/types/ui/CascadeComboBox.type';
@@ -172,7 +172,7 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
     return (
         <ATForm ref={ref} onChange={onChange}>
             {
-                formBuilderUtils.createFieldDefinitionBuilder(
+                formBuilder.utils.createFieldDefinitionBuilder(
                     [
                         formBuilder.createCascadeComboBox({ id: 'Type 1 Country' }, { design: singleLeafCascadeDesign1 }),
                         formBuilder.createCascadeComboBox({ id: 'Type 2 Country' }, { design: singleLeafCascadeDesign2 }),

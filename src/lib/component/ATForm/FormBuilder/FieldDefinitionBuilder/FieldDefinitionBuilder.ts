@@ -1,17 +1,22 @@
 import { ATFieldDefinitionInterface } from "@/lib/types/FieldDefinitionBuilder.type";
 import { formBuilder } from "../FormBuilder";
 
+const createFunction = (key: string) => {
+    if (key === 'utils') return undefined; // skip utils property
+    const fn = formBuilder[key as keyof typeof formBuilder];
+    return typeof fn === 'function' ? fn : undefined;
+}
+
 class FieldDefinitionBuilder {
     private fieldDefinitions: ATFieldDefinitionInterface[];
 
     constructor(fieldDefinitions: ATFieldDefinitionInterface[]) {
-        this.fieldDefinitions = fieldDefinitions.map((item: ATFieldDefinitionInterface) => {
-
-            const createFunction = formBuilder[`create${item.tProps.type}` as keyof typeof formBuilder];
-            if (typeof createFunction === 'function') {
-                return createFunction(item.tProps, item.uiProps as any);
+        this.fieldDefinitions = fieldDefinitions.map((item) => {
+            const key = `create${item.tProps.type}`;
+            const createFn = createFunction(key);
+            if (createFn) {
+                return createFn(item.tProps, item.uiProps as any);
             }
-
             throw new Error(`Invalid type: ${item.tProps.type}`);
         })
     }
@@ -71,7 +76,7 @@ class FieldDefinitionBuilder {
         withoutIndex.forEach(item => {
             const { index, ...restProps } = item
             void index;
-            
+
             this.fieldDefinitions.push({ ...restProps })
         })
 

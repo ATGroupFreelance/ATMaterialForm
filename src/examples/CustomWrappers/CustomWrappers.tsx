@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ATForm, formBuilder, formBuilderUtils } from "@/lib";
+import { ATForm, formBuilder } from "@/lib";
 import { Button, Grid } from '@mui/material';
 import { ExampleComponentInterface } from '@/App';
 
@@ -60,7 +60,7 @@ const CustomWrappers = ({ ref }: ExampleComponentInterface) => {
     return (
         <ATForm ref={ref} validationDisabled={false}>
             {
-                formBuilderUtils.createFieldDefinitionBuilder(
+                formBuilder.utils.createFieldDefinitionBuilder(
                     [
                         formBuilder.createTextBox({
                             id: 'TextBoxWithWrapperA',

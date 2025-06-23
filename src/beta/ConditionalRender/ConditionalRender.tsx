@@ -1,4 +1,4 @@
-import { ATForm, formBuilder, formBuilderUtils } from "@/lib";
+import { ATForm, formBuilder } from "@/lib";
 import { useState } from "react";
 
 const ConditionalRender = ({ ref, onChange }: any) => {
@@ -6,7 +6,7 @@ const ConditionalRender = ({ ref, onChange }: any) => {
 
     return <ATForm ref={ref} onChange={onChange}>
         {
-            formBuilderUtils.createFieldDefinitionBuilder(
+            formBuilder.utils.createFieldDefinitionBuilder(
                 [
                     formBuilder.createTextBox({ id: 'Name', label: 'Name' }),
                     formBuilder.createButton({ id: 'ShowDatePicker', label: 'Show Date Picker' }, { onClick: () => setShowDatePicker(!showDatePicker) }),

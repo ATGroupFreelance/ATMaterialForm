@@ -1,4 +1,4 @@
-import { ATForm, formBuilder, formBuilderUtils } from "@/lib";
+import { ATForm, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from '@/App';
 import { useState } from "react";
 
@@ -21,7 +21,7 @@ const ConditionalRendering = ({ ref, onChange }: ExampleComponentInterface) => {
             {
                 [
                     formBuilder.createTextBox({ id: 'Name' }),
-                    ...formBuilderUtils.insertIf({
+                    ...formBuilder.utils.insertIf({
                         condition: conditionToggle,
                         elements: [
                             formBuilder.createDatePicker({ id: 'Date' }),
