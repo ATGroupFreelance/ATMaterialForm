@@ -1,11 +1,11 @@
 import { ExampleComponentInterface } from "@/App";
 import { ATForm, formBuilder } from "@/lib";
-import { ATFormComponentRefInterface } from "@/lib/types/ATForm.type";
+import { ATFormChildRefInterface } from "@/lib/types/ATForm.type";
 import ServiceManager from "@/serviceManager/serviceManager";
 import { useRef } from "react";
 
 const BasicForm2 = (props: ExampleComponentInterface) => {
-    const mTPropsRef = useRef<ATFormComponentRefInterface>(null)
+    const mTPropsRef = useRef<ATFormChildRefInterface>(null)
     const mUIPropsRef = useRef(null)
 
     console.log('BasicForm2', {

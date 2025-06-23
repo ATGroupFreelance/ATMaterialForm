@@ -2,7 +2,7 @@ import React, { Suspense, useState, useImperativeHandle, useEffect, useRef } fro
 //Context
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 import { ATControlledUIBuilderProps, ATFormChildResetInterface } from '@/lib/types/ATForm.type';
-import { ATTypeInterface } from '@/lib/types/UITypeUtils.type';
+import { ATFormTypeInfoInterface } from '@/lib/types/UITypeUtils.type';
 import { ATFormComboBoxProps } from '@/lib/types/ui/ComboBox.type';
 import { ATFormMultiComboBoxProps } from '@/lib/types/ui/MultiComboBox.type';
 import { ATFormFileViewerProps } from '@/lib/types/ui/FileViewer.type';
@@ -32,7 +32,7 @@ const AdvanceStepper = React.lazy(() => import('../../UI/AdvanceStepper/AdvanceS
 const Form = React.lazy(() => import('../../UI/Form/Form'));
 const ColorTextBox = React.lazy(() => import('../../UI/ColorTextBox/ColorTextBox'));
 
-const getInitialValue = (typeInfo: ATTypeInterface, defaultValue: any) => {
+const getInitialValue = (typeInfo: ATFormTypeInfoInterface, defaultValue: any) => {
     const { initialValue, isNullValueValid } = typeInfo
 
     let result = defaultValue

@@ -3,7 +3,7 @@ import type React from "react";
 import type { ColDef } from "ag-grid-community";
 import { Grid } from '@mui/material';
 import { ATFormBuilderColumnGenericProps, ATFormBuilderColumnInterface } from "./FormBuilder.type";
-import { ATTypeInterface } from "./UITypeUtils.type";
+import { ATFormTypeInfoInterface } from "./UITypeUtils.type";
 import { ATFormTabConfigInterface, ATFormTabsManagerDefaultSelectedTabPathsType, ATFormTabsOnChangeType } from "./ATFormTabsManager.type";
 
 export type ATFormGridSize = React.ComponentProps<typeof Grid>['size'];
@@ -61,14 +61,14 @@ export interface ATFormPendingValidationCallbackInterface {
 }
 
 /**Type def for tProps.ref */
-export interface ATFormComponentRefInterface {
+export interface ATFormChildRefInterface {
     reset?: (resetProps?: ATFormChildResetInterface) => void,
 }
 
 /**Type def for tProps */
 export interface ATFormComponentProps {
     /**This is ref that gives you access to form apis that are at child level, this is not the same as uiProps.ref ! */
-    ref?: React.Ref<ATFormComponentRefInterface>,
+    ref?: React.Ref<ATFormChildRefInterface>,
     id: string,
     type: string,
     size?: ATFormGridSize,
@@ -89,7 +89,7 @@ export interface ATFormComponentProps {
 }
 
 export type ATFormChildProps<T extends ATFormBuilderColumnGenericProps = ATFormBuilderColumnGenericProps> = ATFormBuilderColumnInterface<T> & {
-    typeInfo: ATTypeInterface | undefined,
+    typeInfo: ATFormTypeInfoInterface | undefined,
     errors: any,
     onChildChange: (props: ATFormOnChildChangeInterface) => void,
     isTabSelected?: boolean,

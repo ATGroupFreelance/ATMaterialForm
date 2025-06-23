@@ -6,13 +6,13 @@ import AVJErrors from 'ajv-errors';
 //Components
 import { getFlatChildren } from './FormUtils/FormUtils';
 import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
-import { ATFormChildProps, ATFormComponentProps, ATFormComponentRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps } from '@/lib/types/ATForm.type';
+import { ATFormChildProps, ATFormComponentProps, ATFormChildRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps } from '@/lib/types/ATForm.type';
 import { ATFormContextProvider } from './ATFormContext/ATFormContext';
 import { ATFormBuilderColumnInterface } from '@/lib/types/FormBuilder.type';
 import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
 
 const ATFormFunction = (props: ATFormProps) => {
-    const mChildrenRefs = useRef<Record<string, ATFormComponentRefInterface>>({})
+    const mChildrenRefs = useRef<Record<string, ATFormChildRefInterface>>({})
     const mFormData = useRef({})
     const mFormDataKeyValue = useRef({})
     const mFormDataSemiKeyValue = useRef({})
@@ -213,7 +213,7 @@ const ATFormFunction = (props: ATFormProps) => {
         }
     }, [])
 
-    const onAssignChildRef = useCallback((id: string, childRef: ATFormComponentRefInterface) => {
+    const onAssignChildRef = useCallback((id: string, childRef: ATFormChildRefInterface) => {
         mChildrenRefs.current[id] = childRef
     }, [])
 

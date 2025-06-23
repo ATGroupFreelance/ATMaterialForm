@@ -1,5 +1,5 @@
 import { ATEnumsType, ATFormGetLocalTextFunctionType } from "./Common.type";
-import { ATFormCustomComponentInterface, ATTypeInterface } from "./UITypeUtils.type";
+import { ATFormCustomComponentInterface, ATFormTypeInfoInterface } from "./UITypeUtils.type";
 
 interface UploadFilesToServerProps {
     files: FormData,
@@ -39,4 +39,4 @@ export interface ATFormConfigContextGuaranteedInterface {
     getTypeInfo: GetTypeInfoFunctionType,
 }
 
-export type GetTypeInfoFunctionType = (type: string) => ATTypeInterface | undefined
+export type GetTypeInfoFunctionType = (type: string) => ATFormTypeInfoInterface | undefined

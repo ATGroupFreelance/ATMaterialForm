@@ -1,7 +1,7 @@
 import moment from 'moment';
 //Cell Renderers
 import UploadButtonCellRenderer from '../UI/UploadButton/UploadButtonCellRenderer/UploadButtonCellRenderer';
-import { ATConvertInterface, ATGetTitleByEnumsInterface, ATReverseConvertInterface, ATTypeInterface } from '../../../types/UITypeUtils.type';
+import { ATConvertInterface, ATGetTitleByEnumsInterface, ATReverseConvertInterface, ATFormTypeInfoInterface } from '../../../types/UITypeUtils.type';
 import { ATFormComboBoxProps } from '@/lib/types/ui/ComboBox.type';
 import { ATFormMultiComboBoxProps } from '@/lib/types/ui/MultiComboBox.type';
 import { ATFormCascadeComboBoxProps } from '@/lib/types/ui/CascadeComboBox.type';
@@ -36,8 +36,8 @@ export const UITypes = {
     ColorTextBox: 'ColorTextBox',
 }
 
-export const getTypeInfo = (type: any, customTypes: any): ATTypeInterface | undefined => {
-    const newTypes: ATTypeInterface[] = [
+export const getTypeInfo = (type: any, customTypes: any): ATFormTypeInfoInterface | undefined => {
+    const newTypes: ATFormTypeInfoInterface[] = [
         ...types,
         ...(customTypes || [])
     ]
@@ -85,7 +85,7 @@ export const createValidation = ({ errorMessage, ...props }: any) => {
 //2- If initialValue is not inside an object it means the object is uncontrolled
 //3- If you want to set the initialValue to null please set "isNullValueValid" to true
 
-export const createType = ({ type, initialValue, isNullValueValid, convertToKeyValue, reverseConvertToKeyValue, convertToSemiKeyValue, reverseConvertToSemiKeyValue, validation, getAgGridColumnDef }: ATTypeInterface) => {
+export const createType = ({ type, initialValue, isNullValueValid, convertToKeyValue, reverseConvertToKeyValue, convertToSemiKeyValue, reverseConvertToSemiKeyValue, validation, getAgGridColumnDef }: ATFormTypeInfoInterface) => {
     return {
         type,
         initialValue,

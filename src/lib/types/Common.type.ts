@@ -36,14 +36,14 @@ export interface ATFormMinimalUncontrolledUIProps {
     id?: string,
 }
 
-export interface BaseATFormOnClickProps {
+export interface ATFormOnClickBaseProps {
     event: React.MouseEvent<HTMLButtonElement>;
     startLoading: () => void;
     stopLoading: () => void;
     [key: string]: any;
 }
 
-export type ATFormOnClickProps<TExtraProps = {}> = BaseATFormOnClickProps & TExtraProps;
+export type ATFormOnClickProps<TExtraProps = {}> = ATFormOnClickBaseProps & TExtraProps;
 
 export type ATFormOnClickType<TExtraProps = {}> = (props: ATFormOnClickProps<TExtraProps>) => void;
 

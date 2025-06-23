@@ -3,7 +3,7 @@ import { ATEnumsType } from "./Common.type";
 import { ATFormBuilderColumnGenericProps } from "./FormBuilder.type";
 import { ATFormComboBoxAsyncOptions, ATFormComboBoxStaticOptions } from "./ui/ComboBox.type";
 
-export interface ATTypeInterface<T extends ATFormBuilderColumnGenericProps = {}> {
+export interface ATFormTypeInfoInterface<T extends ATFormBuilderColumnGenericProps = {}> {
     type: string,
     initialValue?: any,
     isNullValueValid?: boolean,
@@ -39,5 +39,5 @@ export interface ATGetTitleByEnumsInterface {
 
 export interface ATFormCustomComponentInterface {
     component: any,
-    typeInfo: ATTypeInterface
+    typeInfo: ATFormTypeInfoInterface
 }
