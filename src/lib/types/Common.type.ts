@@ -9,7 +9,7 @@ export type StringKeyedObject = {
     [key: string]: any;
 };
 
-export type ATEnumItemType = { id: number | string; title: string, parent_id?: string, [key: string]: number | string | undefined }
+export type ATEnumItemType = { id: number | string; title: string, parent_id?: string, [key: string]: any }
 
 export type ATEnumType = Array<ATEnumItemType>;
 
@@ -29,7 +29,7 @@ export interface ATFormMinimalControlledUIProps<
     onChange?: T['onChange'];
     error?: boolean;
     helperText?: string;
-    readOnly?: boolean;    
+    readOnly?: boolean;
 }
 
 export interface ATFormMinimalUncontrolledUIProps {
@@ -46,3 +46,6 @@ export interface BaseATFormOnClickProps {
 export type ATFormOnClickProps<TExtraProps = {}> = BaseATFormOnClickProps & TExtraProps;
 
 export type ATFormOnClickType<TExtraProps = {}> = (props: ATFormOnClickProps<TExtraProps>) => void;
+
+
+export type ATFormGetLocalTextFunctionType = (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined;

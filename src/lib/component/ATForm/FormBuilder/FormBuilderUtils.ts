@@ -1,8 +1,8 @@
-import { ATFormBuilderConditionalInsertInterface, ATFormBuilerColumnInterface } from "@/lib/types/FormBuilder.type";
+import { ATFormBuilderConditionalInsertInterface, ATFormBuilderColumnInterface } from "@/lib/types/FormBuilder.type";
 import ColumnBuilder from "./ColumnBuilder/ColumnBuilder";
 
 
-const createColumnBuilder = (columns: ATFormBuilerColumnInterface[]) => {
+const createColumnBuilder = (columns: ATFormBuilderColumnInterface[]) => {
     const columnBuilder = new ColumnBuilder(columns)
 
     return columnBuilder

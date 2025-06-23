@@ -1,4 +1,4 @@
-import { ATEnumsType } from "./Common.type";
+import { ATEnumsType, ATFormGetLocalTextFunctionType } from "./Common.type";
 import { ATFormCustomComponentInterface, ATTypeInterface } from "./UITypeUtils.type";
 
 interface UploadFilesToServerProps {
@@ -22,7 +22,7 @@ export interface ATFormConfigContextInterface {
     localText?: Record<string, string>;
     agGridLocalText?: Record<string, string>;
     customComponents?: ATFormCustomComponentInterface[];
-    getLocalText?: (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined;
+    getLocalText?: ATFormGetLocalTextFunctionType;
     getTypeInfo?: GetTypeInfoFunctionType,
 }
 
@@ -35,7 +35,7 @@ export interface ATFormConfigContextGuaranteedInterface {
     localText: Record<string, string>;
     agGridLocalText?: Record<string, string>;
     customComponents?: ATFormCustomComponentInterface[];
-    getLocalText: (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined;
+    getLocalText: ATFormGetLocalTextFunctionType;
     getTypeInfo: GetTypeInfoFunctionType,
 }
 

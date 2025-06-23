@@ -8,7 +8,7 @@ import { getFlatChildren } from './FormUtils/FormUtils';
 import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 import { ATFormChildProps, ATFormComponentProps, ATFormComponentRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps } from '@/lib/types/ATForm.type';
 import { ATFormContextProvider } from './ATFormContext/ATFormContext';
-import { ATFormBuilerColumnInterface } from '@/lib/types/FormBuilder.type';
+import { ATFormBuilderColumnInterface } from '@/lib/types/FormBuilder.type';
 import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
 
 const ATFormFunction = (props: ATFormProps) => {
@@ -44,7 +44,7 @@ const ATFormFunction = (props: ATFormProps) => {
             const requiredList: any[] = []
 
             flatChildren.forEach(item => {
-                const tProps: ATFormComponentProps = React.isValidElement(item) ? (item.props as ATFormBuilerColumnInterface)?.tProps : item.tProps
+                const tProps: ATFormComponentProps = React.isValidElement(item) ? (item.props as ATFormBuilderColumnInterface)?.tProps : item.tProps
 
                 const typeInfo = getTypeInfo(tProps?.type)
 
@@ -351,7 +351,7 @@ const ATFormFunction = (props: ATFormProps) => {
         }
     }, [normalizeErrors])
 
-    const getChildProps = useCallback((childProps: ATFormBuilerColumnInterface): ATFormChildProps => {
+    const getChildProps = useCallback((childProps: ATFormBuilderColumnInterface): ATFormChildProps => {
         const typeInfo = getTypeInfo(childProps.tProps.type)
 
         const newDefaultValue = internalDefaultValue[childProps.tProps.id] === undefined ? childProps.tProps?.defaultValue : internalDefaultValue[childProps.tProps.id]

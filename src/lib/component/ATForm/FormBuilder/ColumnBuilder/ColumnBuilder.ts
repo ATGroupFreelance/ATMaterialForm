@@ -1,11 +1,11 @@
-import { ATFormBuilerColumnInterface } from "@/lib/types/FormBuilder.type"
+import { ATFormBuilderColumnInterface } from "@/lib/types/FormBuilder.type"
 import { formBuilder } from "../FormBuilder";
 
 class ColumnBuilder {
-    private columns: ATFormBuilerColumnInterface[];
+    private columns: ATFormBuilderColumnInterface[];
 
-    constructor(columns: ATFormBuilerColumnInterface[]) {
-        this.columns = columns.map((item: ATFormBuilerColumnInterface) => {
+    constructor(columns: ATFormBuilderColumnInterface[]) {
+        this.columns = columns.map((item: ATFormBuilderColumnInterface) => {
 
             const createFunction = formBuilder[`create${item.tProps.type}` as keyof typeof formBuilder];
             if (typeof createFunction === 'function') {
@@ -20,7 +20,7 @@ class ColumnBuilder {
         return this.columns
     }
 
-    override(columnsOverride: Record<string, Partial<ATFormBuilerColumnInterface>>): this {
+    override(columnsOverride: Record<string, Partial<ATFormBuilderColumnInterface>>): this {
         this.columns = this.columns.map(item => {
             const found = columnsOverride[item.tProps.id]
 
@@ -47,7 +47,7 @@ class ColumnBuilder {
         return this
     }
 
-    overwrite(columnsOverwrite: Record<string, ATFormBuilerColumnInterface>): this {
+    overwrite(columnsOverwrite: Record<string, ATFormBuilderColumnInterface>): this {
         this.columns = this.columns.map(item => {
             const found = columnsOverwrite[item.tProps.id]
 
@@ -57,7 +57,7 @@ class ColumnBuilder {
         return this
     }
 
-    add(arrayOfColumns: (ATFormBuilerColumnInterface & { index?: number })[]): this {
+    add(arrayOfColumns: (ATFormBuilderColumnInterface & { index?: number })[]): this {
         const withIndex = arrayOfColumns.filter(item => item.index !== undefined)
         const withoutIndex = arrayOfColumns.filter(item => item.index === undefined)
 
@@ -78,7 +78,7 @@ class ColumnBuilder {
         return this
     }
 
-    addIf(condition: boolean, arrayOfObjects: (ATFormBuilerColumnInterface & { index?: number })[]): this {
+    addIf(condition: boolean, arrayOfObjects: (ATFormBuilderColumnInterface & { index?: number })[]): this {
         if (condition) {
             return this.add(arrayOfObjects)
         }
@@ -96,12 +96,12 @@ class ColumnBuilder {
         return this;
     }
 
-    map(mapFunction: (column: ATFormBuilerColumnInterface, index: number, array: ATFormBuilerColumnInterface[]) => ATFormBuilerColumnInterface): this {
+    map(mapFunction: (column: ATFormBuilderColumnInterface, index: number, array: ATFormBuilderColumnInterface[]) => ATFormBuilderColumnInterface): this {
         this.columns = this.columns.map(mapFunction)
         return this
     }
 
-    filter(filterFunction: (column: ATFormBuilerColumnInterface, index: number, array: ATFormBuilerColumnInterface[]) => boolean): this {
+    filter(filterFunction: (column: ATFormBuilderColumnInterface, index: number, array: ATFormBuilderColumnInterface[]) => boolean): this {
         this.columns = this.columns.filter(filterFunction)
         return this
     }

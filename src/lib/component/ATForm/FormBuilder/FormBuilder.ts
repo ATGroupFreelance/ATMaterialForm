@@ -1,4 +1,4 @@
-import { ATFormBuilderCreateInterface, ATFormBuilerColumnInterface, ATFormTypelessComponentProps } from "../../../types/FormBuilder.type";
+import { ATFormBuilderCreateInterface, ATFormBuilderColumnInterface, ATFormTypelessComponentProps } from "../../../types/FormBuilder.type";
 
 import { ATFormTextBoxProps } from "../../../types/ui/TextBox.type";
 import { ATFormIntegerTextBoxProps } from "@/lib/types/ui/IntegerTextBox.type";
@@ -34,7 +34,7 @@ import { ATFormMultiSelectGridProps } from "@/lib/types/ui/MultiSelectGrid.type"
 //     return result.split(",").join(' ');
 // }
 
-const create = (props: ATFormBuilderCreateInterface): ATFormBuilerColumnInterface => {
+const create = (props: ATFormBuilderCreateInterface): ATFormBuilderColumnInterface => {
     return {
         tProps: {
             type: props.type,

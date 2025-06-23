@@ -10,8 +10,8 @@ import Button from './UI/Button/Button';
 import { CircularProgress, Grid } from '@mui/material';
 import useATFormConfig from '../../hooks/useATFormConfig/useATFormConfig';
 import { ATFormDialogProps } from '@/lib/types/ATFormDialog.type';
-import { ATFormButtonProps } from '@/lib/types/ui/Button.type';
 import { ATFormOnChangeInterface } from '@/lib/types/ATForm.type';
+import { ATFormOnClickType } from '@/lib/types/Common.type';
 
 const ATFormDialog = ({
     dialogProps,
@@ -49,13 +49,13 @@ const ATFormDialog = ({
         }
     }
 
-    const onInternalSubmitClick = ({ ...buttonProps }: ATFormButtonProps) => {
+    const onInternalSubmitClick: ATFormOnClickType = ({ ...buttonProps }) => {
         if (onSubmitClick) {
             onSubmitClick({ ...buttonProps, formData: mFormData.current.formData, formDataKeyValue: mFormData.current.formDataKeyValue, formDataSemiKeyValue: mFormData.current.formDataSemiKeyValue })
         }
     }
 
-    const onInternalCancelClick = ({ ...buttonProps }: ATFormButtonProps) => {
+    const onInternalCancelClick: ATFormOnClickType = ({ ...buttonProps }) => {
         if (onCancelClick)
             onCancelClick({ ...buttonProps })
         else

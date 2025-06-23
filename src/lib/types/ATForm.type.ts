@@ -2,7 +2,7 @@ import { StringKeyedObject } from "./Common.type";
 import type React from "react";
 import type { ColDef } from "ag-grid-community";
 import { Grid } from '@mui/material';
-import { ATFormBuilerColumnGenericProps, ATFormBuilerColumnInterface } from "./FormBuilder.type";
+import { ATFormBuilderColumnGenericProps, ATFormBuilderColumnInterface } from "./FormBuilder.type";
 import { ATTypeInterface } from "./UITypeUtils.type";
 import { ATFormTabConfigInterface, ATFormTabsManagerDefaultSelectedTabPathsType, ATFormTabsOnChangeType } from "./ATFormTabsManager.type";
 
@@ -25,7 +25,7 @@ export interface ATFormRefInterface {
 
 export interface ATFormProps {
     ref?: React.Ref<ATFormRefInterface>,
-    children?: ATFormBuilerColumnInterface[],
+    children?: ATFormBuilderColumnInterface[],
     validationDisabled?: boolean,
     /**The default format for a default value is "FormDataSemiKeyValue" here is an example:
      * { name: "Test", myDatePicker: "2025-01-01", myContainerWithTable: [{}, {}] }
@@ -88,7 +88,7 @@ export interface ATFormComponentProps {
     },
 }
 
-export type ATFormChildProps<T extends ATFormBuilerColumnGenericProps = ATFormBuilerColumnGenericProps> = ATFormBuilerColumnInterface<T> & {
+export type ATFormChildProps<T extends ATFormBuilderColumnGenericProps = ATFormBuilderColumnGenericProps> = ATFormBuilderColumnInterface<T> & {
     typeInfo: ATTypeInterface | undefined,
     errors: any,
     onChildChange: (props: ATFormOnChildChangeInterface) => void,
