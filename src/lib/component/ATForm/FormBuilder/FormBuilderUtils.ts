@@ -1,11 +1,12 @@
-import { ATFormBuilderConditionalInsertInterface, ATFormBuilderColumnInterface } from "@/lib/types/FormBuilder.type";
-import ColumnBuilder from "./ColumnBuilder/ColumnBuilder";
+import { ATFormBuilderConditionalInsertInterface } from "@/lib/types/FormBuilder.type";
+import FieldDefinitionBuilder from "./FieldDefinitionBuilder/FieldDefinitionBuilder";
+import { ATFieldDefinitionInterface } from "@/lib/types/FieldDefinitionBuilder.type";
 
 
-const createColumnBuilder = (columns: ATFormBuilderColumnInterface[]) => {
-    const columnBuilder = new ColumnBuilder(columns)
+const createFieldDefinitionBuilder = (fieldDefinitions: ATFieldDefinitionInterface[]) => {
+    const fieldDefinitionBuilder = new FieldDefinitionBuilder(fieldDefinitions)
 
-    return columnBuilder
+    return fieldDefinitionBuilder
 }
 
 const insertIf = ({ condition, elements }: ATFormBuilderConditionalInsertInterface) => {
@@ -40,7 +41,7 @@ const createColumnDefsByRowData = (rowData: any) => {
 }
 
 export const formBuilderUtils = {
-    createColumnBuilder,
+    createFieldDefinitionBuilder,
     insertIf,
     createColumnDefsByRowData
 }

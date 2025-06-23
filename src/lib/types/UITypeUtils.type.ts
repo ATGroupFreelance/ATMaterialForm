@@ -1,9 +1,8 @@
-import { ATFormChildProps } from "./ATForm.type";
+import { ATFormChildProps, ATFormFieldDefinitionGenericProps } from "./ATForm.type";
 import { ATEnumsType } from "./Common.type";
-import { ATFormBuilderColumnGenericProps } from "./FormBuilder.type";
 import { ATFormComboBoxAsyncOptions, ATFormComboBoxStaticOptions } from "./ui/ComboBox.type";
 
-export interface ATFormTypeInfoInterface<T extends ATFormBuilderColumnGenericProps = {}> {
+export interface ATFormTypeInfoInterface<T extends ATFormFieldDefinitionGenericProps = {}> {
     type: string,
     initialValue?: any,
     isNullValueValid?: boolean,
@@ -16,13 +15,13 @@ export interface ATFormTypeInfoInterface<T extends ATFormBuilderColumnGenericPro
     isControlledUI?: boolean,
 }
 
-export interface ATConvertInterface<T extends ATFormBuilderColumnGenericProps = {}> {
+export interface ATConvertInterface<T extends ATFormFieldDefinitionGenericProps = {}> {
     event: { target: { value: any } },
     childProps: ATFormChildProps<T>,
     enums: ATEnumsType
 }
 
-export interface ATReverseConvertInterface<T extends ATFormBuilderColumnGenericProps = {}> {
+export interface ATReverseConvertInterface<T extends ATFormFieldDefinitionGenericProps = {}> {
     value: any,
     childProps: ATFormChildProps<T>,
     enums: ATEnumsType,

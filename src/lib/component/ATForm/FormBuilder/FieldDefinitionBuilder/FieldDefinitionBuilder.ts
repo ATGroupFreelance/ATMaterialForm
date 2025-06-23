@@ -1,11 +1,11 @@
-import { ATFormBuilderColumnInterface } from "@/lib/types/FormBuilder.type"
+import { ATFieldDefinitionInterface } from "@/lib/types/FieldDefinitionBuilder.type";
 import { formBuilder } from "../FormBuilder";
 
-class ColumnBuilder {
-    private columns: ATFormBuilderColumnInterface[];
+class FieldDefinitionBuilder {
+    private fieldDefinitions: ATFieldDefinitionInterface[];
 
-    constructor(columns: ATFormBuilderColumnInterface[]) {
-        this.columns = columns.map((item: ATFormBuilderColumnInterface) => {
+    constructor(fieldDefinitions: ATFieldDefinitionInterface[]) {
+        this.fieldDefinitions = fieldDefinitions.map((item: ATFieldDefinitionInterface) => {
 
             const createFunction = formBuilder[`create${item.tProps.type}` as keyof typeof formBuilder];
             if (typeof createFunction === 'function') {
@@ -16,16 +16,16 @@ class ColumnBuilder {
         })
     }
 
-    build() {
-        return this.columns
+    buildATForm() {
+        return this.fieldDefinitions
     }
 
-    override(columnsOverride: Record<string, Partial<ATFormBuilderColumnInterface>>): this {
-        this.columns = this.columns.map(item => {
-            const found = columnsOverride[item.tProps.id]
+    override(fieldDefinitionsOverride: Record<string, Partial<ATFieldDefinitionInterface>>): this {
+        this.fieldDefinitions = this.fieldDefinitions.map(item => {
+            const found = fieldDefinitionsOverride[item.tProps.id]
 
             if (!found) {
-                console.warn('Error in ATForm ColumnBuilder, can not find a match for', item.tProps.id, item)
+                console.warn('Error in ATForm FieldDefinitionBuilder, can not find a match for', item.tProps.id, item)
                 return item
             }
 
@@ -47,9 +47,9 @@ class ColumnBuilder {
         return this
     }
 
-    overwrite(columnsOverwrite: Record<string, ATFormBuilderColumnInterface>): this {
-        this.columns = this.columns.map(item => {
-            const found = columnsOverwrite[item.tProps.id]
+    overwrite(fieldDefinitionsOverwrite: Record<string, ATFieldDefinitionInterface>): this {
+        this.fieldDefinitions = this.fieldDefinitions.map(item => {
+            const found = fieldDefinitionsOverwrite[item.tProps.id]
 
             return found ? found : item
         })
@@ -57,7 +57,7 @@ class ColumnBuilder {
         return this
     }
 
-    add(arrayOfColumns: (ATFormBuilderColumnInterface & { index?: number })[]): this {
+    add(arrayOfColumns: (ATFieldDefinitionInterface & { index?: number })[]): this {
         const withIndex = arrayOfColumns.filter(item => item.index !== undefined)
         const withoutIndex = arrayOfColumns.filter(item => item.index === undefined)
 
@@ -65,20 +65,20 @@ class ColumnBuilder {
 
         withIndex.forEach(item => {
             const { index, ...restProps } = item
-            this.columns.splice(index!, 0, { ...restProps })
+            this.fieldDefinitions.splice(index!, 0, { ...restProps })
         })
 
         withoutIndex.forEach(item => {
             const { index, ...restProps } = item
             void index;
             
-            this.columns.push({ ...restProps })
+            this.fieldDefinitions.push({ ...restProps })
         })
 
         return this
     }
 
-    addIf(condition: boolean, arrayOfObjects: (ATFormBuilderColumnInterface & { index?: number })[]): this {
+    addIf(condition: boolean, arrayOfObjects: (ATFieldDefinitionInterface & { index?: number })[]): this {
         if (condition) {
             return this.add(arrayOfObjects)
         }
@@ -87,7 +87,7 @@ class ColumnBuilder {
     }
 
     sort(arrayOfID: string[]): this {
-        this.columns.sort((a, b) => {
+        this.fieldDefinitions.sort((a, b) => {
             const indexA = arrayOfID.indexOf(a.tProps.id);
             const indexB = arrayOfID.indexOf(b.tProps.id);
             return indexA - indexB;
@@ -96,18 +96,18 @@ class ColumnBuilder {
         return this;
     }
 
-    map(mapFunction: (column: ATFormBuilderColumnInterface, index: number, array: ATFormBuilderColumnInterface[]) => ATFormBuilderColumnInterface): this {
-        this.columns = this.columns.map(mapFunction)
+    map(mapFunction: (fieldDefinition: ATFieldDefinitionInterface, index: number, array: ATFieldDefinitionInterface[]) => ATFieldDefinitionInterface): this {
+        this.fieldDefinitions = this.fieldDefinitions.map(mapFunction)
         return this
     }
 
-    filter(filterFunction: (column: ATFormBuilderColumnInterface, index: number, array: ATFormBuilderColumnInterface[]) => boolean): this {
-        this.columns = this.columns.filter(filterFunction)
+    filter(filterFunction: (fieldDefinition: ATFieldDefinitionInterface, index: number, array: ATFieldDefinitionInterface[]) => boolean): this {
+        this.fieldDefinitions = this.fieldDefinitions.filter(filterFunction)
         return this
     }
 
     remove(arrayOfIDToRemove: string[]): this {
-        this.columns = this.columns.filter((item) => !arrayOfIDToRemove.includes(item.tProps.id))
+        this.fieldDefinitions = this.fieldDefinitions.filter((item) => !arrayOfIDToRemove.includes(item.tProps.id))
         return this
     }
 
@@ -118,7 +118,7 @@ class ColumnBuilder {
     * @param {arrayOfID} arrayOfID: Array of id [id1, id2]
     */
     required(arrayOfID: string[]) {
-        this.columns = this.columns.map(item => {
+        this.fieldDefinitions = this.fieldDefinitions.map(item => {
             const conditionalProps: Record<string, any> = {}
 
             // Make sure validation is defined
@@ -149,4 +149,4 @@ class ColumnBuilder {
     }
 }
 
-export default ColumnBuilder;
+export default FieldDefinitionBuilder;

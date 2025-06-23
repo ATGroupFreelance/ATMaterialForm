@@ -6,9 +6,8 @@ import AVJErrors from 'ajv-errors';
 //Components
 import { getFlatChildren } from './FormUtils/FormUtils';
 import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
-import { ATFormChildProps, ATFormComponentProps, ATFormChildRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps } from '@/lib/types/ATForm.type';
+import { ATFormChildProps, ATFormFieldTProps, ATFormChildRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps, ATFormFieldDefinitionInterface } from '@/lib/types/ATForm.type';
 import { ATFormContextProvider } from './ATFormContext/ATFormContext';
-import { ATFormBuilderColumnInterface } from '@/lib/types/FormBuilder.type';
 import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
 
 const ATFormFunction = (props: ATFormProps) => {
@@ -44,7 +43,7 @@ const ATFormFunction = (props: ATFormProps) => {
             const requiredList: any[] = []
 
             flatChildren.forEach(item => {
-                const tProps: ATFormComponentProps = React.isValidElement(item) ? (item.props as ATFormBuilderColumnInterface)?.tProps : item.tProps
+                const tProps: ATFormFieldTProps = React.isValidElement(item) ? (item.props as ATFormFieldDefinitionInterface)?.tProps : item.tProps
 
                 const typeInfo = getTypeInfo(tProps?.type)
 
@@ -351,7 +350,7 @@ const ATFormFunction = (props: ATFormProps) => {
         }
     }, [normalizeErrors])
 
-    const getChildProps = useCallback((childProps: ATFormBuilderColumnInterface): ATFormChildProps => {
+    const getChildProps = useCallback((childProps: ATFormFieldDefinitionInterface): ATFormChildProps => {
         const typeInfo = getTypeInfo(childProps.tProps.type)
 
         const newDefaultValue = internalDefaultValue[childProps.tProps.id] === undefined ? childProps.tProps?.defaultValue : internalDefaultValue[childProps.tProps.id]
@@ -491,3 +490,21 @@ const ATFormFunction = (props: ATFormProps) => {
 
 
 export default ATFormFunction;
+
+
+
+// FieldDefinitionBuilder
+// useFieldDefinition
+// ATFieldDefinitionInterface
+
+// const listOfFieldDefs: ATFieldDefinitionInterface[] = []
+
+// FieldDefinitionBuilder(listOfFieldDefs).toATForm()
+// FieldDefinitionBuilder(listOfFieldDefs).toAgGridColDef()
+
+// And ATForm.children: (React.Node | ATFormFieldDefinitionInterface)[]
+
+// ATFormFieldDefinitionInterface: {
+//     tProps: ATFormFieldTProps,
+//     uiProps: any;
+// }

@@ -60,7 +60,7 @@ const CustomWrappers = ({ ref }: ExampleComponentInterface) => {
     return (
         <ATForm ref={ref} validationDisabled={false}>
             {
-                formBuilderUtils.createColumnBuilder(
+                formBuilderUtils.createFieldDefinitionBuilder(
                     [
                         formBuilder.createTextBox({
                             id: 'TextBoxWithWrapperA',
@@ -78,7 +78,7 @@ const CustomWrappers = ({ ref }: ExampleComponentInterface) => {
                         })
                     ]
                 )
-                    .build()
+                    .buildATForm()
             }
         </ATForm>
     )

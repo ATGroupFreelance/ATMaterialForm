@@ -1,4 +1,4 @@
-import { ATFormBuilderCreateInterface, ATFormBuilderColumnInterface, ATFormTypelessComponentProps } from "../../../types/FormBuilder.type";
+import { ATFormBuilderCreateInterface, ATFormFieldTypelessTProps } from "../../../types/FormBuilder.type";
 
 import { ATFormTextBoxProps } from "../../../types/ui/TextBox.type";
 import { ATFormIntegerTextBoxProps } from "@/lib/types/ui/IntegerTextBox.type";
@@ -27,6 +27,7 @@ import { ATFormFormProps } from "@/lib/types/ui/Form.type";
 import { ATFormColorTextBoxProps } from "@/lib/types/ui/ColorTextBox.type";
 import { ATFormContainerWithTableProps } from "@/lib/types/ui/ContainerWithTable.type";
 import { ATFormMultiSelectGridProps } from "@/lib/types/ui/MultiSelectGrid.type";
+import { ATFormFieldDefinitionInterface } from "@/lib/types/ATForm.type";
 
 
 // const splitCapitalBySpace = (input: string) => {
@@ -34,7 +35,7 @@ import { ATFormMultiSelectGridProps } from "@/lib/types/ui/MultiSelectGrid.type"
 //     return result.split(",").join(' ');
 // }
 
-const create = (props: ATFormBuilderCreateInterface): ATFormBuilderColumnInterface => {
+const create = (props: ATFormBuilderCreateInterface): ATFormFieldDefinitionInterface => {
     return {
         tProps: {
             type: props.type,
@@ -48,18 +49,18 @@ const create = (props: ATFormBuilderCreateInterface): ATFormBuilderColumnInterfa
 /**
  * @example
  * formBuilder
-    .createColumnBuilder(Columns)
+    .createFieldDefinitionBuilder(Columns)
     .remove(['B'])    
     .override(
         {
             A: { onChange: (event) => setA(event.target.value) },            
         }
     )
-    .build()
- * @param {columns} columns: Array of {id, label, gridProps, uiProps}
+    .buildATForm()
+ * @param {fieldDefinitions} columns: Array of {id, label, gridProps, uiProps}
  */
 
-const createTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormTextBoxProps) => {
+const createTextBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormTextBoxProps) => {
     return create({
         type: 'TextBox',
         defaultSize: 3,
@@ -68,7 +69,7 @@ const createTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormTex
     })
 }
 
-const createIntegerTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormIntegerTextBoxProps) => {
+const createIntegerTextBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormIntegerTextBoxProps) => {
     return create({
         type: 'IntegerTextBox',
         defaultSize: 3,
@@ -77,7 +78,7 @@ const createIntegerTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: AT
     })
 }
 
-const createFloatTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormFloatTextBoxProps) => {
+const createFloatTextBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormFloatTextBoxProps) => {
     return create({
         type: 'FloatTextBox',
         defaultSize: 3,
@@ -86,7 +87,7 @@ const createFloatTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFo
     })
 }
 
-const createButton = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormButtonProps) => {
+const createButton = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormButtonProps) => {
     return create({
         type: 'Button',
         defaultSize: 2,
@@ -95,7 +96,7 @@ const createButton = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormButt
     })
 }
 
-const createComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormComboBoxProps) => {
+const createComboBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormComboBoxProps) => {
     return create({
         type: 'ComboBox',
         defaultSize: 3,
@@ -104,7 +105,7 @@ const createComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormCo
     })
 }
 
-const createMultiComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormMultiComboBoxProps) => {
+const createMultiComboBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormMultiComboBoxProps) => {
     return create({
         type: 'MultiComboBox',
         defaultSize: 3,
@@ -113,7 +114,7 @@ const createMultiComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATF
     })
 }
 
-const createDatePicker = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormDatePickerProps) => {
+const createDatePicker = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormDatePickerProps) => {
     return create({
         type: 'DatePicker',
         defaultSize: 3,
@@ -129,7 +130,7 @@ const createDatePicker = (tProps: ATFormTypelessComponentProps, uiProps?: ATForm
  * @param {uploadButtonViewType} uploadButtonViewType: This button has 2 views, you can switch between them by passing a viewType number, the acceptable values are 1 and 2
  */
 
-const createUploadButton = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormUploadButtonProps) => {
+const createUploadButton = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormUploadButtonProps) => {
     return create({
         type: 'UploadButton',
         defaultSize: 3,
@@ -138,7 +139,7 @@ const createUploadButton = (tProps: ATFormTypelessComponentProps, uiProps?: ATFo
     })
 }
 
-const createUploadImageButton = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormUploadImageButtonProps) => {
+const createUploadImageButton = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormUploadImageButtonProps) => {
     return create({
         type: 'UploadImageButton',
         defaultSize: 3,
@@ -147,7 +148,7 @@ const createUploadImageButton = (tProps: ATFormTypelessComponentProps, uiProps?:
     })
 }
 
-const createFileViewer = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormFileViewerProps) => {
+const createFileViewer = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormFileViewerProps) => {
     return create({
         type: 'FileViewer',
         defaultSize: 12,
@@ -156,7 +157,7 @@ const createFileViewer = (tProps: ATFormTypelessComponentProps, uiProps?: ATForm
     })
 }
 
-const createCascadeComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormCascadeComboBoxProps) => {
+const createCascadeComboBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormCascadeComboBoxProps) => {
     return create({
         type: 'CascadeComboBox',
         defaultSize: 12,
@@ -172,7 +173,7 @@ const createCascadeComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: A
     })
 }
 
-const createMultiValueCascadeComboBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormMultiValueCascadeComboBoxProps) => {
+const createMultiValueCascadeComboBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormMultiValueCascadeComboBoxProps) => {
     return create({
         type: 'MultiValueCascadeComboBox',
         defaultSize: 12,
@@ -188,7 +189,7 @@ const createMultiValueCascadeComboBox = (tProps: ATFormTypelessComponentProps, u
     })
 }
 
-const createGrid = (tProps: ATFormTypelessComponentProps, uiProps?: GridProps) => {
+const createGrid = (tProps: ATFormFieldTypelessTProps, uiProps?: GridProps) => {
     return create({
         type: 'Grid',
         defaultSize: 12,
@@ -200,7 +201,7 @@ const createGrid = (tProps: ATFormTypelessComponentProps, uiProps?: GridProps) =
     })
 }
 
-const createCheckBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormCheckBoxProps) => {
+const createCheckBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormCheckBoxProps) => {
     return create({
         type: 'CheckBox',
         defaultSize: 12,
@@ -209,7 +210,7 @@ const createCheckBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormCh
     })
 }
 
-const createSlider = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormSliderProps) => {
+const createSlider = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormSliderProps) => {
     return create({
         type: 'Slider',
         defaultSize: 12,
@@ -218,7 +219,7 @@ const createSlider = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormSlid
     })
 }
 
-const createPasswordTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormPasswordTextBoxProps) => {
+const createPasswordTextBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormPasswordTextBoxProps) => {
     return create({
         type: 'PasswordTextBox',
         defaultSize: 3,
@@ -227,7 +228,7 @@ const createPasswordTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: A
     })
 }
 
-const createDoublePasswordTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormDoublePasswordTextBoxProps) => {
+const createDoublePasswordTextBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormDoublePasswordTextBoxProps) => {
     return create({
         type: 'PasswordTextBox',
         defaultSize: 6,
@@ -236,7 +237,7 @@ const createDoublePasswordTextBox = (tProps: ATFormTypelessComponentProps, uiPro
     })
 }
 
-const createAvatar = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormAvatarProps) => {
+const createAvatar = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormAvatarProps) => {
     return create({
         type: 'Avatar',
         defaultSize: 2,
@@ -245,7 +246,7 @@ const createAvatar = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormAvat
     })
 }
 
-const createLabel = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormLabelProps) => {
+const createLabel = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormLabelProps) => {
     return create({
         type: 'Label',
         defaultSize: 12,
@@ -254,7 +255,7 @@ const createLabel = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormLabel
     })
 }
 
-const createContainerWithTable = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormContainerWithTableProps) => {
+const createContainerWithTable = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormContainerWithTableProps) => {
     return create({
         type: 'ContainerWithTable',
         defaultSize: 12,
@@ -263,7 +264,7 @@ const createContainerWithTable = (tProps: ATFormTypelessComponentProps, uiProps?
     })
 }
 
-const createMultiSelectTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormMultiSelectTextBoxProps) => {
+const createMultiSelectTextBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormMultiSelectTextBoxProps) => {
     return create({
         type: 'MultiSelectTextBox',
         defaultSize: 12,
@@ -280,7 +281,7 @@ const createMultiSelectTextBox = (tProps: ATFormTypelessComponentProps, uiProps?
     const columns = ['a', 'b']
     //Use this component only for showing simple data in a tablur manner and nothing more.
  */
-const createTable = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormTableProps) => {
+const createTable = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormTableProps) => {
     return create({
         type: 'Table',
         defaultSize: 12,
@@ -297,7 +298,7 @@ const createTable = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormTable
     If you don't provide a uniqueKey it will simply return the index of selected row which is not always reliable
     If you do provide a unique key it will use this key to pick up the value of a row as the unique key, for example uniqueKey="ID"  
  */
-const createMultiSelectGrid = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormMultiSelectGridProps) => {
+const createMultiSelectGrid = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormMultiSelectGridProps) => {
     return create({
         type: 'MultiSelectGrid',
         defaultSize: 12,
@@ -306,7 +307,7 @@ const createMultiSelectGrid = (tProps: ATFormTypelessComponentProps, uiProps?: A
     })
 }
 
-const createImageSelect = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormImageSelectProps) => {
+const createImageSelect = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormImageSelectProps) => {
     return create({
         type: 'ImageSelect',
         defaultSize: 12,
@@ -315,7 +316,7 @@ const createImageSelect = (tProps: ATFormTypelessComponentProps, uiProps?: ATFor
     })
 }
 
-const createAdvanceStepper = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormAdvanceStepperProps) => {
+const createAdvanceStepper = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormAdvanceStepperProps) => {
     return create({
         type: 'AdvanceStepper',
         defaultSize: 12,
@@ -324,7 +325,7 @@ const createAdvanceStepper = (tProps: ATFormTypelessComponentProps, uiProps?: AT
     })
 }
 
-const createForm = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormFormProps) => {
+const createForm = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormFormProps) => {
     return create({
         type: 'Form',
         defaultSize: 12,
@@ -333,7 +334,7 @@ const createForm = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormFormPr
     })
 }
 
-const createColorTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFormColorTextBoxProps) => {
+const createColorTextBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormColorTextBoxProps) => {
     return create({
         type: 'Form',
         defaultSize: 3,
@@ -343,7 +344,7 @@ const createColorTextBox = (tProps: ATFormTypelessComponentProps, uiProps?: ATFo
 }
 
 export const formBuilder = {
-    // createColumnBuilder,
+    // createFieldDefinitionBuilder,
     createTextBox,
     createIntegerTextBox,
     createFloatTextBox,

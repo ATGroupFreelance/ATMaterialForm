@@ -26,7 +26,7 @@ const ToastPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
     return (
         <ATForm ref={ref} onChange={onChange} validationDisabled={false} >
             {
-                formBuilderUtils.createColumnBuilder(
+                formBuilderUtils.createFieldDefinitionBuilder(
                     [
                         formBuilder.createButton({ id: 'Simple Notifiation' }, { onClick: onSimpleNotificationClick }),
                         formBuilder.createButton({ id: 'Persistent Notification' }, { onClick: onPersistentNotificationClick, color: 'error' }),
@@ -34,7 +34,7 @@ const ToastPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
                         formBuilder.createButton({ id: 'Custom Notification' }, { onClick: onCustomNotificationClick, color: 'success' }),
                     ]
                 )
-                    .build()
+                    .buildATForm()
             }
         </ATForm>
     )

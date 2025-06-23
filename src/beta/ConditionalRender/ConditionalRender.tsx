@@ -6,7 +6,7 @@ const ConditionalRender = ({ ref, onChange }: any) => {
 
     return <ATForm ref={ref} onChange={onChange}>
         {
-            formBuilderUtils.createColumnBuilder(
+            formBuilderUtils.createFieldDefinitionBuilder(
                 [
                     formBuilder.createTextBox({ id: 'Name', label: 'Name' }),
                     formBuilder.createButton({ id: 'ShowDatePicker', label: 'Show Date Picker' }, { onClick: () => setShowDatePicker(!showDatePicker) }),
@@ -16,7 +16,7 @@ const ConditionalRender = ({ ref, onChange }: any) => {
                 .addIf(showDatePicker, [
                     formBuilder.createDatePicker({ id: 'Date', label: 'Date' }),
                 ])
-                .build()
+                .buildATForm()
         }
     </ATForm>
 }
