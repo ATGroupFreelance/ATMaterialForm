@@ -23,7 +23,7 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
     }, [hideElements])
 
     const formJSON = useMemo(() => {
-        return formBuilder.utils.createFieldDefinitionBuilder(
+        return formBuilder.utils.createFieldDefBuilder(
             [
                 formBuilder.createMultiSelectTextBox({ id: 'MultiSelectTextBox' }),
                 formBuilder.createAvatar({ id: 'Avatar1', size: 12 }, { avatarSize: 128 }),

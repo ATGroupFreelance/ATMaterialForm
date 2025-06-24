@@ -12,7 +12,7 @@ const RecordDialog = ({ defaultValue, onSubmitClick, onClose, ...restProps }: AT
     return <ATFormDialog defaultValue={defaultValue} onSubmitClick={onSubmitClick} onClose={onClose} {...restProps}>
         {
             formBuilder.utils
-                .createFieldDefinitionBuilder(Columns)
+                .createFieldDefBuilder(Columns)
                 .remove(['D'])
                 .map(item => ({ ...item, size: 6 }))
                 .override(

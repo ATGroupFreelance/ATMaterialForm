@@ -1,40 +1,72 @@
-import { ATFieldDefinitionInterface } from "@/lib/types/FieldDefinitionBuilder.type";
+import { ATFieldDefInterface } from "@/lib/types/FieldDefBuilder.type";
 import { formBuilder } from "../FormBuilder";
+import { ATFormFieldDefInterface } from "@/lib/types/ATForm.type";
 
 const createFunction = (key: string) => {
-    if (key === 'utils') return undefined; // skip utils property
+    if (key === 'utils') return undefined;
     const fn = formBuilder[key as keyof typeof formBuilder];
     return typeof fn === 'function' ? fn : undefined;
 }
 
-class FieldDefinitionBuilder {
-    private fieldDefinitions: ATFieldDefinitionInterface[];
+const isATFormFieldDefs = (fieldDefs: ATFieldDefInterface[] | ATFormFieldDefInterface[]): fieldDefs is ATFormFieldDefInterface[] => {
+    return (
+        Array.isArray(fieldDefs) &&
+        fieldDefs.length > 0 &&
+        !('id' in fieldDefs[0])
+    );
+};
 
-    constructor(fieldDefinitions: ATFieldDefinitionInterface[]) {
-        this.fieldDefinitions = fieldDefinitions.map((item) => {
+class FieldDefBuilder {
+    private fieldDefs: ATFieldDefInterface[];
+
+    constructor(fieldDefs: ATFieldDefInterface[] | ATFormFieldDefInterface[]) {
+        if (isATFormFieldDefs(fieldDefs)) {
+            this.fieldDefs = fieldDefs.map(item => {
+                return {
+                    ...item,
+                    id: item.tProps.id,
+                }
+            });
+        }
+        else {
+            this.fieldDefs = [
+                ...fieldDefs
+            ]
+        }
+    }
+
+    buildATForm() {
+        return this.fieldDefs.map(item => {
             const key = `create${item.tProps.type}`;
             const createFn = createFunction(key);
+
             if (createFn) {
-                return createFn(item.tProps, item.uiProps as any);
+                return createFn({ id: item.id, ...item.tProps }, item.uiProps as any);
             }
+
             throw new Error(`Invalid type: ${item.tProps.type}`);
         })
     }
 
-    buildATForm() {
-        return this.fieldDefinitions
+    buildColumnDefs() {
+        return this.fieldDefs.map(item => {
+            return {
+                field: item.id,
+            }
+        })
     }
 
-    override(fieldDefinitionsOverride: Record<string, Partial<ATFieldDefinitionInterface>>): this {
-        this.fieldDefinitions = this.fieldDefinitions.map(item => {
-            const found = fieldDefinitionsOverride[item.tProps.id]
+    override(fieldDefsOverride: Record<string, Partial<ATFieldDefInterface>>): this {
+        this.fieldDefs = this.fieldDefs.map(item => {
+            const found = fieldDefsOverride[item.id]
 
             if (!found) {
-                console.warn('Error in ATForm FieldDefinitionBuilder, can not find a match for', item.tProps.id, item)
+                console.warn('Error in ATForm FieldDefBuilder, can not find a match for', item.id, item)
                 return item
             }
 
             return {
+                ...item,
                 tProps: {
                     ...item.tProps,
                     ...(found.tProps || {})
@@ -52,9 +84,9 @@ class FieldDefinitionBuilder {
         return this
     }
 
-    overwrite(fieldDefinitionsOverwrite: Record<string, ATFieldDefinitionInterface>): this {
-        this.fieldDefinitions = this.fieldDefinitions.map(item => {
-            const found = fieldDefinitionsOverwrite[item.tProps.id]
+    overwrite(fieldDefsOverwrite: Record<string, ATFieldDefInterface>): this {
+        this.fieldDefs = this.fieldDefs.map(item => {
+            const found = fieldDefsOverwrite[item.id]
 
             return found ? found : item
         })
@@ -62,7 +94,7 @@ class FieldDefinitionBuilder {
         return this
     }
 
-    add(arrayOfColumns: (ATFieldDefinitionInterface & { index?: number })[]): this {
+    add(arrayOfColumns: (ATFieldDefInterface & { index?: number })[]): this {
         const withIndex = arrayOfColumns.filter(item => item.index !== undefined)
         const withoutIndex = arrayOfColumns.filter(item => item.index === undefined)
 
@@ -70,20 +102,20 @@ class FieldDefinitionBuilder {
 
         withIndex.forEach(item => {
             const { index, ...restProps } = item
-            this.fieldDefinitions.splice(index!, 0, { ...restProps })
+            this.fieldDefs.splice(index!, 0, { ...restProps })
         })
 
         withoutIndex.forEach(item => {
             const { index, ...restProps } = item
             void index;
 
-            this.fieldDefinitions.push({ ...restProps })
+            this.fieldDefs.push({ ...restProps })
         })
 
         return this
     }
 
-    addIf(condition: boolean, arrayOfObjects: (ATFieldDefinitionInterface & { index?: number })[]): this {
+    addIf(condition: boolean, arrayOfObjects: (ATFieldDefInterface & { index?: number })[]): this {
         if (condition) {
             return this.add(arrayOfObjects)
         }
@@ -92,27 +124,27 @@ class FieldDefinitionBuilder {
     }
 
     sort(arrayOfID: string[]): this {
-        this.fieldDefinitions.sort((a, b) => {
-            const indexA = arrayOfID.indexOf(a.tProps.id);
-            const indexB = arrayOfID.indexOf(b.tProps.id);
+        this.fieldDefs.sort((a, b) => {
+            const indexA = arrayOfID.indexOf(a.id);
+            const indexB = arrayOfID.indexOf(b.id);
             return indexA - indexB;
         });
 
         return this;
     }
 
-    map(mapFunction: (fieldDefinition: ATFieldDefinitionInterface, index: number, array: ATFieldDefinitionInterface[]) => ATFieldDefinitionInterface): this {
-        this.fieldDefinitions = this.fieldDefinitions.map(mapFunction)
+    map(mapFunction: (fieldDef: ATFieldDefInterface, index: number, array: ATFieldDefInterface[]) => ATFieldDefInterface): this {
+        this.fieldDefs = this.fieldDefs.map(mapFunction)
         return this
     }
 
-    filter(filterFunction: (fieldDefinition: ATFieldDefinitionInterface, index: number, array: ATFieldDefinitionInterface[]) => boolean): this {
-        this.fieldDefinitions = this.fieldDefinitions.filter(filterFunction)
+    filter(filterFunction: (fieldDef: ATFieldDefInterface, index: number, array: ATFieldDefInterface[]) => boolean): this {
+        this.fieldDefs = this.fieldDefs.filter(filterFunction)
         return this
     }
 
     remove(arrayOfIDToRemove: string[]): this {
-        this.fieldDefinitions = this.fieldDefinitions.filter((item) => !arrayOfIDToRemove.includes(item.tProps.id))
+        this.fieldDefs = this.fieldDefs.filter((item) => !arrayOfIDToRemove.includes(item.id))
         return this
     }
 
@@ -123,7 +155,7 @@ class FieldDefinitionBuilder {
     * @param {arrayOfID} arrayOfID: Array of id [id1, id2]
     */
     required(arrayOfID: string[]) {
-        this.fieldDefinitions = this.fieldDefinitions.map(item => {
+        this.fieldDefs = this.fieldDefs.map(item => {
             const conditionalProps: Record<string, any> = {}
 
             // Make sure validation is defined
@@ -154,4 +186,4 @@ class FieldDefinitionBuilder {
     }
 }
 
-export default FieldDefinitionBuilder;
+export default FieldDefBuilder;

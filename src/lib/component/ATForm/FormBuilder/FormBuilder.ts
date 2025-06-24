@@ -27,7 +27,7 @@ import { ATFormFormProps } from "@/lib/types/ui/Form.type";
 import { ATFormColorTextBoxProps } from "@/lib/types/ui/ColorTextBox.type";
 import { ATFormContainerWithTableProps } from "@/lib/types/ui/ContainerWithTable.type";
 import { ATFormMultiSelectGridProps } from "@/lib/types/ui/MultiSelectGrid.type";
-import { ATFormFieldDefinitionInterface } from "@/lib/types/ATForm.type";
+import { ATFormFieldDefInterface } from "@/lib/types/ATForm.type";
 import { formBuilderUtils } from "./FormBuilderUtils";
 
 
@@ -36,7 +36,7 @@ import { formBuilderUtils } from "./FormBuilderUtils";
 //     return result.split(",").join(' ');
 // }
 
-const create = (props: ATFormBuilderCreateInterface): ATFormFieldDefinitionInterface => {
+const create = (props: ATFormBuilderCreateInterface): ATFormFieldDefInterface => {
     return {
         tProps: {
             type: props.type,
@@ -50,7 +50,7 @@ const create = (props: ATFormBuilderCreateInterface): ATFormFieldDefinitionInter
 /**
  * @example
  * formBuilder
-    .createFieldDefinitionBuilder(Columns)
+    .createFieldDefBuilder(Columns)
     .remove(['B'])    
     .override(
         {
@@ -58,7 +58,7 @@ const create = (props: ATFormBuilderCreateInterface): ATFormFieldDefinitionInter
         }
     )
     .build()
- * @param {fieldDefinitions} columns: Array of {id, label, gridProps, uiProps}
+ * @param {fieldDefs} columns: Array of {id, label, gridProps, uiProps}
  */
 
 const createTextBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormTextBoxProps) => {

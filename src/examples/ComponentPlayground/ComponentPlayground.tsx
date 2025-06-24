@@ -42,7 +42,7 @@ const ComponentPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
     return (
         <ATForm ref={ref} onChange={onChange} validationDisabled={false} defaultValue={defaultValue} >
             {
-                formBuilder.utils.createFieldDefinitionBuilder(
+                formBuilder.utils.createFieldDefBuilder(
                     [
                         formBuilder.createTextBox({ id: 'Textbox_Text', size: 4 }),
                         formBuilder.createTextBox({ id: 'Textbox_Text2', size: 4 }),

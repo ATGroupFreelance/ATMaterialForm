@@ -4,6 +4,7 @@ import type { ColDef } from "ag-grid-community";
 import { Grid } from '@mui/material';
 import { ATFormTypeInfoInterface } from "./UITypeUtils.type";
 import { ATFormTabConfigInterface, ATFormTabsManagerDefaultSelectedTabPathsType, ATFormTabsOnChangeType } from "./ATFormTabsManager.type";
+import { ComponentType } from "react";
 
 export type ATFormGridSize = React.ComponentProps<typeof Grid>['size'];
 export type ATFormColor = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | 'default'
@@ -22,18 +23,18 @@ export interface ATFormRefInterface {
     getFormData: () => ATFormOnChangeInterface;
 }
 
-export interface ATFormFieldDefinitionGenericProps {
+export interface ATFormFieldDefGenericProps {
     uiProps?: Record<string, any>;
 }
 
-export interface ATFormFieldDefinitionInterface<T extends ATFormFieldDefinitionGenericProps = ATFormFieldDefinitionGenericProps> {
+export interface ATFormFieldDefInterface<T extends ATFormFieldDefGenericProps = ATFormFieldDefGenericProps> {
     tProps: ATFormFieldTProps,
     uiProps?: T["uiProps"] extends undefined ? Record<string, any> : T["uiProps"];
 }
 
 export interface ATFormProps {
     ref?: React.Ref<ATFormRefInterface>,
-    children?: React.ReactNode | ATFormFieldDefinitionInterface[],
+    children?: React.ReactNode | ATFormFieldDefInterface[],
     validationDisabled?: boolean,
     /**The default format for a default value is "FormDataSemiKeyValue" here is an example:
      * { name: "Test", myDatePicker: "2025-01-01", myContainerWithTable: [{}, {}] }
@@ -73,6 +74,13 @@ export interface ATFormChildRefInterface {
     reset?: (resetProps?: ATFormChildResetInterface) => void,
 }
 
+export interface ATFormWrapperRendererProps {
+    childProps: ATFormChildProps | ATFormUnknownChildProps,
+    [key: string]: any,
+}
+
+export type ATFormWrapperRendererType = ComponentType<ATFormWrapperRendererProps>
+
 /**Type def for tProps */
 export interface ATFormFieldTProps {
     /**This is ref that gives you access to form apis that are at child level, this is not the same as uiProps.ref ! */
@@ -85,8 +93,8 @@ export interface ATFormFieldTProps {
     /**Only works for controlled elements and its used for form initialize */
     defaultValue?: any,
     groupDataID?: string,
-    wrapperRenderer?: any,
-    wrapperRendererProps?: any,
+    wrapperRenderer?: ATFormWrapperRendererType,
+    wrapperRendererProps?: ATFormWrapperRendererProps,
     colDef?: ColDef,
     skipForm?: boolean,
     skipRender?: boolean,
@@ -96,7 +104,7 @@ export interface ATFormFieldTProps {
     },
 }
 
-export type ATFormChildProps<T extends ATFormFieldDefinitionGenericProps = ATFormFieldDefinitionGenericProps> = ATFormFieldDefinitionInterface<T> & {
+export type ATFormChildProps<T extends ATFormFieldDefGenericProps = ATFormFieldDefGenericProps> = ATFormFieldDefInterface<T> & {
     typeInfo: ATFormTypeInfoInterface | undefined,
     errors: any,
     onChildChange: (props: ATFormOnChildChangeInterface) => void,
@@ -110,8 +118,8 @@ export interface ATFormUnknownChildProps {
         tabPath?: number | number[],
         skipForm?: boolean,
         skipRender?: boolean,
-        wrapperRenderer?: any,
-        wrapperRendererProps?: any,
+        wrapperRenderer?: ATFormWrapperRendererType,
+        wrapperRendererProps?: ATFormWrapperRendererProps,
         size?: ATFormGridSize,
     },
     uiProps?: Record<string, any>,

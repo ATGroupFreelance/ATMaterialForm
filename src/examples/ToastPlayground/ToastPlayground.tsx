@@ -26,7 +26,7 @@ const ToastPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
     return (
         <ATForm ref={ref} onChange={onChange} validationDisabled={false} >
             {
-                formBuilder.utils.createFieldDefinitionBuilder(
+                formBuilder.utils.createFieldDefBuilder(
                     [
                         formBuilder.createButton({ id: 'Simple Notifiation' }, { onClick: onSimpleNotificationClick }),
                         formBuilder.createButton({ id: 'Persistent Notification' }, { onClick: onPersistentNotificationClick, color: 'error' }),

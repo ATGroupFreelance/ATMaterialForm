@@ -172,7 +172,7 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
     return (
         <ATForm ref={ref} onChange={onChange}>
             {
-                formBuilder.utils.createFieldDefinitionBuilder(
+                formBuilder.utils.createFieldDefBuilder(
                     [
                         formBuilder.createCascadeComboBox({ id: 'Type 1 Country' }, { design: singleLeafCascadeDesign1 }),
                         formBuilder.createCascadeComboBox({ id: 'Type 2 Country' }, { design: singleLeafCascadeDesign2 }),

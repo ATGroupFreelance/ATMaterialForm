@@ -1,32 +1,12 @@
-import React from "react"
+import React, { ComponentType } from "react"
 
 import UIBuilder from "../../UIBuilder/UIBuilder"
-import { Grid } from "@mui/material"
-import { ATFormChildProps, ATUIRenderProps } from "@/lib/types/ATForm.type"
+import { Grid, GridProps } from "@mui/material"
+import { ATFormChildProps, ATFormWrapperRendererProps, ATUIRenderProps } from "@/lib/types/ATForm.type"
 
 const UIRender = ({ children, childProps }: ATUIRenderProps) => {
     if (childProps.tProps?.skipRender)
         return null;
-
-    //default wrapper is a flex grid
-    //Please note wrapper variable must be pascal because its a react component
-    let Wrapper = Grid
-    let wrapperProps = {
-        //Pass the size as the wrapper props, this is the wrappers can use it but its not passed to children,
-        //if size does not exists use 12 as the default value
-        size: childProps.tProps?.size || 12,
-        ...(childProps.tProps?.wrapperRendererProps || {}),
-    }
-
-    if (childProps.tProps?.wrapperRenderer) {
-        Wrapper = childProps.tProps?.wrapperRenderer
-        wrapperProps = {
-            childProps,
-            ...(childProps.tProps?.wrapperRendererProps || {}),
-        }
-    }
-
-    // console.log('UIRender', {skipForm, isValid: React.isValidElement(ui), ui})    
 
     const output = (
         React.isValidElement(children) ?
@@ -43,12 +23,25 @@ const UIRender = ({ children, childProps }: ATUIRenderProps) => {
             <UIBuilder childProps={childProps as ATFormChildProps} />
     )
 
-    if (!Wrapper)
-        return output
+    if (childProps.tProps?.wrapperRenderer) {
+        //Please note wrapper must be pascal case, otherwise it will not work
+        const Wrapper: ComponentType<ATFormWrapperRendererProps> = childProps.tProps.wrapperRenderer;
 
-    return <Wrapper {...wrapperProps}>
-        {output}
-    </Wrapper>
+        const wrapperProps: ATFormWrapperRendererProps = {
+            childProps,
+            ...(childProps.tProps?.wrapperRendererProps || {}),
+        };
+
+        return <Wrapper {...wrapperProps}>{output}</Wrapper>;
+    }
+    else {
+        const wrapperProps: GridProps = {
+            size: childProps.tProps?.size || 12,
+            ...(childProps.tProps?.wrapperRendererProps || {}),
+        };
+
+        return <Grid {...wrapperProps}>{output}</Grid>;
+    }
 }
 
 export default UIRender;

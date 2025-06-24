@@ -1,9 +1,9 @@
 import { GetTypeInfoFunctionType } from "../ATFormConfigContext.type";
 import { ATEnumsType } from "../Common.type";
-import { ATFieldDefinitionInterface } from "../FormBuilder.type";
+import { ATFieldDefInterface } from "../FormBuilder.type";
 
 export interface GetColumnDefsByATFormChildrenInterface {
-    formChildren?: ATFieldDefinitionInterface[],
+    formChildren?: ATFieldDefInterface[],
     enums: ATEnumsType,
     getTypeInfo: GetTypeInfoFunctionType,
 }
