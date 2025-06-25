@@ -13,7 +13,7 @@ const UploadButtonCellRenderer = ({ data, colDef }: ATFormUploadButtonCellRender
 
     const files = colDef.field ? JSON.parse(data[colDef.field] || '[]') : []
 
-    const onViewFilesClick: ATFormOnClickType = (_event, { startLoading, stopLoading, data }) => {
+    const onViewFilesClick: ATFormOnClickType = ({ startLoading, stopLoading, data }) => {
         startLoading()
         setShowTooltip(false)
 
@@ -38,7 +38,7 @@ const UploadButtonCellRenderer = ({ data, colDef }: ATFormUploadButtonCellRender
             open={showToolTip}
         >
             <span>
-                <Button color={'secondary'} onClick={(event, { ...buttonProps }) => onViewFilesClick(event, { ...buttonProps, data: files })} sx={{ margin: '3px' }}>
+                <Button color={'secondary'} onClick={(buttonProps) => onViewFilesClick({ ...buttonProps, data: files })} sx={{ margin: '3px' }}>
                     {localText['View Files']}{` (${files.length})`}
                 </Button>
             </span>

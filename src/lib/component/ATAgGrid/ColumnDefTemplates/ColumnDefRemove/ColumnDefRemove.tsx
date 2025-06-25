@@ -1,4 +1,4 @@
-import { DeleteForeverOutlined } from "@mui/icons-material"
+import DeleteForeverOutlined from "@mui/icons-material/DeleteForeverOutlined"
 import { useTheme } from "@mui/material"
 import ColumnDefIconButton from "../ColumnDefIconButton/ColumnDefIconButton"
 import { ATAgGridColumnDefRemoveProps } from "@/lib/types/at-ag-grid/col-def-templates/ATAgGridColumnDefRemove.type"

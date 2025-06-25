@@ -1,5 +1,6 @@
 import { ColDef } from "ag-grid-community";
 import { ATFormMinimalControlledUIProps, ATFormOnClickType } from "../Common.type";
+import { ATFormIconButtonProps } from "./IconButton.type";
 
 export type ATFormButtonFileType = {
     id?: string,
@@ -37,12 +38,17 @@ export interface ATFormUploadButtonFileProps extends ATFormButtonFileType {
 
 export interface ATFormUploadButtonViewImageDialog {
     onClose: (props: any) => void,
-     image: string, 
-     name: string,
+    image: string,
+    name: string,
 }
 
 export interface ATFormUploadButtonCellRenderer {
     data: any,
-    colDef:  ColDef,
-    
+    colDef: ColDef,
+
+}
+
+export interface ATFormUploadButtonShowFilesIconButtonProps extends ATFormIconButtonProps {
+    files: ATFormButtonFileType[] | null | undefined,
+    label: string,
 }

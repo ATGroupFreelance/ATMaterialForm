@@ -1,5 +1,3 @@
-import React from 'react';
-
 //MUI
 import Button from '@/lib/component/ATForm/UI/Button/Button';
 import Dialog from '@mui/material/Dialog';

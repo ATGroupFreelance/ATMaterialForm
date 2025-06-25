@@ -1,5 +1,5 @@
 import { DialogActionsProps, DialogContentProps, DialogProps, DialogTitleProps, ModalProps } from "@mui/material";
-import { ATFormProps } from "./ATForm.type";
+import { ATFormGridSize, ATFormProps } from "./ATForm.type";
 import { ATFormOnClickType, StrictOmit } from "./Common.type";
 import { ATFormButtonProps } from "./ui/Button.type";
 
@@ -18,7 +18,7 @@ export interface ATFormDialogProps extends ATFormProps {
     loading?: boolean,
     submitLoading?: boolean,
     cancelLoading?: boolean,
-    submitButtonProps?: ATFormButtonProps,
-    cancelButtonProps?: ATFormButtonProps,
+    submitButtonProps?: ATFormButtonProps & { gridSize: ATFormGridSize },
+    cancelButtonProps?: ATFormButtonProps & { gridSize: ATFormGridSize },
     getActions?: any,
 }

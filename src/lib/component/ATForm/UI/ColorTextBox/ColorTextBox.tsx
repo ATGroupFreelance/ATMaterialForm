@@ -1,7 +1,7 @@
 import { JSX, useState } from 'react';
 
 import TextField from '@mui/material/TextField';
-import { PaletteOutlined } from '@mui/icons-material';
+import PaletteOutlined from '@mui/icons-material/PaletteOutlined';
 import { IconButton, InputAdornment, Tooltip } from '@mui/material';
 import ColorTextBoxColorPickerDialog from './ColorTextBoxColorPickerDialog/ColorTextBoxColorPickerDialog';
 //ATForm

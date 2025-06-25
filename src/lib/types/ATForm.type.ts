@@ -23,6 +23,7 @@ export interface ATFormRefInterface {
     getFormData: () => ATFormOnChangeInterface;
 }
 
+/**The part of the ATFormFieldDef that can change be customized. */
 export interface ATFormFieldDefGenericProps {
     uiProps?: Record<string, any>;
 }
@@ -74,12 +75,11 @@ export interface ATFormChildRefInterface {
     reset?: (resetProps?: ATFormChildResetInterface) => void,
 }
 
-export interface ATFormWrapperRendererProps {
-    childProps: ATFormChildProps | ATFormUnknownChildProps,
-    [key: string]: any,
-}
+export type ATFormWrapperRendererProps<TSpecificProps = void> = {
+    childProps: ATFormChildProps;
+} & ([TSpecificProps] extends [void] ? { [key: string]: any } : TSpecificProps);
 
-export type ATFormWrapperRendererType = ComponentType<ATFormWrapperRendererProps>
+export type ATFormWrapperRendererType = ComponentType<any>;
 
 /**Type def for tProps */
 export interface ATFormFieldTProps {
@@ -94,7 +94,7 @@ export interface ATFormFieldTProps {
     defaultValue?: any,
     groupDataID?: string,
     wrapperRenderer?: ATFormWrapperRendererType,
-    wrapperRendererProps?: ATFormWrapperRendererProps,
+    wrapperRendererProps?: Record<string, any>,
     colDef?: ColDef,
     skipForm?: boolean,
     skipRender?: boolean,
@@ -119,7 +119,7 @@ export interface ATFormUnknownChildProps {
         skipForm?: boolean,
         skipRender?: boolean,
         wrapperRenderer?: ATFormWrapperRendererType,
-        wrapperRendererProps?: ATFormWrapperRendererProps,
+        wrapperRendererProps?: Record<string, any>,
         size?: ATFormGridSize,
     },
     uiProps?: Record<string, any>,

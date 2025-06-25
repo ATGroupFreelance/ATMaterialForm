@@ -1,4 +1,4 @@
-import { EditOutlined } from "@mui/icons-material"
+import EditOutlined from "@mui/icons-material/EditOutlined"
 import { useTheme } from "@mui/material"
 import ColumnDefIconButton from "../ColumnDefIconButton/ColumnDefIconButton"
 import { ATAgGridColumnDefEditProps } from "@/lib/types/at-ag-grid/col-def-templates/ATAgGridColumnDefEdit.type"

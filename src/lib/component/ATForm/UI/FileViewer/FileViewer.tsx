@@ -1,7 +1,7 @@
 import { Badge, Box, Grid, Typography } from "@mui/material";
 import File from "./File/File";
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
-import { DescriptionOutlined } from "@mui/icons-material";
+import DescriptionOutlined from "@mui/icons-material/DescriptionOutlined";
 import { useTheme } from "@mui/material";
 import { ATFormFileViewerProps, ATFormFileViewerFile } from "@/lib/types/ui/FileViewer.type";
 

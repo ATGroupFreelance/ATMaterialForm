@@ -2,7 +2,7 @@ import React, { ComponentType } from "react"
 
 import UIBuilder from "../../UIBuilder/UIBuilder"
 import { Grid, GridProps } from "@mui/material"
-import { ATFormChildProps, ATFormWrapperRendererProps, ATUIRenderProps } from "@/lib/types/ATForm.type"
+import { ATFormChildProps, ATUIRenderProps } from "@/lib/types/ATForm.type"
 
 const UIRender = ({ children, childProps }: ATUIRenderProps) => {
     if (childProps.tProps?.skipRender)
@@ -25,9 +25,9 @@ const UIRender = ({ children, childProps }: ATUIRenderProps) => {
 
     if (childProps.tProps?.wrapperRenderer) {
         //Please note wrapper must be pascal case, otherwise it will not work
-        const Wrapper: ComponentType<ATFormWrapperRendererProps> = childProps.tProps.wrapperRenderer;
+        const Wrapper: ComponentType<any> = childProps.tProps.wrapperRenderer;
 
-        const wrapperProps: ATFormWrapperRendererProps = {
+        const wrapperProps: any = {
             childProps,
             ...(childProps.tProps?.wrapperRendererProps || {}),
         };

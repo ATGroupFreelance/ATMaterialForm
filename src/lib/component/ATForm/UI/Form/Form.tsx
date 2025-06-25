@@ -38,7 +38,7 @@ const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: AT
         <ATForm ref={refCallback} onChange={onInternalChange} {...restProps}>
             {
                 [
-                    ...(children || []),
+                    ...(children as Array<any> || []),
                     ...(elements || [])
                 ]
             }

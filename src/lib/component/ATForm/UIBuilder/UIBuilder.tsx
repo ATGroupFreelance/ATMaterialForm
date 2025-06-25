@@ -5,7 +5,7 @@ import { ATUIBuilderProps } from '@/lib/types/ATForm.type';
 
 const UIBuilder = ({ childProps }: ATUIBuilderProps) => {    
     if (childProps.typeInfo === undefined)
-        return <div>Can not find a type info for the following element : {childProps.tProps.id} {childProps.tProps.type}</div>
+        return <div>Can not find a type info for the following element : id: {childProps?.tProps?.id} type: {childProps?.tProps?.type}</div>
 
     if (childProps.typeInfo.isControlledUI)
         return <ControlledUIBuilder childProps={childProps} />
