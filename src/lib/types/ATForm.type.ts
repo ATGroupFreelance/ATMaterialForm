@@ -54,13 +54,13 @@ export interface ATFormResetInterface {
     inputDefaultValue?: any,
     inputDefaultValueFormat?: ATFormDefaultValueFormat,
     reverseConvertToKeyValueEnabled?: boolean,
-    callFormOnChangeDisabled?: boolean,
+    suppressFormOnChange?: boolean,
 }
 
 export interface ATFormOnChildChangeInterface {
     event: any,
     childProps: ATFormChildProps,
-    callFormOnChangeDisabled?: boolean,
+    suppressFormOnChange?: boolean,
     groupDataID?: string,
 }
 
@@ -148,5 +148,5 @@ export interface ATUnControlledUIBuilderProps {
 }
 
 export interface ATFormChildResetInterface {
-    callFormOnChangeDisabled?: boolean,
+    suppressFormOnChange?: boolean,
 }

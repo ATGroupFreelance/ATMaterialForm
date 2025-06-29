@@ -147,7 +147,7 @@ const ATFormFunction = (props: ATFormProps) => {
     }, [internalDefaultValue]); // Dependency array ensures this runs after defaultValue changes
 
 
-    const onChildChange = useCallback(({ event, childProps, callFormOnChangeDisabled, groupDataID }: ATFormOnChildChangeInterface) => {
+    const onChildChange = useCallback(({ event, childProps, suppressFormOnChange, groupDataID }: ATFormOnChildChangeInterface) => {
         //TODO add support for groupDataID
         void groupDataID;
 
@@ -187,13 +187,13 @@ const ATFormFunction = (props: ATFormProps) => {
             newFormData,
             newFormDataKeyValue,
             newFormDataSemiKeyValue,
-            callFormOnChangeDisabled,
+            suppressFormOnChange,
             onChange: props.onChange
         })
 
         const onChange = props.onChange
 
-        if (onChange && !callFormOnChangeDisabled) {
+        if (onChange && !suppressFormOnChange) {
             onChange({ formData: newFormData, formDataKeyValue: newFormDataKeyValue, formDataSemiKeyValue: newFormDataSemiKeyValue })
         }
     }, [enums, getTypeInfo, props.onChange])
@@ -402,9 +402,9 @@ const ATFormFunction = (props: ATFormProps) => {
         return [flatChildren, flatChildrenProps]
     }, [props.children, getChildProps, getTypeInfo])
 
-    const reset = useCallback(({ inputDefaultValue, reverseConvertToKeyValueEnabled = true, inputDefaultValueFormat = 'FormDataSemiKeyValue', callFormOnChangeDisabled = false }: ATFormResetInterface = {} as ATFormResetInterface) => {
-        //TODO handle callFormOnChangeDisabled;
-        void callFormOnChangeDisabled;
+    const reset = useCallback(({ inputDefaultValue, reverseConvertToKeyValueEnabled = true, inputDefaultValueFormat = 'FormDataSemiKeyValue', suppressFormOnChange = false }: ATFormResetInterface = {} as ATFormResetInterface) => {
+        //TODO handle suppressFormOnChange;
+        void suppressFormOnChange;
 
         const ungroupedInputDefaultValue = inputDefaultValue
 

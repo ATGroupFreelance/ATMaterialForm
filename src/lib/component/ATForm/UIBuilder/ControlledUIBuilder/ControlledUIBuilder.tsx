@@ -86,8 +86,8 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         }
     })
 
-    const reset = ({ callFormOnChangeDisabled = false }: ATFormChildResetInterface = {} as ATFormChildResetInterface) => {
-        internalOnChange({ target: { value: getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue) } }, { callFormOnChangeDisabled })
+    const reset = ({ suppressFormOnChange = false }: ATFormChildResetInterface = {} as ATFormChildResetInterface) => {
+        internalOnChange({ target: { value: getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue) } }, { suppressFormOnChange })
     }
 
     const internalOnChange = (event: any, props?: ATFormChildResetInterface) => {
@@ -96,7 +96,7 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         if (childProps.uiProps?.onChange)
             childProps.uiProps.onChange(event)
         //This onChange is used to update form's FormData        
-        childProps.onChildChange({ event, callFormOnChangeDisabled: props?.callFormOnChangeDisabled, childProps })
+        childProps.onChildChange({ event, suppressFormOnChange: props?.suppressFormOnChange, childProps })
     }
 
 

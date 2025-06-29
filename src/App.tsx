@@ -43,6 +43,7 @@ import { ATFormOnChangeInterface, ATFormRefInterface } from './lib/types/ATForm.
 import { StringKeyedObject } from './lib/types/Common.type';
 import BasicForm2 from './examples/BasicForm2/BasicForm2';
 import ConditionalRendering from './examples/ConditionalRendering/ConditionalRendering';
+import WrapMultipleElements from './examples/WrapMultipleElements/WrapMultipleElements';
 
 export interface ExampleComponentInterface {
   ref?: any,
@@ -61,7 +62,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'ConditionalRendering'
+const ACTIVE_EXAMPLE = 'WrapMultipleElements'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
@@ -238,6 +239,12 @@ function App() {
     {
       id: 'ConditionalRendering',
       component: ConditionalRendering,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'WrapMultipleElements',
+      component: WrapMultipleElements,
       refEnabled: true,
       onChangeEnabled: true,
     },

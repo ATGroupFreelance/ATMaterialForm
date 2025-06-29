@@ -6,13 +6,13 @@ import { ATFormOnChangeInterface, ATFormRefInterface } from '@/lib/types/ATForm.
 
 const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: ATFormFormProps) => {
     void id;
-    
+
     const mRef = useRef<ATFormRefInterface>(null)
-    
+
     const refCallback = useCallback((newRef: ATFormRefInterface) => {
         if (newRef) {
             mRef.current = newRef
-            
+
             if (typeof ref === 'function') {
                 ref(newRef);
             } else if (ref && typeof ref === 'object' && 'current' in ref) {
@@ -23,10 +23,9 @@ const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: AT
 
     useEffect(() => {
         if (mRef.current) {
-            mRef.current.reset({ inputDefaultValue: value?.FormDataSemiKeyValue })
+            mRef.current.reset({ inputDefaultValue: value?.FormDataSemiKeyValue || {} })
         }
     }, [value])
-
 
     const onInternalChange = (props: ATFormOnChangeInterface) => {
         if (onChange) {
