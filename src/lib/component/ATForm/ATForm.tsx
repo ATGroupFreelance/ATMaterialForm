@@ -10,6 +10,11 @@ import { ATFormChildProps, ATFormFieldTProps, ATFormChildRefInterface, ATFormOnC
 import { ATFormContextProvider } from './ATFormContext/ATFormContext';
 import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
 
+interface InternalDefaultValueInterface {
+    value: Record<string, any>;
+    suppressFormOnChange: boolean;
+}
+
 const ATFormFunction = (props: ATFormProps) => {
     const mChildrenRefs = useRef<Record<string, ATFormChildRefInterface>>({})
     const mFormData = useRef({})
@@ -21,7 +26,7 @@ const ATFormFunction = (props: ATFormProps) => {
     const mPrevChildren = useRef<any>(null)
     const mPendingValidationCallbacks = useRef<ATFormPendingValidationCallbackInterface[]>([])
     const { getTypeInfo, enums, rtl, getLocalText } = useATFormConfig()
-    const [internalDefaultValue, setInternalDefaultValue] = React.useState<Record<string, any>>({})
+    const [internalDefaultValue, setInternalDefaultValue] = React.useState<InternalDefaultValueInterface>({ value: {}, suppressFormOnChange: false })
     const [isFormOnLockdown, setIsFormOnLockdown] = React.useState(false)
     const [validationErrors, setValidationErrors] = React.useState<Record<string, any> | null>(null)
     /**We make sure the default value passed using props is only called once using this flag. */
@@ -139,12 +144,13 @@ const ATFormFunction = (props: ATFormProps) => {
 
     useEffect(() => {
         console.log('internalDefaultValue has changed', { internalDefaultValue, refList: mChildrenRefs.current })
+        /**You do not need to pass the internal default value to reset because its being passed through props */
         for (const key in mChildrenRefs.current) {
             if (mChildrenRefs.current[key] && mChildrenRefs.current[key].reset) {
-                mChildrenRefs.current[key].reset();
+                mChildrenRefs.current[key].reset({ suppressFormOnChange: internalDefaultValue.suppressFormOnChange });
             }
         }
-    }, [internalDefaultValue]); // Dependency array ensures this runs after defaultValue changes
+    }, [internalDefaultValue]);
 
 
     const onChildChange = useCallback(({ event, childProps, suppressFormOnChange, groupDataID }: ATFormOnChildChangeInterface) => {
@@ -353,7 +359,7 @@ const ATFormFunction = (props: ATFormProps) => {
     const getChildProps = useCallback((childProps: ATFormFieldDefInterface): ATFormChildProps => {
         const typeInfo = getTypeInfo(childProps.tProps.type)
 
-        const newDefaultValue = internalDefaultValue[childProps.tProps.id] === undefined ? childProps.tProps?.defaultValue : internalDefaultValue[childProps.tProps.id]
+        const newDefaultValue = internalDefaultValue.value[childProps.tProps.id] === undefined ? childProps.tProps?.defaultValue : internalDefaultValue.value[childProps.tProps.id]
 
         return {
             tProps: {
@@ -403,9 +409,6 @@ const ATFormFunction = (props: ATFormProps) => {
     }, [props.children, getChildProps, getTypeInfo])
 
     const reset = useCallback(({ inputDefaultValue, reverseConvertToKeyValueEnabled = true, inputDefaultValueFormat = 'FormDataSemiKeyValue', suppressFormOnChange = false }: ATFormResetInterface = {} as ATFormResetInterface) => {
-        //TODO handle suppressFormOnChange;
-        void suppressFormOnChange;
-
         const ungroupedInputDefaultValue = inputDefaultValue
 
         //If default value is not key value just use it!
@@ -453,7 +456,7 @@ const ATFormFunction = (props: ATFormProps) => {
 
         console.log('reset newDefaultValue', newDefaultValue)
 
-        setInternalDefaultValue(newDefaultValue || {})
+        setInternalDefaultValue({ value: newDefaultValue || {}, suppressFormOnChange })
     }, [enums, rtl, flatChildrenProps])
 
     useEffect(() => {

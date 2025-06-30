@@ -23,13 +23,13 @@ const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: AT
 
     useEffect(() => {
         if (mRef.current) {
-            mRef.current.reset({ inputDefaultValue: value?.FormDataSemiKeyValue || {} })
+            mRef.current.reset({ inputDefaultValue: value || {}, suppressFormOnChange: true })
         }
     }, [value])
 
     const onInternalChange = (props: ATFormOnChangeInterface) => {
         if (onChange) {
-            onChange({ target: { value: props } })
+            onChange({ target: { value: props.formDataSemiKeyValue } })
         }
     }
 

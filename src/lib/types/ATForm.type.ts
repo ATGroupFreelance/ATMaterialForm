@@ -76,10 +76,12 @@ export interface ATFormChildRefInterface {
 }
 
 export type ATFormWrapperRendererProps<TSpecificProps = void> = {
+    children: React.ReactNode,
     childProps: ATFormChildProps;
 } & ([TSpecificProps] extends [void] ? { [key: string]: any } : TSpecificProps);
 
-export type ATFormWrapperRendererType = ComponentType<any>;
+export type ATFormBuiltInWrapperType = 'Grid' | 'Collapse' | 'None';
+export type ATFormWrapperRendererType = ComponentType<any> | ATFormBuiltInWrapperType;
 
 /**Type def for tProps */
 export interface ATFormFieldTProps {
