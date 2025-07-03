@@ -1,17 +1,9 @@
+import { ATFormAnyToFormDataInterface, ATFormChildProps, ATFormFormDataToAnyInterface } from "@/lib/types/ATForm.type";
+import { ATFormFormDataType } from "@/lib/types/ATFormFormData.type";
 import { ATFormCascadeComboBoxAsyncOptions, ATFormCascadeComboBoxOptionsType } from "@/lib/types/ui/CascadeComboBox.type";
 
 export const capitalizeFirstLetter = (string: any) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-export const convertToKeyValue = (formData: any) => {
-    const result: Record<string, any> = {}
-
-    for (const key in formData) {
-        result[key] = formData.value
-    }
-
-    return result
 }
 
 export const isLiteralObject = (a: any) => {
@@ -90,4 +82,117 @@ export const getFlatChildren = (children: any) => {
 
 export function isAsyncOptions(options: ATFormCascadeComboBoxOptionsType): options is ATFormCascadeComboBoxAsyncOptions {
     return typeof options === 'function';
+}
+
+//Convert any format type to formData format type
+export function anyToFormData({ value, valueFormat, flatChildrenProps, enums, rtl }: ATFormAnyToFormDataInterface): ATFormFormDataType {
+    if (!value)
+        return {};
+
+    if (valueFormat === "FormData")
+        return value;
+
+    const result: ATFormFormDataType = {}
+
+    for (const key in value) {
+        //Find the elemenet of the value using id match
+        const foundChildProps = flatChildrenProps.find((item: any) => String(item.tProps?.id) === String(key))
+
+        //TODO HANDLE CONDITIONAL INSERT:
+        //If you have used conditional insertion, in some cases, such as datepicker, this "found" variable will be null on the first run.
+        //This means that the date is not reverse converted to a value, and after the condition is met, 
+        //it will throw an error because the element is initialized with a value that was not reversed.
+        //One easy solution is to initialize your insertion condition using a default value.
+        if (foundChildProps) {
+
+            //Find the element's type inside types which is inisde UITypeUtils, using this type we can do a reverseConvertToKeyValue
+            const typeInfo = (foundChildProps as ATFormChildProps)?.typeInfo
+
+            if (!typeInfo) {
+                console.warn('Type not found, child props is for an unknown child', { foundChildProps, id: key })
+                return result[key] = {
+                    value: value[key]
+                }
+            }
+
+            /**Because typeInfo exists we are sure its a ATFormChildProps */
+            const childProps = foundChildProps as ATFormChildProps
+
+            //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
+            if (valueFormat === 'FormDataKeyValue' && typeInfo.reverseConvertToKeyValue)
+                result[key] = {
+                    value: typeInfo.reverseConvertToKeyValue({ value: value[key], childProps, enums, rtl })
+                }
+            else if (valueFormat === 'FormDataSemiKeyValue' && typeInfo.reverseConvertToSemiKeyValue)
+                result[key] = {
+                    value: typeInfo.reverseConvertToSemiKeyValue({ value: value[key], childProps, enums, rtl })
+                }
+            else {
+                result[key] = {
+                    value: value[key]
+                }
+            }
+        }
+        else {
+            result[key] = {
+                value: value[key]
+            }
+        }
+    }
+
+    return result;
+}
+
+export function formDataToAny({ formData, targetFormat, flatChildrenProps, enums }: ATFormFormDataToAnyInterface) {
+    if (!formData)
+        return {}
+
+    if (targetFormat === 'FormData')
+        return formData
+
+    const result: Record<string, any> = {}
+
+    for (const key in formData) {
+        //Find the elemenet of the value using id match
+        const foundChildProps = flatChildrenProps.find((item: any) => String(item.tProps?.id) === String(key))
+
+        //TODO HANDLE CONDITIONAL INSERT:
+        //If you have used conditional insertion, in some cases, such as datepicker, this "found" variable will be null on the first run.
+        //This means that the date is not reverse converted to a value, and after the condition is met, 
+        //it will throw an error because the element is initialized with a value that was not reversed.
+        //One easy solution is to initialize your insertion condition using a default value.
+        if (foundChildProps) {
+
+            //Find the element's type inside types which is inisde UITypeUtils, using this type we can do a reverseConvertToKeyValue
+            const typeInfo = (foundChildProps as ATFormChildProps)?.typeInfo
+
+            if (!typeInfo) {
+                console.warn('Type not found, child props is for an uknown child', { foundChildProps, id: key })
+                return result[key] = formData[key]
+            }
+
+            /**Because typeInfo exists we are sure its a ATFormChildProps */
+            const childProps = foundChildProps as ATFormChildProps
+
+            //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
+            if (targetFormat === 'FormDataKeyValue' && typeInfo.convertToKeyValue)
+                result[key] = typeInfo.convertToKeyValue({ event: { target: { value: formData[key]?.value } }, childProps, enums })
+            else if (targetFormat === 'FormDataSemiKeyValue' && typeInfo.reverseConvertToSemiKeyValue)
+                result[key] = typeInfo.convertToSemiKeyValue({ event: { target: { value: formData[key]?.value } }, childProps, enums })
+            else {
+                result[key] = formData[key]?.value
+            }
+        }
+        else {
+            result[key] = formData[key]?.value
+        }
+    }
+
+    console.log('formDataToAny', {
+        formData,
+        result,
+        targetFormat
+    })
+
+    return result;
 }

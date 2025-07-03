@@ -1,18 +1,26 @@
-import React, { useCallback, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 //Validation
 import Ajv, { ErrorObject, ValidateFunction } from "ajv"
 import AVJErrors from 'ajv-errors';
 //Components
-import { getFlatChildren } from './FormUtils/FormUtils';
+import { getFlatChildren, anyToFormData, formDataToAny } from './FormUtils/FormUtils';
 import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 import { ATFormChildProps, ATFormFieldTProps, ATFormChildRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps, ATFormFieldDefInterface } from '@/lib/types/ATForm.type';
 import { ATFormContextProvider } from './ATFormContext/ATFormContext';
 import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
+import { ATFormFormDataType } from '@/lib/types/ATFormFormData.type';
 
 interface InternalDefaultValueInterface {
-    value: Record<string, any>;
+    value: ATFormFormDataType;
     suppressFormOnChange: boolean;
+}
+
+interface LocalValueInterface {
+    //Raw value assigned from props.value
+    rawValue: Record<string, any>,
+    //Value that comes from reverseConvertAny(props.value)
+    value: ATFormFormDataType
 }
 
 const ATFormFunction = (props: ATFormProps) => {
@@ -31,6 +39,7 @@ const ATFormFunction = (props: ATFormProps) => {
     const [validationErrors, setValidationErrors] = React.useState<Record<string, any> | null>(null)
     /**We make sure the default value passed using props is only called once using this flag. */
     const mIsDefaultValueResetCalledOnMount = useRef(false)
+    const [localValue, setLocalValue] = useState<LocalValueInterface>({ value: {}, rawValue: {} })
 
     useImperativeHandle(props.ref, () => {
         return {
@@ -143,7 +152,7 @@ const ATFormFunction = (props: ATFormProps) => {
     }, [props.children, compileAJV])
 
     useEffect(() => {
-        console.log('internalDefaultValue has changed', { internalDefaultValue, refList: mChildrenRefs.current })
+        // console.log('internalDefaultValue has changed', { internalDefaultValue, refList: mChildrenRefs.current })
         /**You do not need to pass the internal default value to reset because its being passed through props */
         for (const key in mChildrenRefs.current) {
             if (mChildrenRefs.current[key] && mChildrenRefs.current[key].reset) {
@@ -356,10 +365,12 @@ const ATFormFunction = (props: ATFormProps) => {
         }
     }, [normalizeErrors])
 
-    const getChildProps = useCallback((childProps: ATFormFieldDefInterface): ATFormChildProps => {
+    const getChildProps = useCallback((childProps: ATFormFieldDefInterface): ATFormChildProps => {        
         const typeInfo = getTypeInfo(childProps.tProps.type)
 
-        const newDefaultValue = internalDefaultValue.value[childProps.tProps.id] === undefined ? childProps.tProps?.defaultValue : internalDefaultValue.value[childProps.tProps.id]
+        const newDefaultValue = internalDefaultValue.value[childProps.tProps.id]?.value === undefined ? childProps.tProps?.defaultValue : internalDefaultValue.value[childProps.tProps.id]?.value
+
+        const isFormControlled = props.value !== undefined
 
         return {
             tProps: {
@@ -383,8 +394,10 @@ const ATFormFunction = (props: ATFormProps) => {
             typeInfo,
             onChildChange,
             errors: validationErrors,
+            value: (childProps.tProps.id && isFormControlled) ? localValue?.value?.[childProps.tProps.id]?.value : undefined,
+            isFormControlled,
         }
-    }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef])
+    }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value])
 
     const [flatChildren, flatChildrenProps] = useMemo(() => {
         const flatChildren = getFlatChildren(props.children)
@@ -408,55 +421,83 @@ const ATFormFunction = (props: ATFormProps) => {
         return [flatChildren, flatChildrenProps]
     }, [props.children, getChildProps, getTypeInfo])
 
-    const reset = useCallback(({ inputDefaultValue, reverseConvertToKeyValueEnabled = true, inputDefaultValueFormat = 'FormDataSemiKeyValue', suppressFormOnChange = false }: ATFormResetInterface = {} as ATFormResetInterface) => {
-        const ungroupedInputDefaultValue = inputDefaultValue
+    useEffect(() => {
+        //If form is uncontrolled, skip effect
+        if (props.value === undefined)
+            return;        
 
-        //If default value is not key value just use it!
-        let newDefaultValue = ungroupedInputDefaultValue
+        setLocalValue((prev) => {
+            const isSameValue = JSON.stringify(prev.rawValue) === JSON.stringify(props.value);
 
-        //If default value is a key value, process it so it becomes a formData format
-        if (reverseConvertToKeyValueEnabled && ungroupedInputDefaultValue) {
-            const reverseConvertToKeyValueDefaultValue: Record<string, any> = {}
+            if (isSameValue)
+                return prev;
 
-            for (const key in ungroupedInputDefaultValue) {
-                //Find the elemenet of the value using id match
-                const foundChildProps = flatChildrenProps.find((item) => String(item.tProps?.id) === String(key))
+            const valueFormat = props.valueFormat ?? 'FormDataSemiKeyValue'
 
-                //TODO HANDLE CONDITIONAL INSERT:
-                //If you have used conditional insertion, in some cases, such as datepicker, this "found" variable will be null on the first run.
-                //This means that the date is not reverse converted to a value, and after the condition is met, 
-                //it will throw an error because the element is initialized with a value that was not reversed.
-                //One easy solution is to initialize your insertion condition using a default value.
-                if (foundChildProps) {
-                    //Find the element's type inside types which is inisde UITypeUtils, using this type we can do a reverseConvertToKeyValue
-                    const typeInfo = (foundChildProps as ATFormChildProps)?.typeInfo
+            /**Convert any format type to FormData*/
+            const formData = anyToFormData({
+                value: props.value,
+                enums,
+                rtl,
+                flatChildrenProps,
+                valueFormat,
+            })
 
-                    if (!typeInfo) {
-                        console.warn('Type not found, child props is for an uknown child', { foundChildProps, id: key })
-                        return reverseConvertToKeyValueDefaultValue[key] = ungroupedInputDefaultValue[key]
-                    }
+            const formDataKeyValue = formDataToAny({
+                formData,
+                targetFormat: 'FormDataKeyValue',
+                enums,
+                flatChildrenProps
+            })
 
-                    /**Because typeInfo exists we are sure its a ATFormChildProps */
-                    const childProps = foundChildProps as ATFormChildProps
+            const formDataSemiKeyValue = formDataToAny({
+                formData,
+                targetFormat: 'FormDataSemiKeyValue',
+                enums,
+                flatChildrenProps
+            })
 
-                    //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
-                    if (inputDefaultValueFormat === 'FormDataKeyValue' && typeInfo.reverseConvertToKeyValue)
-                        reverseConvertToKeyValueDefaultValue[key] = typeInfo.reverseConvertToKeyValue({ value: ungroupedInputDefaultValue[key], childProps, enums, rtl })
-                    else if (inputDefaultValueFormat === 'FormDataSemiKeyValue' && typeInfo.reverseConvertToSemiKeyValue)
-                        reverseConvertToKeyValueDefaultValue[key] = typeInfo.reverseConvertToSemiKeyValue({ value: ungroupedInputDefaultValue[key], childProps, enums, rtl })
-                    else
-                        reverseConvertToKeyValueDefaultValue[key] = ungroupedInputDefaultValue[key]
-                }
-                else
-                    reverseConvertToKeyValueDefaultValue[key] = ungroupedInputDefaultValue[key]
+            mFormData.current = {
+                ...formData,
             }
 
-            newDefaultValue = reverseConvertToKeyValueDefaultValue
-        }
+            mFormDataKeyValue.current = {
+                ...formDataKeyValue,
+            }
 
-        console.log('reset newDefaultValue', newDefaultValue)
+            mFormDataSemiKeyValue.current = {
+                ...formDataSemiKeyValue
+            }
 
-        setInternalDefaultValue({ value: newDefaultValue || {}, suppressFormOnChange })
+            // console.log('setValue', {
+            //     valueFormat,
+            //     prev,
+            //     newVal: props.value,
+            //     formData,
+            //     formDataKeyValue,
+            //     formDataSemiKeyValue
+            // })
+
+            return {
+                rawValue: props.value,
+                value: formData,
+            }
+        });
+    }, [props.value, props.valueFormat, enums, rtl, flatChildrenProps]);
+
+    const reset = useCallback(({ inputDefaultValue, inputDefaultValueFormat = 'FormDataSemiKeyValue', suppressFormOnChange = false }: ATFormResetInterface = {} as ATFormResetInterface) => {
+        //If default value is not key value just use it!
+        const newDefaultValue = anyToFormData({
+            value: inputDefaultValue,
+            enums,
+            rtl,
+            flatChildrenProps,
+            valueFormat: inputDefaultValueFormat,
+        })
+
+        // console.log('reset newDefaultValue', newDefaultValue)
+
+        setInternalDefaultValue({ value: newDefaultValue, suppressFormOnChange })
     }, [enums, rtl, flatChildrenProps])
 
     useEffect(() => {
@@ -493,21 +534,3 @@ const ATFormFunction = (props: ATFormProps) => {
 
 
 export default ATFormFunction;
-
-
-
-// FieldDefBuilder
-// useFieldDef
-// ATFieldDefInterface
-
-// const listOfFieldDefs: ATFieldDefInterface[] = []
-
-// FieldDefBuilder(listOfFieldDefs).toATForm()
-// FieldDefBuilder(listOfFieldDefs).toAgGridColDef()
-
-// And ATForm.children: (React.Node | ATFormFieldDefInterface)[]
-
-// ATFormFieldDefInterface: {
-//     tProps: ATFormFieldTProps,
-//     uiProps: any;
-// }

@@ -44,6 +44,7 @@ import { StringKeyedObject } from './lib/types/Common.type';
 import BasicForm2 from './examples/BasicForm2/BasicForm2';
 import ConditionalRendering from './examples/ConditionalRendering/ConditionalRendering';
 import WrapMultipleElements from './examples/WrapMultipleElements/WrapMultipleElements';
+import ControlledForm from './examples/ControlledForm/ControlledForm';
 
 export interface ExampleComponentInterface {
   ref?: any,
@@ -62,7 +63,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'WrapMultipleElements'
+const ACTIVE_EXAMPLE = 'ControlledForm'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
@@ -248,6 +249,12 @@ function App() {
       refEnabled: true,
       onChangeEnabled: true,
     },
+    {
+      id: 'ControlledForm',
+      component: ControlledForm,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },    
   ]
 
   console.log('App Renderer')

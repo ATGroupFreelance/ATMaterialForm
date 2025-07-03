@@ -1,20 +1,19 @@
-import { StringKeyedObject } from "./Common.type";
+import { ATEnumsType } from "./Common.type";
 import type React from "react";
 import type { ColDef } from "ag-grid-community";
 import { Grid } from '@mui/material';
 import { ATFormTypeInfoInterface } from "./UITypeUtils.type";
 import { ATFormTabConfigInterface, ATFormTabsManagerDefaultSelectedTabPathsType, ATFormTabsOnChangeType } from "./ATFormTabsManager.type";
 import { ComponentType } from "react";
+import { ATFormFormDataFormat, ATFormFormDataKeyValueType, ATFormFormDataSemiKeyValueType, ATFormFormDataType } from "./ATFormFormData.type";
 
 export type ATFormGridSize = React.ComponentProps<typeof Grid>['size'];
 export type ATFormColor = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | 'default'
 
-export type ATFormDefaultValueFormat = 'FormData' | 'FormDataKeyValue' | 'FormDataSemiKeyValue';
-
 export interface ATFormOnChangeInterface {
-    formData: StringKeyedObject,
-    formDataKeyValue: StringKeyedObject,
-    formDataSemiKeyValue: StringKeyedObject,
+    formData: ATFormFormDataType,
+    formDataKeyValue: ATFormFormDataKeyValueType,
+    formDataSemiKeyValue: ATFormFormDataSemiKeyValueType,
 }
 
 export interface ATFormRefInterface {
@@ -43,17 +42,18 @@ export interface ATFormProps {
      * Read defaultValueFormat for more information.
      */
     defaultValue?: any,
-    defaultValueFormat?: ATFormDefaultValueFormat,
+    defaultValueFormat?: ATFormFormDataFormat,
     onChange?: (props: ATFormOnChangeInterface) => void,
     tabs?: ATFormTabConfigInterface[],
     onTabChange?: ATFormTabsOnChangeType,
     defaultSelectedTabPaths?: ATFormTabsManagerDefaultSelectedTabPathsType,
+    value?: any,
+    valueFormat?: ATFormFormDataFormat,
 }
 
 export interface ATFormResetInterface {
     inputDefaultValue?: any,
-    inputDefaultValueFormat?: ATFormDefaultValueFormat,
-    reverseConvertToKeyValueEnabled?: boolean,
+    inputDefaultValueFormat?: ATFormFormDataFormat,
     suppressFormOnChange?: boolean,
 }
 
@@ -111,6 +111,8 @@ export type ATFormChildProps<T extends ATFormFieldDefGenericProps = ATFormFieldD
     errors: any,
     onChildChange: (props: ATFormOnChildChangeInterface) => void,
     isTabSelected?: boolean,
+    value?: any,
+    isFormControlled: boolean,
 };
 
 export interface ATFormUnknownChildProps {
@@ -151,4 +153,19 @@ export interface ATUnControlledUIBuilderProps {
 
 export interface ATFormChildResetInterface {
     suppressFormOnChange?: boolean,
+}
+
+export interface ATFormAnyToFormDataInterface {
+    value: any,
+    valueFormat: ATFormFormDataFormat,
+    flatChildrenProps: (ATFormChildProps | ATFormUnknownChildProps)[],
+    enums: ATEnumsType,
+    rtl?: boolean,
+}
+
+export interface ATFormFormDataToAnyInterface {
+    formData: ATFormFormDataType,
+    targetFormat: ATFormFormDataFormat,
+    flatChildrenProps: (ATFormChildProps | ATFormUnknownChildProps)[],
+    enums: ATEnumsType,
 }

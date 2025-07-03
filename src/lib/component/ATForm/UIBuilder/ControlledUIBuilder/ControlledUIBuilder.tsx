@@ -66,6 +66,16 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         }
     }, [childProps, localValue])
 
+    useEffect(() => {
+        if (!childProps.isFormControlled)
+            return;
+
+        if (childProps.value === undefined)
+            setLocalValue(getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue))
+        else
+            setLocalValue(childProps.value)
+    }, [childProps])
+
     //Please note that if value is gived to an element is complex and can not be compared using a shallow compare it can cause infinite loop
     //For example a controlled Textbox from outside is okay but upload button is not.
     useEffect(() => {
