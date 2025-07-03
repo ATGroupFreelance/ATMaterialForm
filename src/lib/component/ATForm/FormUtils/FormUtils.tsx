@@ -110,9 +110,11 @@ export function anyToFormData({ value, valueFormat, flatChildrenProps, enums, rt
 
             if (!typeInfo) {
                 console.warn('Type not found, child props is for an unknown child', { foundChildProps, id: key })
-                return result[key] = {
+                result[key] = {
                     value: value[key]
                 }
+
+                continue;
             }
 
             /**Because typeInfo exists we are sure its a ATFormChildProps */
@@ -168,7 +170,9 @@ export function formDataToAny({ formData, targetFormat, flatChildrenProps, enums
 
             if (!typeInfo) {
                 console.warn('Type not found, child props is for an uknown child', { foundChildProps, id: key })
-                return result[key] = formData[key]
+                result[key] = formData[key]
+
+                continue;
             }
 
             /**Because typeInfo exists we are sure its a ATFormChildProps */
@@ -187,12 +191,6 @@ export function formDataToAny({ formData, targetFormat, flatChildrenProps, enums
             result[key] = formData[key]?.value
         }
     }
-
-    console.log('formDataToAny', {
-        formData,
-        result,
-        targetFormat
-    })
 
     return result;
 }
