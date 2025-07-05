@@ -181,7 +181,7 @@ export function formDataToAny({ formData, targetFormat, flatChildrenProps, enums
             //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
             if (targetFormat === 'FormDataKeyValue' && typeInfo.convertToKeyValue)
                 result[key] = typeInfo.convertToKeyValue({ event: { target: { value: formData[key]?.value } }, childProps, enums })
-            else if (targetFormat === 'FormDataSemiKeyValue' && typeInfo.reverseConvertToSemiKeyValue)
+            else if (targetFormat === 'FormDataSemiKeyValue' && typeInfo.convertToSemiKeyValue)
                 result[key] = typeInfo.convertToSemiKeyValue({ event: { target: { value: formData[key]?.value } }, childProps, enums })
             else {
                 result[key] = formData[key]?.value

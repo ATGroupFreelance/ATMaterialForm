@@ -469,14 +469,14 @@ const ATFormFunction = (props: ATFormProps) => {
                 ...formDataSemiKeyValue
             }
 
-            // console.log('setValue', {
-            //     valueFormat,
-            //     prev,
-            //     newVal: props.value,
-            //     formData,
-            //     formDataKeyValue,
-            //     formDataSemiKeyValue
-            // })
+            console.log('setValue', {
+                valueFormat,
+                prev,
+                newVal: props.value,
+                formData,
+                formDataKeyValue,
+                formDataSemiKeyValue
+            })
 
             return {
                 rawValue: props.value,
