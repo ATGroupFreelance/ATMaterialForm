@@ -1,55 +1,61 @@
 import { useState } from 'react';
 
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete, { AutocompleteChangeReason, AutocompleteRenderValue } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
-import { ATFormMultiSelectTextBoxProps } from '@/lib/types/ui/MultiSelectTextBox.type';
-//Facts about autocomplete:
-//If "multiple" is false, value/initvalue must be string or null, if initvalue is set to "" it throws a warning that no match was found
-//If "multiple" is true,  value/initvalue must be an array
-//If "multiple" is false the out of onChange is an string
-//if "multiple" is true the output of onChange is an array
-//Option can be like this: 
-//['uk', 'us']
-//[{label: 'uk'}, {label: 'us'}]
+import { ATFormMultiSelectTextBoxOption, ATFormMultiSelectTextBoxProps } from '@/lib/types/ui/MultiSelectTextBox.type';
+import IntegerTextBox from '../IntegerTextBox/IntegerTextBox';
 
-const MultiSelectTextBox = ({ label, onChange, autoComplete = false, error, helperText, value, ...restProps }: ATFormMultiSelectTextBoxProps) => {
-    const [textFieldValue, setTextFieldValue] = useState('')
+const getInitialTextFieldValue = (valueType: 'number' | 'string') => {
+    if (valueType === 'number')
+        return 0
+    else
+        return ''
+}
 
-    const onTextFieldChange = (event: any) => {
+const MultiSelectTextBox = ({ label, onChange, error, helperText, value, autoComplete = false, allowDuplicates = false, valueType = 'string', ...restProps }: ATFormMultiSelectTextBoxProps) => {
+    const [textFieldValue, setTextFieldValue] = useState<string | number>(getInitialTextFieldValue(valueType))
+
+    const onTextFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTextFieldValue(event.target.value)
     }
 
-    const onChipDeleteClick = (id: any) => {
-        const newValue = value.filter((item: any) => item !== id)
+    const onChipDeleteClick = (option: ATFormMultiSelectTextBoxOption) => {
+        const newValue = value?.filter((item) => {
+            return item.id !== option.id
+        })
 
         if (onChange) {
-            setTextFieldValue('')
+            setTextFieldValue(getInitialTextFieldValue(valueType))
             onChange({ target: { value: newValue } })
         }
     }
 
     const updateValue = () => {
-        const found = value.find((item: any) => item === textFieldValue)
-        if (!found && textFieldValue) {
+        const alreadyExists = value?.find((item) => item.value === textFieldValue)
+
+        if ((allowDuplicates || !alreadyExists) && textFieldValue) {
             const newValue = [
-                ...value,
-                textFieldValue
+                ...(value || []),
+                {
+                    id: crypto.randomUUID(),
+                    value: textFieldValue
+                }
             ]
 
             if (onChange) {
                 onChange({ target: { value: newValue } })
-                setTextFieldValue('')
+                setTextFieldValue(getInitialTextFieldValue(valueType))
             }
         }
     }
 
-    const onAutocompleteChange = (event: any, newValue: any, reason: any) => {
-        if (event.key === 'Enter')
+    const onAutocompleteChange = (event: any, newValue: ATFormMultiSelectTextBoxOption[], reason: AutocompleteChangeReason) => {
+        if (event?.key === 'Enter')
             return;
 
         if (reason === 'clear') {
-            setTextFieldValue('')
+            setTextFieldValue(getInitialTextFieldValue(valueType))
 
             if (onChange)
                 onChange({ target: { value: [] } })
@@ -65,13 +71,19 @@ const MultiSelectTextBox = ({ label, onChange, autoComplete = false, error, help
         multiple
         fullWidth={true}
         options={value || []}
-        renderTags={(value, getTagProps) =>
+        getOptionLabel={(option) => {
+            return String(option.value)
+        }}
+        getOptionKey={(option) => option.id}
+        renderValue={(value: AutocompleteRenderValue<ATFormMultiSelectTextBoxOption, true, false>, getItemProps) =>
             value.map((option, index) => {
-                const { key, ...restPropsChip } = getTagProps({ index })
+                //@ts-expect-error Key does exist The interface for getItemProps is wrong
+                const { key, ...restPropsChip } = getItemProps({ index })
+
                 return <Chip
                     key={key}
                     variant="outlined"
-                    label={option}
+                    label={String(option.value)}
                     color={'secondary'}
                     {...restPropsChip}
                     onDelete={() => onChipDeleteClick(option)}
@@ -79,25 +91,32 @@ const MultiSelectTextBox = ({ label, onChange, autoComplete = false, error, help
             })
         }
         renderInput={
-            (params) => <TextField
-                {...params}
-                error={error}
-                helperText={helperText}
-                label={label}
-                onChange={onTextFieldChange}
-                value={textFieldValue}
-                onBlur={() => {
-                    updateValue()
-                }}
-                onKeyDown={(event) => {
-                    if (event.key === 'Enter') {
+            (params) => {
+                const textFieldProps = {
+                    ...params,
+                    error,
+                    helperText,
+                    label,
+                    onChange: onTextFieldChange,
+                    value: textFieldValue,
+                    onBlur: () => {
                         updateValue()
+                    },
+                    onKeyDown: (event: any) => {
+                        if (event.key === 'Enter') {
+                            updateValue()
+                        }
+                    },
+                    slotProps: {
+                        htmlInput: { ...params.inputProps }
                     }
-                }}
-                slotProps={{
-                    htmlInput: { ...params.inputProps }
-                }}
-            />
+                }
+
+                if (valueType === 'string')
+                    return <TextField {...textFieldProps} />
+                else if (valueType === 'number')
+                    return <IntegerTextBox {...textFieldProps} />
+            }
         }
         value={value}
         onChange={onAutocompleteChange}

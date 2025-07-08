@@ -12,13 +12,13 @@ import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
 import { ATFormFormDataType } from '@/lib/types/ATFormFormData.type';
 
 interface InternalDefaultValueInterface {
-    value: ATFormFormDataType;
+    value: ATFormFormDataType | null;
     suppressFormOnChange: boolean;
 }
 
 interface LocalValueInterface {
     //Raw value assigned from props.value
-    rawValue: Record<string, any>,
+    rawValue: string,
     //Value that comes from reverseConvertAny(props.value)
     value: ATFormFormDataType
 }
@@ -34,12 +34,13 @@ const ATFormFunction = (props: ATFormProps) => {
     const mPrevChildren = useRef<any>(null)
     const mPendingValidationCallbacks = useRef<ATFormPendingValidationCallbackInterface[]>([])
     const { getTypeInfo, enums, rtl, getLocalText } = useATFormConfig()
-    const [internalDefaultValue, setInternalDefaultValue] = React.useState<InternalDefaultValueInterface>({ value: {}, suppressFormOnChange: false })
+    const [internalDefaultValue, setInternalDefaultValue] = React.useState<InternalDefaultValueInterface>({ value: null, suppressFormOnChange: false })
     const [isFormOnLockdown, setIsFormOnLockdown] = React.useState(false)
     const [validationErrors, setValidationErrors] = React.useState<Record<string, any> | null>(null)
     /**We make sure the default value passed using props is only called once using this flag. */
     const mIsDefaultValueResetCalledOnMount = useRef(false)
-    const [localValue, setLocalValue] = useState<LocalValueInterface>({ value: {}, rawValue: {} })
+    const [localValue, setLocalValue] = useState<LocalValueInterface>({ value: {}, rawValue: "" })
+    const mLastValue = useRef<string>("")
 
     useImperativeHandle(props.ref, () => {
         return {
@@ -152,7 +153,10 @@ const ATFormFunction = (props: ATFormProps) => {
     }, [props.children, compileAJV])
 
     useEffect(() => {
-        // console.log('internalDefaultValue has changed', { internalDefaultValue, refList: mChildrenRefs.current })
+        /**Skip reseting children if defaultValue is null or undefined, this is only useful in controlled form and stop value from being overwritten at start */
+        if (!internalDefaultValue.value)
+            return;
+
         /**You do not need to pass the internal default value to reset because its being passed through props */
         for (const key in mChildrenRefs.current) {
             if (mChildrenRefs.current[key] && mChildrenRefs.current[key].reset) {
@@ -365,10 +369,10 @@ const ATFormFunction = (props: ATFormProps) => {
         }
     }, [normalizeErrors])
 
-    const getChildProps = useCallback((childProps: ATFormFieldDefInterface): ATFormChildProps => {        
+    const getChildProps = useCallback((childProps: ATFormFieldDefInterface): ATFormChildProps => {
         const typeInfo = getTypeInfo(childProps.tProps.type)
 
-        const newDefaultValue = internalDefaultValue.value[childProps.tProps.id]?.value === undefined ? childProps.tProps?.defaultValue : internalDefaultValue.value[childProps.tProps.id]?.value
+        const newDefaultValue = internalDefaultValue.value?.[childProps.tProps.id]?.value === undefined ? childProps.tProps?.defaultValue : internalDefaultValue.value[childProps.tProps.id]?.value
 
         const isFormControlled = props.value !== undefined
 
@@ -424,65 +428,54 @@ const ATFormFunction = (props: ATFormProps) => {
     useEffect(() => {
         //If form is uncontrolled, skip effect
         if (props.value === undefined)
-            return;        
+            return;
 
-        setLocalValue((prev) => {
-            const isSameValue = JSON.stringify(prev.rawValue) === JSON.stringify(props.value);
+        const strValue = JSON.stringify(props.value)
+        const isSameValue = mLastValue.current === strValue;
 
-            if (isSameValue)
-                return prev;
+        if (isSameValue)
+            return;
 
-            const valueFormat = props.valueFormat ?? 'FormDataSemiKeyValue'
+        mLastValue.current = strValue
 
-            /**Convert any format type to FormData*/
-            const formData = anyToFormData({
-                value: props.value,
-                enums,
-                rtl,
-                flatChildrenProps,
-                valueFormat,
-            })
+        const valueFormat = props.valueFormat ?? 'FormDataSemiKeyValue'
 
-            const formDataKeyValue = formDataToAny({
-                formData,
-                targetFormat: 'FormDataKeyValue',
-                enums,
-                flatChildrenProps
-            })
+        /**Convert any format type to FormData*/
+        const formData = anyToFormData({
+            value: props.value,
+            enums,
+            rtl,
+            flatChildrenProps,
+            valueFormat,
+        })
 
-            const formDataSemiKeyValue = formDataToAny({
-                formData,
-                targetFormat: 'FormDataSemiKeyValue',
-                enums,
-                flatChildrenProps
-            })
+        const formDataKeyValue = formDataToAny({
+            formData,
+            targetFormat: 'FormDataKeyValue',
+            enums,
+            flatChildrenProps
+        })
 
-            mFormData.current = {
-                ...formData,
-            }
+        const formDataSemiKeyValue = formDataToAny({
+            formData,
+            targetFormat: 'FormDataSemiKeyValue',
+            enums,
+            flatChildrenProps
+        })
 
-            mFormDataKeyValue.current = {
-                ...formDataKeyValue,
-            }
+        mFormData.current = {
+            ...formData,
+        }
 
-            mFormDataSemiKeyValue.current = {
-                ...formDataSemiKeyValue
-            }
+        mFormDataKeyValue.current = {
+            ...formDataKeyValue,
+        }
 
-            console.log('setValue', {
-                valueFormat,
-                prev,
-                newVal: props.value,
-                formData,
-                formDataKeyValue,
-                formDataSemiKeyValue
-            })
+        mFormDataSemiKeyValue.current = {
+            ...formDataSemiKeyValue
+        }
 
-            return {
-                rawValue: props.value,
-                value: formData,
-            }
-        });
+        setLocalValue({ rawValue: strValue, value: formData });
     }, [props.value, props.valueFormat, enums, rtl, flatChildrenProps]);
 
     const reset = useCallback(({ inputDefaultValue, inputDefaultValueFormat = 'FormDataSemiKeyValue', suppressFormOnChange = false }: ATFormResetInterface = {} as ATFormResetInterface) => {

@@ -78,9 +78,10 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                             formBuilder.createTextBox({ id: "Test" }),
                         ]
                     }
-                )
+                ),
+                formBuilder.createMultiSelectTextBox({ id: 'MultiSelectTextBox', size: 6 }, { valueType: "number" }),
             ]
-                .filter(item => item.tProps.id === "ContainerWithTable")
+                .filter(item => item.tProps.id === "MultiSelectTextBox")
         }
     </ATForm>
 }

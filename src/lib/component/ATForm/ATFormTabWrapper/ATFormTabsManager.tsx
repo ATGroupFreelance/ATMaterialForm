@@ -77,7 +77,7 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
 
         if (hastabPathChanged && (currentPrimarytabPathIndex || currentPrimarytabPathIndex === 0)) {
             lastPrimarytabPathIndex = currentPrimarytabPathIndex
-            
+
             const foundIndex = tabContainerList.findIndex((item) => item.primarytabPathIndex === currentPrimarytabPathIndex)
             const currentTab = enrichedTabs?.find(((_, index) => index === currentPrimarytabPathIndex))
 
@@ -191,7 +191,8 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
                         depth={0}
                         tabContainer={foundTabContainer}
                     />
-                </Grid>}
+                </Grid>
+            }
             <UIRender childProps={newChildrenProps[index]}>
                 {item}
             </UIRender>

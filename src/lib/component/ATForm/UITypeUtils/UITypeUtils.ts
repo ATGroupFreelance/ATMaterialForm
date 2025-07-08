@@ -5,6 +5,7 @@ import { ATConvertInterface, ATGetTitleByEnumsInterface, ATReverseConvertInterfa
 import { ATFormComboBoxProps } from '@/lib/types/ui/ComboBox.type';
 import { ATFormMultiComboBoxProps } from '@/lib/types/ui/MultiComboBox.type';
 import { ATFormCascadeComboBoxProps } from '@/lib/types/ui/CascadeComboBox.type';
+import { ATFormMultiSelectTextBoxOption } from '@/lib/types/ui/MultiSelectTextBox.type';
 
 export const UITypes = {
     Button: 'Button',
@@ -540,22 +541,36 @@ export const types = [
         initialValue: [],
         validation: createValidation({ type: 'array', minItems: 1 }),
         convertToKeyValue: ({ event }: ATConvertInterface) => {
-            return JSON.stringify(event.target.value)
+            return JSON.stringify(event.target.value.map((item: ATFormMultiSelectTextBoxOption) => {
+                return item.value
+            }))
         },
         reverseConvertToKeyValue: ({ value }: ATReverseConvertInterface) => {
             if (!value)
                 return []
             else
-                return JSON.parse(value)
+                return JSON.parse(value).map((item: number | string, index: number) => {
+                    return {
+                        id: index,
+                        value: item,
+                    }
+                })
         },
         convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
-            return event.target.value
+            return event.target.value.map((item: ATFormMultiSelectTextBoxOption) => {
+                return item.value
+            })
         },
         reverseConvertToSemiKeyValue: ({ value }: ATReverseConvertInterface) => {
             if (!value)
                 return []
             else
-                return value
+                return value.map((item: number | string, index: number) => {
+                    return {
+                        id: index,
+                        value: item,
+                    }
+                })
         },
     }),
     createType({

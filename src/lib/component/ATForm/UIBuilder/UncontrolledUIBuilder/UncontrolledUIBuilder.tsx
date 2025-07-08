@@ -9,7 +9,7 @@ const Label = React.lazy(() => import('../../UI/Label/Label'));
 const Table = React.lazy(() => import('../../UI/Table/Table'));
 
 const UncontrolledUIBuilder = ({ childProps }: ATUnControlledUIBuilderProps) => {
-    const { customComponents } = useATFormConfig()
+    const { customComponents } = useATFormConfig()    
 
     const commonProps = {
         id: childProps.tProps.id,

@@ -9,7 +9,8 @@ export interface ATFormTabConfigInterface {
     tabs?: ATFormTabConfigInterface[],
     tabProps?: TabProps,
     /**The props for the container of all the tabs, only the first instance of this props is used in an array of tabs */
-    tabsProps?: TabsProps,
+    tabsProps?: TabsProps,    
+    /**This is autofilled and is not provided by the user */
     tabPath?: number[],
 }
 

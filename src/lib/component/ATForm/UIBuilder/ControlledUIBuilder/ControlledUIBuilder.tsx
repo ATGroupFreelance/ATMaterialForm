@@ -48,7 +48,7 @@ const getInitialValue = (typeInfo: ATFormTypeInfoInterface, defaultValue: any) =
 //Sometimes you might want to pass a prop to a component that is already taken, that is when you use the atComponentProps, an example would be type: number for textfield
 //which is already taken by ATMaterialForm
 const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
-    const mIsInitialized = useRef(false)
+    const mIsInitialized = useRef(childProps.isFormControlled ? true : false)
     const { customComponents } = useATFormConfig()
 
     /**UI Builder doesn't allow any child with an undefined typeinfo to be rendered which means typeinfo is for sure not empty*/
@@ -131,8 +131,6 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
     }
 
     const type = childProps.tProps.type
-
-    console.log('Controlled UIBuilder children', childProps)
 
     return <Suspense fallback={<div>Loading...</div>}>
         {type === 'TextBox' && <TextBox {...commonProps} />}

@@ -63,7 +63,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'ControlledForm'
+const ACTIVE_EXAMPLE = 'BasicForm2'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
@@ -254,7 +254,7 @@ function App() {
       component: ControlledForm,
       refEnabled: true,
       onChangeEnabled: true,
-    },    
+    },
   ]
 
   console.log('App Renderer')

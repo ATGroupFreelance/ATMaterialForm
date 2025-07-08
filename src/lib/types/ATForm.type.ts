@@ -1,4 +1,4 @@
-import { ATEnumsType } from "./Common.type";
+import { ATEnumsType, StrictOmit } from "./Common.type";
 import type React from "react";
 import type { ColDef } from "ag-grid-community";
 import { Grid } from '@mui/material';
@@ -43,12 +43,15 @@ export interface ATFormProps {
      */
     defaultValue?: any,
     defaultValueFormat?: ATFormFormDataFormat,
+    /**onChange is called at the beginning of form creation in uncontrolled forms, but in controlled forms, it is not called at all initially. */
     onChange?: (props: ATFormOnChangeInterface) => void,
-    tabs?: ATFormTabConfigInterface[],
+    /**e.g [{label: 'tab0', tabs: [label: 'tab 0 in tab 0]}, {label: 'tab1'}] */
+    tabs?: StrictOmit<ATFormTabConfigInterface, 'tabPath'>[],
     onTabChange?: ATFormTabsOnChangeType,
     defaultSelectedTabPaths?: ATFormTabsManagerDefaultSelectedTabPathsType,
     value?: any,
     valueFormat?: ATFormFormDataFormat,
+    debugID?: string,
 }
 
 export interface ATFormResetInterface {

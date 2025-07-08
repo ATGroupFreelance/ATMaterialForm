@@ -4,9 +4,9 @@ import TextBox from '../TextBox/TextBox';
 import { convertNoneEnglishNumbers } from '../../FormUtils/FormUtils';
 import { ATFormIntegerTextBoxProps } from '../../../../types/ui/IntegerTextBox.type';
 
-const IntegerTextBox = ({ value, onChange, ...restProps }: ATFormIntegerTextBoxProps) => {
+const IntegerTextBox = ({ value, onChange, onKeyDown, ...restProps }: ATFormIntegerTextBoxProps) => {
 
-    const onInternalChange = (event: React.ChangeEvent<HTMLInputElement>) => {        
+    const onInternalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = convertNoneEnglishNumbers(event.target.value)
         let integerValue = null
 
@@ -31,6 +31,9 @@ const IntegerTextBox = ({ value, onChange, ...restProps }: ATFormIntegerTextBoxP
             if (e.key === "e" || e.key === "E" || e.key === "+") {
                 e.preventDefault()
             }
+
+            if (onKeyDown)
+                onKeyDown(e)
         }}
         {...restProps}
     />
