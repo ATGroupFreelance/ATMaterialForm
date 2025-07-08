@@ -147,13 +147,16 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
 
         const tabPathAsArray: number[] = Array.isArray(tabPath) ? tabPath as Array<number> : ((tabPath || tabPath === 0) ? [tabPath] : [])
 
-        let isSameTabPath = false
+        let isSameOrParentTabPath = false
 
         for (const key in selectedTabMap) {
-            // Example: `tabPath: [1, 2]` means this item is inside the first tab and then inside the second tab within the first tab.
-            isSameTabPath = selectedTabMap[key].selectedTabPath.join(',') === tabPathAsArray.join(',')
+            //Example: tabPath: [1, 2] means this item is inside the first tab and then inside the second tab within the first tab.
+            //Please note if tabPath is [0, 1] an element that has tabPath [0] is also shown.
+            isSameOrParentTabPath = tabPathAsArray.every(
+                (val, index) => selectedTabMap[key].selectedTabPath[index] === val
+            );
 
-            if (isSameTabPath === true)
+            if (isSameOrParentTabPath === true)
                 break;
         }
 
@@ -163,14 +166,14 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
         // The default wrapper used here is MUI's `Grid`.
         return {
             ...item,
-            isTabSelected: isSameTabPath,
+            isTabSelected: isSameOrParentTabPath,
             tProps: {
                 ...(item.tProps || {}),
                 wrapperRendererProps: {
                     ... (item.tProps?.wrapperRendererProps || {}),
                     sx: {
                         ... (item.tProps?.wrapperRendererProps?.sx || {}),
-                        display: isSameTabPath ? undefined : 'none',
+                        display: isSameOrParentTabPath ? undefined : 'none',
                     }
                 }
             }

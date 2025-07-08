@@ -8,13 +8,15 @@ import IntegerTextBox from '../IntegerTextBox/IntegerTextBox';
 
 const getInitialTextFieldValue = (valueType: 'number' | 'string') => {
     if (valueType === 'number')
-        return 0
+        return null
     else
         return ''
 }
 
 const MultiSelectTextBox = ({ label, onChange, error, helperText, value, autoComplete = false, allowDuplicates = false, valueType = 'string', ...restProps }: ATFormMultiSelectTextBoxProps) => {
-    const [textFieldValue, setTextFieldValue] = useState<string | number>(getInitialTextFieldValue(valueType))
+    //If valueType is number the value can be number or null
+    const [textFieldValue, setTextFieldValue] = useState<string | number | null>(getInitialTextFieldValue(valueType))
+    console.log('textFieldValue', textFieldValue)
 
     const onTextFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTextFieldValue(event.target.value)
