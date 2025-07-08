@@ -79,7 +79,7 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                         ]
                     }
                 ),
-                formBuilder.createMultiSelectTextBox({ id: 'MultiSelectTextBox', size: 6 }, { valueType: "number" }),
+                formBuilder.createMultiSelectTextBox({ id: 'MultiSelectTextBox', size: 6 }, { valueType: "number" }),                
             ]
                 .filter(item => item.tProps.id === "MultiSelectTextBox")
         }

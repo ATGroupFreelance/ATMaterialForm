@@ -32,9 +32,9 @@ const MultiSelectTextBox = ({ label, onChange, error, helperText, value, autoCom
     }
 
     const updateValue = () => {
-        const alreadyExists = value?.find((item) => item.value === textFieldValue)
+        const alreadyExists = (value?.findIndex((item) => item.value === textFieldValue) !== -1)
 
-        if ((allowDuplicates || !alreadyExists) && textFieldValue) {
+        if ((allowDuplicates || !alreadyExists) && (textFieldValue || textFieldValue === 0)) {
             const newValue = [
                 ...(value || []),
                 {

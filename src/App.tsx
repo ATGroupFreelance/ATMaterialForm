@@ -63,7 +63,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'BasicForm2'
+const ACTIVE_EXAMPLE = 'ControlledForm'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
