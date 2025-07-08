@@ -101,7 +101,10 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
     }
 
     const internalOnChange = (event: any, props?: ATFormChildResetInterface) => {
-        setLocalValue(event.target.value)
+        //When child is controlled the change will cause the single true value to change which will reach here throgh the parent and finally changes localValue
+        if (!childProps.isFormControlled)
+            setLocalValue(event.target.value)
+
         //This onChange must be given outside of the form to the element, the goal is total control
         if (childProps.uiProps?.onChange)
             childProps.uiProps.onChange(event)

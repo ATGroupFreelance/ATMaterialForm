@@ -69,7 +69,7 @@ const ControlledForm = ({ ref, onChange }: ExampleComponentInterface) => {
     }
 
     console.log('setValue value', {
-        value
+        value   
     })
 
     return (
