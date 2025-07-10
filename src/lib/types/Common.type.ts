@@ -1,6 +1,6 @@
 export type StrictOmit<T, K extends keyof T> = Omit<T, K>;
 export type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]
+    [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]
 };
 
 export interface ATEnumCompatibleComponentProps {
@@ -50,5 +50,4 @@ export type ATFormOnClickProps<TExtraProps = {}> = ATFormOnClickBaseProps & TExt
 
 export type ATFormOnClickType<TExtraProps = {}> = (props: ATFormOnClickProps<TExtraProps>) => void;
 
-
-export type ATFormGetLocalTextFunctionType = (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined;
+export type ATFormGetLocalTextFunctionType = (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined

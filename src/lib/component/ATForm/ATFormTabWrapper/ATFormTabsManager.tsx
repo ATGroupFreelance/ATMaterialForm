@@ -63,22 +63,20 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
 
     const tabContainerList: ATFormTabContainer[] = []
 
-    /**Last tabPath if tab index is a number and first slot of the array if the tab index is an array of number  */
-    let lastPrimarytabPathIndex = undefined
     let lastAddedTabContainer: ATFormTabContainer | null = null
 
+    //null, null, 0,0 ,1,1,null,1,2,2,3
+    //Create containers based on children and their tabPath please note children are not assigned to containers here.
     for (let i = 0; i < childrenProps.length; i++) {
         const currentChildProps = childrenProps[i];
         const currentTProps = currentChildProps?.tProps
 
+        //The initial index of the current element, e.g [1,2,3] primary index is 1
         const currentPrimarytabPathIndex = getFirstIndex(currentTProps?.tabPath)
-        /**Has tab index streak changed? */
-        const hastabPathChanged = String(currentPrimarytabPathIndex) !== String(lastPrimarytabPathIndex)
 
-        if (hastabPathChanged && (currentPrimarytabPathIndex || currentPrimarytabPathIndex === 0)) {
-            lastPrimarytabPathIndex = currentPrimarytabPathIndex
+        if ((currentPrimarytabPathIndex || currentPrimarytabPathIndex === 0)) {
 
-            const foundIndex = tabContainerList.findIndex((item) => item.primarytabPathIndex === currentPrimarytabPathIndex)
+            const foundContainerIndex = tabContainerList.findIndex((item) => item.primarytabPathIndex === currentPrimarytabPathIndex)
             const currentTab = enrichedTabs?.find(((_, index) => index === currentPrimarytabPathIndex))
 
             if (currentTab) {
@@ -88,14 +86,18 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
                     tabs: [currentTab],
                 }
 
-                if (foundIndex === -1) {
+                //Skip If a container for a primary index is already made. we do not need to make any more containers or assign any more tabs.
+                if (foundContainerIndex === -1) {
                     if (lastAddedTabContainer) {
                         const foundIndexLastTabContainer = tabContainerList.findIndex((item: any) => item.primarytabPathIndex === lastAddedTabContainer?.primarytabPathIndex)
 
-                        if (foundIndexLastTabContainer !== -1)
-                            tabContainerList[foundIndexLastTabContainer].tabs.push({
-                                ...currentTab,
-                            })
+                        if (foundIndexLastTabContainer !== -1) {
+                            const foundTab = tabContainerList[foundIndexLastTabContainer].tabs.find(tab => getFirstIndex(tab.tabPath) === getFirstIndex(currentTab.tabPath))
+                            if (!foundTab)
+                                tabContainerList[foundIndexLastTabContainer].tabs.push({
+                                    ...currentTab,
+                                })
+                        }
                         else {
                             tabContainerList.push(
                                 newTabContainer
@@ -142,7 +144,7 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
         const tabPath = item.tProps?.tabPath
 
         /**Skip childs with no tabPath */
-        if (tabPath === undefined || tabPath === null)
+        if (tabPath === undefined || tabPath === null || (Array.isArray(tabPath) && tabPath.length === 0))
             return item;
 
         const tabPathAsArray: number[] = Array.isArray(tabPath) ? tabPath as Array<number> : ((tabPath || tabPath === 0) ? [tabPath] : [])

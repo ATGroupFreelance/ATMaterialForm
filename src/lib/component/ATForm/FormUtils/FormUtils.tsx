@@ -194,3 +194,12 @@ export function formDataToAny({ formData, targetFormat, flatChildrenProps, enums
 
     return result;
 }
+
+export function getTabVisibilityStyle(isTabSelected: boolean | undefined): React.CSSProperties {
+    if (isTabSelected === false) {
+        return { display: 'none' };
+    }
+
+    // if true or undefined, return empty style (visible)
+    return {};
+}
