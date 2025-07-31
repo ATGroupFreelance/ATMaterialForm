@@ -8,11 +8,13 @@ import {
     Dialog,
     DialogContent,
     DialogTitle,
+    useTheme,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const UIRenderDebugWrapperTable = ({ data }: { data: Record<string, any> }) => {
     const [dialogContent, setDialogContent] = useState<string | null>(null);
+    const theme = useTheme();
 
     const MAX_LENGTH = 30;
 
@@ -63,8 +65,8 @@ const UIRenderDebugWrapperTable = ({ data }: { data: Record<string, any> }) => {
                                         fontWeight: 600,
                                         fontSize: "11px",
                                         verticalAlign: "top",
-                                        color: "#1a237e",
-                                        whiteSpace: "nowrap"
+                                        color: theme.palette.text.primary,
+                                        whiteSpace: "nowrap",
                                     }}
                                 >
                                     {key}
@@ -74,6 +76,7 @@ const UIRenderDebugWrapperTable = ({ data }: { data: Record<string, any> }) => {
                                         fontSize: "11px",
                                         wordBreak: "break-word",
                                         whiteSpace: "pre-wrap",
+                                        color: theme.palette.text.secondary,
                                     }}
                                 >
                                     {displayValue}
@@ -81,7 +84,7 @@ const UIRenderDebugWrapperTable = ({ data }: { data: Record<string, any> }) => {
                                         <IconButton
                                             onClick={() => openDialog(value)}
                                             size="small"
-                                            sx={{ marginLeft: 1, color: "#1976d2" }}
+                                            sx={{ marginLeft: 1, color: theme.palette.primary.main }}
                                         >
                                             <VisibilityIcon fontSize="inherit" />
                                         </IconButton>
@@ -93,7 +96,6 @@ const UIRenderDebugWrapperTable = ({ data }: { data: Record<string, any> }) => {
                 </TableBody>
             </Table>
 
-            {/* Full View Dialog */}
             <Dialog
                 open={Boolean(dialogContent)}
                 onClose={() => setDialogContent(null)}
@@ -107,6 +109,7 @@ const UIRenderDebugWrapperTable = ({ data }: { data: Record<string, any> }) => {
                             whiteSpace: "pre-wrap",
                             wordBreak: "break-word",
                             fontSize: "13px",
+                            color: theme.palette.text.primary,
                         }}
                     >
                         {dialogContent}
@@ -115,6 +118,6 @@ const UIRenderDebugWrapperTable = ({ data }: { data: Record<string, any> }) => {
             </Dialog>
         </>
     );
-}
+};
 
 export default UIRenderDebugWrapperTable;

@@ -6,6 +6,7 @@ import {
     Collapse,
     Paper,
     Tooltip,
+    useTheme,
 } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { ATFormChildProps, ATFormFieldTProps, ATFormUnknownChildProps } from "@/lib/types/ATForm.type";
@@ -18,8 +19,10 @@ interface UIRenderDebugWrapperProps {
 
 function UIRenderDebugWrapper({ childProps, children }: UIRenderDebugWrapperProps) {
     const [expanded, setExpanded] = useState(false);
-    const tProps = childProps.tProps as Partial<ATFormFieldTProps> || {}
-    const uiProps = childProps.uiProps || {}
+    const theme = useTheme();
+
+    const tProps = childProps.tProps as Partial<ATFormFieldTProps> || {};
+    const uiProps = childProps.uiProps || {};
 
     const basicInfo = [
         { label: "id", value: tProps.id },
@@ -31,14 +34,14 @@ function UIRenderDebugWrapper({ childProps, children }: UIRenderDebugWrapperProp
     return (
         <Box
             sx={{
-                border: "1px dashed #90caf9",
+                border: `1px dashed ${theme.palette.primary.light}`,
                 borderRadius: 2,
                 padding: 1,
                 marginBottom: 2,
-                backgroundColor: "#f0f7ff",
+                backgroundColor: theme.palette.mode === "dark" ? theme.palette.background.paper : "#f0f7ff",
                 fontSize: "12px",
                 position: "relative",
-                overflow: "hidden"
+                overflow: "hidden",
             }}
         >
             {/* Top info bar */}
@@ -61,11 +64,11 @@ function UIRenderDebugWrapper({ childProps, children }: UIRenderDebugWrapperProp
                         lineHeight: "1.4em",
                         height: "2.8em",
                         fontSize: "11px",
-                        color: "#1565c0",
+                        color: theme.palette.primary.dark,
                         flex: 1,
                         minWidth: 0,
-                        textAlign: "left", 
-                        whiteSpace: "normal", 
+                        textAlign: "left",
+                        whiteSpace: "normal",
                     }}
                 >
                     {basicInfo.map(({ label, value }) => {
@@ -84,7 +87,7 @@ function UIRenderDebugWrapper({ childProps, children }: UIRenderDebugWrapperProp
                     <IconButton
                         onClick={() => setExpanded(prev => !prev)}
                         size="small"
-                        sx={{ color: "#1565c0" }}
+                        sx={{ color: theme.palette.primary.dark }}
                     >
                         <InfoOutlinedIcon fontSize="small" />
                     </IconButton>
@@ -96,7 +99,7 @@ function UIRenderDebugWrapper({ childProps, children }: UIRenderDebugWrapperProp
                 <Paper
                     elevation={0}
                     sx={{
-                        backgroundColor: "#e3f2fd",
+                        backgroundColor: theme.palette.mode === "dark" ? theme.palette.grey[900] : "#e3f2fd",
                         padding: 1,
                         borderRadius: 1,
                         maxHeight: 400,
@@ -104,18 +107,19 @@ function UIRenderDebugWrapper({ childProps, children }: UIRenderDebugWrapperProp
                         mt: 1,
                     }}
                 >
-                    <Typography variant="subtitle2" sx={{ color: "#0d47a1", mb: 1 }}>
+                    <Typography variant="subtitle2" sx={{ color: theme.palette.primary.main, mb: 1 }}>
                         tProps
                     </Typography>
                     <UIRenderDebugWrapperTable data={tProps} />
 
-                    <Typography variant="subtitle2" sx={{ color: "#0d47a1", mt: 2, mb: 1 }}>
+                    <Typography variant="subtitle2" sx={{ color: theme.palette.primary.main, mt: 2, mb: 1 }}>
                         uiProps
                     </Typography>
                     <UIRenderDebugWrapperTable data={uiProps} />
                 </Paper>
             </Collapse>
-            {<Box mt={1} >{children}</Box>}
+
+            <Box mt={1}>{children}</Box>
         </Box>
     );
 }
