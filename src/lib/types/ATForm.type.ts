@@ -32,6 +32,11 @@ export interface ATFormFieldDefInterface<T extends ATFormFieldDefGenericProps = 
     uiProps?: T["uiProps"] extends undefined ? Record<string, any> : T["uiProps"];
 }
 
+export interface ATFormDebugProps {
+    /** Enable debug mode globally on the form (all fields show debug info) */
+    enabled?: boolean;
+}
+
 export interface ATFormProps {
     ref?: React.Ref<ATFormRefInterface>,
     children?: React.ReactNode | ATFormFieldDefInterface[],
@@ -51,7 +56,7 @@ export interface ATFormProps {
     defaultSelectedTabPaths?: ATFormTabsManagerDefaultSelectedTabPathsType,
     value?: any,
     valueFormat?: ATFormFormDataFormat,
-    debugID?: string,
+    debugProps?: ATFormDebugProps,
 }
 
 export interface ATFormResetInterface {
@@ -107,6 +112,7 @@ export interface ATFormFieldTProps {
         required?: boolean;
         [key: string]: unknown;
     },
+    debug?: boolean,
 }
 
 export type ATFormChildProps<T extends ATFormFieldDefGenericProps = ATFormFieldDefGenericProps> = ATFormFieldDefInterface<T> & {
@@ -128,6 +134,7 @@ export interface ATFormUnknownChildProps {
         wrapperRenderer?: ATFormWrapperRendererType,
         wrapperRendererProps?: Record<string, any>,
         size?: ATFormGridSize,
+        debug?: boolean,
     },
     uiProps?: Record<string, any>,
 }

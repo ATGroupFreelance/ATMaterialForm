@@ -393,6 +393,7 @@ const ATFormFunction = (props: ATFormProps) => {
                         }
                     }
                 },
+                debug: childProps.tProps.debug === undefined ? props.debugProps?.enabled : childProps.tProps.debug
             },
             uiProps: childProps.uiProps,
             typeInfo,
@@ -401,7 +402,7 @@ const ATFormFunction = (props: ATFormProps) => {
             value: (childProps.tProps.id && isFormControlled) ? localValue?.value?.[childProps.tProps.id]?.value : undefined,
             isFormControlled,
         }
-    }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value])
+    }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps])
 
     const [flatChildren, flatChildrenProps] = useMemo(() => {
         const flatChildren = getFlatChildren(props.children)

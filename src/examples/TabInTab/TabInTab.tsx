@@ -40,7 +40,7 @@ const TabInTab = ({ ref, onChange }: ExampleComponentInterface) => {
             defaultSelectedTabPaths={[[0, 1, 0], [0, 1, 2], [4]]}
         >
             {[
-                formBuilder.createTextBox({ id: 'NoTab_0' }),
+                formBuilder.createTextBox({ id: 'NoTab_0', }),
                 formBuilder.createTextBox({ id: 'NoTab_1' }),
                 formBuilder.createTextBox({ id: 'Tab_0', tabPath: 0 }),
                 formBuilder.createTextBox({ id: 'NoTab_2' }),
