@@ -122,7 +122,7 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
 
             }
             else {
-                console.warn('ATFormTabWrapper: Tab not found for index', currentPrimarytabPathIndex, 'in tabs', enrichedTabs)
+                // console.warn('ATFormTabWrapper: Tab not found for index', currentPrimarytabPathIndex, 'in tabs', enrichedTabs)
                 lastAddedTabContainer = null
             }
         }
@@ -130,15 +130,15 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
             lastAddedTabContainer = null
     }
 
-    console.log('tabStateMap arrayOfGroups', {
-        childrenIdList: childrenProps.map((item: any) => item.tProps.id),
-        tabContainerList,
-        enrichedTabs,
-        children,
-        childrenProps,
-    })
+    // console.log('tabStateMap arrayOfGroups', {
+    //     childrenIdList: childrenProps.map((item: any) => item.tProps.id),
+    //     tabContainerList,
+    //     enrichedTabs,
+    //     children,
+    //     childrenProps,
+    // })
 
-    console.log('selectedTabMap', selectedTabMap)
+    // console.log('selectedTabMap', selectedTabMap)
 
     const newChildrenProps: (ATFormChildProps | ATFormUnknownChildProps)[] = childrenProps.map(item => {
         const tabPath = item.tProps?.tabPath

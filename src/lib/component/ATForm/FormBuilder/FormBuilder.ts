@@ -29,6 +29,7 @@ import { ATFormContainerWithTableProps } from "@/lib/types/ui/ContainerWithTable
 import { ATFormMultiSelectGridProps } from "@/lib/types/ui/MultiSelectGrid.type";
 import { ATFormFieldDefInterface } from "@/lib/types/ATForm.type";
 import { formBuilderUtils } from "./FormBuilderUtils";
+import { ATFormFormDialogProps } from "@/lib/types/ui/FormDialog.type";
 
 
 // const splitCapitalBySpace = (input: string) => {
@@ -335,9 +336,18 @@ const createForm = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormFormProps
     })
 }
 
+const createFormDialog = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormFormDialogProps) => {
+    return create({
+        type: 'FormDialog',
+        defaultSize: 12,
+        tProps,
+        uiProps,
+    })
+}
+
 const createColorTextBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormColorTextBoxProps) => {
     return create({
-        type: 'Form',
+        type: 'ColorTextBox',
         defaultSize: 3,
         tProps,
         uiProps,
@@ -372,5 +382,6 @@ export const formBuilder = {
     createImageSelect,
     createAdvanceStepper,
     createForm,
+    createFormDialog,
     createColorTextBox,
 }

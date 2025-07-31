@@ -83,7 +83,7 @@ export type ATFormWrapperRendererProps<TSpecificProps = void> = {
     childProps: ATFormChildProps;
 } & ([TSpecificProps] extends [void] ? { [key: string]: any } : TSpecificProps);
 
-export type ATFormBuiltInWrapperType = 'Grid' | 'Collapse' | 'None';
+export type ATFormBuiltInWrapperType = 'Grid' | 'Collapse' | 'Button' | 'None';
 export type ATFormWrapperRendererType = ComponentType<any> | ATFormBuiltInWrapperType;
 
 /**Type def for tProps */

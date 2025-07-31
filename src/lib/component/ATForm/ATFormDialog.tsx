@@ -57,9 +57,11 @@ const ATFormDialog = ({
 
     const onInternalCancelClick: ATFormOnClickType = ({ ...buttonProps }) => {
         if (onCancelClick)
-            onCancelClick({ ...buttonProps })
-        else
-            onClose()
+            onCancelClick({ ...buttonProps, formData: mFormData.current.formData, formDataKeyValue: mFormData.current.formDataKeyValue, formDataSemiKeyValue: mFormData.current.formDataSemiKeyValue })
+        else {
+            if (onClose)
+                onClose()
+        }
     }
 
     const actions = []

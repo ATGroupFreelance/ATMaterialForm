@@ -30,7 +30,7 @@ const ATFormCollapseWrapper = ({ children, childProps, defaultOpen = false }: AT
                     border: `1px solid ${theme.palette.divider}`,
                     backgroundColor: theme.palette.background.paper,
                     height: '100%',
-                    borderRadius: '4px',
+                    borderRadius: '10px',
                 }}
             >
                 <Box

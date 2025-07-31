@@ -34,10 +34,11 @@ export const UITypes = {
     ImageSelect: 'ImageSelect',
     AdvanceStepper: 'AdvanceStepper',
     Form: 'Form',
+    FormDialog: 'FormDialog',
     ColorTextBox: 'ColorTextBox',
 }
 
-export const getTypeInfo = (type: any, customTypes: any): ATFormTypeInfoInterface | undefined => {
+export const getTypeInfo = (type: string, customTypes?: ATFormTypeInfoInterface[] | null): ATFormTypeInfoInterface | undefined => {
     const newTypes: ATFormTypeInfoInterface[] = [
         ...types,
         ...(customTypes || [])
@@ -630,6 +631,28 @@ export const types = [
     }),
     createType({
         type: 'Form',
+        initialValue: null,
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
+            return JSON.stringify(event.target.value)
+        },
+        reverseConvertToKeyValue: ({ value }: ATReverseConvertInterface) => {
+            if (!value)
+                return null
+
+            return JSON.parse(value)
+        },
+        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
+            return event.target.value
+        },
+        reverseConvertToSemiKeyValue: ({ value }: ATReverseConvertInterface) => {
+            if (!value)
+                return null
+
+            return value
+        },
+    }),
+    createType({
+        type: 'FormDialog',
         initialValue: null,
         convertToKeyValue: ({ event }: ATConvertInterface) => {
             return JSON.stringify(event.target.value)

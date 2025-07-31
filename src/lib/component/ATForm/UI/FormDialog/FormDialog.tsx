@@ -1,9 +1,9 @@
 import { Grid } from '@mui/material';
-import ATForm from '../../ATForm';
-import { ATFormFormProps } from '@/lib/types/ui/Form.type';
+import ATFormDialog from '../../ATFormDialog';
 import { ATFormOnChangeInterface } from '@/lib/types/ATForm.type';
+import { ATFormFormDialogProps } from '@/lib/types/ui/FormDialog.type';
 
-const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: ATFormFormProps) => {
+const FormDialog = ({ ref, id, value, onChange, children, elements, ...restProps }: ATFormFormDialogProps) => {
     void id;
 
     const onInternalChange = (props: ATFormOnChangeInterface) => {
@@ -13,15 +13,15 @@ const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: AT
     }
     
     return <Grid container spacing={2}>
-        <ATForm ref={ref} value={value} valueFormat='FormDataSemiKeyValue' onChange={onInternalChange} {...restProps}>
+        <ATFormDialog ref={ref} value={value} valueFormat='FormDataSemiKeyValue' onChange={onInternalChange} {...restProps}>
             {
                 [
                     ...(children as Array<any> || []),
                     ...(elements || [])
                 ]
             }
-        </ATForm>
+        </ATFormDialog>
     </Grid>
 }
 
-export default Form;
+export default FormDialog;
