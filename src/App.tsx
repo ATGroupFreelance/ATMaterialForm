@@ -63,7 +63,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'TabInTab'
+const ACTIVE_EXAMPLE = 'FormDialog'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
@@ -152,6 +152,8 @@ function App() {
     {
       id: 'FormDialog',
       component: FormDialog,
+      refEnabled: true,
+      onChangeEnabled: true,
     },
     {
       id: 'HowToUseContainerWithTable',

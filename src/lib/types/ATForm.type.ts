@@ -35,7 +35,10 @@ export interface ATFormFieldDefInterface<T extends ATFormFieldDefGenericProps = 
 export interface ATFormDebugProps {
     /** Enable debug mode globally on the form (all fields show debug info) */
     enabled?: boolean;
+    id?: string;
 }
+
+export type LogLevel = 0 | 1 | 2 | 3 | 4;
 
 export interface ATFormProps {
     ref?: React.Ref<ATFormRefInterface>,
@@ -57,6 +60,7 @@ export interface ATFormProps {
     value?: any,
     valueFormat?: ATFormFormDataFormat,
     debugProps?: ATFormDebugProps,
+    logLevel?: LogLevel;
 }
 
 export interface ATFormResetInterface {

@@ -339,8 +339,11 @@ const createForm = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormFormProps
 const createFormDialog = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormFormDialogProps) => {
     return create({
         type: 'FormDialog',
-        defaultSize: 12,
-        tProps,
+        defaultSize: 3,
+        tProps: {
+            ...tProps,
+            wrapperRenderer: "Button",
+        },
         uiProps,
     })
 }

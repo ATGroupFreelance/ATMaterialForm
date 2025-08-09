@@ -1,27 +1,72 @@
-import { Grid } from '@mui/material';
-import ATFormDialog from '../../ATFormDialog';
-import { ATFormOnChangeInterface } from '@/lib/types/ATForm.type';
-import { ATFormFormDialogProps } from '@/lib/types/ui/FormDialog.type';
+import { Grid } from '@mui/material'
+import { useEffect, useState, useCallback, useRef } from 'react'
+import { ATFormDialog } from '@/lib'
+import { ATFormFormDialogProps } from '@/lib/types/ui/FormDialog.type'
+import { useATFormWrapper } from '../../ATFormTemplateWrappers/ATFormWrapperContext/useATFormWrapper'
+import { ATFormOnChangeInterface, ATFormRefInterface } from '@/lib/types/ATForm.type'
+import { ATFormOnClickType } from '@/lib/types/Common.type'
+import { LogLevel } from '../../ATFOrmLogger'
 
-const FormDialog = ({ ref, id, value, onChange, children, elements, ...restProps }: ATFormFormDialogProps) => {
+
+const FormDialog = ({ id, children, open: openProp, onClose, elements, value, onChange, ...restProps }: ATFormFormDialogProps) => {
+    const { register } = useATFormWrapper()
+    const [internalOpen, setInternalOpen] = useState(false)
+    const mFormRef = useRef<ATFormRefInterface>(null)
+
     void id;
+    const isControlled = openProp !== undefined
+    const open = isControlled ? openProp : internalOpen
 
-    const onInternalChange = (props: ATFormOnChangeInterface) => {
+    useEffect(() => {
+        if (!register || isControlled)
+            return
+
+        return register(() => setInternalOpen(true))
+    }, [register, isControlled])
+
+    const handleClose = useCallback(() => {
+        if (!isControlled) setInternalOpen(false)
+        onClose?.()
+    }, [isControlled, onClose])
+
+    const onSubmitClick: ATFormOnClickType<ATFormOnChangeInterface> = (props) => {
         if (onChange) {
             onChange({ target: { value: props.formDataSemiKeyValue } })
         }
+        handleClose()
     }
-    
-    return <Grid container spacing={2}>
-        <ATFormDialog ref={ref} value={value} valueFormat='FormDataSemiKeyValue' onChange={onInternalChange} {...restProps}>
+
+    const handleReset = () => {
+        mFormRef.current?.reset()
+    }
+
+    return (
+        <Grid container spacing={2}>
             {
-                [
-                    ...(children as Array<any> || []),
-                    ...(elements || [])
-                ]
+                open &&
+                <ATFormDialog
+                    ref={mFormRef}
+                    onClose={handleClose}
+                    defaultValue={value}
+                    valueFormat='FormDataSemiKeyValue'
+                    onSubmitClick={onSubmitClick}
+                    getActions={(defaultActions: any) => [
+                        ...defaultActions,
+                        { id: 'Reset', label: 'Reset', onClick: handleReset, color: 'warning' }
+                    ]}
+                    logLevel={LogLevel.NONE}
+                    {...restProps}
+                >
+                    {
+                        [
+                            ...(children as Array<any> || []),
+                            ...(elements || [])
+                        ]
+                    }
+                </ATFormDialog>
             }
-        </ATFormDialog>
-    </Grid>
+        </Grid>
+    )
 }
 
-export default FormDialog;
+export default FormDialog

@@ -1,27 +1,40 @@
-import { ATFormButtonWrapperProps } from '@/lib/types/template-wrappers/ButtonWrapper.type';
-import Button from '../../UI/Button/Button';
-import { useState } from 'react';
-import { ATFormOnClickType } from '@/lib/types/Common.type';
-import { Grid } from '@mui/material';
+import { ATFormButtonWrapperProps } from '@/lib/types/template-wrappers/ButtonWrapper.type'
+import Button from '../../UI/Button/Button'
+import { Grid } from '@mui/material'
+import { useCallback, useState, useMemo } from 'react'
+import { ATFormWrapperProvider } from '../ATFormWrapperContext/ATFormWrapperProvider'
 
 const ATFormButtonWrapper = ({ children, childProps, onClick, ...restProps }: ATFormButtonWrapperProps) => {
-    const { size = 12, label = "Open" } = childProps.tProps;
-    const [visible, setVisible] = useState<boolean>(false)
+    const { size = 12, label = "Open" } = childProps.tProps
+    const [listeners] = useState<Set<() => void>>(new Set())
 
-    const onInternalClick: ATFormOnClickType = (props) => {
-        setVisible((prev: boolean) => !prev)
-        if (onClick)
-            onClick(props)
+    const activate = useCallback(() => {
+        listeners.forEach(fn => fn())
+    }, [listeners])
+
+    const register = useCallback((fn: () => void) => {
+        listeners.add(fn)
+        
+        return () => listeners.delete(fn)
+    }, [listeners])
+
+    const contextValue = useMemo(() => ({ register, activate }), [register, activate])
+
+    const onInternalClick = (props: any) => {
+        activate()
+        onClick?.(props)
     }
 
     return (
-        <Grid size={size}>
-            <Button onClick={onInternalClick} sx={{height: '30px'}} {...restProps}>
-                {label}
-                {visible && children}
-            </Button>
-        </Grid>
-    );
-};
+        <ATFormWrapperProvider value={contextValue}>
+            <Grid size={size}>
+                <Button onClick={onInternalClick} {...restProps}>
+                    {label}
+                </Button>
+                {children}
+            </Grid>
+        </ATFormWrapperProvider>
+    )
+}
 
-export default ATFormButtonWrapper;
+export default ATFormButtonWrapper

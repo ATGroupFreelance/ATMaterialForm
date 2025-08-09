@@ -10,6 +10,7 @@ import { ATFormChildProps, ATFormFieldTProps, ATFormChildRefInterface, ATFormOnC
 import { ATFormContextProvider } from './ATFormContext/ATFormContext';
 import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
 import { ATFormFormDataType } from '@/lib/types/ATFormFormData.type';
+import { createLogger } from './ATFOrmLogger';
 
 interface InternalDefaultValueInterface {
     value: ATFormFormDataType | null;
@@ -24,6 +25,10 @@ interface LocalValueInterface {
 }
 
 const ATFormFunction = (props: ATFormProps) => {
+    const logger = useMemo(() => {
+        return createLogger(props.logLevel, { prefix: props.debugProps?.id, preventDuplicates: true })
+    }, [props.logLevel, props.debugProps?.id])
+
     const mChildrenRefs = useRef<Record<string, ATFormChildRefInterface>>({})
     const mFormData = useRef({})
     const mFormDataKeyValue = useRef({})
@@ -96,7 +101,7 @@ const ATFormFunction = (props: ATFormProps) => {
                 // additionalProperties: false,
             }
 
-            console.log('schema', schema)
+            logger.info('schema', schema)
 
             if (mAjv.current && (requiredList.length || Object.keys(properties).length))
                 mAjvValidate.current = mAjv.current.compile(schema)
@@ -105,7 +110,7 @@ const ATFormFunction = (props: ATFormProps) => {
         }
         else
             mAjvValidate.current = null
-    }, [getTypeInfo, props.validationDisabled])
+    }, [getTypeInfo, props.validationDisabled, logger])
 
     /**In ReactJS the useEffect that comes first is called first which means this use effect is called before the compileAJV one */
     useEffect(() => {
@@ -202,20 +207,14 @@ const ATFormFunction = (props: ATFormProps) => {
         mFormDataKeyValue.current = newFormDataKeyValue
         mFormDataSemiKeyValue.current = newFormDataSemiKeyValue
 
-        console.log('onChange', {
-            newFormData,
-            newFormDataKeyValue,
-            newFormDataSemiKeyValue,
-            suppressFormOnChange,
-            onChange: props.onChange
-        })
+        logger.info('Form onChange (SemiKeyValue)', newFormDataSemiKeyValue)
 
         const onChange = props.onChange
 
         if (onChange && !suppressFormOnChange) {
             onChange({ formData: newFormData, formDataKeyValue: newFormDataKeyValue, formDataSemiKeyValue: newFormDataSemiKeyValue })
         }
-    }, [enums, getTypeInfo, props.onChange])
+    }, [enums, getTypeInfo, props.onChange, logger])
 
     const getFormData = useCallback(() => {
         return {
@@ -313,7 +312,7 @@ const ATFormFunction = (props: ATFormProps) => {
             })
         }
 
-        console.log('errors', {
+        logger.info('validation errors', {
             errors,
             normalizedErrors: result,
             formData: mFormData.current,
@@ -322,7 +321,7 @@ const ATFormFunction = (props: ATFormProps) => {
         })
 
         return result
-    }, [getLocalText])
+    }, [getLocalText, logger])
 
     useEffect(() => {
         if (!mPendingValidationCallbacks.current.length)
@@ -489,8 +488,6 @@ const ATFormFunction = (props: ATFormProps) => {
             valueFormat: inputDefaultValueFormat,
         })
 
-        // console.log('reset newDefaultValue', newDefaultValue)
-
         setInternalDefaultValue({ value: newDefaultValue, suppressFormOnChange })
     }, [enums, rtl, flatChildrenProps])
 
@@ -508,9 +505,10 @@ const ATFormFunction = (props: ATFormProps) => {
             isFormOnLockdown,
             errors: validationErrors,
             getTypeInfo,
-            checkValidation
+            checkValidation,
+            logger,
         }
-    }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo, checkValidation, onChildChange])
+    }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo, checkValidation, onChildChange, logger])
 
     return (
         <ATFormContextProvider value={formContextValue}>

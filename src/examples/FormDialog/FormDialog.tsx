@@ -1,9 +1,10 @@
 import { useState } from "react";
 
-import { Button } from "@mui/material";
-import { ATFormDialog, formBuilder } from "@/lib";
+import { Grid } from "@mui/material";
+import { ATForm, ATFormDialog, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from "@/App";
 import { ATFormOnClickProps } from "@/lib/types/Common.type";
+import Button from "@/lib/component/ATForm/UI/Button/Button";
 
 const FormDialog = ({ ref, ...props }: ExampleComponentInterface) => {
     const [dialog, setDialog] = useState<any>(null)
@@ -63,11 +64,31 @@ const FormDialog = ({ ref, ...props }: ExampleComponentInterface) => {
     }
 
     return (
-        <div>
-            <Button onClick={onOpenDialogClick}>Open Dialog</Button>
-            <Button onClick={onOpenCustomizedDialogClick}>Open Customized Dialog</Button>
+        <>
+            <Grid size={{ xs: 12, md: 3 }}>
+                <Button onClick={onOpenDialogClick}>Open Dialog</Button>
+            </Grid>
+            <Grid size={{ xs: 12, md: 3 }}>
+                <Button onClick={onOpenCustomizedDialogClick}>Open Customized Dialog</Button>
+            </Grid>
+            <ATForm ref={ref} {...props}>
+                {
+                    [
+                        formBuilder.createFormDialog(
+                            {
+                                id: 'InlineFormDialog',
+                            },
+                            {
+                                elements: [
+                                    formBuilder.createTextBox({ id: "Name" })
+                                ]
+                            }
+                        ),
+                    ]
+                }
+            </ATForm>
             {dialog}
-        </div>
+        </>
     )
 }
 
