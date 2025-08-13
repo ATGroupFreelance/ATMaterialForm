@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import ATForm from '../../ATForm';
 import { ATFormFormProps } from '@/lib/types/ui/Form.type';
 import { ATFormOnChangeInterface } from '@/lib/types/ATForm.type';
+import { LogLevel } from '../../ATFormLogger';
 
 const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: ATFormFormProps) => {
     void id;
@@ -13,7 +14,7 @@ const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: AT
     }
     
     return <Grid container spacing={2}>
-        <ATForm ref={ref} value={value} valueFormat='FormDataSemiKeyValue' onChange={onInternalChange} {...restProps}>
+        <ATForm ref={ref} value={value} valueFormat='FormDataSemiKeyValue' onChange={onInternalChange} logLevel={LogLevel.NONE} {...restProps}>
             {
                 [
                     ...(children as Array<any> || []),

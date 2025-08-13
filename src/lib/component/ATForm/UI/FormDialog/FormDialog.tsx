@@ -5,11 +5,11 @@ import { ATFormFormDialogProps } from '@/lib/types/ui/FormDialog.type'
 import { useATFormWrapper } from '../../ATFormTemplateWrappers/ATFormWrapperContext/useATFormWrapper'
 import { ATFormOnChangeInterface, ATFormRefInterface } from '@/lib/types/ATForm.type'
 import { ATFormOnClickType } from '@/lib/types/Common.type'
-import { LogLevel } from '../../ATFOrmLogger'
+import { LogLevel } from '../../ATFormLogger'
 
 
 const FormDialog = ({ id, children, open: openProp, onClose, elements, value, onChange, ...restProps }: ATFormFormDialogProps) => {
-    const { register } = useATFormWrapper()
+    const wrapper = useATFormWrapper()
     const [internalOpen, setInternalOpen] = useState(false)
     const mFormRef = useRef<ATFormRefInterface>(null)
 
@@ -18,11 +18,11 @@ const FormDialog = ({ id, children, open: openProp, onClose, elements, value, on
     const open = isControlled ? openProp : internalOpen
 
     useEffect(() => {
-        if (!register || isControlled)
+        if (!wrapper?.register || isControlled)
             return
 
-        return register(() => setInternalOpen(true))
-    }, [register, isControlled])
+        return wrapper?.register(() => setInternalOpen(true))
+    }, [wrapper, isControlled])
 
     const handleClose = useCallback(() => {
         if (!isControlled) setInternalOpen(false)

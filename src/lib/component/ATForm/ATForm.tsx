@@ -6,11 +6,11 @@ import AVJErrors from 'ajv-errors';
 //Components
 import { getFlatChildren, anyToFormData, formDataToAny } from './FormUtils/FormUtils';
 import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
-import { ATFormChildProps, ATFormFieldTProps, ATFormChildRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps, ATFormFieldDefInterface } from '@/lib/types/ATForm.type';
+import { ATFormChildProps, ATFormFieldTProps, ATFormChildRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps, ATFormFieldDefInterface, ATFormOnChangeInterface } from '@/lib/types/ATForm.type';
 import { ATFormContextProvider } from './ATFormContext/ATFormContext';
 import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
 import { ATFormFormDataType } from '@/lib/types/ATFormFormData.type';
-import { createLogger } from './ATFOrmLogger';
+import { createLogger } from './ATFormLogger';
 
 interface InternalDefaultValueInterface {
     value: ATFormFormDataType | null;
@@ -216,7 +216,7 @@ const ATFormFunction = (props: ATFormProps) => {
         }
     }, [enums, getTypeInfo, props.onChange, logger])
 
-    const getFormData = useCallback(() => {
+    const getFormData = useCallback((): ATFormOnChangeInterface => {
         return {
             formData: {
                 ...mFormData.current
@@ -507,8 +507,10 @@ const ATFormFunction = (props: ATFormProps) => {
             getTypeInfo,
             checkValidation,
             logger,
+            reset,
+            getFormData
         }
-    }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo, checkValidation, onChildChange, logger])
+    }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo, checkValidation, onChildChange, logger, reset, getFormData])
 
     return (
         <ATFormContextProvider value={formContextValue}>

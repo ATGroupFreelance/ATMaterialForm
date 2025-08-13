@@ -45,6 +45,7 @@ import BasicForm2 from './examples/BasicForm2/BasicForm2';
 import ConditionalRendering from './examples/ConditionalRendering/ConditionalRendering';
 import WrapMultipleElements from './examples/WrapMultipleElements/WrapMultipleElements';
 import ControlledForm from './examples/ControlledForm/ControlledForm';
+import WrapperRendererTemplates from './examples/WrapperRendererTemplates/WrapperRendererTemplates';
 
 export interface ExampleComponentInterface {
   ref?: any,
@@ -63,7 +64,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'FormDialog'
+const ACTIVE_EXAMPLE = 'WrapperRendererTemplates'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
@@ -254,6 +255,12 @@ function App() {
     {
       id: 'ControlledForm',
       component: ControlledForm,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'WrapperRendererTemplates',
+      component: WrapperRendererTemplates,
       refEnabled: true,
       onChangeEnabled: true,
     },
