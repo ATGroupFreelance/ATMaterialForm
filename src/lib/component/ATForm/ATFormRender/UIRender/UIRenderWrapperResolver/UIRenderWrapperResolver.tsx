@@ -12,6 +12,7 @@ interface UIRenderWrapperResolverProps {
 const builtInWrappers: Record<string, React.LazyExoticComponent<ComponentType<any>>> = {
     Collapse: lazy(() => import('../../../ATFormTemplateWrappers/ATFormCollapseWrapper/ATFormCollapseWrapper')),
     Button: lazy(() => import('../../../ATFormTemplateWrappers/ATFormButtonWrapper/ATFormButtonWrapper')),
+    ButtonDialog: lazy(() => import('../../../ATFormTemplateWrappers/ATFormButtonDialogWrapper/ATFormButtonDialogWrapper')),
 };
 
 const UIRenderWrapperResolver = ({ children, wrapperRenderer, wrapperProps }: UIRenderWrapperResolverProps) => {

@@ -1,44 +1,64 @@
-// import Button from '../../UI/Button/Button'
-// import { Grid } from '@mui/material'
-// import { ATFormButtonDialogWrapperProps } from '@/lib/types/template-wrappers/ButtonDialogWrapper'
-// import ATFormDialog from '../../ATFormDialog'
-// import { useState } from 'react'
-// import useATForm from '@/lib/hooks/useATForm/useATForm'
+import Button from '../../UI/Button/Button'
+import { Grid } from '@mui/material'
+import { ATFormButtonDialogWrapperProps } from '@/lib/types/template-wrappers/ButtonDialogWrapper'
+import React, { useRef, useState } from 'react'
+import ATFormButtonDialogWrapperDialog from './ATFormButtonDialogWrapperDialog/ATFormButtonDialogWrapperDialog'
+import { ATFormOnChildChangeInterface } from '@/lib/types/ATForm.type'
 
-// const ATFormButtonDialogWrapper = ({ children, childProps, onClick, onChange, ...restProps }: ATFormButtonDialogWrapperProps) => {
-//     const {id, size = 12, label = "Open" } = childProps.tProps
-//     const { reset, getFormData } = useATForm()
-//     const [dialog, setDialog] = useState<any>(null)
+const ATFormButtonDialogWrapper = ({ children, childProps, ...restProps }: ATFormButtonDialogWrapperProps) => {
+    const [dialog, setDialog] = useState<any>(null)
+    const mLastSavedValue = useRef(childProps.tProps.defaultValue)
+    const { size = 12, label = "Open" } = childProps.tProps
 
-//     const onInternalClick = () => {
-//         setDialog(
-//             <ATFormDialog
-//                 onClose={onHandleClose}
-//                 onSubmitClick={({ formDataSemiKeyValue }) => {
-//                     onChange(formDataSemiKeyValue)
-//                 }}
-//             >
-//                 {
-//                     children
-//                 }
-//             </ATFormDialog>
-//         )
-//     }
+    const onChange = ({ event }: ATFormOnChildChangeInterface) => {
+        console.log('ATFormButtonDialogWrapper ', { event })
+        mLastSavedValue.current = event.target.value
+    }
 
-//     const onHandleClose = () => {
-//         setDialog(null)
-//     }
+    console.log('ATFormButtonDialogWrapper', { children, childProps, restProps })
 
-//     return (
-//         <Grid size={size}>
-//             <Button onClick={onInternalClick} {...restProps}>
-//                 {label}
-//             </Button>
-//             {
-//                 dialog
-//             }
-//         </Grid>
-//     )
-// }
+    const onInternalClick = () => {
+        //@ts-ignore
+        const child: any = children
+        const props = {
+            childProps: {
+                ...childProps,
+                tProps: {
+                    ...childProps.tProps,
+                    defaultValue: mLastSavedValue.current,
+                },
+                onChildChange: onChange
+            }
+        }
 
-// export default ATFormButtonDialogWrapper
+        setDialog(
+            <ATFormButtonDialogWrapperDialog
+                onClose={onHandleDialogClose}
+                onSubmitClick={() => {
+                    if (childProps.onChildChange) {
+                        childProps.onChildChange({ event: { target: { value: mLastSavedValue.current } }, childProps })
+
+                        onHandleDialogClose()
+                    }
+                }}
+            >
+                {React.cloneElement(child, props)}
+            </ATFormButtonDialogWrapperDialog>
+        )
+    }
+
+    const onHandleDialogClose = () => {
+        setDialog(null)
+    }
+
+    return (
+        <Grid size={size}>
+            <Button onClick={onInternalClick} {...restProps}>
+                {label}
+            </Button>
+            {dialog}
+        </Grid>
+    )
+}
+
+export default ATFormButtonDialogWrapper

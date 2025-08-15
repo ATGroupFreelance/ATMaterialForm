@@ -4,8 +4,8 @@ import type { ColDef } from "ag-grid-community";
 import { Grid } from '@mui/material';
 import { ATFormTypeInfoInterface } from "./UITypeUtils.type";
 import { ATFormTabConfigInterface, ATFormTabsManagerDefaultSelectedTabPathsType, ATFormTabsOnChangeType } from "./ATFormTabsManager.type";
-import { ComponentType } from "react";
 import { ATFormFormDataFormat, ATFormFormDataKeyValueType, ATFormFormDataSemiKeyValueType, ATFormFormDataType } from "./ATFormFormData.type";
+import { ATFormWrapperRendererType } from "./ATFormFieldWrapper.type";
 
 export type ATFormGridSize = React.ComponentProps<typeof Grid>['size'];
 export type ATFormColor = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | 'default'
@@ -86,14 +86,6 @@ export interface ATFormPendingValidationCallbackInterface {
 export interface ATFormChildRefInterface {
     reset?: (resetProps?: ATFormChildResetInterface) => void,
 }
-
-export type ATFormWrapperRendererProps<TSpecificProps = void> = {
-    children: React.ReactNode,
-    childProps: ATFormChildProps;
-} & ([TSpecificProps] extends [void] ? { [key: string]: any } : TSpecificProps);
-
-export type ATFormBuiltInWrapperType = 'Grid' | 'Collapse' | 'Button' | 'None';
-export type ATFormWrapperRendererType = ComponentType<any> | ATFormBuiltInWrapperType;
 
 /**Type def for tProps */
 export interface ATFormFieldTProps {

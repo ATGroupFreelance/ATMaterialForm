@@ -1,4 +1,4 @@
-import { ATFormWrapperRendererProps } from "../ATForm.type";
+import { ATFormWrapperRendererProps } from "../ATFormFieldWrapper.type";
 import { StrictOmit } from "../Common.type";
 import { ATFormButtonProps } from "../ui/Button.type";
 
