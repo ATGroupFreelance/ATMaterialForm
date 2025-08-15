@@ -164,18 +164,21 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
 
         // Use `display: 'none'` to hide elements of unselected tabs. This ensures the values of hidden elements are retained during tab changes.
         // Avoid using conditional rendering (like skipping rendering entirely) as it would reset the values of those elements.
-        // Note: To make `wrapperRendererProps` and tabs work properly, ensure a `wrapper` is provided.
+        // Note: To make `wrapperRenderer.props` and tabs work properly, ensure a `wrapper` is provided.
         // The default wrapper used here is MUI's `Grid`.
         return {
             ...item,
             isTabSelected: isSameOrParentTabPath,
             tProps: {
                 ...(item.tProps || {}),
-                wrapperRendererProps: {
-                    ... (item.tProps?.wrapperRendererProps || {}),
-                    sx: {
-                        ... (item.tProps?.wrapperRendererProps?.sx || {}),
-                        display: isSameOrParentTabPath ? undefined : 'none',
+                wrapperRenderer: {
+                    ... (item.tProps?.wrapperRenderer || {}),
+                    props: {
+                        ...(item.tProps?.wrapperRenderer?.props || {}),
+                        sx: {
+                            ... (item.tProps?.wrapperRenderer?.props?.sx || {}),
+                            display: isSameOrParentTabPath ? undefined : 'none',
+                        }
                     }
                 }
             }

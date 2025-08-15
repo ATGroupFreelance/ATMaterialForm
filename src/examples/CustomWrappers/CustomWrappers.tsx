@@ -65,16 +65,20 @@ const CustomWrappers = ({ ref }: ExampleComponentInterface) => {
                         formBuilder.createTextBox({
                             id: 'TextBoxWithWrapperA',
                             size: gridSize,
-                            wrapperRenderer: MyWrapperTypeA,
-                            wrapperRendererProps: {
-                                isValidNumber,
-                                onClick: onWrapperTypeAClick
+                            wrapperRenderer: {
+                                renderer: MyWrapperTypeA,
+                                props: {
+                                    isValidNumber,
+                                    onClick: onWrapperTypeAClick
+                                }
                             },
                         }, { onChange: onTextBoxChange, }),
                         formBuilder.createTextBox({
                             id: 'TextBoxWithWrapperB',
                             size: 12,
-                            wrapperRenderer: MyWrapperTypeB,
+                            wrapperRenderer: {
+                                renderer: MyWrapperTypeB
+                            },
                         })
                     ]
                 )

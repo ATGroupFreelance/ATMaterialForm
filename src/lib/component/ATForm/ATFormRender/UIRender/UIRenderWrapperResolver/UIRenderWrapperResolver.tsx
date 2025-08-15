@@ -1,12 +1,12 @@
-import { ATFormChildProps, ATFormUnknownChildProps, ATFormWrapperRendererType } from "@/lib/types/ATForm.type";
+import { ATFormChildProps, ATFormUnknownChildProps } from "@/lib/types/ATForm.type";
 import { Grid } from "@mui/material";
 import { ComponentType, lazy, Suspense } from "react";
 import { getTabVisibilityStyle } from "../../../FormUtils/FormUtils";
+import { ATFormWrapperConfig } from "@/lib/types/ATFormFieldWrapper.type";
 
 interface UIRenderWrapperResolverProps {
     children: React.ReactNode,
-    wrapperRenderer?: ATFormWrapperRendererType,
-    wrapperProps: { childProps: ATFormChildProps | ATFormUnknownChildProps; sx?: any } & Record<string, any>;
+    wrapperRenderer?: ATFormWrapperConfig,    
 }
 
 const builtInWrappers: Record<string, React.LazyExoticComponent<ComponentType<any>>> = {
@@ -15,26 +15,29 @@ const builtInWrappers: Record<string, React.LazyExoticComponent<ComponentType<an
     ButtonDialog: lazy(() => import('../../../ATFormTemplateWrappers/ATFormButtonDialogWrapper/ATFormButtonDialogWrapper')),
 };
 
-const UIRenderWrapperResolver = ({ children, wrapperRenderer, wrapperProps }: UIRenderWrapperResolverProps) => {
-    if (typeof wrapperRenderer === 'string' && wrapperRenderer === 'None')
+const UIRenderWrapperResolver = ({ children, wrapperRenderer }: UIRenderWrapperResolverProps) => {
+    const renderer = wrapperRenderer?.renderer
+    const rendererProps: { childProps: ATFormChildProps | ATFormUnknownChildProps; sx?: any } & Record<string, any> = (wrapperRenderer?.props || {})
+
+    if (typeof renderer === 'string' && renderer === 'None')
         return children
-    else if (typeof wrapperRenderer === 'string' && builtInWrappers[wrapperRenderer]) {
-        const LazyComponent = builtInWrappers[wrapperRenderer]
+    else if (typeof renderer === 'string' && builtInWrappers[renderer]) {
+        const LazyComponent = builtInWrappers[renderer]
 
         return <Suspense fallback={null}>
-            <LazyComponent {...wrapperProps}>{children}</LazyComponent>
+            <LazyComponent {...rendererProps}>{children}</LazyComponent>
         </Suspense>
     }
-    else if (typeof wrapperRenderer === 'function') {
-        const CustomComponent = wrapperRenderer
+    else if (typeof renderer === 'function') {
+        const CustomComponent = renderer
 
-        return <CustomComponent {...wrapperProps}>{children}</CustomComponent>
+        return <CustomComponent {...rendererProps}>{children}</CustomComponent>
     }
 
     //Add size and remove child props for Grid wrapper type
     const { childProps, sx, ...gridWrapperProps } = {
-        ...wrapperProps,
-        size: wrapperProps?.childProps.tProps?.size || 12,
+        ...rendererProps,
+        size: rendererProps?.childProps.tProps?.size || 12,
     }
 
     //Ignore unused warning

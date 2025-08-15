@@ -5,7 +5,6 @@ import { ATFormChildProps, ATFormUnknownChildProps } from "./ATForm.type";
 export interface ATFormTabConfigInterface {
     label: string,
     wrapperRenderer?: any,
-    wrapperRendererProps?: any,
     tabs?: ATFormTabConfigInterface[],
     tabProps?: TabProps,
     /**The props for the container of all the tabs, only the first instance of this props is used in an array of tabs */

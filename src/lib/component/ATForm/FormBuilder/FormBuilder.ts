@@ -164,12 +164,15 @@ const createCascadeComboBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFo
         type: 'CascadeComboBox',
         defaultSize: 12,
         tProps: {
-            wrapperRendererProps: {
-                container: true,
-                spacing: 2,
-                ...(tProps?.wrapperRendererProps) || {},
-            },
             ...tProps,
+            wrapperRenderer: {
+                ...(tProps?.wrapperRenderer || {}),
+                props: {
+                    container: true,
+                    spacing: 2,
+                    ...(tProps?.wrapperRenderer?.props) || {},
+                }
+            },
         },
         uiProps,
     })
@@ -180,12 +183,15 @@ const createMultiValueCascadeComboBox = (tProps: ATFormFieldTypelessTProps, uiPr
         type: 'MultiValueCascadeComboBox',
         defaultSize: 12,
         tProps: {
-            wrapperRendererProps: {
-                container: true,
-                spacing: 2,
-                ...(tProps?.wrapperRendererProps) || {},
-            },
             ...tProps,
+            wrapperRenderer: {
+                ...(tProps?.wrapperRenderer || {}),
+                props: {
+                    container: true,
+                    spacing: 2,
+                    ...(tProps?.wrapperRenderer?.props) || {},
+                }
+            },
         },
         uiProps,
     })
@@ -342,7 +348,10 @@ const createFormDialog = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormFor
         defaultSize: 3,
         tProps: {
             ...tProps,
-            wrapperRenderer: "Button",
+            wrapperRenderer: {
+                ...(tProps?.wrapperRenderer || {}) as any,
+                renderer: tProps?.wrapperRenderer?.renderer ?? "Button",
+            },
         },
         uiProps,
     })

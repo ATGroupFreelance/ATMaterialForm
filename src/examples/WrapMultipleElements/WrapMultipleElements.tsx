@@ -7,7 +7,7 @@ const WrapMultipleElements = ({ ref, onChange }: ExampleComponentInterface) => {
             {
                 formBuilder.utils.createFieldDefBuilder(
                     [
-                        formBuilder.createForm({ id: 'FormA', size: 6, wrapperRenderer: "Collapse" },
+                        formBuilder.createForm({ id: 'FormA', size: 6, wrapperRenderer: { renderer: "Collapse" } },
                             {
                                 elements: [
                                     formBuilder.createTextBox({ id: 'TextBox1', size: 6 }),
@@ -25,7 +25,7 @@ const WrapMultipleElements = ({ ref, onChange }: ExampleComponentInterface) => {
                             }
                         ),
                         formBuilder.createTextBox({ id: 'TextBox4', size: 6 }),
-                        formBuilder.createForm({ id: 'FormC', size: 6, wrapperRenderer: 'Grid' },
+                        formBuilder.createForm({ id: 'FormC', size: 6, wrapperRenderer: { renderer: 'Grid' } },
                             {
                                 elements: [
                                     formBuilder.createTextBox({ id: 'TextBox1', size: 6 }),

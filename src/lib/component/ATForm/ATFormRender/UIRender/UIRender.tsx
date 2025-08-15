@@ -36,11 +36,13 @@ function UIRender({ children, childProps }: ATUIRenderProps) {
     // Wrap final result in layout (Grid etc.)
     return (
         <UIRenderWrapperResolver
-            wrapperProps={{
-                childProps,
-                ...(childProps?.tProps?.wrapperRendererProps || {})
+            wrapperRenderer={{
+                ...(childProps?.tProps?.wrapperRenderer || {}),
+                props: {
+                    ...(childProps?.tProps?.wrapperRenderer?.props || {}),
+                    childProps,
+                }
             }}
-            wrapperRenderer={childProps?.tProps?.wrapperRenderer}
         >
             {maybeDebuggedElement}
         </UIRenderWrapperResolver>
