@@ -5,7 +5,7 @@ import { Grid } from '@mui/material';
 import { ATFormTypeInfoInterface } from "./UITypeUtils.type";
 import { ATFormTabConfigInterface, ATFormTabsManagerDefaultSelectedTabPathsType, ATFormTabsOnChangeType } from "./ATFormTabsManager.type";
 import { ATFormFormDataFormat, ATFormFormDataKeyValueType, ATFormFormDataSemiKeyValueType, ATFormFormDataType } from "./ATFormFormData.type";
-import { ATFormWrapperRendererType } from "./ATFormFieldWrapper.type";
+import { ATFormWrapperConfig } from "./ATFormFieldWrapper.type";
 
 export type ATFormGridSize = React.ComponentProps<typeof Grid>['size'];
 export type ATFormColor = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | 'default'
@@ -99,8 +99,7 @@ export interface ATFormFieldTProps {
     /**Only works for controlled elements and its used for form initialize */
     defaultValue?: any,
     groupDataID?: string,
-    wrapperRenderer?: ATFormWrapperRendererType,
-    wrapperRendererProps?: Record<string, any>,
+    wrapperRenderer?: ATFormWrapperConfig,
     colDef?: ColDef,
     skipForm?: boolean,
     skipRender?: boolean,
@@ -127,8 +126,7 @@ export interface ATFormUnknownChildProps {
         tabPath?: number | number[],
         skipForm?: boolean,
         skipRender?: boolean,
-        wrapperRenderer?: ATFormWrapperRendererType,
-        wrapperRendererProps?: Record<string, any>,
+        wrapperRenderer?: ATFormWrapperConfig,        
         size?: ATFormGridSize,
         debug?: boolean,
     },

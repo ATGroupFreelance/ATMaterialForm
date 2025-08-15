@@ -7,7 +7,7 @@ const WrapperRendererTemplates = ({ ref, onChange }: ExampleComponentInterface) 
             {
                 formBuilder.utils.createFieldDefBuilder(
                     [
-                        formBuilder.createTextBox({ id: "Text1", wrapperRenderer: "ButtonDialog" }),
+                        formBuilder.createTextBox({ id: "Text1", wrapperRenderer: { renderer: "ButtonDialog" } }),
                         formBuilder.createButton({ id: "Button" }),
                         formBuilder.createTextBox({ id: "Text2" }),
                         formBuilder.createTextBox({ id: "Text3" }),
