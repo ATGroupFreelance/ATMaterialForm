@@ -1,9 +1,9 @@
 import { ComponentType, ReactNode } from "react";
 import { ATFormChildProps } from "./ATForm.type";
-import { ATFormCollapseWrapperProps } from "./template-wrappers/CollapseWrapper.type";
-import { GridProps } from "@mui/material";
-import { ATFormButtonWrapperProps } from "./template-wrappers/ButtonWrapper.type";
-import { ATFormButtonDialogWrapperProps } from "./template-wrappers/ButtonDialogWrapper";
+import { ATFormCollapseWrapperConfig } from "./template-wrappers/CollapseWrapper.type";
+import { ATFormButtonWrapperConfig } from "./template-wrappers/ButtonWrapper.type";
+import { ATFormButtonDialogWrapperConfig } from "./template-wrappers/ButtonDialogWrapper";
+import { ATFormGridConfig } from "./template-wrappers/GridWrapper";
 
 // Base generic for wrapper props
 export type ATFormWrapperRendererProps<TSpecificProps = void> = {
@@ -13,10 +13,10 @@ export type ATFormWrapperRendererProps<TSpecificProps = void> = {
 
 // Map built-in wrapper types to their props
 export interface BuiltInWrapperPropsMap {
-    Collapse: ATFormCollapseWrapperProps;
-    Grid: GridProps;
-    Button: ATFormButtonWrapperProps;
-    ButtonDialog: ATFormButtonDialogWrapperProps;
+    Collapse: ATFormCollapseWrapperConfig;
+    Grid: ATFormGridConfig;
+    Button: ATFormButtonWrapperConfig;
+    ButtonDialog: ATFormButtonDialogWrapperConfig;
     None: {};
 }
 

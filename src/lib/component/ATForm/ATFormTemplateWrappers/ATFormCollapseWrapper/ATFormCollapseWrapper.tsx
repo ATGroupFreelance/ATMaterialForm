@@ -12,11 +12,11 @@ import { useState } from 'react';
 import { ATFormCollapseWrapperProps } from '@/lib/types/template-wrappers/CollapseWrapper.type';
 import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 
-const ATFormCollapseWrapper = ({ children, childProps, defaultOpen = false }: ATFormCollapseWrapperProps) => {
+const ATFormCollapseWrapper = ({ children, childProps, config }: ATFormCollapseWrapperProps) => {
     const { size = 12, label = 'Details' } = childProps.tProps;
     const { getLocalText } = useATFormConfig()
 
-    const [open, setOpen] = useState(defaultOpen);
+    const [open, setOpen] = useState<boolean>(config?.defaultOpen || false);
     const theme = useTheme();
 
     const handleToggle = () => {

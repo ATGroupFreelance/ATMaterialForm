@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react'
 import ATFormButtonDialogWrapperDialog from './ATFormButtonDialogWrapperDialog/ATFormButtonDialogWrapperDialog'
 import { ATFormOnChildChangeInterface } from '@/lib/types/ATForm.type'
 
-const ATFormButtonDialogWrapper = ({ children, childProps, ...restProps }: ATFormButtonDialogWrapperProps) => {
+const ATFormButtonDialogWrapper = ({ children, childProps, config }: ATFormButtonDialogWrapperProps) => {
     const [dialog, setDialog] = useState<any>(null)
     const mLastSavedValue = useRef(childProps.tProps.defaultValue)
     const { size = 12, label = "Open" } = childProps.tProps
@@ -13,9 +13,7 @@ const ATFormButtonDialogWrapper = ({ children, childProps, ...restProps }: ATFor
     const onChange = ({ event }: ATFormOnChildChangeInterface) => {
         console.log('ATFormButtonDialogWrapper ', { event })
         mLastSavedValue.current = event.target.value
-    }
-
-    console.log('ATFormButtonDialogWrapper', { children, childProps, restProps })
+    }    
 
     const onInternalClick = () => {
         //@ts-ignore
@@ -53,7 +51,7 @@ const ATFormButtonDialogWrapper = ({ children, childProps, ...restProps }: ATFor
 
     return (
         <Grid size={size}>
-            <Button onClick={onInternalClick} {...restProps}>
+            <Button onClick={onInternalClick} {...config?.buttonProps}>
                 {label}
             </Button>
             {dialog}
