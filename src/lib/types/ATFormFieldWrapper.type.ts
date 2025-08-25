@@ -2,7 +2,7 @@ import { ComponentType, ReactNode } from "react";
 import { ATFormChildProps } from "./ATForm.type";
 import { ATFormCollapseWrapperConfig } from "./template-wrappers/CollapseWrapper.type";
 import { ATFormButtonWrapperConfig } from "./template-wrappers/ButtonWrapper.type";
-import { ATFormButtonDialogWrapperConfig } from "./template-wrappers/ButtonDialogWrapper";
+import { ATFormButtonDialogWrapperConfig } from "./template-wrappers/ButtonDialogWrapper.type";
 import { ATFormGridConfig } from "./template-wrappers/GridWrapper";
 
 // Base generic for wrapper props

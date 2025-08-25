@@ -19,6 +19,7 @@ const IconButton = (props: ATAgGridIconButtonCellRendererProps) => {
 
     return <ATIconButton
         onClick={onInternalClick}
+        confirmationText={props.config?.confirmationText}
         {...(props.config?.uiProps || {})}
         {...restCellRendererParams}
     />

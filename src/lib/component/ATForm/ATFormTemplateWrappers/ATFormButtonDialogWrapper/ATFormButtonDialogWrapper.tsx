@@ -1,26 +1,29 @@
 import Button from '../../UI/Button/Button'
 import { Grid } from '@mui/material'
-import { ATFormButtonDialogWrapperProps } from '@/lib/types/template-wrappers/ButtonDialogWrapper'
+import { ATFormButtonDialogWrapperProps } from '@/lib/types/template-wrappers/ButtonDialogWrapper.type'
 import React, { useRef, useState } from 'react'
 import ATFormButtonDialogWrapperDialog from './ATFormButtonDialogWrapperDialog/ATFormButtonDialogWrapperDialog'
 import { ATFormOnChildChangeInterface } from '@/lib/types/ATForm.type'
 
 const ATFormButtonDialogWrapper = ({ children, childProps, config }: ATFormButtonDialogWrapperProps) => {
     const [dialog, setDialog] = useState<any>(null)
-    const mLastSavedValue = useRef(childProps.tProps.defaultValue)
+    const mLastSavedValue = useRef(childProps.isFormControlled ? childProps.value : childProps.tProps.defaultValue)
     const { size = 12, label = "Open" } = childProps.tProps
 
     const onChange = ({ event }: ATFormOnChildChangeInterface) => {
         console.log('ATFormButtonDialogWrapper ', { event })
         mLastSavedValue.current = event.target.value
-    }    
+    }
 
     const onInternalClick = () => {
+        mLastSavedValue.current = childProps.isFormControlled ? childProps.value : childProps.tProps.defaultValue
+
         //@ts-ignore
         const child: any = children
         const props = {
             childProps: {
                 ...childProps,
+                isFormControlled: false,
                 tProps: {
                     ...childProps.tProps,
                     defaultValue: mLastSavedValue.current,
@@ -38,7 +41,7 @@ const ATFormButtonDialogWrapper = ({ children, childProps, config }: ATFormButto
 
                         onHandleDialogClose()
                     }
-                }}
+                }}                
             >
                 {React.cloneElement(child, props)}
             </ATFormButtonDialogWrapperDialog>

@@ -18,7 +18,8 @@ import {
     themeBalham,
     PaginationModule,
     CellContextMenuEvent,
-    RowSelectionModule
+    RowSelectionModule,
+    DateFilterModule
 } from 'ag-grid-community';
 import { useTheme } from '@mui/material';
 //ATForm
@@ -205,7 +206,8 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
                 NumberFilterModule,
                 // ColumnAutoSizeModule,
                 PaginationModule,
-                RowSelectionModule
+                RowSelectionModule,
+                DateFilterModule 
             ]}
             getRowId={uniqueKey ? (params) => String(params.data[uniqueKey]) : undefined}
             defaultColDef={{
