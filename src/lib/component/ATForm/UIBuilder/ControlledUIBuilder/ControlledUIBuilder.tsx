@@ -33,7 +33,7 @@ const Form = React.lazy(() => import('../../UI/Form/Form'));
 const FormDialog = React.lazy(() => import('../../UI/FormDialog/FormDialog'));
 const ColorTextBox = React.lazy(() => import('../../UI/ColorTextBox/ColorTextBox'));
 
-const getInitialValue = (typeInfo: ATFormTypeInfoInterface, defaultValue: any) => {
+export const getInitialValue = (typeInfo: ATFormTypeInfoInterface, defaultValue: any) => {
     const { initialValue, isNullValueValid } = typeInfo
 
     let result = defaultValue

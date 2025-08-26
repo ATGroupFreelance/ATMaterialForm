@@ -1,4 +1,4 @@
-import { ComponentType, ReactNode } from "react";
+import { ComponentType, ReactElement } from "react";
 import { ATFormChildProps } from "./ATForm.type";
 import { ATFormCollapseWrapperConfig } from "./template-wrappers/CollapseWrapper.type";
 import { ATFormButtonWrapperConfig } from "./template-wrappers/ButtonWrapper.type";
@@ -7,7 +7,7 @@ import { ATFormGridConfig } from "./template-wrappers/GridWrapper";
 
 // Base generic for wrapper props
 export type ATFormWrapperRendererProps<TSpecificProps = void> = {
-    children: ReactNode;
+    children: ReactElement;
     childProps: ATFormChildProps;
 } & ([TSpecificProps] extends [void] ? { [key: string]: any } : TSpecificProps);
 
