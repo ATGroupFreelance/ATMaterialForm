@@ -1,4 +1,3 @@
-import Button from '../../UI/Button/Button'
 import { Grid } from '@mui/material'
 import { ATFormButtonDialogWrapperProps } from '@/lib/types/template-wrappers/ButtonDialogWrapper.type'
 import React, { ReactElement, useImperativeHandle, useRef, useState } from 'react'
@@ -6,6 +5,7 @@ import ATFormButtonDialogWrapperDialog from './ATFormButtonDialogWrapperDialog/A
 import { ATFormChildResetInterface, ATFormOnChildChangeInterface } from '@/lib/types/ATForm.type'
 import useATForm from '@/lib/hooks/useATForm/useATForm'
 import { getInitialValue } from '../../UIBuilder/ControlledUIBuilder/ControlledUIBuilder'
+import ATFormButtonDialogStyledButton from './ATFormButtonDialogStyledButton/ATFormButtonDialogStyledButton'
 
 const ATFormButtonDialogWrapper = ({ children, childProps, config }: ATFormButtonDialogWrapperProps) => {
     const [dialog, setDialog] = useState<any>(null)
@@ -80,9 +80,9 @@ const ATFormButtonDialogWrapper = ({ children, childProps, config }: ATFormButto
 
     return (
         <Grid size={size}>
-            <Button onClick={onInternalClick} {...config?.buttonProps}>
+            <ATFormButtonDialogStyledButton onClick={onInternalClick} {...config?.buttonProps}>
                 {label}
-            </Button>
+            </ATFormButtonDialogStyledButton>
             {dialog}
         </Grid>
     )
