@@ -9,7 +9,7 @@ import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
 import { ATFormChildProps, ATFormFieldTProps, ATFormChildRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps, ATFormFieldDefInterface, ATFormOnChangeInterface } from '@/lib/types/ATForm.type';
 import { ATFormContextProvider } from './ATFormContext/ATFormContext';
 import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
-import { ATFormFormDataType } from '@/lib/types/ATFormFormData.type';
+import { ATFormFormDataKeyValueType, ATFormFormDataSemiKeyValueType, ATFormFormDataType } from '@/lib/types/ATFormFormData.type';
 import { createLogger } from './ATFormLogger';
 
 interface InternalDefaultValueInterface {
@@ -30,9 +30,9 @@ const ATFormFunction = (props: ATFormProps) => {
     }, [props.logLevel, props.debugProps?.id])
 
     const mChildrenRefs = useRef<Record<string, ATFormChildRefInterface>>({})
-    const mFormData = useRef({})
-    const mFormDataKeyValue = useRef({})
-    const mFormDataSemiKeyValue = useRef({})
+    const mFormData = useRef<ATFormFormDataType>({})
+    const mFormDataKeyValue = useRef<ATFormFormDataKeyValueType>({})
+    const mFormDataSemiKeyValue = useRef<ATFormFormDataSemiKeyValueType>({})
     const mLockdown = useRef<Record<string, boolean>>({})
     const mAjv = useRef<Ajv>(null)
     const mAjvValidate = useRef<ValidateFunction>(null)
@@ -171,14 +171,14 @@ const ATFormFunction = (props: ATFormProps) => {
     }, [internalDefaultValue]);
 
 
-    const onChildChange = useCallback(({ event, childProps, suppressFormOnChange, groupDataID }: ATFormOnChildChangeInterface) => {
+    const onChildChange = useCallback(({ event, childProps, suppressFormOnChange, groupDataID, changeID }: ATFormOnChildChangeInterface) => {
         //TODO add support for groupDataID
         void groupDataID;
 
         const currentChildTypeInfo = childProps.typeInfo || getTypeInfo(childProps.tProps.type)
 
         //New Values
-        const newFormData_value = { value: event.target.value, type: childProps.tProps.type }
+        const newFormData_value = { value: event.target.value, type: childProps.tProps.type, changeID }
         const newFormDataKeyValue_value = currentChildTypeInfo?.convertToKeyValue ? currentChildTypeInfo.convertToKeyValue({ event, childProps, enums }) : event.target.value
         const newFormDataSemiKeyValue_value = currentChildTypeInfo?.convertToSemiKeyValue ? currentChildTypeInfo.convertToSemiKeyValue({ event, childProps, enums }) : event.target.value
 
@@ -374,7 +374,7 @@ const ATFormFunction = (props: ATFormProps) => {
         const newDefaultValue = internalDefaultValue.value?.[childProps.tProps.id]?.value === undefined ? childProps.tProps?.defaultValue : internalDefaultValue.value[childProps.tProps.id]?.value
 
         const isFormControlled = props.value !== undefined
-
+        
         return {
             tProps: {
                 ...childProps.tProps,
@@ -398,7 +398,7 @@ const ATFormFunction = (props: ATFormProps) => {
             typeInfo,
             onChildChange,
             errors: validationErrors,
-            value: (childProps.tProps.id && isFormControlled) ? localValue?.value?.[childProps.tProps.id]?.value : undefined,
+            value: (childProps.tProps.id && isFormControlled) ? localValue?.value?.[childProps.tProps.id] : undefined,
             isFormControlled,
         }
     }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps])

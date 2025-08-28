@@ -51,6 +51,7 @@ export const getInitialValue = (typeInfo: ATFormTypeInfoInterface, defaultValue:
 const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
     const mIsInitialized = useRef(childProps.isFormControlled ? true : false)
     const { customComponents } = useATFormConfig()
+    const mChangeID = useRef<number>(0)
 
     /**UI Builder doesn't allow any child with an undefined typeinfo to be rendered which means typeinfo is for sure not empty*/
     const [localValue, setLocalValue] = useState(getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue))
@@ -63,6 +64,7 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
             childProps.onChildChange({
                 event: { target: { value: localValue } },
                 childProps,
+                changeID: mChangeID.current
             })
         }
     }, [childProps, localValue])
@@ -71,10 +73,19 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         if (!childProps.isFormControlled)
             return;
 
-        if (childProps.value === undefined)
+        if (childProps.value?.value === undefined) {
             setLocalValue(getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue))
-        else
-            setLocalValue(childProps.value)
+
+            return;
+        }
+        else {
+            if (childProps.value?.changeID !== undefined && childProps.value.changeID <= mChangeID.current)
+                return;
+
+            setLocalValue(childProps.value.value)
+            //If parent's changeID is newer update your changeID
+            mChangeID.current = childProps.value.changeID ?? mChangeID.current;
+        }
     }, [childProps])
 
     //Please note that if value is gived to an element is complex and can not be compared using a shallow compare it can cause infinite loop
@@ -86,6 +97,7 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
             childProps.onChildChange({
                 event: { target: { value: childProps.uiProps.value } },
                 childProps,
+                changeID: mChangeID.current
             })
         }
         // eslint-disable-next-line
@@ -103,14 +115,17 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
 
     const internalOnChange = (event: any, props?: ATFormChildResetInterface) => {
         //When child is controlled the change will cause the single true value to change which will reach here throgh the parent and finally changes localValue
-        if (!childProps.isFormControlled)
-            setLocalValue(event.target.value)
+        // if (!childProps.isFormControlled)
+        setLocalValue(event.target.value)
+
+        if (childProps.isFormControlled)
+            mChangeID.current = mChangeID.current + 1
 
         //This onChange must be given outside of the form to the element, the goal is total control
         if (childProps.uiProps?.onChange)
             childProps.uiProps.onChange(event)
         //This onChange is used to update form's FormData        
-        childProps.onChildChange({ event, suppressFormOnChange: props?.suppressFormOnChange, childProps })
+        childProps.onChildChange({ event, suppressFormOnChange: props?.suppressFormOnChange, childProps, changeID: mChangeID.current })
     }
 
 

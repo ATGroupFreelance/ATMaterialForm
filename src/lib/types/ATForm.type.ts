@@ -74,6 +74,7 @@ export interface ATFormOnChildChangeInterface {
     childProps: ATFormChildProps,
     suppressFormOnChange?: boolean,
     groupDataID?: string,
+    changeID: number,
 }
 
 export interface ATFormPendingValidationCallbackInterface {
@@ -115,7 +116,7 @@ export type ATFormChildProps<T extends ATFormFieldDefGenericProps = ATFormFieldD
     errors: any,
     onChildChange: (props: ATFormOnChildChangeInterface) => void,
     isTabSelected?: boolean,
-    value?: any,
+    value?: ATFormFormDataType[string],
     isFormControlled: boolean,
 };
 

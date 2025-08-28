@@ -6,6 +6,7 @@ import { ATFormComboBoxProps } from '@/lib/types/ui/ComboBox.type';
 import { ATFormMultiComboBoxProps } from '@/lib/types/ui/MultiComboBox.type';
 import { ATFormCascadeComboBoxProps } from '@/lib/types/ui/CascadeComboBox.type';
 import { ATFormMultiSelectTextBoxOption } from '@/lib/types/ui/MultiSelectTextBox.type';
+import { ATFormFormProps } from '@/lib/types/ui/Form.type';
 
 export const UITypes = {
     Button: 'Button',
@@ -633,16 +634,48 @@ export const types = [
         type: 'Form',
         initialValue: null,
         convertToKeyValue: ({ event }: ATConvertInterface) => {
-            return JSON.stringify(event.target.value)
-        },
-        reverseConvertToKeyValue: ({ value }: ATReverseConvertInterface) => {
-            if (!value)
+            if (!event.target.value)
                 return null
 
-            return JSON.parse(value)
+            const result: Record<string, any> = {}
+
+            for (const key in event.target.value) {
+                result[key] = event.target.value[key].value
+            }
+
+            return JSON.stringify(result)
+        },
+        reverseConvertToKeyValue: ({ value, childProps }: ATReverseConvertInterface<{ uiProps?: ATFormFormProps }>) => {
+            if (!value)
+                return null
+            
+            const parsedValue = JSON.parse(value)
+
+            const result: Record<string, any> = {}
+
+            for (const key in parsedValue) {
+                const found = childProps?.uiProps?.elements?.find((item: any) => item.tProps.id === key)
+
+                result[key] = {
+                    value: parsedValue[key],
+                    type: found?.tProps?.type || null,
+                    changeID: 1,
+                }
+            }
+
+            return result
         },
         convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
-            return event.target.value
+            if (!event.target.value)
+                return null
+
+            const result: Record<string, any> = {}
+
+            for (const key in event.target.value) {
+                result[key] = event.target.value[key].value
+            }
+
+            return result
         },
         reverseConvertToSemiKeyValue: ({ value }: ATReverseConvertInterface) => {
             if (!value)

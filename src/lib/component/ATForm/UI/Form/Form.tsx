@@ -9,12 +9,12 @@ const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: AT
 
     const onInternalChange = (props: ATFormOnChangeInterface) => {
         if (onChange) {
-            onChange({ target: { value: props.formDataSemiKeyValue } })
+            onChange({ target: { value: props.formData } })
         }
     }
-    
+
     return <Grid container spacing={2}>
-        <ATForm ref={ref} value={value} valueFormat='FormDataSemiKeyValue' onChange={onInternalChange} logLevel={LogLevel.NONE} {...restProps}>
+        <ATForm ref={ref} value={value} valueFormat='FormData' onChange={onInternalChange} logLevel={LogLevel.NONE} {...restProps}>
             {
                 [
                     ...(children as Array<any> || []),

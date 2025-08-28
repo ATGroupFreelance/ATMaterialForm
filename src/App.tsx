@@ -64,7 +64,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'WrapperRendererTemplates'
+const ACTIVE_EXAMPLE = 'FormInForm'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
