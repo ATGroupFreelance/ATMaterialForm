@@ -83,8 +83,10 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
                 return;
 
             setLocalValue(childProps.value.value)
-            //If parent's changeID is newer update your changeID
-            mChangeID.current = childProps.value.changeID ?? mChangeID.current;
+
+            //If parent's changeID does not exist we assume its a new value and we increase the changeID
+            if (childProps.value?.changeID !== undefined)
+                mChangeID.current = childProps.value.changeID
         }
     }, [childProps])
 
@@ -117,7 +119,7 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         //When child is controlled the change will cause the single true value to change which will reach here throgh the parent and finally changes localValue
         // if (!childProps.isFormControlled)
         setLocalValue(event.target.value)
-
+        
         if (childProps.isFormControlled)
             mChangeID.current = mChangeID.current + 1
 

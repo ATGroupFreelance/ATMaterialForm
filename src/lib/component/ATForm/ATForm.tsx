@@ -46,6 +46,7 @@ const ATFormFunction = (props: ATFormProps) => {
     const mIsDefaultValueResetCalledOnMount = useRef(false)
     const [localValue, setLocalValue] = useState<LocalValueInterface>({ value: {}, rawValue: "" })
     const mLastValue = useRef<string>("")
+    const mChildrenChangeIDMap = useRef<Record<string, number>>({})
 
     useImperativeHandle(props.ref, () => {
         return {
@@ -174,6 +175,8 @@ const ATFormFunction = (props: ATFormProps) => {
     const onChildChange = useCallback(({ event, childProps, suppressFormOnChange, groupDataID, changeID }: ATFormOnChildChangeInterface) => {
         //TODO add support for groupDataID
         void groupDataID;
+
+        mChildrenChangeIDMap.current[childProps.tProps.id] = changeID
 
         const currentChildTypeInfo = childProps.typeInfo || getTypeInfo(childProps.tProps.type)
 
@@ -374,7 +377,7 @@ const ATFormFunction = (props: ATFormProps) => {
         const newDefaultValue = internalDefaultValue.value?.[childProps.tProps.id]?.value === undefined ? childProps.tProps?.defaultValue : internalDefaultValue.value[childProps.tProps.id]?.value
 
         const isFormControlled = props.value !== undefined
-        
+
         return {
             tProps: {
                 ...childProps.tProps,
@@ -430,6 +433,7 @@ const ATFormFunction = (props: ATFormProps) => {
         if (props.value === undefined)
             return;
 
+        //TODO probably best if we switch to always saving semiKeyValue
         const strValue = JSON.stringify(props.value)
         const isSameValue = mLastValue.current === strValue;
 
@@ -448,6 +452,14 @@ const ATFormFunction = (props: ATFormProps) => {
             flatChildrenProps,
             valueFormat,
         })
+
+        //Update changeID
+        for (const key in formData) {
+            const newChangeID = formData[key].changeID !== undefined ? formData[key].changeID : (mChildrenChangeIDMap.current[key] || 0) + 1
+
+            mChildrenChangeIDMap.current[key] = newChangeID
+            formData[key].changeID = newChangeID
+        }
 
         const formDataKeyValue = formDataToAny({
             formData,

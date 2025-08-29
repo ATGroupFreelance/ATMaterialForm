@@ -46,6 +46,9 @@ import ConditionalRendering from './examples/ConditionalRendering/ConditionalRen
 import WrapMultipleElements from './examples/WrapMultipleElements/WrapMultipleElements';
 import ControlledForm from './examples/ControlledForm/ControlledForm';
 import WrapperRendererTemplates from './examples/WrapperRendererTemplates/WrapperRendererTemplates';
+import FormDataSemiKeyValueControlledForm from './examples/FormDataSemiKeyValueControlledForm/FormDataSemiKeyValueControlledForm';
+import FormDataControlledForm from './examples/FormDataControlledForm/FormDataControlledForm';
+import FormDataKeyValueControlledForm from './examples/FormDataKeyValueControlledForm/FormDataKeyValueControlledForm';
 
 export interface ExampleComponentInterface {
   ref?: any,
@@ -64,7 +67,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'FormInForm'
+const ACTIVE_EXAMPLE = 'FormDataKeyValueControlledForm'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
@@ -261,6 +264,24 @@ function App() {
     {
       id: 'WrapperRendererTemplates',
       component: WrapperRendererTemplates,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'FormDataControlledForm',
+      component: FormDataControlledForm,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'FormDataKeyValueControlledForm',
+      component: FormDataKeyValueControlledForm,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: 'FormDataSemiKeyValueControlledForm',
+      component: FormDataSemiKeyValueControlledForm,
       refEnabled: true,
       onChangeEnabled: true,
     },

@@ -111,7 +111,8 @@ export function anyToFormData({ value, valueFormat, flatChildrenProps, enums, rt
             if (!typeInfo) {
                 console.warn('Type not found, child props is for an unknown child', { foundChildProps, id: key })
                 result[key] = {
-                    value: value[key]
+                    value: value[key],
+                    changeID: undefined,
                 }
 
                 continue;
@@ -123,21 +124,25 @@ export function anyToFormData({ value, valueFormat, flatChildrenProps, enums, rt
             //if a reverseConvertToKeyValue exists, use it if not just put the value unchanged
             if (valueFormat === 'FormDataKeyValue' && typeInfo.reverseConvertToKeyValue)
                 result[key] = {
-                    value: typeInfo.reverseConvertToKeyValue({ value: value[key], childProps, enums, rtl })
+                    value: typeInfo.reverseConvertToKeyValue({ value: value[key], childProps, enums, rtl }),
+                    changeID: undefined,
                 }
             else if (valueFormat === 'FormDataSemiKeyValue' && typeInfo.reverseConvertToSemiKeyValue)
                 result[key] = {
-                    value: typeInfo.reverseConvertToSemiKeyValue({ value: value[key], childProps, enums, rtl })
+                    value: typeInfo.reverseConvertToSemiKeyValue({ value: value[key], childProps, enums, rtl }),
+                    changeID: undefined,
                 }
             else {
                 result[key] = {
-                    value: value[key]
+                    value: value[key],
+                    changeID: undefined,
                 }
             }
         }
         else {
             result[key] = {
-                value: value[key]
+                value: value[key],
+                changeID: undefined,
             }
         }
     }
