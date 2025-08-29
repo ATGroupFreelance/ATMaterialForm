@@ -11,6 +11,7 @@ const ATFormButtonDialogWrapper = ({ children, childProps, config }: ATFormButto
     const [dialog, setDialog] = useState<any>(null)
     const mLastSavedValue = useRef(childProps.isFormControlled ? childProps.value : childProps.tProps.defaultValue)
     const { getFormData } = useATForm()
+    const mChangeID = useRef<number>(0)
 
     const mChildRef = useRef<{ reset: (props?: ATFormChildResetInterface) => void }>(null)
 
@@ -19,7 +20,10 @@ const ATFormButtonDialogWrapper = ({ children, childProps, config }: ATFormButto
     const internalReset = ({ suppressFormOnChange = false }: ATFormChildResetInterface = {} as ATFormChildResetInterface) => {
         const newValue = getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue)
 
-        childProps.onChildChange({ event: { target: { value: newValue } }, suppressFormOnChange, childProps })
+        if (childProps.isFormControlled)
+            mChangeID.current = mChangeID.current + 1
+
+        childProps.onChildChange({ event: { target: { value: newValue } }, suppressFormOnChange, childProps, changeID: mChangeID.current })
     }
 
     //Overwrite form child reset with our own reset.
@@ -60,7 +64,10 @@ const ATFormButtonDialogWrapper = ({ children, childProps, config }: ATFormButto
                 onSubmitClick={() => {
                     //Apply the change.
                     if (childProps.onChildChange) {
-                        childProps.onChildChange({ event: { target: { value: mLastSavedValue.current } }, childProps })
+                        if (childProps.isFormControlled)
+                            mChangeID.current = mChangeID.current + 1
+
+                        childProps.onChildChange({ event: { target: { value: mLastSavedValue.current } }, childProps, changeID: mChangeID.current })
 
                         onHandleDialogClose()
                     }
