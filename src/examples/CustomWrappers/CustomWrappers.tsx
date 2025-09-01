@@ -67,7 +67,7 @@ const CustomWrappers = ({ ref }: ExampleComponentInterface) => {
                             size: gridSize,
                             wrapperRenderer: {
                                 renderer: MyWrapperTypeA,
-                                props: {
+                                config: {
                                     isValidNumber,
                                     onClick: onWrapperTypeAClick
                                 }

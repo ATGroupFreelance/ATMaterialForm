@@ -208,3 +208,7 @@ export function getTabVisibilityStyle(isTabSelected: boolean | undefined): React
     // if true or undefined, return empty style (visible)
     return {};
 }
+
+export function structureCloneFormData(formData: ATFormFormDataType) {
+    return JSON.parse(JSON.stringify(formData))
+}

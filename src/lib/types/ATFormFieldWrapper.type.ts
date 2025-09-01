@@ -12,7 +12,7 @@ export type ATFormWrapperRendererProps<TSpecificProps = void> = {
 } & ([TSpecificProps] extends [void] ? { [key: string]: any } : TSpecificProps);
 
 // Map built-in wrapper types to their props
-export interface BuiltInWrapperPropsMap {
+export interface BuiltInWrapperConfigsMap {
     Collapse: ATFormCollapseWrapperConfig;
     Grid: ATFormGridConfig;
     Button: ATFormButtonWrapperConfig;
@@ -20,26 +20,26 @@ export interface BuiltInWrapperPropsMap {
     None: {};
 }
 
-type ATFormBuiltInWrapperType = keyof BuiltInWrapperPropsMap;
+type ATFormBuiltInWrapperType = keyof BuiltInWrapperConfigsMap;
 
 // Built-in wrapper object form
 type BuiltInWrapperConfig = {
     [K in ATFormBuiltInWrapperType]: {
         renderer: K;
-        props?: BuiltInWrapperPropsMap[K];
+        config?: BuiltInWrapperConfigsMap[K];
     };
 }[ATFormBuiltInWrapperType];
 
 // Custom component wrapper object form
 type CustomWrapperConfig<P = any> = {
     renderer: Exclude<ComponentType<P>, undefined | null>;
-    props?: P;
+    config?: P;
 };
 
 // Default Grid case when no renderer is specified
 type DefaultGridWrapperConfig = {
     renderer?: undefined | null;
-    props?: BuiltInWrapperPropsMap["Grid"];
+    config?: BuiltInWrapperConfigsMap["Grid"];
 };
 
 // Union used by fields

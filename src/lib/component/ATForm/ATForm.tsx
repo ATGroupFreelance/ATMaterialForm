@@ -212,7 +212,7 @@ const ATFormFunction = (props: ATFormProps) => {
         mFormDataKeyValue.current = newFormDataKeyValue
         mFormDataSemiKeyValue.current = newFormDataSemiKeyValue
 
-        logger.info('Form onChange (SemiKeyValue)', newFormDataSemiKeyValue)
+        logger.info('Form onChange (SemiKeyValue)', mFormData)
 
         const onChange = props.onChange
 
@@ -378,7 +378,7 @@ const ATFormFunction = (props: ATFormProps) => {
 
         const newDefaultValue = internalDefaultValue.value?.[childProps.tProps.id]?.value === undefined ? childProps.tProps?.defaultValue : internalDefaultValue.value[childProps.tProps.id]?.value
 
-        const isFormControlled = props.value !== undefined
+        const isFormControlled = props.value !== undefined        
 
         return {
             tProps: {

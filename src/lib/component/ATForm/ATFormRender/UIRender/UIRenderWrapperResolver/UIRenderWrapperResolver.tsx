@@ -6,7 +6,8 @@ import { ATFormWrapperConfig } from "@/lib/types/ATFormFieldWrapper.type";
 
 interface UIRenderWrapperResolverProps {
     children: React.ReactNode,
-    wrapperRenderer?: ATFormWrapperConfig,    
+    wrapperRenderer?: ATFormWrapperConfig,
+    childProps: ATFormChildProps | ATFormUnknownChildProps,
 }
 
 const builtInWrappers: Record<string, React.LazyExoticComponent<ComponentType<any>>> = {
@@ -15,9 +16,12 @@ const builtInWrappers: Record<string, React.LazyExoticComponent<ComponentType<an
     ButtonDialog: lazy(() => import('../../../ATFormTemplateWrappers/ATFormButtonDialogWrapper/ATFormButtonDialogWrapper')),
 };
 
-const UIRenderWrapperResolver = ({ children, wrapperRenderer }: UIRenderWrapperResolverProps) => {
+const UIRenderWrapperResolver = ({ children, wrapperRenderer, childProps }: UIRenderWrapperResolverProps) => {
     const renderer = wrapperRenderer?.renderer
-    const rendererProps: { childProps: ATFormChildProps | ATFormUnknownChildProps; sx?: any } & Record<string, any> = (wrapperRenderer?.props || {})
+    const rendererProps: { childProps: ATFormChildProps | ATFormUnknownChildProps, config: Record<string, any> } = {
+        childProps,
+        config: wrapperRenderer?.config || {},
+    }
 
     if (typeof renderer === 'string' && renderer === 'None')
         return children
@@ -34,17 +38,12 @@ const UIRenderWrapperResolver = ({ children, wrapperRenderer }: UIRenderWrapperR
         return <CustomComponent {...rendererProps}>{children}</CustomComponent>
     }
 
-    //Add size and remove child props for Grid wrapper type
-    const { childProps, sx, ...gridWrapperProps } = {
-        ...rendererProps,
-        size: rendererProps?.childProps.tProps?.size || 12,
-    }
-
-    //Ignore unused warning
-    void childProps;
+    const { sx, ...restGridProps } = rendererProps.config || {}
+    const tPropsSize = rendererProps.childProps.tProps?.size ? { md: rendererProps.childProps.tProps?.size, xs: 12 } : null
+    const size = rendererProps.config.size || tPropsSize || 12
 
     //Default/Fallback to Grid
-    return <Grid {...gridWrapperProps} sx={{ ...(sx || {}), ...getTabVisibilityStyle(childProps.isTabSelected) }}>{children}</Grid>
+    return <Grid {...restGridProps} size={size} sx={{ ...(sx || {}), ...getTabVisibilityStyle(childProps.isTabSelected) }}>{children}</Grid>
 
 }
 
