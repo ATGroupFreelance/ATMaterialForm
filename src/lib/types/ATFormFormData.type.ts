@@ -1,10 +1,10 @@
-export type ATFormFormDataType = {
+export type ATFormFormDataType<T = any> = {
     [key: string]: {
-        value: any,
-        type?: string,
-        changeID?: number,
-    }
-}
+        value: T;
+        type?: string;
+        changeID?: number;
+    };
+};
 
 export type ATFormFormDataKeyValueType = {
     [key: string]: any,

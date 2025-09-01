@@ -67,7 +67,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'FormDataKeyValueControlledForm'
+const ACTIVE_EXAMPLE = 'FormDataControlledForm'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)

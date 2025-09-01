@@ -21,7 +21,8 @@ interface LocalValueInterface {
     //Raw value assigned from props.value
     rawValue: string,
     //Value that comes from reverseConvertAny(props.value)
-    value: ATFormFormDataType
+    value: ATFormFormDataType,
+    changeID: number,
 }
 
 const ATFormFunction = (props: ATFormProps) => {
@@ -44,9 +45,10 @@ const ATFormFunction = (props: ATFormProps) => {
     const [validationErrors, setValidationErrors] = React.useState<Record<string, any> | null>(null)
     /**We make sure the default value passed using props is only called once using this flag. */
     const mIsDefaultValueResetCalledOnMount = useRef(false)
-    const [localValue, setLocalValue] = useState<LocalValueInterface>({ value: {}, rawValue: "" })
+    const [localValue, setLocalValue] = useState<LocalValueInterface>({ value: {}, rawValue: "", changeID: 0 })
     const mLastValue = useRef<string>("")
     const mChildrenChangeIDMap = useRef<Record<string, number>>({})
+    const mChangeID = useRef<number>(0)
 
     useImperativeHandle(props.ref, () => {
         return {
@@ -402,7 +404,8 @@ const ATFormFunction = (props: ATFormProps) => {
             onChildChange,
             errors: validationErrors,
             value: (childProps.tProps.id && isFormControlled) ? localValue?.value?.[childProps.tProps.id] : undefined,
-            isFormControlled,
+            changeID: localValue?.changeID,
+            isFormControlled,            
         }
     }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps])
 
@@ -487,7 +490,11 @@ const ATFormFunction = (props: ATFormProps) => {
             ...formDataSemiKeyValue
         }
 
-        setLocalValue({ rawValue: strValue, value: formData });
+
+        console.log('setLocalValue', formData)
+
+        mChangeID.current = mChangeID.current + 1
+        setLocalValue({ rawValue: strValue, value: formData, changeID: mChangeID.current });
     }, [props.value, props.valueFormat, enums, rtl, flatChildrenProps]);
 
     const reset = useCallback(({ inputDefaultValue, inputDefaultValueFormat = 'FormDataSemiKeyValue', suppressFormOnChange = false }: ATFormResetInterface = {} as ATFormResetInterface) => {
@@ -499,6 +506,8 @@ const ATFormFunction = (props: ATFormProps) => {
             flatChildrenProps,
             valueFormat: inputDefaultValueFormat,
         })
+
+        console.log('newDefaultValue', newDefaultValue)
 
         setInternalDefaultValue({ value: newDefaultValue, suppressFormOnChange })
     }, [enums, rtl, flatChildrenProps])

@@ -648,7 +648,7 @@ export const types = [
         reverseConvertToKeyValue: ({ value, childProps }: ATReverseConvertInterface<{ uiProps?: ATFormFormProps }>) => {
             if (!value)
                 return null
-            
+
             const parsedValue = JSON.parse(value)
 
             const result: Record<string, any> = {}
@@ -659,7 +659,8 @@ export const types = [
                 result[key] = {
                     value: parsedValue[key],
                     type: found?.tProps?.type || null,
-                    changeID: 1,
+                    //We are passing undefined so the form uses its field changeID that is in its memory.
+                    changeID: undefined,
                 }
             }
 
@@ -677,11 +678,23 @@ export const types = [
 
             return result
         },
-        reverseConvertToSemiKeyValue: ({ value }: ATReverseConvertInterface) => {
+        reverseConvertToSemiKeyValue: ({ value, childProps }: ATReverseConvertInterface<{ uiProps?: ATFormFormProps }>) => {
             if (!value)
                 return null
 
-            return value
+            const result: Record<string, any> = {}
+
+            for (const key in value) {
+                const found = childProps?.uiProps?.elements?.find((item: any) => item.tProps.id === key)
+
+                result[key] = {
+                    value: value[key],
+                    type: found?.tProps?.type || null,
+                    changeID: undefined,
+                }
+            }
+
+            return result
         },
     }),
     createType({

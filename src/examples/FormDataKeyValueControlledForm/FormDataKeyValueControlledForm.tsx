@@ -17,11 +17,21 @@ const FormDataKeyValueControlledForm = ({ ref, onChange }: ExampleComponentInter
 
     console.log("FormDataKeyValueControlledForm Value", formData)
 
+    const manualSetValue = (newValue: any) => {
+        setFormData((prevValue: any) => {
+
+            return {
+                ...prevValue,
+                ...newValue,
+            }
+        })        
+    }
+
     return (
         <ATForm ref={ref} onChange={internalOnChange} value={formData} valueFormat="FormDataKeyValue">
             {[
                 formBuilder.createTextBox({ id: 'TextBox1', size: 6 }),
-                formBuilder.createButton({ id: "setValue", size: 3 }, { onClick: () => setFormData({ TextBox1: "I'm set Value" }) }),
+                formBuilder.createButton({ id: "setValue", size: 3 }, { onClick: () => manualSetValue({ TextBox1: "I'm set Value" }) }),
             ]}
         </ATForm>
     )

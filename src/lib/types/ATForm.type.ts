@@ -57,6 +57,13 @@ export interface ATFormProps {
     tabs?: StrictOmit<ATFormTabConfigInterface, 'tabPath'>[],
     onTabChange?: ATFormTabsOnChangeType,
     defaultSelectedTabPaths?: ATFormTabsManagerDefaultSelectedTabPathsType,
+    /**
+     * The form becomes **controlled** when you provide a `value` prop.
+     * You can use the `valueFormat` option to define the format of the value you are providing.
+     *
+     * To easily update the value in a controlled form, you can use `form.reset()`.  
+     * This ensures the form is updated correctly with all the necessary props and maintains synchronization.
+    */
     value?: any,
     valueFormat?: ATFormFormDataFormat,
     debugProps?: ATFormDebugProps,
@@ -118,6 +125,7 @@ export type ATFormChildProps<T extends ATFormFieldDefGenericProps = ATFormFieldD
     isTabSelected?: boolean,
     value?: ATFormFormDataType[string],
     isFormControlled: boolean,
+    changeID: number,
 };
 
 export interface ATFormUnknownChildProps {
@@ -127,7 +135,7 @@ export interface ATFormUnknownChildProps {
         tabPath?: number | number[],
         skipForm?: boolean,
         skipRender?: boolean,
-        wrapperRenderer?: ATFormWrapperConfig,        
+        wrapperRenderer?: ATFormWrapperConfig,
         size?: ATFormGridSize,
         debug?: boolean,
     },

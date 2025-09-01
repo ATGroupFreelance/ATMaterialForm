@@ -52,6 +52,7 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
     const mIsInitialized = useRef(childProps.isFormControlled ? true : false)
     const { customComponents } = useATFormConfig()
     const mChangeID = useRef<number>(0)
+    const mLastAppliedParentChangeID = useRef<number>(-1)
 
     /**UI Builder doesn't allow any child with an undefined typeinfo to be rendered which means typeinfo is for sure not empty*/
     const [localValue, setLocalValue] = useState(getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue))
@@ -73,8 +74,14 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         if (!childProps.isFormControlled)
             return;
 
+        if (mLastAppliedParentChangeID.current >= childProps.changeID)
+            return;
+
+        mLastAppliedParentChangeID.current = childProps.changeID
+
         if (childProps.value?.value === undefined) {
-            setLocalValue(getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue))
+            const initValue = getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue)
+            setLocalValue(initValue)
 
             return;
         }
@@ -119,7 +126,7 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         //When child is controlled the change will cause the single true value to change which will reach here throgh the parent and finally changes localValue
         // if (!childProps.isFormControlled)
         setLocalValue(event.target.value)
-        
+
         if (childProps.isFormControlled)
             mChangeID.current = mChangeID.current + 1
 
