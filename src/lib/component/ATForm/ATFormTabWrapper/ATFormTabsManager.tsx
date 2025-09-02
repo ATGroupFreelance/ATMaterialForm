@@ -173,10 +173,10 @@ const ATFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
                 ...(item.tProps || {}),
                 wrapperRenderer: {
                     ... (item.tProps?.wrapperRenderer || {}),
-                    props: {
-                        ...(item.tProps?.wrapperRenderer?.props || {}),
+                    config: {
+                        ...(item.tProps?.wrapperRenderer?.config || {}),
                         sx: {
-                            ... (item.tProps?.wrapperRenderer?.props?.sx || {}),
+                            ... (item.tProps?.wrapperRenderer?.config?.sx || {}),
                             display: isSameOrParentTabPath ? undefined : 'none',
                         }
                     }
