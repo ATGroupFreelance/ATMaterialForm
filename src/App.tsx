@@ -49,6 +49,7 @@ import WrapperRendererTemplates from './examples/WrapperRendererTemplates/Wrappe
 import FormDataSemiKeyValueControlledForm from './examples/FormDataSemiKeyValueControlledForm/FormDataSemiKeyValueControlledForm';
 import FormDataControlledForm from './examples/FormDataControlledForm/FormDataControlledForm';
 import FormDataKeyValueControlledForm from './examples/FormDataKeyValueControlledForm/FormDataKeyValueControlledForm';
+import FormBenchmark from './examples/FormBenchMark/FormBenchMark';
 
 export interface ExampleComponentInterface {
   ref?: any,
@@ -67,7 +68,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'WrapperRendererTemplates'
+const ACTIVE_EXAMPLE = 'FormBenchMark'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
@@ -285,6 +286,10 @@ function App() {
       refEnabled: true,
       onChangeEnabled: true,
     },
+    {
+      id: "FormBenchMark",
+      component: FormBenchmark
+    }
   ]
 
   console.log('App Renderer')
