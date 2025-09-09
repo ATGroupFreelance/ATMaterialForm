@@ -1,8 +1,8 @@
 //@ts-expect-error
-import React, { useCallback, useRef, useEffect, useState } from 'react';
+import React, { useCallback, useRef, useEffect, useState, useMemo } from 'react';
 
 //MUI
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Box, useTheme } from '@mui/material';
 //ATForm
 import ATForm from '../../ATForm';
 import ATFormDialog from '../../ATFormDialog';
@@ -13,8 +13,6 @@ import { ColumnDefTemplates } from '../../../ATAgGrid/ColumnDefTemplates/ColumnD
 //Context
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 import Button from '../Button/Button';
-//Styles
-import StyleClasses from './ContainerWithTable.module.css';
 //AgGrid
 import { AgGridReact } from 'ag-grid-react';
 import { GridApi } from "ag-grid-community";
@@ -42,6 +40,7 @@ const initializeOnChangeInterface = () => {
 const ContainerWithTable = ({ value, formChildren, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: ATFormContainerWithTableProps) => {
     const { enums, rtl, localText } = useATFormConfig()
     const { getTypeInfo } = useATForm()
+    const theme = useTheme()
 
     const [currentGridRef, setCurrentGridRef] = useState<ATAgGridRef>(null)
     const formRef = useRef<ATFormRefInterface | null>(null)
@@ -199,38 +198,55 @@ const ContainerWithTable = ({ value, formChildren, getGridColumnDefs, onChange, 
         else
             return item
     })
+    
+    const containerSx = useMemo(() => ({
+        width: '100%',
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        bgcolor: theme.palette.background.default,
+        padding: 0,
+        boxSizing: 'border-box'
+    }), [theme])
 
-    const classesArray = [
-        StyleClasses.Default
-    ]
+    const headerWrapperSx = useMemo(() => ({
+        margin: '0 auto 24px',
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows?.[2],
+        overflow: 'hidden'
+    }), [theme])
 
-    if (showHeader) {
-        classesArray.push(StyleClasses.Header)
-    }
+    const headerBarSx = useMemo(() => ({
+        height: 56,
+        display: 'flex',
+        alignItems: 'center',
+        px: 2,
+        userSelect: 'none',
+        background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+        color: theme.palette.primary.contrastText,
+        borderBottom: `1px solid ${theme.palette.divider}`
+    }), [theme])
 
-    return <div className={StyleClasses.Default}>
+    const contentSx = useMemo(() => ({
+        width: rtl ? undefined : '100%',
+        p: 2,
+        pt: 2,
+        backgroundColor: 'transparent'
+    }), [rtl])
+
+    return <Box sx={containerSx}>
         {showHeader && (
-            <div className={StyleClasses.Header}>
-                <div
-                    className={StyleClasses.HeaderBar}
-                    style={{ textAlign: rtl ? 'right' : 'left' }}
-                >
-                    <Typography
-                        variant="h5"
-                        sx={{
-                            marginLeft: rtl ? '0' : '12px',
-                            marginRight: rtl ? '12px' : '0',
-                            paddingTop: '6px'
-                        }}
-                    >
+            <Box sx={headerWrapperSx}>
+                <Box sx={{ ...headerBarSx, textAlign: rtl ? 'right' : 'left' }}>
+                    <Typography variant="h5" sx={{ ml: rtl ? 0 : 1.5, mr: rtl ? 1.5 : 0, pt: '6px', fontWeight: 600 }}>
                         {label}
                     </Typography>
-                </div>
-            </div>
+                </Box>
+            </Box>
         )}
 
-        <div className={classesArray.join(' ')} style={{ width: !rtl ? '100%' : undefined, padding: '20px', paddingTop: '20px' }}>
-            <Grid container spacing={2} sx={{ marginBottom: '5px' }}>
+        <Box sx={contentSx}>
+            <Grid container spacing={2} sx={{ mb: '5px' }}>
                 {
                     recordDialog.show &&
                     //@ts-ignore
@@ -271,7 +287,8 @@ const ContainerWithTable = ({ value, formChildren, getGridColumnDefs, onChange, 
                 }
 
             </Grid>
-            <Grid container sx={{ marginBottom: '4px', justifyContent: addButtonOrigin === 'right' ? 'end' : 'start', ...(actionPanelStyle || {}) }}>
+
+            <Grid container sx={{ mb: '4px', justifyContent: addButtonOrigin === 'right' ? 'end' : 'start', ...(actionPanelStyle || {}) }}>
                 {
                     showHeaderlessTitle
                     &&
@@ -290,6 +307,7 @@ const ContainerWithTable = ({ value, formChildren, getGridColumnDefs, onChange, 
                     <Button label={localText['Add']} onClick={onAddClick} disabled={disabled} {...addButtonProps || {}} />
                 </Grid>
             </Grid>
+
             <ATAgGrid
                 //@ts-ignore
                 onGridReady={gridRefCallback}
@@ -308,8 +326,8 @@ const ContainerWithTable = ({ value, formChildren, getGridColumnDefs, onChange, 
                     return String(params.data[DEFAULT_ROW_ID_KEY])
                 }}
             />
-        </div>
-    </div >
+        </Box>
+    </Box>
 }
 
 export default ContainerWithTable;
