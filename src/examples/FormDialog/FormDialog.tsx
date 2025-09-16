@@ -79,7 +79,7 @@ const FormDialog = ({ ref, ...props }: ExampleComponentInterface) => {
                                 id: 'InlineFormDialog',
                             },
                             {
-                                elements: [
+                                formChildren: [
                                     formBuilder.createTextBox({ id: "Name" })
                                 ]
                             }

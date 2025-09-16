@@ -11,7 +11,7 @@ const FormInForm = ({ ref, onChange }: ExampleComponentInterface) => {
                         // tabPath: 0,
                     },
                     {
-                        elements: [
+                        formChildren: [
                             formBuilder.createTextBox({ id: 'A1' }),
                             formBuilder.createTextBox({ id: 'A2' }),
                             formBuilder.createTextBox({ id: 'A3' }),
@@ -24,7 +24,7 @@ const FormInForm = ({ ref, onChange }: ExampleComponentInterface) => {
                         tabPath: 1,
                     },
                     {
-                        elements: [
+                        formChildren: [
                             formBuilder.createTextBox({ id: 'B1' }),
                             formBuilder.createTextBox({ id: 'B2' }),
                             formBuilder.createTextBox({ id: 'B3' }),

@@ -4,7 +4,7 @@ import { ATFormFormProps } from '@/lib/types/ui/Form.type';
 import { ATFormOnChangeInterface } from '@/lib/types/ATForm.type';
 import { LogLevel } from '../../ATFormLogger';
 
-const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: ATFormFormProps) => {
+const Form = ({ ref, id, value, onChange, children, formChildren, ...restProps }: ATFormFormProps) => {
     void id;
 
     const onInternalChange = (props: ATFormOnChangeInterface) => {
@@ -18,7 +18,7 @@ const Form = ({ ref, id, value, onChange, children, elements, ...restProps }: AT
             {
                 [
                     ...(children as Array<any> || []),
-                    ...(elements || [])
+                    ...(formChildren || [])
                 ]
             }
         </ATForm>

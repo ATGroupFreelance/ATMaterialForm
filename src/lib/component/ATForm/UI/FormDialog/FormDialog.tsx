@@ -8,7 +8,7 @@ import { ATFormOnClickType } from '@/lib/types/Common.type'
 import { LogLevel } from '../../ATFormLogger'
 
 
-const FormDialog = ({ id, children, open: openProp, onClose, elements, value, onChange, ...restProps }: ATFormFormDialogProps) => {
+const FormDialog = ({ id, children, open: openProp, onClose, formChildren, value, onChange, ...restProps }: ATFormFormDialogProps) => {
     const wrapper = useATFormWrapper()
     const [internalOpen, setInternalOpen] = useState(false)
     const mFormRef = useRef<ATFormRefInterface>(null)
@@ -60,7 +60,7 @@ const FormDialog = ({ id, children, open: openProp, onClose, elements, value, on
                     {
                         [
                             ...(children as Array<any> || []),
-                            ...(elements || [])
+                            ...(formChildren || [])
                         ]
                     }
                 </ATFormDialog>

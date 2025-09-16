@@ -654,7 +654,7 @@ export const types = [
             const result: Record<string, any> = {}
 
             for (const key in parsedValue) {
-                const found = childProps?.uiProps?.elements?.find((item: any) => item.tProps.id === key)
+                const found = childProps?.uiProps?.formChildren?.find((item: any) => item.tProps.id === key)
 
                 result[key] = {
                     value: parsedValue[key],
@@ -685,7 +685,7 @@ export const types = [
             const result: Record<string, any> = {}
 
             for (const key in value) {
-                const found = childProps?.uiProps?.elements?.find((item: any) => item.tProps.id === key)
+                const found = childProps?.uiProps?.formChildren?.find((item: any) => item.tProps.id === key)
 
                 result[key] = {
                     value: value[key],

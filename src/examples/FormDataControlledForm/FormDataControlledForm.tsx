@@ -38,7 +38,7 @@ const FormDataControlledForm = ({ ref, onChange }: ExampleComponentInterface) =>
             {[
                 formBuilder.createTextBox({ id: 'TextBox1', size: 6 }),
                 formBuilder.createForm({ id: "SecondaryForm", size: 12 }, {
-                    elements: [
+                    formChildren: [
                         formBuilder.createTextBox({ id: 'TextBox2', size: 6 }),
                     ]
                 }),

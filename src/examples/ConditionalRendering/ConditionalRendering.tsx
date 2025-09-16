@@ -23,7 +23,7 @@ const ConditionalRendering = ({ ref, onChange }: ExampleComponentInterface) => {
                     formBuilder.createTextBox({ id: 'Name' }),
                     ...formBuilder.utils.insertIf({
                         condition: conditionToggle,
-                        elements: [
+                        formChildren: [
                             formBuilder.createDatePicker({ id: 'Date' }),
                         ]
                     }),

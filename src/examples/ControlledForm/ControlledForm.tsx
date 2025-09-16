@@ -13,7 +13,7 @@ const MyForm = ({ ref, onChange, value }: any) => {
                     // formBuilder.createTextBox({ id: 'TextBox1', size: 6 }),
                     // formBuilder.createForm({ id: 'FormA', size: 6, wrapperRenderer: "Collapse" },
                     //     {
-                    //         elements: [
+                    //         formChildren: [
                     //             formBuilder.createTextBox({ id: 'ATextBox1', size: 6 }),
                     //             formBuilder.createTextBox({ id: 'ATextBox2', size: 6 }),
                     //         ]
@@ -22,7 +22,7 @@ const MyForm = ({ ref, onChange, value }: any) => {
                     // formBuilder.createTextBox({ id: 'TextBox3', size: 6 }),
                     // formBuilder.createForm({ id: 'Formb', size: 6 },
                     //     {
-                    //         elements: [
+                    //         formChildren: [
                     //             formBuilder.createTextBox({ id: 'BTextBox1', size: 6 }),
                     //             formBuilder.createTextBox({ id: 'BTextBox2', size: 6 }),
                     //         ]
@@ -31,7 +31,7 @@ const MyForm = ({ ref, onChange, value }: any) => {
                     // formBuilder.createTextBox({ id: 'TextBox4', size: 6 }),
                     // formBuilder.createForm({ id: 'FormC', size: 6, wrapperRenderer: 'Grid' },
                     //     {
-                    //         elements: [
+                    //         formChildren: [
                     //             formBuilder.createTextBox({ id: 'CTextBox1', size: 6 }),
                     //             formBuilder.createTextBox({ id: 'CTextBox2', size: 6 }),
                     //         ]

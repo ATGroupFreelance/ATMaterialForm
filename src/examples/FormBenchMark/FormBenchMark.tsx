@@ -16,7 +16,7 @@ function buildNestedForms(numForms: number, fieldsPerForm: number) {
     for (let f = 0; f < numForms; f++) {
         const elems: any[] = [];
         for (let i = 0; i < fieldsPerForm; i++) elems.push(formBuilder.createTextBox({ id: `form${f}.field${i}`, size: 6 }));
-        arr.push(formBuilder.createForm({ id: `Form${f}`, size: 12 }, { elements: elems }));
+        arr.push(formBuilder.createForm({ id: `Form${f}`, size: 12 }, { formChildren: elems }));
     }
     return arr;
 }

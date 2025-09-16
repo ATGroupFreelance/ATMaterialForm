@@ -12,5 +12,5 @@ export interface ATFormBuilderCreateInterface {
 
 export interface ATFormBuilderConditionalInsertInterface {
     condition: boolean,
-    elements: any[],
+    formChildren: any[],
 }
