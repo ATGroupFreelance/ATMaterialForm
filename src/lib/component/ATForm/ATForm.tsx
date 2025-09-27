@@ -180,7 +180,8 @@ const ATFormFunction = (props: ATFormProps) => {
 
         mChildrenChangeIDMap.current[childProps.tProps.id] = changeID
 
-        const currentChildTypeInfo = childProps.typeInfo || getTypeInfo(childProps.tProps.type)
+        //First allow type info overwrite using tProps, second use local typeInfo, last use global typeInfo
+        const currentChildTypeInfo = childProps.tProps.typeInfo || childProps.typeInfo || getTypeInfo(childProps.tProps.type)
 
         //New Values
         const newFormData_value = { value: event.target.value, type: childProps.tProps.type, changeID }
@@ -374,11 +375,12 @@ const ATFormFunction = (props: ATFormProps) => {
     }, [normalizeErrors])
 
     const getChildProps = useCallback((childProps: ATFormFieldDefInterface): ATFormChildProps => {
-        const typeInfo = getTypeInfo(childProps.tProps.type)
+        //First use tProps typeinfo which is passed from outside, second use local typeInfo
+        const typeInfo = childProps.tProps.typeInfo || getTypeInfo(childProps.tProps.type)
 
         const newDefaultValue = internalDefaultValue.value?.[childProps.tProps.id]?.value === undefined ? childProps.tProps?.defaultValue : internalDefaultValue.value[childProps.tProps.id]?.value
 
-        const isFormControlled = props.value !== undefined        
+        const isFormControlled = props.value !== undefined
 
         return {
             tProps: {
@@ -405,7 +407,7 @@ const ATFormFunction = (props: ATFormProps) => {
             errors: validationErrors,
             value: (childProps.tProps.id && isFormControlled) ? localValue?.value?.[childProps.tProps.id] : undefined,
             changeID: localValue?.changeID,
-            isFormControlled,            
+            isFormControlled,
         }
     }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps])
 

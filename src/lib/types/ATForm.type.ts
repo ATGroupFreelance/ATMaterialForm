@@ -116,6 +116,7 @@ export interface ATFormFieldTProps {
         [key: string]: unknown;
     },
     debug?: boolean,
+    typeInfo?: ATFormTypeInfoInterface,
 }
 
 export type ATFormChildProps<T extends ATFormFieldDefGenericProps = ATFormFieldDefGenericProps> = ATFormFieldDefInterface<T> & {
