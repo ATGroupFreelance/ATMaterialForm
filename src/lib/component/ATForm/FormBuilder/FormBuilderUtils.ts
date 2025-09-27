@@ -9,9 +9,9 @@ const createFieldDefBuilder = (fieldDefs: ATFieldDefInterface[] | ATFormFieldDef
     return fieldDefBuilder
 }
 
-const insertIf = ({ condition, elements }: ATFormBuilderConditionalInsertInterface) => {
+const insertIf = ({ condition, formChildren }: ATFormBuilderConditionalInsertInterface) => {
     if (!condition)
-        return elements?.map(item => {
+        return formChildren?.map(item => {
             return {
                 ...item,
                 tProps: {
@@ -21,7 +21,7 @@ const insertIf = ({ condition, elements }: ATFormBuilderConditionalInsertInterfa
             }
         })
     else
-        return elements
+        return formChildren
 }
 
 const createColumnDefsByRowData = (rowData: any) => {

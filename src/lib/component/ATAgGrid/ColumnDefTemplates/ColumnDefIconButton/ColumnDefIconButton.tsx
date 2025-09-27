@@ -5,6 +5,9 @@ const ColumnDefIconButton = (props: ATAgGridColumnDefIconButtonProps) => {
     return {
         cellRenderer: IconButton,
         width: 80,
+        sortable: false,
+        filter: false,
+        resizable: false,
         ...props,
     }
 }

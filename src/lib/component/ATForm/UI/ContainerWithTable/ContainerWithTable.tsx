@@ -198,39 +198,62 @@ const ContainerWithTable = ({ value, formChildren, getGridColumnDefs, onChange, 
         else
             return item
     })
-    
+
     const containerSx = useMemo(() => ({
         width: '100%',
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        bgcolor: theme.palette.background.default,
+        // dark mode: a slight white overlay so it reads like a filled TextField
+        // light mode: use paper so it remains neutral
+        bgcolor: theme.palette.mode === 'dark'
+            ? 'rgba(255,255,255,0.04)'
+            : theme.palette.background.paper,
         padding: 0,
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        transition: 'background-color 200ms ease',
+        // use theme radius so component corners match your theme
+        borderRadius: theme.shape.borderRadius,
+        overflow: 'hidden'
     }), [theme])
 
     const headerWrapperSx = useMemo(() => ({
         margin: '0 auto 24px',
-        border: `1px solid ${theme.palette.divider}`,
+        // subtle border that adapts to mode
+        border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : theme.palette.divider}`,
+        // use the same theme radius for a consistent look
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows?.[2],
+        // keep wrapper nearly transparent so the container fill shows through
+        backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.02)' : 'transparent',
+        boxShadow: 'none', // sit flush like a textfield    
         overflow: 'hidden'
     }), [theme])
 
-    const headerBarSx = useMemo(() => ({
-        height: 56,
-        display: 'flex',
-        alignItems: 'center',
-        px: 2,
-        userSelect: 'none',
-        background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-        color: theme.palette.primary.contrastText,
-        borderBottom: `1px solid ${theme.palette.divider}`
-    }), [theme])
+    const headerBarSx = useMemo(() => {
+        // choose header background only in light mode, keep transparent in dark
+        const bg = theme.palette.mode === 'light' ? theme.palette.primary.main : 'transparent'
+        // prefer the theme-provided contrast text for the chosen background
+        const fg = theme.palette.mode === 'light'
+            ? (theme.palette.primary.contrastText || theme.palette.getContrastText?.(theme.palette.primary.main))
+            : theme.palette.text.primary
+
+        return {
+            height: 56,
+            display: 'flex',
+            alignItems: 'center',
+            px: 2,
+            userSelect: 'none',
+            backgroundColor: bg,
+            color: fg,
+            // subtle divider: use a darker primary shade in light mode, or a soft white in dark mode
+            borderBottom: `1px solid ${theme.palette.mode === 'light' ? theme.palette.primary.dark : 'rgba(255,255,255,0.06)'}`,
+            transition: 'background-color 150ms ease, color 150ms ease'
+        }
+    }, [theme])
 
     const contentSx = useMemo(() => ({
         width: rtl ? undefined : '100%',
         p: 2,
         pt: 2,
+        // inner area stays transparent so the container background shows through
         backgroundColor: 'transparent'
     }), [rtl])
 
@@ -238,7 +261,7 @@ const ContainerWithTable = ({ value, formChildren, getGridColumnDefs, onChange, 
         {showHeader && (
             <Box sx={headerWrapperSx}>
                 <Box sx={{ ...headerBarSx, textAlign: rtl ? 'right' : 'left' }}>
-                    <Typography variant="h5" sx={{ ml: rtl ? 0 : 1.5, mr: rtl ? 1.5 : 0, pt: '6px', fontWeight: 600 }}>
+                    <Typography variant="h5" sx={{ ml: rtl ? 0 : 1.5, mr: rtl ? 1.5 : 0, display: 'flex', alignItems: 'center', fontWeight: 600 }}>
                         {label}
                     </Typography>
                 </Box>

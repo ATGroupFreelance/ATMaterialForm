@@ -3,9 +3,12 @@ import { ATAgGridColumnDefButtonProps } from "@/lib/types/at-ag-grid/col-def-tem
 
 function ColumnDefButton(props: ATAgGridColumnDefButtonProps) {
     return {
-        ...props,
+        sortable: false,
+        filter: false,
+        resizable: false,
         cellRenderer: Button,
         width: 160,
+        ...props,
     }
 }
 
