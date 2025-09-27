@@ -37,6 +37,8 @@ export const UITypes = {
     Form: 'Form',
     FormDialog: 'FormDialog',
     ColorTextBox: 'ColorTextBox',
+    CustomControlledField: 'CustomControlledField',
+    CustomUnControlledField: 'CustomUnControlledField',
 }
 
 export const getTypeInfo = (type: string, customTypes?: ATFormTypeInfoInterface[] | null): ATFormTypeInfoInterface | undefined => {
@@ -723,5 +725,30 @@ export const types = [
         type: 'ColorTextBox',
         initialValue: '',
         validation: createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
+    }),
+    createType({
+        type: 'CustomControlledField',
+        initialValue: null,
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
+            return JSON.stringify(event.target.value)
+        },
+        reverseConvertToKeyValue: ({ value }: ATReverseConvertInterface) => {
+            if (!value)
+                return null
+
+            return JSON.parse(value)
+        },
+        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
+            return event.target.value
+        },
+        reverseConvertToSemiKeyValue: ({ value }: ATReverseConvertInterface) => {
+            if (!value)
+                return null
+
+            return value
+        },
+    }),
+    createType({
+        type: 'CustomUnControlledField',
     }),
 ]

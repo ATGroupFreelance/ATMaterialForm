@@ -30,7 +30,8 @@ import { ATFormMultiSelectGridProps } from "@/lib/types/ui/MultiSelectGrid.type"
 import { ATFormFieldDefInterface } from "@/lib/types/ATForm.type";
 import { formBuilderUtils } from "./FormBuilderUtils";
 import { ATFormFormDialogProps } from "@/lib/types/ui/FormDialog.type";
-
+import { ATFormCustomControlledFieldProps } from "@/lib/types/ui/CustomControlledField.type";
+import { ATFormCustomUncontrolledFieldProps } from "@/lib/types/ui/CustomUncontrolledField.type";
 
 // const splitCapitalBySpace = (input: string) => {
 //     const result = input.replace(/([A-Z]+)/g, ",$1").replace(/^,/, "");
@@ -366,6 +367,30 @@ const createColorTextBox = (tProps: ATFormFieldTypelessTProps, uiProps?: ATFormC
     })
 }
 
+const createCustomControlledField = <C extends React.ComponentType<any>>(component: C, tProps: ATFormFieldTypelessTProps, uiProps?: ATFormCustomControlledFieldProps<React.ComponentProps<C>>) => {
+    return create({
+        type: 'CustomControlledField',
+        defaultSize: 3,
+        tProps,
+        uiProps: {
+            ...(uiProps || {}),
+            component,
+        },
+    });
+}
+
+const createCustomUncontrolledField = <C extends React.ComponentType<any>>(component: C, tProps: ATFormFieldTypelessTProps, uiProps?: ATFormCustomUncontrolledFieldProps<React.ComponentProps<C>>) => {
+    return create({
+        type: 'CustomUncontrolledField',
+        defaultSize: 3,
+        tProps,
+        uiProps: {
+            ...(uiProps || {}),
+            component,
+        },
+    });
+}
+
 export const formBuilder = {
     utils: formBuilderUtils,
     createTextBox,
@@ -396,4 +421,6 @@ export const formBuilder = {
     createForm,
     createFormDialog,
     createColorTextBox,
+    createCustomControlledField,
+    createCustomUncontrolledField
 }

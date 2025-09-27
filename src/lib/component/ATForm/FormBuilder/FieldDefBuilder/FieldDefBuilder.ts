@@ -40,11 +40,26 @@ class FieldDefBuilder {
             const key = `create${item.tProps.type}`;
             const createFn = createFunction(key);
 
-            if (createFn) {
-                return createFn({ id: item.id, ...item.tProps }, item.uiProps as any);
+            if (!createFn)
+                throw new Error(`Invalid type: ${item.tProps.type}`);
+
+            // Special-cases where it does not use two arg factory, The following expects (component, tProps, uiProps?)
+            if (item.tProps.type === 'CustomControlledField' || item.tProps.type === 'CustomUncontrolledField') {
+                const { component, ...uiWithoutComponent } = item.uiProps;
+
+                const typedCreateFn = createFn as (
+                    component: React.ComponentType<any>,
+                    tProps: typeof item.tProps,                    
+                    uiProps?: typeof uiWithoutComponent,
+                ) => any;
+
+                return typedCreateFn(component, { id: item.id, ...item.tProps }, uiWithoutComponent);
             }
 
-            throw new Error(`Invalid type: ${item.tProps.type}`);
+            // Default: two-arg factories
+            const typedTwoArg = createFn as (tProps: typeof item.tProps, uiProps?: any) => any;
+
+            return typedTwoArg({ id: item.id, ...item.tProps }, item.uiProps as any);
         })
     }
 

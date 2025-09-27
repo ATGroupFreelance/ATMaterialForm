@@ -50,6 +50,7 @@ import FormDataSemiKeyValueControlledForm from './examples/FormDataSemiKeyValueC
 import FormDataControlledForm from './examples/FormDataControlledForm/FormDataControlledForm';
 import FormDataKeyValueControlledForm from './examples/FormDataKeyValueControlledForm/FormDataKeyValueControlledForm';
 import FormBenchmark from './examples/FormBenchMark/FormBenchMark';
+import ReactAndJSONComponentTogether from './examples/ReactAndJSONComponentTogether/ReactAndJSONComponentTogether';
 
 export interface ExampleComponentInterface {
   ref?: any,
@@ -68,7 +69,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'FormBenchMark'
+const ACTIVE_EXAMPLE = 'ReactAndJSONComponentTogether'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
@@ -289,6 +290,12 @@ function App() {
     {
       id: "FormBenchMark",
       component: FormBenchmark
+    },
+    {
+      id: "ReactAndJSONComponentTogether",
+      component: ReactAndJSONComponentTogether,
+      refEnabled: true,
+      onChangeEnabled: true,
     }
   ]
 

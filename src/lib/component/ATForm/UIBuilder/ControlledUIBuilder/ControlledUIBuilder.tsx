@@ -7,6 +7,7 @@ import { ATFormComboBoxProps } from '@/lib/types/ui/ComboBox.type';
 import { ATFormMultiComboBoxProps } from '@/lib/types/ui/MultiComboBox.type';
 import { ATFormFileViewerProps } from '@/lib/types/ui/FileViewer.type';
 import { ATFormCheckBoxProps } from '@/lib/types/ui/CheckBox.type';
+import { ATFormCustomControlledFieldProps } from '@/lib/types/ui/CustomControlledField.type';
 
 const TextBox = React.lazy(() => import('../../UI/TextBox/TextBox'));
 const IntegerTextBox = React.lazy(() => import('../../UI/IntegerTextBox/IntegerTextBox'));
@@ -32,6 +33,7 @@ const AdvanceStepper = React.lazy(() => import('../../UI/AdvanceStepper/AdvanceS
 const Form = React.lazy(() => import('../../UI/Form/Form'));
 const FormDialog = React.lazy(() => import('../../UI/FormDialog/FormDialog'));
 const ColorTextBox = React.lazy(() => import('../../UI/ColorTextBox/ColorTextBox'));
+const CustomControlledField = React.lazy(() => import('../../UI/CustomControlledField/CustomControlledField'));
 
 export const getInitialValue = (typeInfo: ATFormTypeInfoInterface, defaultValue: any) => {
     const { initialValue, isNullValueValid } = typeInfo
@@ -185,6 +187,7 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         {type === 'Form' && <Form {...commonProps} />}
         {type === 'FormDialog' && <FormDialog {...commonProps} />}
         {type === 'ColorTextBox' && <ColorTextBox {...commonProps} />}
+        {type === 'CustomControlledField' && <CustomControlledField {...commonProps as unknown as ATFormCustomControlledFieldProps} />}
         {CustomComponent && <CustomComponent {...commonProps} />}
     </Suspense>
 }
