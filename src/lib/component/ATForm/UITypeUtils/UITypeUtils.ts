@@ -34,7 +34,8 @@ export const UITypes = {
     MultiSelectGrid: 'MultiSelectGrid',
     ImageSelect: 'ImageSelect',
     AdvanceStepper: 'AdvanceStepper',
-    Form: 'Form',    
+    Form: 'Form',
+    FormDialog: 'FormDialog',
     ColorTextBox: 'ColorTextBox',
     CustomControlledField: 'CustomControlledField',
     CustomUncontrolledField: 'CustomUncontrolledField',
@@ -638,33 +639,19 @@ export const types = [
             if (!event.target.value)
                 return null
 
-            const result: Record<string, any> = {}
-
-            for (const key in event.target.value) {
-                result[key] = event.target.value[key]
-            }
-
-            return JSON.stringify(result)
+            return JSON.stringify(event.target.value)
         },
         reverseConvertToKeyValue: ({ value }: ATReverseConvertInterface<{ uiProps?: ATFormFormProps }>) => {
             if (!value)
                 return null
 
-            const parsedValue = JSON.parse(value)
-
-            return parsedValue
+            return JSON.parse(value)
         },
         convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
             if (!event.target.value)
                 return null
 
-            const result: Record<string, any> = {}
-
-            for (const key in event.target.value) {
-                result[key] = event.target.value[key]
-            }
-
-            return result
+            return event.target.value
         },
         reverseConvertToSemiKeyValue: ({ value }: ATReverseConvertInterface<{ uiProps?: ATFormFormProps }>) => {
             if (!value)
@@ -672,7 +659,35 @@ export const types = [
 
             return value
         },
-    }),    
+    }),
+    createType({
+        type: 'FormDialog',
+        initialValue: null,
+        convertToKeyValue: ({ event }: ATConvertInterface) => {
+            if (!event.target.value)
+                return null
+
+            return JSON.stringify(event.target.value)
+        },
+        reverseConvertToKeyValue: ({ value }: ATReverseConvertInterface) => {
+            if (!value)
+                return null
+
+            return JSON.parse(value)
+        },
+        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
+            if (!event.target.value)
+                return null
+
+            return event.target.value
+        },
+        reverseConvertToSemiKeyValue: ({ value }: ATReverseConvertInterface) => {
+            if (!value)
+                return null
+
+            return value
+        },
+    }),
     createType({
         type: 'ColorTextBox',
         initialValue: '',
