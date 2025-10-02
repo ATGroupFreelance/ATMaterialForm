@@ -1,5 +1,6 @@
 import { ATAgGridColumnDefIconButtonProps } from "@/lib/types/at-ag-grid/col-def-templates/ATAgGridColumnDefIconButton.type"
 import IconButton from "../../CellRenderers/IconButton/IconButton"
+import { ColDef } from "ag-grid-community"
 
 const ColumnDefIconButton = (props: ATAgGridColumnDefIconButtonProps) => {
     return {
@@ -8,6 +9,8 @@ const ColumnDefIconButton = (props: ATAgGridColumnDefIconButtonProps) => {
         sortable: false,
         filter: false,
         resizable: false,
+        pinned: "right" as ColDef['pinned'],
+        suppressMovable: true,
         ...props,
     }
 }

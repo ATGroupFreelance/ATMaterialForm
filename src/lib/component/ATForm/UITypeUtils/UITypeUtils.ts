@@ -34,11 +34,10 @@ export const UITypes = {
     MultiSelectGrid: 'MultiSelectGrid',
     ImageSelect: 'ImageSelect',
     AdvanceStepper: 'AdvanceStepper',
-    Form: 'Form',
-    FormDialog: 'FormDialog',
+    Form: 'Form',    
     ColorTextBox: 'ColorTextBox',
     CustomControlledField: 'CustomControlledField',
-    CustomUnControlledField: 'CustomUnControlledField',
+    CustomUncontrolledField: 'CustomUncontrolledField',
 }
 
 export const getTypeInfo = (type: string, customTypes?: ATFormTypeInfoInterface[] | null): ATFormTypeInfoInterface | undefined => {
@@ -642,31 +641,18 @@ export const types = [
             const result: Record<string, any> = {}
 
             for (const key in event.target.value) {
-                result[key] = event.target.value[key].value
+                result[key] = event.target.value[key]
             }
 
             return JSON.stringify(result)
         },
-        reverseConvertToKeyValue: ({ value, childProps }: ATReverseConvertInterface<{ uiProps?: ATFormFormProps }>) => {
+        reverseConvertToKeyValue: ({ value }: ATReverseConvertInterface<{ uiProps?: ATFormFormProps }>) => {
             if (!value)
                 return null
 
             const parsedValue = JSON.parse(value)
 
-            const result: Record<string, any> = {}
-
-            for (const key in parsedValue) {
-                const found = childProps?.uiProps?.formChildren?.find((item: any) => item.tProps.id === key)
-
-                result[key] = {
-                    value: parsedValue[key],
-                    type: found?.tProps?.type || null,
-                    //We are passing undefined so the form uses its field changeID that is in its memory.
-                    changeID: undefined,
-                }
-            }
-
-            return result
+            return parsedValue
         },
         convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
             if (!event.target.value)
@@ -675,52 +661,18 @@ export const types = [
             const result: Record<string, any> = {}
 
             for (const key in event.target.value) {
-                result[key] = event.target.value[key].value
+                result[key] = event.target.value[key]
             }
 
             return result
         },
-        reverseConvertToSemiKeyValue: ({ value, childProps }: ATReverseConvertInterface<{ uiProps?: ATFormFormProps }>) => {
-            if (!value)
-                return null
-
-            const result: Record<string, any> = {}
-
-            for (const key in value) {
-                const found = childProps?.uiProps?.formChildren?.find((item: any) => item.tProps.id === key)
-
-                result[key] = {
-                    value: value[key],
-                    type: found?.tProps?.type || null,
-                    changeID: undefined,
-                }
-            }
-
-            return result
-        },
-    }),
-    createType({
-        type: 'FormDialog',
-        initialValue: null,
-        convertToKeyValue: ({ event }: ATConvertInterface) => {
-            return JSON.stringify(event.target.value)
-        },
-        reverseConvertToKeyValue: ({ value }: ATReverseConvertInterface) => {
-            if (!value)
-                return null
-
-            return JSON.parse(value)
-        },
-        convertToSemiKeyValue: ({ event }: ATConvertInterface) => {
-            return event.target.value
-        },
-        reverseConvertToSemiKeyValue: ({ value }: ATReverseConvertInterface) => {
+        reverseConvertToSemiKeyValue: ({ value }: ATReverseConvertInterface<{ uiProps?: ATFormFormProps }>) => {
             if (!value)
                 return null
 
             return value
         },
-    }),
+    }),    
     createType({
         type: 'ColorTextBox',
         initialValue: '',
@@ -749,6 +701,6 @@ export const types = [
         },
     }),
     createType({
-        type: 'CustomUnControlledField',
+        type: 'CustomUncontrolledField',
     }),
 ]

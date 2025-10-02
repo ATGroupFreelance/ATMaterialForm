@@ -69,7 +69,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'ReactAndJSONComponentTogether'
+const ACTIVE_EXAMPLE = 'FormInForm'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
@@ -93,7 +93,7 @@ function App() {
       formDataSemiKeyValue: formDataSemiKeyValue,
     }
 
-    setRealtimeFormData(formDataKeyValue)
+    setRealtimeFormData(formDataSemiKeyValue)
   }
 
   const onSetDefaultValueClick = () => {
@@ -364,8 +364,8 @@ function App() {
             </Tabs>
             <Grid container spacing={3}>
               <Grid size={12}>
-                <div>
-                  Form data key value :
+                <div style={{ fontWeight: "bold" }}>
+                  ***Form data format: SemiKeyValue***
                 </div>
                 {JSON.stringify(realTimeFormData || {})}
               </Grid>
