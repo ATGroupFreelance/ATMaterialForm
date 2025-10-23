@@ -38,6 +38,10 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
 
     const [dialog, setDialog] = useState<any>(null)
 
+    const handleDialogClose = useCallback(() => {
+        setDialog(null)
+    }, [])
+
     const onTColumnFormDialogClick: ATFormOnClickType<{ data?: any, tColumn: ATAgGridTColumnInterface }> = useCallback(({ tColumn }) => {
         setDialog(
             <ATFormDialog
@@ -45,11 +49,7 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
                 {...tColumn?.typeProps || {}}
             />
         )
-    }, [])
-
-    const handleDialogClose = () => {
-        setDialog(null)
-    }
+    }, [handleDialogClose])
 
     const tColumnTypes = useMemo(() => {
         return {
@@ -207,7 +207,7 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
                 // ColumnAutoSizeModule,
                 PaginationModule,
                 RowSelectionModule,
-                DateFilterModule 
+                DateFilterModule
             ]}
             getRowId={uniqueKey ? (params) => String(params.data[uniqueKey]) : undefined}
             defaultColDef={{

@@ -32,8 +32,7 @@ const MultiSelectGrid = ({ id, value, label, onChange, columnDefs, uniqueKey = D
             });
         }
 
-        // eslint-disable-next-line
-    }, [value])
+    }, [value, uniqueKey])
 
     const getNewValue = () => {
         const selectedRows = ref.current.api.getSelectedRows()

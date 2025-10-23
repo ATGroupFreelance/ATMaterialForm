@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { use } from 'react';
 
 import Autocomplete, { AutocompleteRenderInputParams } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -16,18 +16,14 @@ import { ATEnumType } from '@/lib/types/Common.type';
 //[{label: 'uk'}, {label: 'us'}]
 const ComboBox = ({ id, onChange, value, readOnly, error, helperText, options, renderInput, label, enumsKey, ...restProps }: ATFormComboBoxProps) => {
     const { enums } = useATFormConfig()
-    const [data, setData] = useState<ATEnumType>([])
 
-    useEffect(() => {
-        if (typeof options === 'function')
-            options()
-                .then((res: any) => {
-                    setData(res)
-                })
-        else
-            setData(options as ATEnumType)
+    let data: ATEnumType = [];
 
-    }, [options])
+    if (typeof options === 'function') {
+        data = (use(options().catch(() => [])) ?? []) as ATEnumType;
+    } else {
+        data = (options ?? []) as ATEnumType;
+    }
 
     const onInternalChange = (_event: React.SyntheticEvent, newValue: string | null) => {
         if (onChange)

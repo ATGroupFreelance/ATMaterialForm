@@ -8,8 +8,6 @@ const CustomControlledField = ({ component: Component, ...restProps }: ATFormCus
         }
         return null;
     }
-
-    console.log('CustomControlledField', restProps)
     
     return <Component {...restProps} />
 }

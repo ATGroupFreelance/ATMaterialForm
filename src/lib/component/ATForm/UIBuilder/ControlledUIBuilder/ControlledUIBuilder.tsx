@@ -114,16 +114,6 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         // eslint-disable-next-line
     }, [childProps.uiProps?.value])
 
-    useImperativeHandle(childProps.tProps.ref, () => {
-        return {
-            reset: reset,
-        }
-    })
-
-    const reset = ({ suppressFormOnChange = false }: ATFormChildResetInterface = {} as ATFormChildResetInterface) => {
-        internalOnChange({ target: { value: getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue) } }, { suppressFormOnChange })
-    }
-
     const internalOnChange = (event: any, props?: ATFormChildResetInterface) => {
         //When child is controlled the change will cause the single true value to change which will reach here throgh the parent and finally changes localValue
         // if (!childProps.isFormControlled)
@@ -139,6 +129,15 @@ const ControlledUIBuilder = ({ childProps }: ATControlledUIBuilderProps) => {
         childProps.onChildChange({ event, suppressFormOnChange: props?.suppressFormOnChange, childProps, changeID: mChangeID.current })
     }
 
+    const reset = ({ suppressFormOnChange = false }: ATFormChildResetInterface = {} as ATFormChildResetInterface) => {
+        internalOnChange({ target: { value: getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue) } }, { suppressFormOnChange })
+    }
+
+    useImperativeHandle(childProps.tProps.ref, () => {
+        return {
+            reset: reset,
+        }
+    })
 
     const error = childProps.errors?.[childProps.tProps.id]?.error
     const helperText = childProps.errors?.[childProps.tProps.id]?.message

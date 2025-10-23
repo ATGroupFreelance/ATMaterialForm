@@ -50,14 +50,6 @@ const ATFormFunction = (props: ATFormProps) => {
     const mChildrenChangeIDMap = useRef<Record<string, number>>({})
     const mChangeID = useRef<number>(0)
 
-    useImperativeHandle(props.ref, () => {
-        return {
-            reset,
-            checkValidation,
-            getFormData,
-        }
-    })
-
     const compileAJV = useCallback(({ children }: any) => {
         if (!props.validationDisabled) {
             const flatChildren = getFlatChildren(children)
@@ -534,6 +526,15 @@ const ATFormFunction = (props: ATFormProps) => {
             getFormData
         }
     }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo, checkValidation, onChildChange, logger, reset, getFormData])
+
+    
+    useImperativeHandle(props.ref, () => {
+        return {
+            reset,
+            checkValidation,
+            getFormData,
+        }
+    })
 
     return (
         <ATFormContextProvider value={formContextValue}>

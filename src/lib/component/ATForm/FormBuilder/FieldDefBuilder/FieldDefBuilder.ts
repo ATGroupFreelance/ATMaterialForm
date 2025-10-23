@@ -40,8 +40,10 @@ class FieldDefBuilder {
             const key = `create${item.tProps.type}`;
             const createFn = createFunction(key);
 
-            if (!createFn)
-                throw new Error(`Invalid type: ${item.tProps.type}`);
+            if (!createFn) {
+                console.warn(`Can not find a create function for type: ${item.tProps.type}`)
+                return item
+            }
 
             // Special-cases where it does not use two arg factory, The following expects (component, tProps, uiProps?)
             if (item.tProps.type === 'CustomControlledField' || item.tProps.type === 'CustomUncontrolledField') {
@@ -49,7 +51,7 @@ class FieldDefBuilder {
 
                 const typedCreateFn = createFn as (
                     component: React.ComponentType<any>,
-                    tProps: typeof item.tProps,                    
+                    tProps: typeof item.tProps,
                     uiProps?: typeof uiWithoutComponent,
                 ) => any;
 
