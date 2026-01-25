@@ -66,12 +66,10 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                         ]
                     }
                 ),
-                formBuilder.createComboBox({ id: 'ComboBox1', size: 3 }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
-                formBuilder.createTextBox({ id: 'MyTextBox1', ref: mTPropsRef }, { ref: mUIPropsRef }),
-                formBuilder.createButton({ id: 'MyButton1', label: 'Click Me to reset MyTextBox1!' }, { onClick: onButton1Click }),
-                formBuilder.createContainerWithTable(
+                 formBuilder.createContainerWithTable(
                     {
-                        id: 'ContainerWithTable'
+                        id: 'ContainerWithTable',
+                        size: 6
                     },
                     {
                         formChildren: [
@@ -79,9 +77,13 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                         ]
                     }
                 ),
+                formBuilder.createGrid({id: "break" , size: 6}),
+                formBuilder.createComboBox({ id: 'ComboBox1', size: 3 }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
+                formBuilder.createTextBox({ id: 'MyTextBox1', ref: mTPropsRef }, { ref: mUIPropsRef }),
+                formBuilder.createButton({ id: 'MyButton1', label: 'Click Me to reset MyTextBox1!' }, { onClick: onButton1Click }),
                 formBuilder.createMultiSelectTextBox({ id: 'MultiSelectTextBox', size: 6 }, { valueType: "number" }),                
             ]
-                .filter(item => item.tProps.id === "MultiSelectTextBox")
+                // .filter(item => item.tProps.id === "MultiSelectTextBox")
         }
     </ATForm>
 }

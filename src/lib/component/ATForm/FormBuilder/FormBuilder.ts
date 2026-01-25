@@ -204,7 +204,7 @@ const createGrid = (tProps: ATFormFieldTypelessTProps, uiProps?: GridProps) => {
         defaultSize: 12,
         tProps: {
             ...tProps,
-            skipRender: true,
+            skipForm: false,
         },
         uiProps,
     })
