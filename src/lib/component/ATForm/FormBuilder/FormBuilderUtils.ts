@@ -9,17 +9,19 @@ const createFieldDefBuilder = (fieldDefs: ATFieldDefInterface[] | ATFormFieldDef
     return fieldDefBuilder
 }
 
+//TODO Fixed skipRender
 const insertIf = ({ condition, formChildren }: ATFormBuilderConditionalInsertInterface) => {
     if (!condition)
-        return formChildren?.map(item => {
-            return {
-                ...item,
-                tProps: {
-                    ...item.tProps,
-                    skipRender: true,
-                }
-            }
-        })
+        return []
+        // return formChildren?.map(item => {
+        //     return {
+        //         ...item,
+        //         tProps: {
+        //             ...item.tProps,
+        //             skipRender: true,
+        //         }
+        //     }
+        // })
     else
         return formChildren
 }

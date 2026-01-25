@@ -39,7 +39,14 @@ const UIRenderWrapperResolver = ({ children, wrapperRenderer, childProps }: UIRe
     }
 
     const { sx, ...restGridProps } = rendererProps.config || {}
-    const tPropsSize = rendererProps.childProps.tProps?.size ? { md: rendererProps.childProps.tProps?.size, xs: 12 } : null
+    const baseSize = rendererProps.childProps.tProps?.size;
+
+    const tPropsSize = baseSize
+        ? typeof baseSize === "object"
+            ? baseSize
+            : { md: baseSize, xs: 12 }
+        : null;
+
     const size = rendererProps.config.size || tPropsSize || 12
 
     //Default/Fallback to Grid

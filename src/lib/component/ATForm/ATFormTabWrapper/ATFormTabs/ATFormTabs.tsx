@@ -74,11 +74,22 @@ const ATFormTabs = ({ tabs, onTabChange, value, depth, tabContainer }: ATFormTab
             value={activeTabIndex}
             onChange={onInternalChange}
             variant="scrollable"
+            allowScrollButtonsMobile
+            sx={{
+                minHeight: 32,
+                '.MuiTab-root': {
+                    minWidth: 0,           // remove default minWidth
+                    padding: '2px 8px',    // remove default padding
+                    minHeight: 32,         // shrink height
+                    fontSize: '0.7rem',    // smaller text
+                },
+            }}
             {...(foundTabsProps || {})}
         >
             {
                 tabs.map(({ label, tabProps }, index) => {
                     return <Tab
+
                         key={'Tab' + label + index}
                         label={label}
                         sx={{

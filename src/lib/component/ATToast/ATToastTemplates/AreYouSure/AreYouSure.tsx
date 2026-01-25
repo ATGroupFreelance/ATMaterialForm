@@ -1,4 +1,5 @@
 import Button from "@/lib/component/ATForm/UI/Button/Button";
+import useATFormConfig from "@/lib/hooks/useATFormConfig/useATFormConfig";
 import { ATFormOnClickProps } from "@/lib/types/Common.type";
 import { Grid, Typography } from "@mui/material";
 import { ToastContentProps } from "react-toastify";
@@ -10,6 +11,8 @@ interface AreYouSureProps extends ToastContentProps {
 }
 
 const AreYouSure = ({ closeToast, onYesClick, onNoClick, toastContent }: AreYouSureProps) => {
+    const { getLocalText } = useATFormConfig()
+    
     const onInternalNoClick = (props: ATFormOnClickProps) => {
         if (onNoClick)
             onNoClick({ ...props, closeToast })
@@ -27,13 +30,13 @@ const AreYouSure = ({ closeToast, onYesClick, onNoClick, toastContent }: AreYouS
             <Typography variant="h6">{toastContent}</Typography>
         </Grid>
         <Grid size={4}>
-            <Button variant={'outlined'} onClick={onInternalNoClick} color={'error'}>No</Button>
+            <Button variant={'outlined'} onClick={onInternalNoClick} color={'error'}>{getLocalText('No')}</Button>
         </Grid>
         <Grid size={'grow'}>
 
         </Grid>
         <Grid size={4}>
-            <Button variant={'outlined'} onClick={onInternalYesClick}>Yes</Button>
+            <Button variant={'outlined'} onClick={onInternalYesClick}>{getLocalText('Yes')}</Button>
         </Grid>
     </Grid>
 }

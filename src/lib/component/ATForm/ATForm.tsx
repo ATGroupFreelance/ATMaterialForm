@@ -141,7 +141,10 @@ const ATFormFunction = (props: ATFormProps) => {
             compileAJV({ children: props.children })
         else {
             for (let i = 0; i < oldFlatChildren.length; i++) {
-                if (oldFlatChildren[i].id !== newFlatChildren[i].id) {
+                const a = oldFlatChildren[i]?.tProps?.id !== newFlatChildren[i]?.tProps?.id
+                const b = oldFlatChildren[i]?.tProps?.validation !== newFlatChildren[i]?.tProps?.validation
+
+                if (a || b ) {
                     compileAJV({ children: props.children })
                     break;
                 }
@@ -527,7 +530,7 @@ const ATFormFunction = (props: ATFormProps) => {
         }
     }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo, checkValidation, onChildChange, logger, reset, getFormData])
 
-    
+
     useImperativeHandle(props.ref, () => {
         return {
             reset,

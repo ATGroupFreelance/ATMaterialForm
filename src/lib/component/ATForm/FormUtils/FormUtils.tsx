@@ -212,3 +212,42 @@ export function getTabVisibilityStyle(isTabSelected: boolean | undefined): React
 export function structureCloneFormData(formData: ATFormFormDataType) {
     return JSON.parse(JSON.stringify(formData))
 }
+
+export function generateUUID() {
+    // Use native crypto.randomUUID if available
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+
+    // Fallback: pure JS UUID v4 generator
+    function fallbackUUIDv4() {
+        // Generate 16 random bytes
+        const bytes = new Uint8Array(16);
+        if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+            crypto.getRandomValues(bytes);
+        } else {
+            // If crypto.getRandomValues not available, fallback to Math.random (less secure)
+            for (let i = 0; i < 16; i++) {
+                bytes[i] = Math.floor(Math.random() * 256);
+            }
+        }
+
+        // Set version and variant bits according to RFC 4122
+        bytes[6] = (bytes[6] & 0x0f) | 0x40; // version 4
+        bytes[8] = (bytes[8] & 0x3f) | 0x80; // variant
+
+        // Convert bytes to hex string
+        const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0'));
+
+        return (
+            hex.slice(0, 4).join('') + '-' +
+            hex.slice(4, 6).join('') + '-' +
+            hex.slice(6, 8).join('') + '-' +
+            hex.slice(8, 10).join('') + '-' +
+            hex.slice(10, 16).join('')
+        );
+
+    }
+
+    return fallbackUUIDv4();
+}
