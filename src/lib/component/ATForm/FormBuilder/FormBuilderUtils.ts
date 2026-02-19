@@ -1,7 +1,7 @@
-import { ATFormBuilderConditionalInsertInterface } from "@/lib/types/FormBuilder.type";
+import { ATFormBuilderConditionalInsertInterface } from "../../../types/FormBuilder.type";
 import FieldDefBuilder from "./FieldDefBuilder/FieldDefBuilder";
-import { ATFieldDefInterface } from "@/lib/types/FieldDefBuilder.type";
-import { ATFormFieldDefInterface } from "@/lib/types/ATForm.type";
+import { ATFieldDefInterface } from "../../../types/FieldDefBuilder.type";
+import { ATFormFieldDefInterface } from "../../../types/ATForm.type";
 
 const createFieldDefBuilder = (fieldDefs: ATFieldDefInterface[] | ATFormFieldDefInterface[]) => {
     const fieldDefBuilder = new FieldDefBuilder(fieldDefs)

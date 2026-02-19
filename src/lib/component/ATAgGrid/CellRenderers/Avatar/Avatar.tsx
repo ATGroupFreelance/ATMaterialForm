@@ -1,5 +1,5 @@
-import { useATCellRenderer } from "@/lib/hooks/useATCellRenderer/useATCellRenderer";
-import { ATAgGridAvatarCellRendererProps } from "@/lib/types/at-ag-grid/cell-renderers/ATAgGridCellRendererAvatar.type";
+import { useATCellRenderer } from "../../../../hooks/useATCellRenderer/useATCellRenderer";
+import { ATAgGridAvatarCellRendererProps } from "../../../../types/at-ag-grid/cell-renderers/ATAgGridCellRendererAvatar.type";
 import MUIAvatar from "@mui/material/Avatar";
 
 const Avatar = (props: ATAgGridAvatarCellRendererProps) => {

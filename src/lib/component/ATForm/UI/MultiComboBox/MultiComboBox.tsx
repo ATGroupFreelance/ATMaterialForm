@@ -1,5 +1,5 @@
 import ComboBox from "../ComboBox/ComboBox";
-import { ATFormMultiComboBoxProps } from '@/lib/types/ui/MultiComboBox.type';
+import { ATFormMultiComboBoxProps } from '../../../../types/ui/MultiComboBox.type';
 //Facts about autocomplete:
 //If "multiple" is false, value/initvalue must be string or null
 //If "multiple" is true,  value/initvalue must be an array

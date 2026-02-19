@@ -2,8 +2,8 @@ import React, { useCallback, useMemo, useState } from 'react';
 import ATFormRender from "../ATFormRender/ATFormRender";
 import UIRender from '../ATFormRender/UIRender/UIRender';
 import ATFormTabs from './ATFormTabs/ATFormTabs';
-import { ATFormTabConfigInterface, ATFormTabContainer, ATFormTabsManagerProps, ATFormTabsOnChangeProps } from '@/lib/types/ATFormTabsManager.type';
-import { ATFormChildProps, ATFormUnknownChildProps } from '@/lib/types/ATForm.type';
+import { ATFormTabConfigInterface, ATFormTabContainer, ATFormTabsManagerProps, ATFormTabsOnChangeProps } from '../../../types/ATFormTabsManager.type';
+import { ATFormChildProps, ATFormUnknownChildProps } from '../../../types/ATForm.type';
 import { Grid } from '@mui/material';
 
 const getFirstIndex = (input: number | number[] | undefined | null) => {

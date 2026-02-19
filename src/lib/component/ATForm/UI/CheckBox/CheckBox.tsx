@@ -1,6 +1,6 @@
 import { FormControl, FormHelperText, FormControlLabel } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
-import { ATFormCheckBoxProps } from '@/lib/types/ui/CheckBox.type';
+import { ATFormCheckBoxProps } from '../../../../types/ui/CheckBox.type';
 
 //TODO, add support for read only instead of simply using disable
 const CheckBox = ({ id, onChange, value, helperText, color, readOnly, disabled, label, controlProps, error, ...restProps }: ATFormCheckBoxProps) => {

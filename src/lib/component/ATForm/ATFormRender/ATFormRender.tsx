@@ -1,4 +1,4 @@
-import { ATFormRenderProps } from "@/lib/types/ATForm.type"
+import { ATFormRenderProps } from "../../../types/ATForm.type"
 import UIRender from "./UIRender/UIRender"
 
 const ATFormRender = ({ children, childrenProps }: ATFormRenderProps) => {

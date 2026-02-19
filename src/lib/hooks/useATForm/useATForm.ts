@@ -1,6 +1,6 @@
-import { ATFormContext } from '@/lib/component/ATForm/ATFormContext/ATFormContext';
+import { ATFormContext } from '../../component/ATForm/ATFormContext/ATFormContext';
 import { useContext } from 'react';
-import { ATFormContextInterface } from '@/lib/types/ATFormContext.type';
+import { ATFormContextInterface } from '../../types/ATFormContext.type';
 
 const useATForm = (): ATFormContextInterface => {
     const context = useContext(ATFormContext);

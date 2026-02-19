@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Autocomplete, { AutocompleteChangeReason, AutocompleteRenderValue } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
-import { ATFormMultiSelectTextBoxOption, ATFormMultiSelectTextBoxProps } from '@/lib/types/ui/MultiSelectTextBox.type';
+import { ATFormMultiSelectTextBoxOption, ATFormMultiSelectTextBoxProps } from '../../../../types/ui/MultiSelectTextBox.type';
 import IntegerTextBox from '../IntegerTextBox/IntegerTextBox';
 import { generateUUID } from '../../FormUtils/FormUtils';
 

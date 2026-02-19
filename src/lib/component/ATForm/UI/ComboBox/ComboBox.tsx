@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 
 import Autocomplete, { AutocompleteRenderInputParams } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
+import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 import { ATFormComboBoxProps } from '../../../../types/ui/ComboBox.type';
-import { ATEnumType } from '@/lib/types/Common.type';
+import { ATEnumType } from '../../../../types/Common.type';
 
 const isMobile = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 //Facts about autocomplete:

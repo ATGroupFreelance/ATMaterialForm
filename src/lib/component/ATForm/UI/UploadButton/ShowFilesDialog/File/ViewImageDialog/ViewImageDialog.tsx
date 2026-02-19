@@ -1,5 +1,5 @@
 //MUI
-import Button from '@/lib/component/ATForm/UI/Button/Button';
+import Button from '../../../../Button/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -8,7 +8,7 @@ import { Grid } from '@mui/material';
 
 //Context
 import useATFormConfig from '../../../../../../../hooks/useATFormConfig/useATFormConfig';
-import { ATFormUploadButtonViewImageDialog } from '@/lib/types/ui/UploadButton.type';
+import { ATFormUploadButtonViewImageDialog } from '../../../../../../../types/ui/UploadButton.type';
 
 const ViewImageDialog = ({ onClose, image, name }: ATFormUploadButtonViewImageDialog) => {
     const { localText } = useATFormConfig()

@@ -3,7 +3,7 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 // Hooks
 import useATFormConfig from '../../../../../hooks/useATFormConfig/useATFormConfig';
-import { ATFormVerticalTableProps } from '@/lib/types/ui/Table.type';
+import { ATFormVerticalTableProps } from '../../../../../types/ui/Table.type';
 import React from 'react';
 
 const VerticalTable = ({ id, data, columns, rowProps, cellProps, columnsPerRow = 2 }: ATFormVerticalTableProps) => {

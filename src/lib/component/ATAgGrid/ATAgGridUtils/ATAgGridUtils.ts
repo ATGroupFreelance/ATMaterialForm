@@ -1,5 +1,5 @@
-import { GetColumnDefsByATFormChildrenInterface } from "@/lib/types/at-ag-grid/ATAgGridUtils.type"
-import { ATAgGridExtendedColDef } from "@/lib/types/at-ag-grid/ATAgGrid.type"
+import { GetColumnDefsByATFormChildrenInterface } from "../../../types/at-ag-grid/ATAgGridUtils.type"
+import { ATAgGridExtendedColDef } from "../../../types/at-ag-grid/ATAgGrid.type"
 
 export const createAgGridColumnDefs = ({ field, headerName = undefined, sortable = true, filter = true, ...restProps }: ATAgGridExtendedColDef): ATAgGridExtendedColDef => {
     return {

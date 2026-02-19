@@ -2,7 +2,7 @@ import Typography from '@mui/material/Typography';
 import SliderMUI from '@mui/material/Slider';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import { ATFormSliderProps } from '@/lib/types/ui/Slider.type';
+import { ATFormSliderProps } from '../../../../types/ui/Slider.type';
 
 const Slider = ({ id, label, error, helperText, ...restProps }: ATFormSliderProps) => {
     void id;

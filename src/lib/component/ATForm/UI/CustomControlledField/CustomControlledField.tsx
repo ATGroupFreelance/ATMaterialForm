@@ -1,4 +1,4 @@
-import { ATFormCustomControlledFieldProps } from '@/lib/types/ui/CustomControlledField.type';
+import { ATFormCustomControlledFieldProps } from '../../../../types/ui/CustomControlledField.type';
 
 const CustomControlledField = ({ component: Component, ...restProps }: ATFormCustomControlledFieldProps) => {
     if (!Component) {

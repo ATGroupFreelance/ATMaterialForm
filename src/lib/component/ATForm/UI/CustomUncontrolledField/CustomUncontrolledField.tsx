@@ -1,4 +1,4 @@
-import { ATFormCustomUncontrolledFieldProps } from '@/lib/types/ui/CustomUncontrolledField.type';
+import { ATFormCustomUncontrolledFieldProps } from '../../../../types/ui/CustomUncontrolledField.type';
 
 const CustomUncontrolledField = ({ component: Component, ...restProps }: ATFormCustomUncontrolledFieldProps) => {
     if (!Component) {

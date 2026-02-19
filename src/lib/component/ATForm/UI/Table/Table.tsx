@@ -1,9 +1,9 @@
 import VerticalTable from './VerticalTable/VerticalTable';
 import HorizontalTable from './HorizontalTable/HorizontalTable';
-import { ATFormTableProps } from '@/lib/types/ui/Table.type';
+import { ATFormTableProps } from '../../../../types/ui/Table.type';
 import { Paper, TableContainer, Typography } from '@mui/material';
 import MUITable from '@mui/material/Table';
-import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
+import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 
 const Table = ({ tableType = 'Vertical', tableContainerProps, tableProps, label, labelProps, ...restProps }: ATFormTableProps) => {
     const { getLocalText } = useATFormConfig();

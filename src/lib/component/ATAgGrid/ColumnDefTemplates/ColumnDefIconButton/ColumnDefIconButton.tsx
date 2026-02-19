@@ -1,4 +1,4 @@
-import { ATAgGridColumnDefIconButtonProps } from "@/lib/types/at-ag-grid/col-def-templates/ATAgGridColumnDefIconButton.type"
+import { ATAgGridColumnDefIconButtonProps } from "../../../../types/at-ag-grid/col-def-templates/ATAgGridColumnDefIconButton.type"
 import IconButton from "../../CellRenderers/IconButton/IconButton"
 import { ColDef } from "ag-grid-community"
 

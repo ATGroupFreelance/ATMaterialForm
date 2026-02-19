@@ -9,7 +9,7 @@ import {
     useTheme,
 } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { ATFormChildProps, ATFormFieldTProps, ATFormUnknownChildProps } from "@/lib/types/ATForm.type";
+import { ATFormChildProps, ATFormFieldTProps, ATFormUnknownChildProps } from "../../../../../types/ATForm.type";
 import UIRenderDebugWrapperTable from "./UIRenderDebugWrapperTable/UIRenderDebugWrapperTable";
 
 interface UIRenderDebugWrapperProps {

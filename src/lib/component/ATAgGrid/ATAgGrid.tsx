@@ -29,7 +29,7 @@ import useATFormConfig from '../../hooks/useATFormConfig/useATFormConfig';
 import { ColumnDefTemplates } from './ColumnDefTemplates/ColumnDefTemplates';
 import ATFormDialog from '../ATForm/ATFormDialog';
 import ATAgGridContextMenu from './ATAgGridContextMenu/ATAgGridContextMenu';
-import { ATFormOnClickProps, ATFormOnClickType } from '@/lib/types/Common.type';
+import { ATFormOnClickProps, ATFormOnClickType } from '../../types/Common.type';
 
 const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqueKey, translateUniqueKey, ...restProps }: ATAgGridProps) => {
     const theme = useTheme()

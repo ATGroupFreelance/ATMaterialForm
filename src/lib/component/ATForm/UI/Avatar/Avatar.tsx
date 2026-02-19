@@ -3,8 +3,8 @@ import MUIAvatar from '@mui/material/Avatar';
 import { Button } from '@mui/material';
 //Resizer
 import Resizer from "react-image-file-resizer";
-import { ATFormAvatarProps } from '@/lib/types/ui/Avatar.type';
-import useATForm from '@/lib/hooks/useATForm/useATForm';
+import { ATFormAvatarProps } from '../../../../types/ui/Avatar.type';
+import useATForm from '../../../../hooks/useATForm/useATForm';
 
 const Avatar = ({ id, value, accept, avatarSize = 42, width = 128, height = 128, readOnly, onChange, error, helperText, ...restProps }: ATFormAvatarProps) => {
     const { onLockdownChange } = useATForm()

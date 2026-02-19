@@ -1,7 +1,7 @@
 import React from 'react';
 
 import BaseComboBox from './BaseComboBox/BaseComboBox';
-import { ATFormCascadeComboBoxProps, ATFormCascadeComboBoxBaseComboBoxProps, ATFormCascadeComboBoxDesignLayer, ATFormCascadeComboBoxAsyncOptions, ATFormCascadeComboBoxOptionsFilterFunction } from '@/lib/types/ui/CascadeComboBox.type';
+import { ATFormCascadeComboBoxProps, ATFormCascadeComboBoxBaseComboBoxProps, ATFormCascadeComboBoxDesignLayer, ATFormCascadeComboBoxAsyncOptions, ATFormCascadeComboBoxOptionsFilterFunction } from '../../../../types/ui/CascadeComboBox.type';
 import ComboBox from '../ComboBox/ComboBox';
 import { isAsyncOptions } from '../../FormUtils/FormUtils';
 /**

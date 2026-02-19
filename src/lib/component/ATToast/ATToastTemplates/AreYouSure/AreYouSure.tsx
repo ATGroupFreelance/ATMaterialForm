@@ -1,6 +1,6 @@
-import Button from "@/lib/component/ATForm/UI/Button/Button";
-import useATFormConfig from "@/lib/hooks/useATFormConfig/useATFormConfig";
-import { ATFormOnClickProps } from "@/lib/types/Common.type";
+import Button from "../../../ATForm/UI/Button/Button";
+import useATFormConfig from "../../../../hooks/useATFormConfig/useATFormConfig";
+import { ATFormOnClickProps } from "../../../../types/Common.type";
 import { Grid, Typography } from "@mui/material";
 import { ToastContentProps } from "react-toastify";
 

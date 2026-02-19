@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
 //Context
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
-import { ATUnControlledUIBuilderProps } from '@/lib/types/ATForm.type';
-import { ATFormTableProps } from '@/lib/types/ui/Table.type';
-import { ATFormCustomUncontrolledFieldProps } from '@/lib/types/ui/CustomUncontrolledField.type';
+import { ATUnControlledUIBuilderProps } from '../../../../types/ATForm.type';
+import { ATFormTableProps } from '../../../../types/ui/Table.type';
+import { ATFormCustomUncontrolledFieldProps } from '../../../../types/ui/CustomUncontrolledField.type';
 
 const Button = React.lazy(() => import('../../UI/Button/Button'));
 const Label = React.lazy(() => import('../../UI/Label/Label'));

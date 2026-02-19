@@ -1,7 +1,7 @@
 // ATFormWrapperProvider.tsx
 import React from "react"
 import { ATFormWrapperContext } from "./ATFormWrapperContext"
-import { ATFormWrapperContextValueInterface } from "@/lib/types/ATFormWrapperContext.type"
+import { ATFormWrapperContextValueInterface } from "../../../../types/ATFormWrapperContext.type"
 
 interface ATFormWrapperProviderProps {
   children: React.ReactNode

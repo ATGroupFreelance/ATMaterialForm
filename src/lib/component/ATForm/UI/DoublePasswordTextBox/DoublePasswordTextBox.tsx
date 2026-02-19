@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import PasswordTextBox from '../PasswordTextBox/PasswordTextBox';
 //Context
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
-import { ATFormDoublePasswordTextBoxProps } from '@/lib/types/ui/DoublePasswordTextBox.type';
-import { ATFormPasswordTextBoxProps } from '@/lib/types/ui/PasswordTextBox.type';
+import { ATFormDoublePasswordTextBoxProps } from '../../../../types/ui/DoublePasswordTextBox.type';
+import { ATFormPasswordTextBoxProps } from '../../../../types/ui/PasswordTextBox.type';
 
 const DoublePasswordTextBox = ({ value, onChange, showPassword, helperText, error, label, ...restProps }: ATFormDoublePasswordTextBoxProps) => {
     const { localText } = useATFormConfig()

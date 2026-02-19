@@ -1,12 +1,12 @@
 //Components
-import Button from '@/lib/component/ATForm/UI/Button/Button';
+import Button from '../../Button/Button';
 //Context
 import { useEffect, useState } from 'react';
 import useATFormConfig from '../../../../../hooks/useATFormConfig/useATFormConfig';
 import { Box, Grid, Tooltip, Typography } from '@mui/material';
 import { useTheme } from "@mui/material";
-import { ATFormFileViewerFile } from '@/lib/types/ui/FileViewer.type';
-import { ATFormOnClickType } from '@/lib/types/Common.type';
+import { ATFormFileViewerFile } from '../../../../../types/ui/FileViewer.type';
+import { ATFormOnClickType } from '../../../../../types/Common.type';
 
 function isImage(url: any) {
     return /\.(jpg|jpeg|png|webp)$/.test(url);

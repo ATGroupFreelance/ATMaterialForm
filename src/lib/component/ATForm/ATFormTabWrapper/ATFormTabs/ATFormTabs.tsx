@@ -1,4 +1,4 @@
-import { ATFormTabsOnChangeType, ATFormTabsProps } from "@/lib/types/ATFormTabsManager.type";
+import { ATFormTabsOnChangeType, ATFormTabsProps } from "../../../../types/ATFormTabsManager.type";
 import { Tab, Tabs, Box } from "@mui/material";
 import { useCallback, useEffect } from "react";
 

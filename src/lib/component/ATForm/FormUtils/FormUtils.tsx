@@ -1,6 +1,6 @@
-import { ATFormAnyToFormDataInterface, ATFormChildProps, ATFormFormDataToAnyInterface } from "@/lib/types/ATForm.type";
-import { ATFormFormDataType } from "@/lib/types/ATFormFormData.type";
-import { ATFormCascadeComboBoxAsyncOptions, ATFormCascadeComboBoxOptionsType } from "@/lib/types/ui/CascadeComboBox.type";
+import { ATFormAnyToFormDataInterface, ATFormChildProps, ATFormFormDataToAnyInterface } from "../../../types/ATForm.type";
+import { ATFormFormDataType } from "../../../types/ATFormFormData.type";
+import { ATFormCascadeComboBoxAsyncOptions, ATFormCascadeComboBoxOptionsType } from "../../../types/ui/CascadeComboBox.type";
 
 export const capitalizeFirstLetter = (string: any) => {
     return string.charAt(0).toUpperCase() + string.slice(1);

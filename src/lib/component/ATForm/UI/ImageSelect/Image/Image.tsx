@@ -1,4 +1,4 @@
-import { ATFormImageSelectImageProps } from '@/lib/types/ui/ImageSelect.type';
+import { ATFormImageSelectImageProps } from '../../../../../types/ui/ImageSelect.type';
 import Button from '@mui/material/Button';
 
 const Image = ({ id, name, src, onClick, width, height, selected }: ATFormImageSelectImageProps) => {

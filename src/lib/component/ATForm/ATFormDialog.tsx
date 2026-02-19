@@ -9,9 +9,9 @@ import ATForm from './ATForm';
 import Button from './UI/Button/Button';
 import { CircularProgress, Grid } from '@mui/material';
 import useATFormConfig from '../../hooks/useATFormConfig/useATFormConfig';
-import { ATFormDialogProps } from '@/lib/types/ATFormDialog.type';
-import { ATFormOnChangeInterface } from '@/lib/types/ATForm.type';
-import { ATFormOnClickType } from '@/lib/types/Common.type';
+import { ATFormDialogProps } from '../../types/ATFormDialog.type';
+import { ATFormOnChangeInterface } from '../../types/ATForm.type';
+import { ATFormOnClickType } from '../../types/Common.type';
 
 const ATFormDialog = ({
     dialogProps,

@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import UIBuilder from "../../UIBuilder/UIBuilder";
-import { ATFormChildProps, ATUIRenderProps } from "@/lib/types/ATForm.type";
+import { ATFormChildProps, ATUIRenderProps } from "../../../../types/ATForm.type";
 import UIRenderWrapperResolver from "./UIRenderWrapperResolver/UIRenderWrapperResolver";
 
 const UIRenderDebugWrapper = React.lazy(() => import("./UIRenderDebugWrapper/UIRenderDebugWrapper"));

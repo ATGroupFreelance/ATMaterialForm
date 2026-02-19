@@ -1,5 +1,5 @@
 import Button from "../../CellRenderers/Button/Button";
-import { ATAgGridColumnDefButtonProps } from "@/lib/types/at-ag-grid/col-def-templates/ATAgGridColumnDefButton.type";
+import { ATAgGridColumnDefButtonProps } from "../../../../types/at-ag-grid/col-def-templates/ATAgGridColumnDefButton.type";
 
 function ColumnDefButton(props: ATAgGridColumnDefButtonProps) {
     return {

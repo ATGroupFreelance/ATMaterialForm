@@ -1,8 +1,8 @@
-import { ATFormChildProps, ATFormUnknownChildProps } from "@/lib/types/ATForm.type";
+import { ATFormChildProps, ATFormUnknownChildProps } from "../../../../../types/ATForm.type";
 import { Grid } from "@mui/material";
 import { ComponentType, lazy, Suspense } from "react";
 import { getTabVisibilityStyle } from "../../../FormUtils/FormUtils";
-import { ATFormWrapperConfig } from "@/lib/types/ATFormFieldWrapper.type";
+import { ATFormWrapperConfig } from "../../../../../types/ATFormFieldWrapper.type";
 
 interface UIRenderWrapperResolverProps {
     children: React.ReactNode,

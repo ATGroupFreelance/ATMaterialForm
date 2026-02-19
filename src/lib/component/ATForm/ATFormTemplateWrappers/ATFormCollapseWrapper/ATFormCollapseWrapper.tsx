@@ -9,8 +9,8 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { useState } from 'react';
-import { ATFormCollapseWrapperProps } from '@/lib/types/template-wrappers/CollapseWrapper.type';
-import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
+import { ATFormCollapseWrapperProps } from '../../../../types/template-wrappers/CollapseWrapper.type';
+import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 
 const ATFormCollapseWrapper = ({ children, childProps, config }: ATFormCollapseWrapperProps) => {
     const { size = 12, label = 'Details' } = childProps.tProps;

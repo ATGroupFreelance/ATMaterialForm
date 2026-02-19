@@ -1,6 +1,6 @@
-import { ATFieldDefInterface } from "@/lib/types/FieldDefBuilder.type";
+import { ATFieldDefInterface } from "../../../../types/FieldDefBuilder.type";
 import { formBuilder } from "../FormBuilder";
-import { ATFormFieldDefInterface } from "@/lib/types/ATForm.type";
+import { ATFormFieldDefInterface } from "../../../../types/ATForm.type";
 
 const createFunction = (key: string) => {
     if (key === 'utils') return undefined;

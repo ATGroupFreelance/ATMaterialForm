@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 //UI
 import { Grid, Typography, Box } from '@mui/material';
-import { ATFormImageSelectImageProps, ATFormImageSelectProps } from '@/lib/types/ui/ImageSelect.type';
+import { ATFormImageSelectImageProps, ATFormImageSelectProps } from '../../../../types/ui/ImageSelect.type';
 import Image from './Image/Image';
 
 const ImageSelect = ({ id, authToken, label, width = 128, height = 128, onChange, value, multiple, imageWrapperProps }: ATFormImageSelectProps) => {

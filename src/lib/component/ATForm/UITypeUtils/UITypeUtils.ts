@@ -2,11 +2,11 @@ import moment from 'moment';
 //Cell Renderers
 import UploadButtonCellRenderer from '../UI/UploadButton/UploadButtonCellRenderer/UploadButtonCellRenderer';
 import { ATConvertInterface, ATGetTitleByEnumsInterface, ATReverseConvertInterface, ATFormTypeInfoInterface } from '../../../types/UITypeUtils.type';
-import { ATFormComboBoxProps } from '@/lib/types/ui/ComboBox.type';
-import { ATFormMultiComboBoxProps } from '@/lib/types/ui/MultiComboBox.type';
-import { ATFormCascadeComboBoxProps } from '@/lib/types/ui/CascadeComboBox.type';
-import { ATFormMultiSelectTextBoxOption } from '@/lib/types/ui/MultiSelectTextBox.type';
-import { ATFormFormProps } from '@/lib/types/ui/Form.type';
+import { ATFormComboBoxProps } from '../../../types/ui/ComboBox.type';
+import { ATFormMultiComboBoxProps } from '../../../types/ui/MultiComboBox.type';
+import { ATFormCascadeComboBoxProps } from '../../../types/ui/CascadeComboBox.type';
+import { ATFormMultiSelectTextBoxOption } from '../../../types/ui/MultiSelectTextBox.type';
+import { ATFormFormProps } from '../../../types/ui/Form.type';
 
 export const UITypes = {
     Button: 'Button',

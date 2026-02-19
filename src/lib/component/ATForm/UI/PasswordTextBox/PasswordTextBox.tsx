@@ -7,7 +7,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import './PasswordTextBox.css';
 import TextBox from '../TextBox/TextBox';
-import { ATFormPasswordTextBoxProps } from '@/lib/types/ui/PasswordTextBox.type';
+import { ATFormPasswordTextBoxProps } from '../../../../types/ui/PasswordTextBox.type';
 
 const PasswordTextBox = ({ id, showPassword = false, onToggleShowPasswordClick, ...restProps }: ATFormPasswordTextBoxProps) => {
     void id;

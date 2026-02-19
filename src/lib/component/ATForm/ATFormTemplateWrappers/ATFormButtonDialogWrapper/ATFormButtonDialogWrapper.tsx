@@ -1,9 +1,9 @@
 import { Grid } from '@mui/material'
-import { ATFormButtonDialogWrapperProps } from '@/lib/types/template-wrappers/ButtonDialogWrapper.type'
+import { ATFormButtonDialogWrapperProps } from '../../../../types/template-wrappers/ButtonDialogWrapper.type'
 import React, { ReactElement, useImperativeHandle, useRef, useState } from 'react'
 import ATFormButtonDialogWrapperDialog from './ATFormButtonDialogWrapperDialog/ATFormButtonDialogWrapperDialog'
-import { ATFormChildResetInterface, ATFormOnChildChangeInterface } from '@/lib/types/ATForm.type'
-import useATForm from '@/lib/hooks/useATForm/useATForm'
+import { ATFormChildResetInterface, ATFormOnChildChangeInterface } from '../../../../types/ATForm.type'
+import useATForm from '../../../../hooks/useATForm/useATForm'
 import { getInitialValue } from '../../UIBuilder/ControlledUIBuilder/ControlledUIBuilder'
 import ATFormButtonDialogStyledButton from './ATFormButtonDialogStyledButton/ATFormButtonDialogStyledButton'
 

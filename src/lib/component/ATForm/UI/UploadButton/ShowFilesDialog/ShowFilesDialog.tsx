@@ -12,7 +12,7 @@ import { Grid, Typography } from '@mui/material';
 import File from './File/File';
 //Context
 import useATFormConfig from '../../../../../hooks/useATFormConfig/useATFormConfig';
-import { ATFormUploadButtonShowFilesDialogProps } from '@/lib/types/ui/UploadButton.type';
+import { ATFormUploadButtonShowFilesDialogProps } from '../../../../../types/ui/UploadButton.type';
 
 const ShowFilesDialog = ({ onSave, onClose, files, readOnly, authToken }: ATFormUploadButtonShowFilesDialogProps) => {
     const { localText } = useATFormConfig()

@@ -6,7 +6,7 @@ import { IconButton, InputAdornment, Tooltip } from '@mui/material';
 import ColorTextBoxColorPickerDialog from './ColorTextBoxColorPickerDialog/ColorTextBoxColorPickerDialog';
 //ATForm
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
-import { ATFormColorTextBoxProps } from '@/lib/types/ui/ColorTextBox.type';
+import { ATFormColorTextBoxProps } from '../../../../types/ui/ColorTextBox.type';
 
 const ColorTextBox = ({ id, slotProps, value, onChange, ...restProps }: ATFormColorTextBoxProps) => {
     void id;

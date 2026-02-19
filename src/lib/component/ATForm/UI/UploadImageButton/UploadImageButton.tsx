@@ -3,8 +3,8 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Button, CircularProgress, Typography } from '@mui/material';
-import { ATFormUploadImageButtonProps } from '@/lib/types/ui/UploadImageButton.type';
-import useATForm from '@/lib/hooks/useATForm/useATForm';
+import { ATFormUploadImageButtonProps } from '../../../../types/ui/UploadImageButton.type';
+import useATForm from '../../../../hooks/useATForm/useATForm';
 
 const UploadImageButton = ({ id, label, onChange, value, disabled, accept, error, helperText, authToken, width = 128, height = 128, readOnly }: ATFormUploadImageButtonProps) => {
     const [loading, setLoading] = useState<boolean>(false)

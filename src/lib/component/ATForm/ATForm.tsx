@@ -5,11 +5,11 @@ import Ajv, { ErrorObject, ValidateFunction } from "ajv"
 import AVJErrors from 'ajv-errors';
 //Components
 import { getFlatChildren, anyToFormData, formDataToAny } from './FormUtils/FormUtils';
-import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
-import { ATFormChildProps, ATFormFieldTProps, ATFormChildRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps, ATFormFieldDefInterface, ATFormOnChangeInterface } from '@/lib/types/ATForm.type';
+import useATFormConfig from '../../hooks/useATFormConfig/useATFormConfig';
+import { ATFormChildProps, ATFormFieldTProps, ATFormChildRefInterface, ATFormOnChildChangeInterface, ATFormPendingValidationCallbackInterface, ATFormProps, ATFormResetInterface, ATFormUnknownChildProps, ATFormFieldDefInterface, ATFormOnChangeInterface } from '../../types/ATForm.type';
 import { ATFormContextProvider } from './ATFormContext/ATFormContext';
 import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
-import { ATFormFormDataKeyValueType, ATFormFormDataSemiKeyValueType, ATFormFormDataType } from '@/lib/types/ATFormFormData.type';
+import { ATFormFormDataKeyValueType, ATFormFormDataSemiKeyValueType, ATFormFormDataType } from '../../types/ATFormFormData.type';
 import { createLogger } from './ATFormLogger';
 
 interface InternalDefaultValueInterface {

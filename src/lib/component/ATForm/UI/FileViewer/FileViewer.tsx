@@ -3,7 +3,7 @@ import File from "./File/File";
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 import DescriptionOutlined from "@mui/icons-material/DescriptionOutlined";
 import { useTheme } from "@mui/material";
-import { ATFormFileViewerProps, ATFormFileViewerFile } from "@/lib/types/ui/FileViewer.type";
+import { ATFormFileViewerProps, ATFormFileViewerFile } from "../../../../types/ui/FileViewer.type";
 
 const FileViewer = ({ value, label, fileWidth = 150, fileHeight = 128, getSortedFiles }: ATFormFileViewerProps) => {
     const theme = useTheme()

@@ -1,13 +1,13 @@
 import React, { Suspense, useState, useImperativeHandle, useEffect, useRef } from 'react';
 //Context
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
-import { ATControlledUIBuilderProps, ATFormChildResetInterface } from '@/lib/types/ATForm.type';
-import { ATFormTypeInfoInterface } from '@/lib/types/UITypeUtils.type';
-import { ATFormComboBoxProps } from '@/lib/types/ui/ComboBox.type';
-import { ATFormMultiComboBoxProps } from '@/lib/types/ui/MultiComboBox.type';
-import { ATFormFileViewerProps } from '@/lib/types/ui/FileViewer.type';
-import { ATFormCheckBoxProps } from '@/lib/types/ui/CheckBox.type';
-import { ATFormCustomControlledFieldProps } from '@/lib/types/ui/CustomControlledField.type';
+import { ATControlledUIBuilderProps, ATFormChildResetInterface } from '../../../../types/ATForm.type';
+import { ATFormTypeInfoInterface } from '../../../../types/UITypeUtils.type';
+import { ATFormComboBoxProps } from '../../../../types/ui/ComboBox.type';
+import { ATFormMultiComboBoxProps } from '../../../../types/ui/MultiComboBox.type';
+import { ATFormFileViewerProps } from '../../../../types/ui/FileViewer.type';
+import { ATFormCheckBoxProps } from '../../../../types/ui/CheckBox.type';
+import { ATFormCustomControlledFieldProps } from '../../../../types/ui/CustomControlledField.type';
 
 const TextBox = React.lazy(() => import('../../UI/TextBox/TextBox'));
 const IntegerTextBox = React.lazy(() => import('../../UI/IntegerTextBox/IntegerTextBox'));

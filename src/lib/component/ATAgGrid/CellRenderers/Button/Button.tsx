@@ -1,8 +1,8 @@
 import ATButton from "../../../ATForm/UI/Button/Button";
-import { ATAgGridButtonCellRendererProps } from "@/lib/types/at-ag-grid/cell-renderers/ATAgGridCellRendererButton.type";
+import { ATAgGridButtonCellRendererProps } from "../../../../types/at-ag-grid/cell-renderers/ATAgGridCellRendererButton.type";
 import { useATCellRenderer } from "../../../../hooks/useATCellRenderer/useATCellRenderer";
 import { useCallback } from "react";
-import { ATFormOnClickProps } from "@/lib/types/Common.type";
+import { ATFormOnClickProps } from "../../../../types/Common.type";
 
 const Button = (props: ATAgGridButtonCellRendererProps) => {
     const { label, cellRendererParams } = useATCellRenderer(props)

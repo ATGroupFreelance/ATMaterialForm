@@ -4,8 +4,8 @@ import Button from "../../Button/Button";
 import ShowFilesDialog from "../ShowFilesDialog/ShowFilesDialog";
 import { Grid, Tooltip } from '@mui/material';
 import localText from '../../../ATFormConfigContext/LocalText';
-import { ATFormButtonFileType, ATFormUploadButtonCellRenderer } from '@/lib/types/ui/UploadButton.type';
-import { ATFormOnClickType } from '@/lib/types/Common.type';
+import { ATFormButtonFileType, ATFormUploadButtonCellRenderer } from '../../../../../types/ui/UploadButton.type';
+import { ATFormOnClickType } from '../../../../../types/Common.type';
 
 const UploadButtonCellRenderer = ({ data, colDef }: ATFormUploadButtonCellRenderer) => {
     const [dialog, setDialog] = useState<any>(null)

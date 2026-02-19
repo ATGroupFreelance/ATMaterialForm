@@ -1,10 +1,10 @@
 import React, { createContext, ReactNode, useCallback, useMemo } from 'react';
 // Local text
 import LocalText from './LocalText';
-import { ATFormConfigContextInterface } from '@/lib/types/ATFormConfigContext.type';
+import { ATFormConfigContextInterface } from '../../../types/ATFormConfigContext.type';
 //Utils
 import * as UITypeUtils from '../UITypeUtils/UITypeUtils';
-import { ATFormCustomComponentInterface } from '@/lib/types/UITypeUtils.type';
+import { ATFormCustomComponentInterface } from '../../../types/UITypeUtils.type';
 
 // Create the context with a default value of undefined
 export const ATFormConfigContext = createContext<ATFormConfigContextInterface | undefined>(undefined);

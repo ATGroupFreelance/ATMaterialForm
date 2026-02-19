@@ -1,4 +1,4 @@
-import { ATAgGridCustomCellRendererProps } from "@/lib/types/at-ag-grid/ATAgGrid.type"
+import { ATAgGridCustomCellRendererProps } from "../../types/at-ag-grid/ATAgGrid.type"
 
 const useATCellRenderer = (props: ATAgGridCustomCellRendererProps<any, any>) => {
   const label: string =

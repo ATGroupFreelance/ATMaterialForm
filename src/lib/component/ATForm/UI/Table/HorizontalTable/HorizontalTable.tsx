@@ -5,7 +5,7 @@ import TableRow from '@mui/material/TableRow';
 
 //Hooks
 import useATFormConfig from '../../../../../hooks/useATFormConfig/useATFormConfig';
-import { ATFormHorizontalTableProps } from '@/lib/types/ui/Table.type';
+import { ATFormHorizontalTableProps } from '../../../../../types/ui/Table.type';
 
 const HorizontalTable = ({ id, data, columns, rowProps, cellProps, headerCellProps, headerRowProps, hideColumns }: ATFormHorizontalTableProps) => {
     void id;

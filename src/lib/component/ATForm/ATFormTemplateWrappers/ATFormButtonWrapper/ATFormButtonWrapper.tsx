@@ -1,4 +1,4 @@
-import { ATFormButtonWrapperProps } from '@/lib/types/template-wrappers/ButtonWrapper.type'
+import { ATFormButtonWrapperProps } from '../../../../types/template-wrappers/ButtonWrapper.type'
 import Button from '../../UI/Button/Button'
 import { Grid } from '@mui/material'
 import { useCallback, useState, useMemo } from 'react'

@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode } from 'react';
 
-import { ATFormContextInterface } from '@/lib/types/ATFormContext.type';
+import { ATFormContextInterface } from '../../../types/ATFormContext.type';
 
 // Create the context with a default value of undefined
 export const ATFormContext = createContext<ATFormContextInterface | undefined>(undefined);

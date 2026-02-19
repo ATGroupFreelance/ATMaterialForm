@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 
 import ComboBox from '../../ComboBox/ComboBox';
 import { Grid } from "@mui/material";
-import useATFormConfig from '@/lib/hooks/useATFormConfig/useATFormConfig';
-import { ATFormCascadeComboBoxBaseComboBoxProps } from '@/lib/types/ui/CascadeComboBox.type';
-import { ATFormComboBoxStaticOptions } from '@/lib/types/ui/ComboBox.type';
-import { ATEnumItemType } from '@/lib/types/Common.type';
+import useATFormConfig from '../../../../../hooks/useATFormConfig/useATFormConfig';
+import { ATFormCascadeComboBoxBaseComboBoxProps } from '../../../../../types/ui/CascadeComboBox.type';
+import { ATFormComboBoxStaticOptions } from '../../../../../types/ui/ComboBox.type';
+import { ATEnumItemType } from '../../../../../types/Common.type';
 
 const BaseComboBox = ({ id, value, parentID, options, multiple, readOnly, size = { xs: 12, md: 3, lg: 3, xl: 3 }, uiProps }: ATFormCascadeComboBoxBaseComboBoxProps) => {
     const [localValue, setLocalValue] = useState(value)

@@ -1,10 +1,10 @@
 import { Grid } from '@mui/material'
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { ATFormDialog } from '@/lib'
-import { ATFormFormDialogProps } from '@/lib/types/ui/FormDialog.type'
+import ATFormDialog from '../../ATFormDialog';
+import { ATFormFormDialogProps } from '../../../../types/ui/FormDialog.type'
 import { useATFormWrapper } from '../../ATFormTemplateWrappers/ATFormWrapperContext/useATFormWrapper'
-import { ATFormOnChangeInterface, ATFormRefInterface } from '@/lib/types/ATForm.type'
-import { ATFormOnClickType } from '@/lib/types/Common.type'
+import { ATFormOnChangeInterface, ATFormRefInterface } from '../../../../types/ATForm.type'
+import { ATFormOnClickType } from '../../../../types/Common.type'
 import { LogLevel } from '../../ATFormLogger'
 
 

@@ -10,8 +10,8 @@ import Button from '../../../Button/Button';
 import { useEffect, useState } from 'react';
 import useATFormConfig from '../../../../../../hooks/useATFormConfig/useATFormConfig';
 import ViewImageDialog from './ViewImageDialog/ViewImageDialog';
-import { ATFormUploadButtonFileProps } from '@/lib/types/ui/UploadButton.type';
-import { ATFormOnClickType } from '@/lib/types/Common.type';
+import { ATFormUploadButtonFileProps } from '../../../../../../types/ui/UploadButton.type';
+import { ATFormOnClickType } from '../../../../../../types/Common.type';
 
 function isImage(url: string) {
     return /\.(jpg|jpeg|png|webp)$/.test(url);

@@ -3,11 +3,11 @@ import { useCallback, useRef } from 'react';
 //Context
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 //Components
-import ATAgGrid from '@/lib/component/ATAgGrid/ATAgGrid';
+import ATAgGrid from '../../../ATAgGrid/ATAgGrid';
 import Button from '../Button/Button';
 import { Grid, Typography } from '@mui/material';
-import { ATFormMultiSelectGridProps } from '@/lib/types/ui/MultiSelectGrid.type';
-import { ATFormOnClickProps } from '@/lib/types/Common.type';
+import { ATFormMultiSelectGridProps } from '../../../../types/ui/MultiSelectGrid.type';
+import { ATFormOnClickProps } from '../../../../types/Common.type';
 
 const DEFAULT_UNIQUE_KEY = 'AT_GRID_INDEX'
 

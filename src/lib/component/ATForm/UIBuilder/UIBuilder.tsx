@@ -1,7 +1,7 @@
 //Components
 import ControlledUIBuilder from './ControlledUIBuilder/ControlledUIBuilder';
 import UncontrolledUIBuilder from './UncontrolledUIBuilder/UncontrolledUIBuilder';
-import { ATUIBuilderProps } from '@/lib/types/ATForm.type';
+import { ATUIBuilderProps } from '../../../types/ATForm.type';
 
 const UIBuilder = ({ childProps }: ATUIBuilderProps) => {    
     if (childProps.typeInfo === undefined)

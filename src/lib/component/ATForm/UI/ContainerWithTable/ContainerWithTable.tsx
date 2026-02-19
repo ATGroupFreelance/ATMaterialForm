@@ -8,7 +8,7 @@ import ATForm from '../../ATForm';
 import ATFormDialog from '../../ATFormDialog';
 //AgGrid
 import ATAgGrid from '../../../ATAgGrid/ATAgGrid';
-import { getColumnDefsByATFormChildren } from '../.././../ATAgGrid/ATAgGridUtils/ATAgGridUtils';
+import { getColumnDefsByATFormChildren } from '../../../ATAgGrid/ATAgGridUtils/ATAgGridUtils';
 import { ColumnDefTemplates } from '../../../ATAgGrid/ColumnDefTemplates/ColumnDefTemplates';
 //Context
 import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
@@ -16,10 +16,10 @@ import Button from '../Button/Button';
 //AgGrid
 import { AgGridReact } from 'ag-grid-react';
 import { GridApi } from "ag-grid-community";
-import { ATFormContainerWithTableProps } from '@/lib/types/ui/ContainerWithTable.type';
-import { ATFormOnChangeInterface, ATFormRefInterface } from '@/lib/types/ATForm.type';
-import { ATFormOnClickType } from '@/lib/types/Common.type';
-import useATForm from '@/lib/hooks/useATForm/useATForm';
+import { ATFormContainerWithTableProps } from '../../../../types/ui/ContainerWithTable.type';
+import { ATFormOnChangeInterface, ATFormRefInterface } from '../../../../types/ATForm.type';
+import { ATFormOnClickType } from '../../../../types/Common.type';
+import useATForm from '../../../../hooks/useATForm/useATForm';
 
 const DEFAULT_ROW_ID_KEY = 'JSONID'
 const INTERFACE_TYPES = {

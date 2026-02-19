@@ -7,7 +7,7 @@ import useATFormConfig from '../../../../../hooks/useATFormConfig/useATFormConfi
 //Others
 //'@uiw/react-color-sketch' Package Size is 12kb
 import Sketch from '@uiw/react-color-sketch';
-import { ATFormColorTextBoxColorPickerDialogProps } from '@/lib/types/ui/ColorTextBox.type';
+import { ATFormColorTextBoxColorPickerDialogProps } from '../../../../../types/ui/ColorTextBox.type';
 
 function ColorTextBoxColorPickerDialog({ defaultValue, onSubmitClick, onClose, ...restProps }: ATFormColorTextBoxColorPickerDialogProps) {
     const { localText } = useATFormConfig()

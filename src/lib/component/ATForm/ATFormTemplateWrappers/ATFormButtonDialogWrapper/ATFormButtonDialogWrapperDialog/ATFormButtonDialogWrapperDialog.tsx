@@ -1,6 +1,6 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, Grid } from "@mui/material";
 import Button from "../../../UI/Button/Button";
-import useATFormConfig from "@/lib/hooks/useATFormConfig/useATFormConfig";
+import useATFormConfig from "../../../../../hooks/useATFormConfig/useATFormConfig";
 
 const ATFormButtonDialogWrapperDialog = ({ children, onClose, onSubmitClick, onResetClick }: any) => {
     const { getLocalText } = useATFormConfig()

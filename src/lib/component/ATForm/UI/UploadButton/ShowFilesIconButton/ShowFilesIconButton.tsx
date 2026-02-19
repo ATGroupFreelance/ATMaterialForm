@@ -3,7 +3,7 @@ import React from 'react';
 //MUI
 import FindInPageOutlinedIcon from '@mui/icons-material/FindInPageOutlined';
 import Tooltip from '@mui/material/Tooltip';
-import { ATFormUploadButtonShowFilesIconButtonProps } from '@/lib/types/ui/UploadButton.type';
+import { ATFormUploadButtonShowFilesIconButtonProps } from '../../../../../types/ui/UploadButton.type';
 import IconButton from '../../IconButton/IconButton';
 
 const ShowFilesIconButton = ({ files = [], onClick, label, ...restProps }: ATFormUploadButtonShowFilesIconButtonProps) => {

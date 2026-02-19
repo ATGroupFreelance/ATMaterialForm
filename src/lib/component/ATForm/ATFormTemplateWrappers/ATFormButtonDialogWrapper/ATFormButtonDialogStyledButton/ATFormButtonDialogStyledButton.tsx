@@ -1,7 +1,7 @@
 import { useTheme, alpha } from '@mui/material/styles'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import Button from '../../../UI/Button/Button'
-import { ATFormButtonProps } from '@/lib/types/ui/Button.type'
+import { ATFormButtonProps } from '../../../../../types/ui/Button.type'
 
 const ATFormButtonDialogStyledButton = ({ children, size, ...restProps }: ATFormButtonProps) => {
     const theme = useTheme()

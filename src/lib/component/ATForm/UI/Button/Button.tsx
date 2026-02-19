@@ -1,8 +1,8 @@
 import MUIButton from '@mui/material/Button';
 import ATToast from '../../../ATToast/ATToast';
-import { ATFormButtonProps } from '@/lib/types/ui/Button.type';
-import { ATFormOnClickProps } from '@/lib/types/Common.type';
-import useATComponentLoading from '@/lib/hooks/useATComponentLoading/useATComponentLoading';
+import { ATFormButtonProps } from '../../../../types/ui/Button.type';
+import { ATFormOnClickProps } from '../../../../types/Common.type';
+import useATComponentLoading from '../../../../hooks/useATComponentLoading/useATComponentLoading';
 
 const Button = ({ id, label, confirmationText, fullWidth = true, onClick, color = 'primary', children, loading: loadingProp, disabled, ...restProps }: ATFormButtonProps) => {
     void id;

@@ -14,10 +14,10 @@ import useATFormConfig from '../../../../hooks/useATFormConfig/useATFormConfig';
 //Dialog
 import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
 import { useTheme } from "@mui/material";
-import ATToast from '@/lib/component/ATToast/ATToast';
-import { ATFormButtonFileType, ATFormUploadButtonProps } from '@/lib/types/ui/UploadButton.type';
-import useATForm from '@/lib/hooks/useATForm/useATForm';
-import { ATFormOnClickType } from '@/lib/types/Common.type';
+import ATToast from '../../../ATToast/ATToast';
+import { ATFormButtonFileType, ATFormUploadButtonProps } from '../../../../types/ui/UploadButton.type';
+import useATForm from '../../../../hooks/useATForm/useATForm';
+import { ATFormOnClickType } from '../../../../types/Common.type';
 import TextBox from '../TextBox/TextBox';
 
 const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, authToken, readOnly }: ATFormUploadButtonProps) => {
