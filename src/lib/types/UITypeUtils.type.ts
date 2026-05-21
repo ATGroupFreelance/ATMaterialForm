@@ -15,6 +15,13 @@ export interface ATFormTypeInfoInterface<T extends ATFormFieldDefGenericProps = 
     isControlledUI?: boolean,
 }
 
+export type ATFormCreateControlledType = Omit<ATFormTypeInfoInterface, 'isControlledUI' | 'initialValue'> & {
+    //Make sure the user has to provide an inital value if its controlled.
+    initialValue: any,
+}
+
+export type ATFormCreateUncontrolledType = Pick<ATFormTypeInfoInterface, 'type' | 'getAgGridColumnDef'>
+
 export interface ATConvertInterface<T extends ATFormFieldDefGenericProps = {}> {
     event: { target: { value: any } },
     childProps: ATFormChildProps<T>,

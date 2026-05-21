@@ -1,7 +1,7 @@
 import moment from 'moment';
 //Cell Renderers
 import UploadButtonCellRenderer from '../UI/UploadButton/UploadButtonCellRenderer/UploadButtonCellRenderer';
-import { ATConvertInterface, ATGetTitleByEnumsInterface, ATReverseConvertInterface, ATFormTypeInfoInterface } from '../../../types/UITypeUtils.type';
+import { ATConvertInterface, ATGetTitleByEnumsInterface, ATReverseConvertInterface, ATFormTypeInfoInterface, ATFormCreateControlledType, ATFormCreateUncontrolledType } from '../../../types/UITypeUtils.type';
 import { ATFormComboBoxProps } from '../../../types/ui/ComboBox.type';
 import { ATFormMultiComboBoxProps } from '../../../types/ui/MultiComboBox.type';
 import { ATFormCascadeComboBoxProps } from '../../../types/ui/CascadeComboBox.type';
@@ -89,20 +89,44 @@ export const createValidation = ({ errorMessage, ...props }: any) => {
 //1- Because values are controlled, Initial value CAN NOT BE UNDEFINED
 //2- If initialValue is not inside an object it means the object is uncontrolled
 //3- If you want to set the initialValue to null please set "isNullValueValid" to true
-
-export const createType = ({ type, initialValue, isNullValueValid, convertToKeyValue, reverseConvertToKeyValue, convertToSemiKeyValue, reverseConvertToSemiKeyValue, validation, getAgGridColumnDef }: ATFormTypeInfoInterface) => {
+export const createType = ({
+    type,
+    initialValue,
+    isNullValueValid,
+    convertToKeyValue,
+    reverseConvertToKeyValue,
+    convertToSemiKeyValue,
+    reverseConvertToSemiKeyValue,
+    validation,
+    getAgGridColumnDef,
+    isControlledUI
+}: ATFormTypeInfoInterface) => {
     return {
         type,
         initialValue,
         isNullValueValid: isNullValueValid === undefined ? (initialValue === null) : isNullValueValid,
-        isControlledUI: initialValue !== undefined,
+        isControlledUI: isControlledUI ?? (initialValue !== undefined),
         convertToKeyValue,
         reverseConvertToKeyValue,
-        convertToSemiKeyValue: convertToSemiKeyValue ? convertToSemiKeyValue : convertToKeyValue,
-        reverseConvertToSemiKeyValue: reverseConvertToSemiKeyValue ? reverseConvertToSemiKeyValue : reverseConvertToKeyValue,
+        convertToSemiKeyValue: convertToSemiKeyValue ?? convertToKeyValue,
+        reverseConvertToSemiKeyValue: reverseConvertToSemiKeyValue ?? reverseConvertToKeyValue,
         validation,
         getAgGridColumnDef
     }
+}
+
+export const createControlledType = (props: ATFormCreateControlledType) => {
+    return createType({
+        ...props,
+        isControlledUI: true,
+    })
+}
+
+export const createUncontrolledType = (props: ATFormCreateUncontrolledType) => {
+    return createType({
+        ...props,
+        isControlledUI: false,
+    })
 }
 
 const getLeafNodes = (nodes: any[] | undefined, result: any[] = []) => {

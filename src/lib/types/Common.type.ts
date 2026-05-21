@@ -3,6 +3,9 @@ export type DeepPartial<T> = {
     [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]
 };
 
+export type PartialExcept<T, K extends keyof T> =
+    Partial<Omit<T, K>> & Pick<T, K>;
+
 export interface ATEnumCompatibleComponentProps {
     enumsKey?: string,
 }
