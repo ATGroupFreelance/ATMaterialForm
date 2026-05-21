@@ -45,8 +45,8 @@ const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText
             let filesSizeSum = 0
 
             const formData = new FormData()
-            selectedFiles.forEach((file, index) => {
-                formData.append(`${localText['file']}${index}`, file)
+            selectedFiles.forEach((file) => {
+                formData.append(`files`, file)
                 filesSizeSum = filesSizeSum + file.size
             })
 
@@ -71,6 +71,9 @@ const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText
 
                         if (onChange)
                             onChange({ target: { value: newValue } })
+                    })
+                    .catch((error) => {
+                        console.error(error)
                     })
                     .finally(() => {
                         setLoading(false)

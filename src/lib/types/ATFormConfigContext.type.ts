@@ -1,7 +1,7 @@
 import { ATEnumsType, ATFormGetLocalTextFunctionType } from "./Common.type";
 import { ATFormCustomComponentInterface, ATFormTypeInfoInterface } from "./UITypeUtils.type";
 
-interface UploadFilesToServerProps {
+export interface UploadFilesToServerProps {
     files: FormData,
     authToken?: string
 }
