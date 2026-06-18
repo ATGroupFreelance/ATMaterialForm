@@ -16,7 +16,7 @@ const getInitialTextFieldValue = (valueType: 'number' | 'string') => {
 
 const MultiSelectTextBox = ({ label, onChange, error, helperText, value, autoComplete = false, allowDuplicates = false, valueType = 'string', ...restProps }: ATFormMultiSelectTextBoxProps) => {
     //If valueType is number the value can be number or null
-    const [textFieldValue, setTextFieldValue] = useState<string | number | null>(getInitialTextFieldValue(valueType))    
+    const [textFieldValue, setTextFieldValue] = useState<string | number | null>(getInitialTextFieldValue(valueType))
 
     const onTextFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTextFieldValue(event.target.value)
@@ -110,7 +110,8 @@ const MultiSelectTextBox = ({ label, onChange, error, helperText, value, autoCom
                         }
                     },
                     slotProps: {
-                        htmlInput: { ...params.inputProps }
+                        ...params.slotProps,
+                        htmlInput: { ...params.slotProps.htmlInput, }
                     }
                 }
 

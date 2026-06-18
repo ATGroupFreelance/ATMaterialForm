@@ -55,7 +55,7 @@ const File = ({ id, name, size, authToken, width, height }: ATFormFileViewerFile
     }
 
     return <Box sx={{ display: 'inline-block', border: '1px solid #c3c3c3', width: `${width}px`, height: `${height}px`, margin: '1px', borderRadius: '15px' }}>
-        <Grid container direction={'row'} justifyContent={'center'} sx={{ width: `${width}px` }} >
+        <Grid container direction={'row'} sx={{ width: `${width}px`, justifyContent: 'center' }} >
             <Grid size={12} sx={{ height: '20px', textAlign: 'center', marginBottom: '3px' }}>
                 <Tooltip title={name} sx={{ fontWeight: 'bold' }}>
                     <Typography sx={{ fontWeight: 'bold', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', maringRight: '5px', marginLeft: '5px' }}>
@@ -63,7 +63,7 @@ const File = ({ id, name, size, authToken, width, height }: ATFormFileViewerFile
                     </Typography>
                 </Tooltip>
             </Grid>
-            <Grid size={12} sx={{ height: `${height - 65}px`, textAlign: 'center' }} justifyContent={'center'}>
+            <Grid size={12} sx={{ height: `${height - 65}px`, textAlign: 'center', justifyContent: 'center' }} >
                 {
                     isImage(name)
                     &&
@@ -74,7 +74,7 @@ const File = ({ id, name, size, authToken, width, height }: ATFormFileViewerFile
                     </Tooltip>
                 }
             </Grid>
-            <Grid size={12} sx={{ height: '37px', marginTop: '5px', paddingTop: '3px' }} justifyContent="flex-end">
+            <Grid size={12} sx={{ height: '37px', marginTop: '5px', paddingTop: '3px', justifyContent: "flex-end" }} >
                 <Button onClick={onOpenClick} variant={'text'} sx={{ fontSize: '0.7rem', borderRadius: '0px', borderBottomRightRadius: '15px', borderBottomLeftRadius: '15px', ...(theme?.atConfig?.fileViewer?.file?.downloadButton || {}) }}>
                     {localText['Download']}
                     {`(${Math.ceil(size / 1024)} kB)`}

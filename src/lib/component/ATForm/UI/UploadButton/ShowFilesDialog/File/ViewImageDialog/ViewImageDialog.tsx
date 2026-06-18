@@ -19,7 +19,7 @@ const ViewImageDialog = ({ onClose, image, name }: ATFormUploadButtonViewImageDi
             <img style={{ width: '600px', height: '800px' }} src={image} alt={name} />
         </DialogContent>
         <DialogActions>
-            <Grid container spacing={2} justifyContent={'center'} >
+            <Grid container spacing={2} sx={{ justifyContent: 'center' }} >
                 <Grid size={{ xs: 12, md: 6 }}>
                     <Button onClick={onClose} color={'secondary'}>{localText['Cancel']}</Button>
                 </Grid>

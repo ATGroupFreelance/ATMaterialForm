@@ -30,7 +30,7 @@ const UploadButtonCellRenderer = ({ data, colDef }: ATFormUploadButtonCellRender
     }
 
     //TODO This was also item md={12} but im not sure how to impant this in Grid
-    return <Grid container justifyContent={'center'} sx={{ height: '100%' }}>
+    return <Grid container sx={{ height: '100%', justifyContent: 'center' }}>
         <Tooltip
             title={files.map((item: ATFormButtonFileType) => item.name).join(' , ')}
             onMouseEnter={() => { setShowTooltip(true) }}

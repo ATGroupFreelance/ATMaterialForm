@@ -82,7 +82,7 @@ const ImageSelect = ({ id, authToken, label, width = 128, height = 128, onChange
         <Typography variant={'h5'} sx={{ fontWeight: 'bold' }} >
             {label}
         </Typography>
-        <Grid container spacing={2} justifyContent={'center'} sx={{ textAlign: 'center', marginTop: '3px' }} >
+        <Grid container spacing={2} sx={{ textAlign: 'center', marginTop: '3px', justifyContent: 'center' }} >
             {
                 data.map(item => {
                     return <Grid key={item.id} size={3} {...(imageWrapperProps || {})}>

@@ -50,8 +50,10 @@ const DoublePasswordTextBox = ({ value, onChange, showPassword, helperText, erro
         showPassword: lShowPassword,
         error: ((valueA !== valueB) && valueA !== '') || error,
         helperText: ((valueA !== valueB) && valueA !== '') ? localText['Passwords do not match'] : helperText,
-        inputProps: {
-            autoComplete: 'new-password',
+        slotProps: {
+            htmlInput: {
+                autoComplete: 'new-password',
+            }
         }
     }
 

@@ -28,6 +28,9 @@ export default tseslint.config(
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'off',
       "@typescript-eslint/ban-ts-comment": "off",
+      "react-hooks/refs": "off",
+      'react-hooks/set-state-in-effect': 'off',
+      "react-hooks/purity": "off",
     },
   },
 )

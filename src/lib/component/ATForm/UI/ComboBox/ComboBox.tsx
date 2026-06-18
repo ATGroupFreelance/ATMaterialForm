@@ -52,8 +52,9 @@ const ComboBox = ({ id, onChange, value, readOnly, error, helperText, options, r
             label={label}
             {...params}
             slotProps={{
+                ...params.slotProps,
                 htmlInput: {
-                    ...params.inputProps,
+                    ...params.slotProps.htmlInput,                    
                     readOnly: isMobile(),
                 },
             }}

@@ -22,6 +22,8 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
         setHideElements(!hideElements)
     }, [hideElements])
 
+    const onRandomAClick = () => setA(Math.random() * 10)
+
     const formJSON = useMemo(() => {
         return formBuilder.utils.createFieldDefBuilder(
             [
@@ -30,7 +32,7 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                 formBuilder.createTextBox({ id: 'A' }, { onChange: (event) => setA(event.target.value), value: A }),
                 formBuilder.createTextBox({ id: 'B' }, { onChange: (event) => setB(event.target.value), value: B }),
                 formBuilder.createTextBox({ id: 'A + B', tabPath: 1 }, { value: Number(A) + Number(B) }),
-                formBuilder.createButton({ id: 'Random A' }, { onClick: () => setA(Math.random() * 10) }),
+                formBuilder.createButton({ id: 'Random A' }, { onClick: onRandomAClick }),
                 formBuilder.createLabel({ id: 'Label', label: 'Hi im a label' }),
                 formBuilder.createTextBox({ id: 'Name', validation: { required: true } }),
                 formBuilder.createPasswordTextBox({ id: 'Password' }),

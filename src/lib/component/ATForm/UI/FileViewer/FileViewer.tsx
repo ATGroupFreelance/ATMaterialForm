@@ -15,7 +15,7 @@ const FileViewer = ({ value, label, fileWidth = 150, fileHeight = 128, getSorted
 
     return <Box>
         <Grid container spacing={2}>
-            <Grid size={12} justifyContent={'start'} justifySelf={'start'} sx={{ textAlign: 'left' }}>
+            <Grid size={12} sx={{ textAlign: 'left', justifyContent: 'start', justifySelf: 'start' }}>
                 <Badge badgeContent={sortedValue.length} color="primary">
                     <DescriptionOutlined sx={theme?.atConfig?.fileViewer?.labelIcon} />
                 </Badge>
@@ -25,7 +25,7 @@ const FileViewer = ({ value, label, fileWidth = 150, fileHeight = 128, getSorted
             </Grid>
             {
                 !sortedValue.length &&
-                <Grid size={12} justifyContent={'center'} sx={{ height: `${fileHeight}px` }} >
+                <Grid size={12} sx={{ height: `${fileHeight}px`, justifyContent: 'center' }} >
                     <Typography>
                         {localText['There are no files to view']}
                     </Typography>

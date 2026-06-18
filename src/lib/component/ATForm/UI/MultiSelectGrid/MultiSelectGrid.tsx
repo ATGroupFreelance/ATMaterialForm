@@ -73,7 +73,7 @@ const MultiSelectGrid = ({ id, value, label, onChange, columnDefs, uniqueKey = D
 
     return <div style={{ width: '100%' }}>
         {label && label !== '' &&
-            <Grid container justifyContent={'center'} >
+            <Grid container sx={{ justifyContent: 'center' }} >
                 <Typography variant='h6'>{label}</Typography>
             </Grid>
         }
@@ -101,7 +101,7 @@ const MultiSelectGrid = ({ id, value, label, onChange, columnDefs, uniqueKey = D
         />
 
         {onConfirmButtonClick &&
-            <Grid container justifyContent={'center'} sx={{ marginTop: '7px' }}>
+            <Grid container sx={{ marginTop: '7px', justifyContent: 'center' }}>
                 <Grid size={6} {...(confirmButtonProps.wrapperRendererProps || {})}>
                     <Button
                         onClick={onInternalConfirmButtonClick}

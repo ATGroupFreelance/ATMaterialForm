@@ -33,7 +33,7 @@ const UIRenderDebugWrapperTable = ({ data }: { data: Record<string, any> }) => {
             <Table size="small">
                 <TableBody>
                     {Object.entries(data).map(([key, value]) => {
-                        let displayValue = "";
+                        let displayValue;
 
                         if (typeof value === "function") {
                             displayValue = "[Function]";

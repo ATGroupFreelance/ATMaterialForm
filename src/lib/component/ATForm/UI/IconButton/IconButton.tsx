@@ -6,7 +6,7 @@ import useATComponentLoading from '../../../../hooks/useATComponentLoading/useAT
 import { ATFormOnClickProps } from '../../../../types/Common.type';
 
 const IconButton = ({ onClick, loading: loadingProp, disabled, icon, confirmationText, children, tooltip, tooltipProps, ...restProps }: ATFormIconButtonProps) => {
-    const { loading, startLoading, stopLoading } = useATComponentLoading({ loading: loadingProp, disabled });
+    const { loading, startLoading, stopLoading } = useATComponentLoading({ loading: loadingProp });
 
     const onYesClick = (props: ATFormOnClickProps) => {
         props.closeToast()

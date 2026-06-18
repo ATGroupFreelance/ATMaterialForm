@@ -119,7 +119,7 @@ function UIRenderDebugWrapper({ childProps, children }: UIRenderDebugWrapperProp
                 </Paper>
             </Collapse>
 
-            <Box mt={1}>{children}</Box>
+            <Box sx={{ mt: 1 }}>{children}</Box>
         </Box>
     );
 }

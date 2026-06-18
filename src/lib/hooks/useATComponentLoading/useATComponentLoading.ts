@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
-const useATComponentLoading = ({ loading, disabled }: { loading?: boolean, disabled?: boolean }) => {
-    const [internalLoading, setInternalLoading] = useState(loading)
+const useATComponentLoading = ({ loading }: { loading?: boolean }) => {
+    const [internalLoading, setInternalLoading] = useState(false)
 
     const startLoading = useCallback(() => {
         setInternalLoading(true)
@@ -12,8 +12,7 @@ const useATComponentLoading = ({ loading, disabled }: { loading?: boolean, disab
     }, [])
 
     return {
-        loading: internalLoading,
-        disabled,
+        loading: loading ?? internalLoading,
         startLoading,
         stopLoading,
     }

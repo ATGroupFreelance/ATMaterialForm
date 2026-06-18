@@ -13,7 +13,7 @@ const ATFormButtonDialogWrapperDialog = ({ children, onClose, onSubmitClick, onR
             {children}
         </DialogContent>
         <DialogActions>
-            <Grid container spacing={2} sx={{ width: "100%" }} justifyContent={"end"}>
+            <Grid container spacing={2} sx={{ width: "100%", justifyContent: "end" }} >
                 <Grid size={{ xs: 12, md: 2 }}>
                     <Button onClick={onClose} color="error">
                         {getLocalText('Close')}

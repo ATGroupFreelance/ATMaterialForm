@@ -34,18 +34,18 @@ const ATFormCollapseWrapper = ({ children, childProps, config }: ATFormCollapseW
                 }}
             >
                 <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
                     onClick={handleToggle}
                     sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
                         cursor: 'pointer',
                         userSelect: 'none',
                         mb: 1,
                         padding: '6px'
                     }}
                 >
-                    <Typography variant="subtitle1" fontWeight={500}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
                         {getLocalText(label)}
                     </Typography>
                     <IconButton size="small">
@@ -54,7 +54,7 @@ const ATFormCollapseWrapper = ({ children, childProps, config }: ATFormCollapseW
                 </Box>
 
                 <Collapse in={open}>
-                    <Box p={1}>
+                    <Box sx={{ p: 1 }}>
                         {children}
                     </Box>
                 </Collapse>

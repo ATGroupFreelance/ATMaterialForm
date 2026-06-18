@@ -42,7 +42,7 @@ const ShowFilesDialog = ({ onSave, onClose, files, readOnly, authToken }: ATForm
                             </Grid>
                         })
                         :
-                        <Grid size={12} sx={{ textAlign: 'center' }} justifyContent={'center'}>
+                        <Grid size={12} sx={{ textAlign: 'center', justifyContent: 'center' }} >
                             <Typography>
                                 {localText['There are no files to view']}
                             </Typography>
