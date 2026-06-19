@@ -51,6 +51,8 @@ import FormDataControlledForm from './examples/FormDataControlledForm/FormDataCo
 import FormDataKeyValueControlledForm from './examples/FormDataKeyValueControlledForm/FormDataKeyValueControlledForm';
 import FormBenchmark from './examples/FormBenchMark/FormBenchMark';
 import ReactAndJSONComponentTogether from './examples/ReactAndJSONComponentTogether/ReactAndJSONComponentTogether';
+import HowToUseRuntime from './examples/HowToUseRuntime/HowToUseRuntime';
+import ReportComponent from './examples/HowToUseRuntime/ReportComponent/ReportComponent';
 
 export interface ExampleComponentInterface {
   ref?: any,
@@ -69,7 +71,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'FormInForm'
+const ACTIVE_EXAMPLE = 'HowToUseRuntime'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
@@ -296,6 +298,12 @@ function App() {
       component: ReactAndJSONComponentTogether,
       refEnabled: true,
       onChangeEnabled: true,
+    },
+    {
+      id: "HowToUseRuntime",
+      component: HowToUseRuntime,
+      refEnabled: true,
+      onChangeEnabled: true,
     }
   ]
 
@@ -318,6 +326,12 @@ function App() {
                   type: 'MyTextField',
                   initialValue: '',
                   validation: UITypeUtils.createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
+                })
+              },
+              {
+                component: ReportComponent,
+                typeInfo: UITypeUtils.createUncontrolledType({
+                  type: "ReportComponent",
                 })
               }
             ]

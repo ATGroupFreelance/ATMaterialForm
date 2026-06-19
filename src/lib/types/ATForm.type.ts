@@ -6,6 +6,7 @@ import { ATFormTypeInfoInterface } from "./UITypeUtils.type";
 import { ATFormTabConfigInterface, ATFormTabsManagerDefaultSelectedTabPathsType, ATFormTabsOnChangeType } from "./ATFormTabsManager.type";
 import { ATFormFormDataFormat, ATFormFormDataKeyValueType, ATFormFormDataSemiKeyValueType, ATFormFormDataType } from "./ATFormFormData.type";
 import { ATFormWrapperConfig } from "./ATFormFieldWrapper.type";
+import { ATFormRuntime, ATFormRuntimeBindings } from "./ATFormRuntime.type";
 
 export type ATFormGridSize = React.ComponentProps<typeof Grid>['size'];
 export type ATFormColor = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | 'default'
@@ -68,6 +69,8 @@ export interface ATFormProps {
     valueFormat?: ATFormFormDataFormat,
     debugProps?: ATFormDebugProps,
     logLevel?: LogLevel;
+    runtime?: ATFormRuntime;
+    runtimePrefix?: string,
 }
 
 export interface ATFormResetInterface {
@@ -117,6 +120,7 @@ export interface ATFormFieldTProps {
     },
     debug?: boolean,
     typeInfo?: ATFormTypeInfoInterface,
+    runtimeBindings?: ATFormRuntimeBindings,
 }
 
 export type ATFormChildProps<T extends ATFormFieldDefGenericProps = ATFormFieldDefGenericProps> = ATFormFieldDefInterface<T> & {

@@ -144,7 +144,7 @@ const ATFormFunction = (props: ATFormProps) => {
                 const a = oldFlatChildren[i]?.tProps?.id !== newFlatChildren[i]?.tProps?.id
                 const b = oldFlatChildren[i]?.tProps?.validation !== newFlatChildren[i]?.tProps?.validation
 
-                if (a || b ) {
+                if (a || b) {
                     compileAJV({ children: props.children })
                     break;
                 }
@@ -377,11 +377,22 @@ const ATFormFunction = (props: ATFormProps) => {
 
         const isFormControlled = props.value !== undefined
 
+        let tPropsRuntimeOverride;
+        let uiPropsRuntimeOverride;
+
+        if (props.runtime) {
+            const effectiveID = `${props.runtimePrefix || ""}${childProps.tProps.id}`
+            const { tProps, uiProps } = props.runtime.getBindings(effectiveID)
+            tPropsRuntimeOverride = tProps
+            uiPropsRuntimeOverride = uiProps
+        }
+
         return {
             tProps: {
                 ...childProps.tProps,
-                label: childProps.tProps.label !== undefined ? childProps.tProps.label : getLocalText(childProps.tProps.id, childProps.tProps.id),
-                defaultValue: newDefaultValue,
+                ...(tPropsRuntimeOverride || {}),
+                label: tPropsRuntimeOverride?.label ?? (childProps.tProps.label !== undefined ? childProps.tProps.label : getLocalText(childProps.tProps.id, childProps.tProps.id)),
+                defaultValue: tPropsRuntimeOverride?.defaultValue ?? newDefaultValue,
                 ref: (newRef) => {
                     if (newRef) {
                         onAssignChildRef(childProps.tProps.id, newRef)
@@ -394,9 +405,12 @@ const ATFormFunction = (props: ATFormProps) => {
                         }
                     }
                 },
-                debug: childProps.tProps.debug === undefined ? props.debugProps?.enabled : childProps.tProps.debug
+                debug: tPropsRuntimeOverride?.debug ?? (childProps.tProps.debug === undefined ? props.debugProps?.enabled : childProps.tProps.debug),
             },
-            uiProps: childProps.uiProps,
+            uiProps: {
+                ...childProps.uiProps,
+                ...(uiPropsRuntimeOverride || {}),
+            },
             typeInfo,
             onChildChange,
             errors: validationErrors,
@@ -404,7 +418,7 @@ const ATFormFunction = (props: ATFormProps) => {
             changeID: localValue?.changeID,
             isFormControlled,
         }
-    }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps])
+    }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps, props.runtime, props.runtimePrefix])
 
     const [flatChildren, flatChildrenProps] = useMemo(() => {
         const flatChildren = getFlatChildren(props.children)
@@ -526,10 +540,10 @@ const ATFormFunction = (props: ATFormProps) => {
             checkValidation,
             logger,
             reset,
-            getFormData
+            getFormData,
+            runtime: props.runtime,
         }
-    }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo, checkValidation, onChildChange, logger, reset, getFormData])
-
+    }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo, checkValidation, onChildChange, logger, reset, getFormData, props.runtime])
 
     useImperativeHandle(props.ref, () => {
         return {
