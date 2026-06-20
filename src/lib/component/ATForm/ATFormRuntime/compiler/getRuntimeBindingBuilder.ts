@@ -1,4 +1,4 @@
-export const getRuntimeBindingBuilder = {
+export const runtimeBindingBuilder = {
     createInitialize: <T>(config: {
         target?: "uiProps" | "tProps";
         def: T;

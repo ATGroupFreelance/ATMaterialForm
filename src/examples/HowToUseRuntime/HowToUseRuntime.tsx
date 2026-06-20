@@ -4,7 +4,7 @@ import ServiceManager from "@/serviceManager/serviceManager"
 import useCustomRuntimeEngine from "./useCustomRuntimeEngine/useCustomRuntimeEngine"
 import { Button, CircularProgress } from "@mui/material"
 import { useMemo, useState } from "react"
-import { getRuntimeBindingBuilder } from "@/lib/component/ATForm/ATFormRuntime/compiler/getRuntimeBindingBuilder"
+import { runtimeBindingBuilder } from "@/lib/component/ATForm/ATFormRuntime/compiler/getRuntimeBindingBuilder"
 
 //This is an example on how to use the runetime system.
 const HowToUseRuntime = ({ ref, onChange }: ExampleComponentInterface) => {
@@ -15,7 +15,7 @@ const HowToUseRuntime = ({ ref, onChange }: ExampleComponentInterface) => {
             formBuilder.createTextBox({
                 id: "Name",
                 runtimeBindings: {
-                    defaultValue: getRuntimeBindingBuilder.createInitialize({
+                    defaultValue: runtimeBindingBuilder.createInitialize({
                         target: "tProps",
                         def: {
                             type: "static",
@@ -28,7 +28,7 @@ const HowToUseRuntime = ({ ref, onChange }: ExampleComponentInterface) => {
             formBuilder.createComboBox({
                 id: "Countries2",
                 runtimeBindings: {
-                    options: getRuntimeBindingBuilder.createInitialize({
+                    options: runtimeBindingBuilder.createInitialize({
                         target: "uiProps",
                         def: {
                             type: "api",
@@ -42,14 +42,14 @@ const HowToUseRuntime = ({ ref, onChange }: ExampleComponentInterface) => {
                     id: "IAmReportComponent",
                     type: "ReportComponent",
                     runtimeBindings: {
-                        disabled: getRuntimeBindingBuilder.createInitialize({
+                        disabled: runtimeBindingBuilder.createInitialize({
                             target: "uiProps",
                             def: {
                                 type: "api",
                                 apiID: 2,
                             },
                         }),
-                        rowData: getRuntimeBindingBuilder.createAction({                            
+                        rowData: runtimeBindingBuilder.createAction({                            
                             def: {
                                 type: "database",
                             },
@@ -61,7 +61,7 @@ const HowToUseRuntime = ({ ref, onChange }: ExampleComponentInterface) => {
                         formBuilder.createTextBox({
                             id: "Name",
                             runtimeBindings: {
-                                defaultValue: getRuntimeBindingBuilder.createInitialize({
+                                defaultValue: runtimeBindingBuilder.createInitialize({
                                     target: "tProps",
                                     def: {
                                         type: "static",
@@ -73,7 +73,7 @@ const HowToUseRuntime = ({ ref, onChange }: ExampleComponentInterface) => {
                         formBuilder.createTextBox({
                             id: "I am Report input",
                             runtimeBindings: {
-                                defaultValue: getRuntimeBindingBuilder.createInitialize({
+                                defaultValue: runtimeBindingBuilder.createInitialize({
                                     target: "tProps",
                                     def: {
                                         type: "static",
