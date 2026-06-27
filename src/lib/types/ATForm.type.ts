@@ -82,8 +82,7 @@ export interface ATFormResetInterface {
 export interface ATFormOnChildChangeInterface {
     event: any,
     childProps: ATFormChildProps,
-    suppressFormOnChange?: boolean,
-    groupDataID?: string,
+    suppressFormOnChange?: boolean,    
     changeID: number,
 }
 
@@ -109,7 +108,7 @@ export interface ATFormFieldTProps {
     tabPath?: number | number[],
     /**Only works for controlled elements and its used for form initialize */
     defaultValue?: any,
-    groupDataID?: string,
+    groupDataKey?: string,
     wrapperRenderer?: ATFormWrapperConfig,
     colDef?: ColDef,
     skipForm?: boolean,
@@ -143,6 +142,7 @@ export interface ATFormUnknownChildProps {
         wrapperRenderer?: ATFormWrapperConfig,
         size?: ATFormGridSize,
         debug?: boolean,
+        groupDataKey?: string,
     },
     uiProps?: Record<string, any>,
 }

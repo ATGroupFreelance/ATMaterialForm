@@ -11,6 +11,7 @@ import { ATFormContextProvider } from './ATFormContext/ATFormContext';
 import ATFormTabsManager from './ATFormTabWrapper/ATFormTabsManager';
 import { ATFormFormDataKeyValueType, ATFormFormDataSemiKeyValueType, ATFormFormDataType } from '../../types/ATFormFormData.type';
 import { createLogger } from './ATFormLogger';
+import { buildFormGroupMap, flattenGroupedFormData, groupFormDataByGroupKey } from './FormUtils/FormGroupingUtils';
 
 interface InternalDefaultValueInterface {
     value: ATFormFormDataType | null;
@@ -168,11 +169,35 @@ const ATFormFunction = (props: ATFormProps) => {
         }
     }, [internalDefaultValue]);
 
+    const rawFlatChildren = useMemo(() => {
+        return getFlatChildren(props.children);
+    }, [props.children]);
 
-    const onChildChange = useCallback(({ event, childProps, suppressFormOnChange, groupDataID, changeID }: ATFormOnChildChangeInterface) => {
-        //TODO add support for groupDataID
-        void groupDataID;
+    const flatChildrenGroupProps = useMemo(() => {
+        return rawFlatChildren.map(item => {
+            const { tProps, ...restProps } = item?.props || item;
 
+            return {
+                tProps,
+                uiProps: restProps,
+            };
+        });
+    }, [rawFlatChildren]);
+
+    const hasGroupedFields = useMemo(
+        () => flatChildrenGroupProps.some((x) => !!x.tProps?.groupDataKey),
+        [flatChildrenGroupProps]
+    );
+
+    const formGroupMap = useMemo(() => {
+        if (!hasGroupedFields) {
+            return null;
+        }
+
+        return buildFormGroupMap(flatChildrenGroupProps);
+    }, [hasGroupedFields, flatChildrenGroupProps]);
+
+    const onChildChange = useCallback(({ event, childProps, suppressFormOnChange, changeID }: ATFormOnChildChangeInterface) => {
         mChildrenChangeIDMap.current[childProps.tProps.id] = changeID
 
         //First allow type info overwrite using tProps, second use local typeInfo, last use global typeInfo
@@ -213,59 +238,36 @@ const ATFormFunction = (props: ATFormProps) => {
         const onChange = props.onChange
 
         if (onChange && !suppressFormOnChange) {
-            onChange({ formData: newFormData, formDataKeyValue: newFormDataKeyValue, formDataSemiKeyValue: newFormDataSemiKeyValue })
+            //Handle data grouping if it exists.
+            const outputFormDataKeyValue = formGroupMap
+                ? groupFormDataByGroupKey(newFormDataKeyValue, formGroupMap)
+                : newFormDataKeyValue;
+
+            const outputFormDataSemiKeyValue = formGroupMap
+                ? groupFormDataByGroupKey(newFormDataSemiKeyValue, formGroupMap)
+                : newFormDataSemiKeyValue;
+
+            onChange({ formData: newFormData, formDataKeyValue: outputFormDataKeyValue, formDataSemiKeyValue: outputFormDataSemiKeyValue })
         }
-    }, [enums, getTypeInfo, props.onChange, logger])
+    }, [enums, getTypeInfo, props.onChange, logger, formGroupMap])
 
     const getFormData = useCallback((): ATFormOnChangeInterface => {
         return {
             formData: {
                 ...mFormData.current
             },
-            formDataKeyValue: {
-                ...mFormDataKeyValue.current
-            },
-            formDataSemiKeyValue: {
-                ...mFormDataSemiKeyValue.current
-            }
+            formDataKeyValue: formGroupMap
+                ? groupFormDataByGroupKey(mFormDataKeyValue.current, formGroupMap)
+                : { ...mFormDataKeyValue.current },
+            formDataSemiKeyValue: formGroupMap
+                ? groupFormDataByGroupKey(mFormDataSemiKeyValue.current, formGroupMap)
+                : { ...mFormDataSemiKeyValue.current },
         }
-    }, [])
+    }, [formGroupMap])
 
     const onAssignChildRef = useCallback((id: string, childRef: ATFormChildRefInterface) => {
         mChildrenRefs.current[id] = childRef
     }, [])
-
-    // const ungroupFormData = useCallback((flatChildren, inputDefaultValue, reverseConvertToKeyValueEnabled, isInputSemiKeyValue) => {
-    //     if (!inputDefaultValue)
-    //         return inputDefaultValue;
-
-    //     const groupDataIDList = flatChildren.filter(item => item.groupDataID)
-
-    //     if (!groupDataIDList.length)
-    //         return inputDefaultValue;
-
-
-    //     const result = {}
-
-    //     for (let key in inputDefaultValue) {
-    //         if (groupDataIDList.includes(key)) {
-    //             let subFormData = null
-
-    //             //Is data formDataKeyValue format ?
-    //             if (reverseConvertToKeyValueEnabled && !isInputSemiKeyValue)
-    //                 subFormData = JSON.parse(inputDefaultValue[key])
-    //             else
-    //                 subFormData = inputDefaultValue[key]
-
-    //             for (let key2 in subFormData)
-    //                 result[key2] = subFormData[key2]
-    //         }
-    //         else
-    //             result[key] = inputDefaultValue[key]
-    //     }
-
-    //     return result
-    // }, [])
 
     const onLockdownChange = useCallback((id: string, state: boolean) => {
         mLockdown.current[id] = state
@@ -458,9 +460,11 @@ const ATFormFunction = (props: ATFormProps) => {
 
         const valueFormat = props.valueFormat ?? 'FormDataSemiKeyValue'
 
+        const flattenValue = formGroupMap ? flattenGroupedFormData(props.value, formGroupMap) : props.value
+
         /**Convert any format type to FormData*/
         const formData = anyToFormData({
-            value: props.value,
+            value: flattenValue,
             enums,
             rtl,
             flatChildrenProps,
@@ -506,12 +510,14 @@ const ATFormFunction = (props: ATFormProps) => {
 
         mChangeID.current = mChangeID.current + 1
         setLocalValue({ rawValue: strValue, value: formData, changeID: mChangeID.current });
-    }, [props.value, props.valueFormat, enums, rtl, flatChildrenProps]);
+    }, [props.value, props.valueFormat, enums, rtl, flatChildrenProps, formGroupMap]);
 
     const reset = useCallback(({ inputDefaultValue, inputDefaultValueFormat = 'FormDataSemiKeyValue', suppressFormOnChange = false }: ATFormResetInterface = {} as ATFormResetInterface) => {
+        const flattenValue = formGroupMap ? flattenGroupedFormData(inputDefaultValue, formGroupMap) : inputDefaultValue
+
         //If default value is not key value just use it!
         const newDefaultValue = anyToFormData({
-            value: inputDefaultValue,
+            value: flattenValue,
             enums,
             rtl,
             flatChildrenProps,
@@ -521,7 +527,7 @@ const ATFormFunction = (props: ATFormProps) => {
         console.log('newDefaultValue', newDefaultValue)
 
         setInternalDefaultValue({ value: newDefaultValue, suppressFormOnChange })
-    }, [enums, rtl, flatChildrenProps])
+    }, [enums, rtl, flatChildrenProps, formGroupMap])
 
     useEffect(() => {
         if (props.defaultValue && !mIsDefaultValueResetCalledOnMount.current) {

@@ -10,45 +10,6 @@ export const isLiteralObject = (a: any) => {
     return (!!a) && (a.constructor === Object);
 };
 
-export const groupKeyValueAsTableData = (formDataKeyValue: any, groupID: any, idList: any) => {
-    const result: Record<string, any> = {}
-    const groupedValues: Record<string, any> = {}
-
-    let counter = 0
-
-
-    for (const key in formDataKeyValue) {
-        const found = idList.find((item: any) => item === key)
-
-        if (found) {
-            counter = counter + 1
-            groupedValues[key] = formDataKeyValue[key]
-        }
-        else {
-            result[key] = formDataKeyValue[key]
-        }
-    }
-
-    if (counter !== 0)
-        result[groupID] = JSON.stringify([groupedValues])
-
-    return result
-}
-
-export const reverseGroupKeyValueAsTableData = (formDataKeyValue: any, groupID: any) => {
-    const { [groupID]: groupObject, ...rest } = formDataKeyValue
-
-    let parsedGroupObject = []
-    if (groupObject) {
-        parsedGroupObject = JSON.parse(groupObject)
-    }
-
-    return {
-        ...rest,
-        ...(parsedGroupObject.length ? parsedGroupObject[0] : {}),
-    }
-}
-
 //Used for knowing if option or data is function or a real data!
 export const isFunction = (obj: any) => {
     return !!(obj && obj.constructor && obj.call && obj.apply);
@@ -251,3 +212,4 @@ export function generateUUID() {
 
     return fallbackUUIDv4();
 }
+

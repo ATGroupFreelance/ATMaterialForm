@@ -53,6 +53,7 @@ import FormBenchmark from './examples/FormBenchMark/FormBenchMark';
 import ReactAndJSONComponentTogether from './examples/ReactAndJSONComponentTogether/ReactAndJSONComponentTogether';
 import HowToUseRuntime from './examples/HowToUseRuntime/HowToUseRuntime';
 import ReportComponent from './examples/HowToUseRuntime/ReportComponent/ReportComponent';
+import HowToUseGroupDataKey from './examples/HowToUseGroupDataKey/HowToUseGroupDataKey';
 
 export interface ExampleComponentInterface {
   ref?: any,
@@ -71,7 +72,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'HowToUseRuntime'
+const ACTIVE_EXAMPLE = 'HowToUseGroupDataKey'
 
 function App() {
   const formRef = useRef<ATFormRefInterface>(null)
@@ -302,6 +303,12 @@ function App() {
     {
       id: "HowToUseRuntime",
       component: HowToUseRuntime,
+      refEnabled: true,
+      onChangeEnabled: true,
+    },
+    {
+      id: "HowToUseGroupDataKey",
+      component: HowToUseGroupDataKey,
       refEnabled: true,
       onChangeEnabled: true,
     }
