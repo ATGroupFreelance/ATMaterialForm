@@ -1,5 +1,5 @@
-import { ATFormFieldDefInterface } from "@/lib/types/ATForm.type";
-import { ATFormRuntimeBindingsMap } from "@/lib/types/ATFormRuntime.type";
+import { ATFormFieldDefInterface } from "../../../../types/ATForm.type";
+import { ATFormRuntimeBindingsMap } from "../../../..//types/ATFormRuntime.type";
 
 export function extractRuntimeBindings(
     fields: ATFormFieldDefInterface[],

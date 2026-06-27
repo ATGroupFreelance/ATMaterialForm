@@ -1,4 +1,4 @@
-type ATFormRuntimeBinding = {
+export type ATFormRuntimeBinding = {
 
     /*
      * What runtime should do.
