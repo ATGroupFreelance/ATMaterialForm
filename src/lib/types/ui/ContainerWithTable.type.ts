@@ -1,10 +1,10 @@
-import { ATFormFieldDefInterface } from "../ATForm.type";
-import { ATFormMinimalControlledUIProps } from "../Common.type";
-import { ATAgGridProps } from "../at-ag-grid/ATAgGrid.type";
+import { AtFormFieldDefInterface } from "../AtForm.type";
+import { AtFormMinimalControlledUiProps } from "../Common.type";
+import { AtAgGridProps } from "../at-ag-grid/AtAgGrid.type";
 
-export type ATFormContainerWithTableProps = ATFormMinimalControlledUIProps & {
+export type AtFormContainerWithTableProps = AtFormMinimalControlledUiProps & {
     //This is the children of containerWithTable which is shown inside the add interface, you can use formBuilder to create these elements
-    formChildren?: ATFormFieldDefInterface[],
+    formChildren?: AtFormFieldDefInterface[],
     getGridColumnDefs?: any,
     getRowId?: any,
     label?: string,
@@ -19,5 +19,5 @@ export type ATFormContainerWithTableProps = ATFormMinimalControlledUIProps & {
     resetFormAfterAdd?: boolean,
     showHeaderlessTitle?: boolean,
     disabled?: boolean,
-    containerProps?: ATAgGridProps,
+    containerProps?: AtAgGridProps,
 };

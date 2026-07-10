@@ -1,0 +1,97 @@
+import { useEffect, useState } from 'react';
+
+//Context
+import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
+//UI
+import { Grid, Typography, Box } from '@mui/material';
+import { AtFormImageSelectImageProps, AtFormImageSelectProps } from '../../../../types/ui/ImageSelect.type';
+import Image from './Image/Image';
+
+const ImageSelect = ({ id, authToken, label, width = 128, height = 128, onChange, value, multiple, imageWrapperProps }: AtFormImageSelectProps) => {
+    void id;
+
+    const { getFile } = useAtFormConfig()
+    const [data, setData] = useState<Array<AtFormImageSelectImageProps>>([])
+
+    useEffect(() => {
+        if (value)
+            Promise.all(
+                value.map((item: any): Promise<AtFormImageSelectImageProps> => {
+                    return new Promise((resolve, reject) => {
+                        const found = data.find(dataItem => dataItem.id === item.id)
+
+                        if (found)
+                            resolve({
+                                ...found,
+                                ...item
+                            })
+                        else if (getFile)
+                            getFile({ id: item.id, authToken, width, height })
+                                .then(res => {
+                                    const objectUrl = window.URL.createObjectURL(res)
+
+                                    resolve({
+                                        ...item,
+                                        src: objectUrl,
+                                    })
+                                })
+                                .catch((err) => {
+                                    reject(err)
+                                })
+                    })
+                })
+            )
+                .then((filesRes: Array<AtFormImageSelectImageProps>) => {
+                    setData(filesRes.map(item => {
+                        return {
+                            ...item,
+                            selected: false,
+                        }
+                    }))
+                })
+
+        // eslint-disable-next-line
+    }, [value, authToken])
+
+    const onImageClick = ({ id }: AtFormImageSelectImageProps) => {
+        const newValue = value.map((item: any) => {
+            let newSelected = item.selected
+
+            if (item.id === id)
+                newSelected = !newSelected
+            else if (!multiple)
+                newSelected = false
+
+            console.log('id newSelected', id, newSelected)
+
+            return {
+                ...item,
+                selected: newSelected,
+            }
+        })
+
+
+        if (onChange) {
+            onChange({ target: { value: newValue } })
+        }
+    }
+
+    console.log('value', data, value)
+
+    return <Box style={{ width: '100%', textAlign: 'center', paddingBottom: '6px' }}>
+        <Typography variant={'h5'} sx={{ fontWeight: 'bold' }} >
+            {label}
+        </Typography>
+        <Grid container spacing={2} sx={{ textAlign: 'center', marginTop: '3px', justifyContent: 'center' }} >
+            {
+                data.map(item => {
+                    return <Grid key={item.id} size={3} {...(imageWrapperProps || {})}>
+                        <Image {...item} width={width} height={height} onClick={() => onImageClick(item)} />
+                    </Grid>
+                })
+            }
+        </Grid>
+    </Box>
+}
+
+export default ImageSelect;

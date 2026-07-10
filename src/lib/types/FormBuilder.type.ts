@@ -1,16 +1,16 @@
-import { ATFormFieldTProps } from "./ATForm.type";
+import { AtFormFieldTProps } from "./AtForm.type";
 import { StrictOmit } from "./Common.type";
 
-export type ATFormFieldTypelessTProps = StrictOmit<ATFormFieldTProps, 'type'>
+export type AtFormFieldTypelessTProps = StrictOmit<AtFormFieldTProps, 'type'>
 
-export interface ATFormBuilderCreateInterface {
+export interface AtFormBuilderCreateInterface {
     type: string,
     defaultSize: number,
-    tProps: ATFormFieldTypelessTProps,
+    tProps: AtFormFieldTypelessTProps,
     uiProps?: Record<string, any>,
 }
 
-export interface ATFormBuilderConditionalInsertInterface {
+export interface AtFormBuilderConditionalInsertInterface {
     condition: boolean,
     formChildren: any[],
 }

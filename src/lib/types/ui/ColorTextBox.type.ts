@@ -1,9 +1,9 @@
 import { DialogProps } from "@mui/material";
-import { ATFormTextBoxProps } from "./TextBox.type";
+import { AtFormTextBoxProps } from "./TextBox.type";
 
-export type ATFormColorTextBoxProps = ATFormTextBoxProps
+export type AtFormColorTextBoxProps = AtFormTextBoxProps
 
-export interface ATFormColorTextBoxColorPickerDialogProps extends DialogProps {
+export interface AtFormColorTextBoxColorPickerDialogProps extends DialogProps {
     defaultValue: any,
     onSubmitClick: any,    
 }

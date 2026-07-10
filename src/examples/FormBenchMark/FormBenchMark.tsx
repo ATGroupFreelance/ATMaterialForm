@@ -1,6 +1,6 @@
 // src/components/FormBenchmark.tsx
 import React, { useMemo, useRef, useState } from "react";
-import { ATForm, formBuilder } from "@/lib"; // adjust path if needed
+import { AtForm, formBuilder } from "@/lib"; // adjust path if needed
 
 type Mode = "reset" | "manual";
 type Target = "simple" | "nested";
@@ -416,18 +416,18 @@ export default function FormBenchmark() {
                     <div style={{ flex: 1, borderRadius: 10, border: "1px solid #eef6ff", padding: 12, background: "#ffffff" }}>
                         <h4 style={{ margin: "6px 0 10px" }}>Simple Form under test (flat fields)</h4>
                         <div style={{ height: 360, overflow: "auto", padding: 8, border: "1px dashed #f0f6ff", borderRadius: 8 }}>
-                            <ATForm ref={refSimple} onChange={onFormChangeCapture} value={valueSimple} valueFormat={valueFormat}>
+                            <AtForm ref={refSimple} onChange={onFormChangeCapture} value={valueSimple} valueFormat={valueFormat}>
                                 {simpleFields}
-                            </ATForm>
+                            </AtForm>
                         </div>
                     </div>
 
                     <div style={{ flex: 1, borderRadius: 10, border: "1px solid #eef6ff", padding: 12, background: "#ffffff" }}>
                         <h4 style={{ margin: "6px 0 10px" }}>Nested Form under test (forms containing fields)</h4>
                         <div style={{ height: 360, overflow: "auto", padding: 8, border: "1px dashed #f0f6ff", borderRadius: 8 }}>
-                            <ATForm ref={refNested} onChange={onFormChangeCapture} value={valueNested} valueFormat={valueFormat}>
+                            <AtForm ref={refNested} onChange={onFormChangeCapture} value={valueNested} valueFormat={valueFormat}>
                                 {nestedFields}
-                            </ATForm>
+                            </AtForm>
                         </div>
                     </div>
                 </section>

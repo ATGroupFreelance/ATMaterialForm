@@ -1,7 +1,7 @@
-import { ATFormWrapperRendererProps } from "../ATFormFieldWrapper.type";
+import { AtFormWrapperRendererProps } from "../AtFormFieldWrapper.type";
 import { StrictOmit } from "../Common.type";
-import { ATFormButtonProps } from "../ui/Button.type";
+import { AtFormButtonProps } from "../ui/Button.type";
 
-export type ATFormButtonWrapperConfig = StrictOmit<ATFormButtonProps, 'children'>
+export type AtFormButtonWrapperConfig = StrictOmit<AtFormButtonProps, 'children'>
 
-export type ATFormButtonWrapperProps = ATFormWrapperRendererProps<{ config?: ATFormButtonWrapperConfig }>;
+export type AtFormButtonWrapperProps = AtFormWrapperRendererProps<{ config?: AtFormButtonWrapperConfig }>;

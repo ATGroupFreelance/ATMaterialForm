@@ -1,10 +1,10 @@
 import { ExampleComponentInterface } from "@/App"
-import { ATForm, formBuilder } from "@/lib"
+import { AtForm, formBuilder } from "@/lib"
 import ServiceManager from "@/serviceManager/serviceManager"
 import useCustomRuntimeEngine from "./useCustomRuntimeEngine/useCustomRuntimeEngine"
 import { Button, CircularProgress } from "@mui/material"
 import { useMemo, useState } from "react"
-import { runtimeBindingBuilder } from "@/lib/component/ATForm/ATFormRuntime/compiler/getRuntimeBindingBuilder"
+import { runtimeBindingBuilder } from "@/lib/component/AtForm/AtFormRuntime/compiler/getRuntimeBindingBuilder"
 
 //This is an example on how to use the runetime system.
 const HowToUseRuntime = ({ ref, onChange }: ExampleComponentInterface) => {
@@ -32,7 +32,7 @@ const HowToUseRuntime = ({ ref, onChange }: ExampleComponentInterface) => {
                         target: "uiProps",
                         def: {
                             type: "api",
-                            apiID: 1,
+                            apiId: 1,
                         }
                     })
                 }
@@ -46,7 +46,7 @@ const HowToUseRuntime = ({ ref, onChange }: ExampleComponentInterface) => {
                             target: "uiProps",
                             def: {
                                 type: "api",
-                                apiID: 2,
+                                apiId: 2,
                             },
                         }),
                         rowData: runtimeBindingBuilder.createAction({                            
@@ -102,11 +102,11 @@ const HowToUseRuntime = ({ ref, onChange }: ExampleComponentInterface) => {
         return <CircularProgress />
 
     return <>
-        <ATForm ref={ref} onChange={onChange} runtime={runtime}>
+        <AtForm ref={ref} onChange={onChange} runtime={runtime}>
             {
                 fieldDefs
             }
-        </ATForm>
+        </AtForm>
         <Button onClick={onChangeRuntimeValue}>
             Change runtime val
         </Button>

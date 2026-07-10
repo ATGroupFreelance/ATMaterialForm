@@ -1,22 +1,22 @@
-import { ATForm, formBuilder } from '@/lib';
-import ATToast from '@/lib/component/ATToast/ATToast';
+import { AtForm, formBuilder } from '@/lib';
+import AtToast from '@/lib/component/AtToast/AtToast';
 import { ExampleComponentInterface } from '@/App';
 
 const ToastPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
     const onSimpleNotificationClick = () => {
-        ATToast.info('This is a simple notification')
+        AtToast.info('This is a simple notification')
     }
 
     const onPersistentNotificationClick = () => {
-        ATToast.info('This is a persistent notification', { autoClose: false })
+        AtToast.info('This is a persistent notification', { autoClose: false })
     }
 
     const onAreYouSureClick = () => {
-        ATToast.AreYouSure('Thank you for confirming that you are sure!')
+        AtToast.AreYouSure('Thank you for confirming that you are sure!')
     }
 
     const onCustomNotificationClick = () => {
-        ATToast.info((...props: any) => {
+        AtToast.info((...props: any) => {
             console.log('onCustomNotificationClick ATToast Custom Component Props', props)
 
             return <div>This is a custom component</div>
@@ -24,7 +24,7 @@ const ToastPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
     }
 
     return (
-        <ATForm ref={ref} onChange={onChange} validationDisabled={false} >
+        <AtForm ref={ref} onChange={onChange} validationDisabled={false} >
             {
                 formBuilder.utils.createFieldDefBuilder(
                     [
@@ -34,9 +34,9 @@ const ToastPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
                         formBuilder.createButton({ id: 'Custom Notification' }, { onClick: onCustomNotificationClick, color: 'success' }),
                     ]
                 )
-                    .buildATForm()
+                    .buildAtForm()
             }
-        </ATForm>
+        </AtForm>
     )
 }
 

@@ -1,9 +1,9 @@
-import { ATForm, formBuilder } from "@/lib";
+import { AtForm, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from '@/App';
 
 const ExternalComponentIntegration = ({ ref, onChange }: ExampleComponentInterface) => {
     return (
-        <ATForm onChange={onChange} ref={ref}>
+        <AtForm onChange={onChange} ref={ref}>
             {
                 [
                     formBuilder.createTextBox({ id: 'Form Text Box' }),
@@ -19,7 +19,7 @@ const ExternalComponentIntegration = ({ ref, onChange }: ExampleComponentInterfa
                     }
                 ]
             }
-        </ATForm>
+        </AtForm>
     )
 }
 

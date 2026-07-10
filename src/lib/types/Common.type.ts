@@ -6,7 +6,7 @@ export type DeepPartial<T> = {
 export type PartialExcept<T, K extends keyof T> =
     Partial<Omit<T, K>> & Pick<T, K>;
 
-export interface ATEnumCompatibleComponentProps {
+export interface AtEnumCompatibleComponentProps {
     enumsKey?: string,
 }
 
@@ -15,13 +15,13 @@ export type StringKeyedObject = {
     [key: string]: any;
 };
 
-export type ATEnumItemType = { id: number | string; title: string, parent_id?: string, [key: string]: any }
+export type AtEnumItemType = { id: number | string; title: string, parent_id?: string, [key: string]: any }
 
-export type ATEnumType = Array<ATEnumItemType>;
+export type AtEnumType = Array<AtEnumItemType>;
 
-export type ATEnumsType = { [key: string]: ATEnumType } | null | undefined;
+export type AtEnumsType = { [key: string]: AtEnumType } | null | undefined;
 
-export interface ATFormMinimalControlledUIProps<
+export interface AtFormMinimalControlledUiProps<
     T extends {
         value?: unknown;
         onChange?: (...args: any[]) => void;
@@ -38,19 +38,19 @@ export interface ATFormMinimalControlledUIProps<
     readOnly?: boolean;
 }
 
-export interface ATFormMinimalUncontrolledUIProps {
+export interface AtFormMinimalUncontrolledUiProps {
     id?: string,
 }
 
-export interface ATFormOnClickBaseProps {
+export interface AtFormOnClickBaseProps {
     event: React.MouseEvent<HTMLButtonElement>;
     startLoading: () => void;
     stopLoading: () => void;
     [key: string]: any;
 }
 
-export type ATFormOnClickProps<TExtraProps = {}> = ATFormOnClickBaseProps & TExtraProps;
+export type AtFormOnClickProps<TExtraProps = {}> = AtFormOnClickBaseProps & TExtraProps;
 
-export type ATFormOnClickType<TExtraProps = {}> = (props: ATFormOnClickProps<TExtraProps>) => void;
+export type AtFormOnClickType<TExtraProps = {}> = (props: AtFormOnClickProps<TExtraProps>) => void;
 
-export type ATFormGetLocalTextFunctionType = (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined
+export type AtFormGetLocalTextFunctionType = (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined

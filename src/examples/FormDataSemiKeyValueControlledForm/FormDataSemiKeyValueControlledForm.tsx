@@ -1,12 +1,12 @@
-import { ATForm, formBuilder } from "@/lib";
+import { AtForm, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from '@/App';
 import { useState } from "react";
-import { ATFormOnChangeInterface } from "@/lib/types/ATForm.type";
+import { AtFormOnChangeInterface } from "@/lib/types/AtForm.type";
 
 const FormDataSemiKeyValueControlledForm = ({ ref, onChange }: ExampleComponentInterface) => {
     const [formData, setFormData] = useState<any>()
 
-    const internalOnChange = (props: ATFormOnChangeInterface) => {
+    const internalOnChange = (props: AtFormOnChangeInterface) => {
         setFormData(props.formDataSemiKeyValue)
 
         console.log('###ATForm onChange###', props)
@@ -18,12 +18,12 @@ const FormDataSemiKeyValueControlledForm = ({ ref, onChange }: ExampleComponentI
     console.log("FormDataSemiKeyValueControlledForm Value", formData)
 
     return (
-        <ATForm ref={ref} onChange={internalOnChange} value={formData} valueFormat="FormDataSemiKeyValue">
+        <AtForm ref={ref} onChange={internalOnChange} value={formData} valueFormat="FormDataSemiKeyValue">
             {[
                 formBuilder.createTextBox({ id: 'TextBox1', size: 6 }),
                 formBuilder.createButton({ id: "setValue", size: 3 }, { onClick: () => setFormData({ TextBox1: "I'm set Value" }) }),
             ]}
-        </ATForm>
+        </AtForm>
     )
 }
 

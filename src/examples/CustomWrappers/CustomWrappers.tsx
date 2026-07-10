@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ATForm, formBuilder } from "@/lib";
+import { AtForm, formBuilder } from "@/lib";
 import { Button, Grid } from '@mui/material';
 import { ExampleComponentInterface } from '@/App';
 
@@ -58,7 +58,7 @@ const CustomWrappers = ({ ref }: ExampleComponentInterface) => {
     console.log('onTextBoxChange 2  ', isValidNumber)
 
     return (
-        <ATForm ref={ref} validationDisabled={false}>
+        <AtForm ref={ref} validationDisabled={false}>
             {
                 formBuilder.utils.createFieldDefBuilder(
                     [
@@ -82,9 +82,9 @@ const CustomWrappers = ({ ref }: ExampleComponentInterface) => {
                         })
                     ]
                 )
-                    .buildATForm()
+                    .buildAtForm()
             }
-        </ATForm>
+        </AtForm>
     )
 }
 

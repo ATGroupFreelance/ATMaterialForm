@@ -1,0 +1,21 @@
+import React from 'react';
+
+//MUI
+import FindInPageOutlinedIcon from '@mui/icons-material/FindInPageOutlined';
+import Tooltip from '@mui/material/Tooltip';
+import { AtFormUploadButtonShowFilesIconButtonProps } from '../../../../../types/ui/UploadButton.type';
+import IconButton from '../../IconButton/IconButton';
+
+const ShowFilesIconButton = ({ files = [], onClick, label, ...restProps }: AtFormUploadButtonShowFilesIconButtonProps) => {
+    return <React.Fragment>
+        <Tooltip title={label}   >
+            <span>
+                <IconButton disabled={!files?.length} onClick={onClick} {...restProps}>
+                    <FindInPageOutlinedIcon />
+                </IconButton>
+            </span>
+        </Tooltip>
+    </React.Fragment>
+}
+
+export default ShowFilesIconButton;

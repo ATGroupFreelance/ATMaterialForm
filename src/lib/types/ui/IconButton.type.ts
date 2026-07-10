@@ -1,8 +1,8 @@
 import { IconButtonProps, TooltipProps } from '@mui/material'
-import { ATFormMinimalUncontrolledUIProps, ATFormOnClickType, StrictOmit } from '../Common.type';
+import { AtFormMinimalUncontrolledUiProps, AtFormOnClickType, StrictOmit } from '../Common.type';
 
-export type ATFormIconButtonProps = ATFormMinimalUncontrolledUIProps & StrictOmit<IconButtonProps, 'id' | 'onClick' | 'loading'> & {
-    onClick?: ATFormOnClickType;
+export type AtFormIconButtonProps = AtFormMinimalUncontrolledUiProps & StrictOmit<IconButtonProps, 'id' | 'onClick' | 'loading'> & {
+    onClick?: AtFormOnClickType;
     loading?: boolean;
     confirmationText?: string;
     label?: string,

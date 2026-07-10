@@ -1,7 +1,7 @@
-import { ATFormWrapperRendererProps } from "../ATFormFieldWrapper.type";
+import { AtFormWrapperRendererProps } from "../AtFormFieldWrapper.type";
 
-export interface ATFormCollapseWrapperConfig {
+export interface AtFormCollapseWrapperConfig {
     defaultOpen?: boolean,
 }
 
-export type ATFormCollapseWrapperProps = ATFormWrapperRendererProps<{ config?: ATFormCollapseWrapperConfig }>;
+export type AtFormCollapseWrapperProps = AtFormWrapperRendererProps<{ config?: AtFormCollapseWrapperConfig }>;

@@ -1,9 +1,9 @@
 import { ExampleComponentInterface } from '@/App';
-import { ATForm, formBuilder} from '@/lib';
+import { AtForm, formBuilder} from '@/lib';
 
 const TabsInForm = ({ ref, onChange }: ExampleComponentInterface) => {
     return (
-        <ATForm ref={ref} onChange={onChange} validationDisabled={false} tabs={[{ label: 'Tab Title 1' }, { label: 'Tab Title 2' }]}>
+        <AtForm ref={ref} onChange={onChange} validationDisabled={false} tabs={[{ label: 'Tab Title 1' }, { label: 'Tab Title 2' }]}>
             {
                 formBuilder.utils.createFieldDefBuilder(
                     [
@@ -11,9 +11,9 @@ const TabsInForm = ({ ref, onChange }: ExampleComponentInterface) => {
                         formBuilder.createTextBox({ id: 'imInTab1', tabPath: 0 }),
                     ]
                 )
-                    .buildATForm()
+                    .buildAtForm()
             }
-        </ATForm>
+        </AtForm>
     )
 }
 

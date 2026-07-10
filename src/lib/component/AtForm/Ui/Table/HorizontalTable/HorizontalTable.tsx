@@ -1,0 +1,65 @@
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
+//Hooks
+import useAtFormConfig from '../../../../../hooks/useAtFormConfig/useAtFormConfig';
+import { AtFormHorizontalTableProps } from '../../../../../types/ui/Table.type';
+
+const HorizontalTable = ({ id, data, columns, rowProps, cellProps, headerCellProps, headerRowProps, hideColumns }: AtFormHorizontalTableProps) => {
+    void id;
+
+    const { getLocalText } = useAtFormConfig()
+
+    const newColumns = [
+        ...(columns || [])
+    ]
+
+    if (!newColumns.length && data && data.length) {
+        for (const key in data[0]) {
+            newColumns.push(key)
+        }
+    }
+
+    const newData = data || []
+
+    return <>
+        <TableHead>
+            {
+                !hideColumns
+                &&
+                <TableRow {...(headerRowProps || {})}>
+                    {
+                        newColumns.map(item => {
+                            return <TableCell key={item} {...(headerCellProps || {})}>{getLocalText(item)}</TableCell>
+                        })
+                    }
+                </TableRow>
+            }
+        </TableHead>
+        <TableBody>
+            {
+                newData.map((row, index) => {
+                    const cells = []
+
+                    for (const key in row) {
+                        cells.push(
+                            <TableCell key={key} {...(cellProps || {})}>
+                                {row[key]}
+                            </TableCell>
+                        )
+                    }
+
+                    return <TableRow key={JSON.stringify(row) + index} {...(rowProps || {})}>
+                        {
+                            cells
+                        }
+                    </TableRow>
+                })
+            }
+        </TableBody>
+    </>
+}
+
+export default HorizontalTable;
