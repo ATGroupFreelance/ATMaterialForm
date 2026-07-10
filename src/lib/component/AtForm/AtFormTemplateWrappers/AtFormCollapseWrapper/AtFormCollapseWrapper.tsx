@@ -1,0 +1,66 @@
+import {
+    Collapse,
+    Grid,
+    Box,
+    Typography,
+    IconButton,
+    useTheme
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { useState } from 'react';
+import { AtFormCollapseWrapperProps } from '../../../../types/template-wrappers/CollapseWrapper.type';
+import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
+
+const AtFormCollapseWrapper = ({ children, childProps, config }: AtFormCollapseWrapperProps) => {
+    const { size = 12, label = 'Details' } = childProps.tProps;
+    const { getLocalText } = useAtFormConfig()
+
+    const [open, setOpen] = useState<boolean>(config?.defaultOpen || false);
+    const theme = useTheme();
+
+    const handleToggle = () => {
+        setOpen((prev: any) => !prev);
+    };
+
+    return (
+        <Grid size={size}>
+            <Box
+                sx={{
+                    border: `1px solid ${theme.palette.divider}`,
+                    backgroundColor: theme.palette.background.paper,
+                    height: '100%',
+                    borderRadius: '10px',
+                }}
+            >
+                <Box
+                    onClick={handleToggle}
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        mb: 1,
+                        padding: '6px'
+                    }}
+                >
+                    <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                        {getLocalText(label)}
+                    </Typography>
+                    <IconButton size="small">
+                        {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    </IconButton>
+                </Box>
+
+                <Collapse in={open}>
+                    <Box sx={{ p: 1 }}>
+                        {children}
+                    </Box>
+                </Collapse>
+            </Box>
+        </Grid>
+    );
+};
+
+export default AtFormCollapseWrapper;

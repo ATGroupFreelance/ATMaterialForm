@@ -1,15 +1,15 @@
 import { useState } from "react";
 
 import { Grid } from "@mui/material";
-import { ATForm, ATFormDialog, formBuilder } from "@/lib";
+import { AtForm, AtFormDialog, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from "@/App";
-import { ATFormOnClickProps } from "@/lib/types/Common.type";
-import Button from "@/lib/component/ATForm/UI/Button/Button";
+import { AtFormOnClickProps } from "@/lib/types/Common.type";
+import Button from "@/lib/component/AtForm/Ui/Button/Button";
 
 const FormDialog = ({ ref, ...props }: ExampleComponentInterface) => {
     const [dialog, setDialog] = useState<any>(null)
 
-    const onDialogSubmit = ({ stopLoading, formDataKeyValue }: ATFormOnClickProps) => {
+    const onDialogSubmit = ({ stopLoading, formDataKeyValue }: AtFormOnClickProps) => {
         stopLoading()
         console.log('onDialogSubmit formDataKeyValue', formDataKeyValue)
 
@@ -20,19 +20,19 @@ const FormDialog = ({ ref, ...props }: ExampleComponentInterface) => {
     }
 
     const onOpenDialogClick = () => {
-        const newDialog = <ATFormDialog ref={ref} title={'Form Dialog title'} onClose={() => setDialog(null)} onSubmitClick={onDialogSubmit} {...props}>
+        const newDialog = <AtFormDialog ref={ref} title={'Form Dialog title'} onClose={() => setDialog(null)} onSubmitClick={onDialogSubmit} {...props}>
             {
                 [
                     formBuilder.createTextBox({ id: 'formDialogTextBox' }),
                 ]
             }
-        </ATFormDialog>
+        </AtFormDialog>
 
         setDialog(newDialog)
     }
 
     const onOpenCustomizedDialogClick = () => {
-        const newDialog = <ATFormDialog ref={ref} title={'Form Dialog Title'} onClose={() => setDialog(null)}  {...props}
+        const newDialog = <AtFormDialog ref={ref} title={'Form Dialog Title'} onClose={() => setDialog(null)}  {...props}
             getActions={(oldActions: any) => {
                 return [
                     ...oldActions,
@@ -47,7 +47,7 @@ const FormDialog = ({ ref, ...props }: ExampleComponentInterface) => {
                     {
                         id: 'save',
                         color: 'success',
-                        onClick: ({ formData }: ATFormOnClickProps) => console.log('formData', formData)
+                        onClick: ({ formData }: AtFormOnClickProps) => console.log('formData', formData)
                     }
                 ]
             }
@@ -58,7 +58,7 @@ const FormDialog = ({ ref, ...props }: ExampleComponentInterface) => {
                     formBuilder.createTextBox({ id: 'formDialogTextBox' }),
                 ]
             }
-        </ATFormDialog>
+        </AtFormDialog>
 
         setDialog(newDialog)
     }
@@ -71,7 +71,7 @@ const FormDialog = ({ ref, ...props }: ExampleComponentInterface) => {
             <Grid size={{ xs: 12, md: 3 }}>
                 <Button onClick={onOpenCustomizedDialogClick}>Open Customized Dialog</Button>
             </Grid>
-            <ATForm ref={ref} {...props}>
+            <AtForm ref={ref} {...props}>
                 {
                     [
                         formBuilder.createFormDialog(
@@ -86,7 +86,7 @@ const FormDialog = ({ ref, ...props }: ExampleComponentInterface) => {
                         ),
                     ]
                 }
-            </ATForm>
+            </AtForm>
             {dialog}
         </>
     )

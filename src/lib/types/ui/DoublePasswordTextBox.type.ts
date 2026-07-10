@@ -1,4 +1,4 @@
-import { ATFormMinimalControlledUIProps } from "../Common.type";
-import { ATFormPasswordTextBoxProps } from "./PasswordTextBox.type";
+import { AtFormMinimalControlledUiProps } from "../Common.type";
+import { AtFormPasswordTextBoxProps } from "./PasswordTextBox.type";
 
-export type ATFormDoublePasswordTextBoxProps = ATFormMinimalControlledUIProps & ATFormPasswordTextBoxProps;
+export type AtFormDoublePasswordTextBoxProps = AtFormMinimalControlledUiProps & AtFormPasswordTextBoxProps;

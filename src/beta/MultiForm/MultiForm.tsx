@@ -1,18 +1,18 @@
-import { ATForm, formBuilder } from "@/lib";
+import { AtForm, formBuilder } from "@/lib";
 import { useMemo } from "react";
 
 const MultiForm = ({ ref, onChange }: any) => {
-    const formJSON = useMemo(() => {
+    const formJson = useMemo(() => {
         return [
             formBuilder.createTextBox({ id: 'Name' }),                        
         ]
     }, [])
 
-    return <ATForm ref={ref} onChange={onChange}>
+    return <AtForm ref={ref} onChange={onChange}>
         {
-            formJSON
+            formJson
         }
-    </ATForm>
+    </AtForm>
 }
 
 export default MultiForm;

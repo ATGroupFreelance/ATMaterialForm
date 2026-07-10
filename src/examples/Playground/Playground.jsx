@@ -1,15 +1,15 @@
 import ChildComponent from "./ChildComponent/ChildComponent";
-import DataAPIHook from "./DataAPIHook/DataAPIHook";
+import DataApiHook from "./DataApiHook/DataApiHook";
 
 const Playground = () => {
-    const { data, updateAPIHook } = DataAPIHook()
+    const { data, updateApiHook } = DataApiHook()
     console.log('#PLAYGROUND Playground')
 
     return <div>
         {data}
         Playground
         <ChildComponent />
-        <button onClick={updateAPIHook}>Playground</button>
+        <button onClick={updateApiHook}>Playground</button>
     </div>
 }
 

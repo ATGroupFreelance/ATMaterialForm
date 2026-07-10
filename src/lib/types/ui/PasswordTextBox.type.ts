@@ -1,7 +1,7 @@
-import { ATFormMinimalControlledUIProps } from "../Common.type";
-import { ATFormTextBoxProps } from "./TextBox.type";
+import { AtFormMinimalControlledUiProps } from "../Common.type";
+import { AtFormTextBoxProps } from "./TextBox.type";
 
-export type ATFormPasswordTextBoxProps = ATFormMinimalControlledUIProps & ATFormTextBoxProps & {
+export type AtFormPasswordTextBoxProps = AtFormMinimalControlledUiProps & AtFormTextBoxProps & {
     showPassword?: boolean,
     onToggleShowPasswordClick?: any,
 }

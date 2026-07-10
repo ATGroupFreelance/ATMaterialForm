@@ -1,7 +1,7 @@
 import { TableCellProps, TableContainerProps, TableProps, TableRowProps, TypographyProps } from "@mui/material";
-import { ATFormMinimalUncontrolledUIProps, StrictOmit } from "../Common.type";
+import { AtFormMinimalUncontrolledUiProps, StrictOmit } from "../Common.type";
 
-export type ATFormTableProps = ATFormMinimalUncontrolledUIProps & StrictOmit<TypographyProps, 'id'> & {
+export type AtFormTableProps = AtFormMinimalUncontrolledUiProps & StrictOmit<TypographyProps, 'id'> & {
     data: Array<any>,
     columns: Array<any>,
     tableType?: 'Vertical' | 'Horizontal',
@@ -18,12 +18,12 @@ export type ATFormTableProps = ATFormMinimalUncontrolledUIProps & StrictOmit<Typ
     headerCellProps?: TableCellProps,
 };
 
-type ATFormTableTypeProps = StrictOmit<ATFormTableProps, 'tableType' | 'tableContainerProps' | 'tableProps' | 'label' | 'labelProps'>
+type AtFormTableTypeProps = StrictOmit<AtFormTableProps, 'tableType' | 'tableContainerProps' | 'tableProps' | 'label' | 'labelProps'>
 
-export type ATFormVerticalTableProps = ATFormTableTypeProps & {
+export type AtFormVerticalTableProps = AtFormTableTypeProps & {
     columnsPerRow?: number,
 }
 
-export type ATFormHorizontalTableProps = ATFormTableTypeProps & {
+export type AtFormHorizontalTableProps = AtFormTableTypeProps & {
     hideColumns?: boolean,
 }

@@ -1,4 +1,4 @@
-import { ATFormCascadeComboBoxProps } from "./CascadeComboBox.type";
+import { AtFormCascadeComboBoxProps } from "./CascadeComboBox.type";
 
-export interface ATFormMultiValueCascadeComboBoxProps extends ATFormCascadeComboBoxProps {
+export interface AtFormMultiValueCascadeComboBoxProps extends AtFormCascadeComboBoxProps {
 };

@@ -1,12 +1,12 @@
-import DataAPIHook from "@/examples/Playground/DataAPIHook/DataAPIHook";
+import DataApiHook from "@/examples/Playground/DataApiHook/DataApiHook";
 
 const Level2ChildComponent = () => {
-    const {data, updateAPIHook} = DataAPIHook()
+    const {data, updateApiHook} = DataApiHook()
     console.log('#PLAYGROUND Level2ChildComponent', data)
 
     return <div>
         Level2ChildComponent
-        <button onClick={updateAPIHook}>Level2ChildComponent</button>
+        <button onClick={updateApiHook}>Level2ChildComponent</button>
     </div>
 }
 

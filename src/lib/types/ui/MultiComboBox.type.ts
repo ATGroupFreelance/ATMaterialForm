@@ -1,3 +1,3 @@
-import { ATFormComboBoxProps } from "./ComboBox.type";
+import { AtFormComboBoxProps } from "./ComboBox.type";
 
-export type ATFormMultiComboBoxProps = ATFormComboBoxProps
+export type AtFormMultiComboBoxProps = AtFormComboBoxProps

@@ -1,3 +1,3 @@
-import { ATFormMinimalControlledUIProps } from "../Common.type";
+import { AtFormMinimalControlledUiProps } from "../Common.type";
 
-export type ATFormAdvanceStepperProps = ATFormMinimalControlledUIProps;
+export type AtFormAdvanceStepperProps = AtFormMinimalControlledUiProps;

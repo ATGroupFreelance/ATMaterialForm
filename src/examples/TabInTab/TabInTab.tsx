@@ -1,6 +1,6 @@
-import { ATForm, formBuilder } from '@/lib';
+import { AtForm, formBuilder } from '@/lib';
 import { ExampleComponentInterface } from '@/App';
-import { ATFormTabsOnChangeType } from '@/lib/types/ATFormTabsManager.type';
+import { AtFormTabsOnChangeType } from '@/lib/types/AtFormTabsManager.type';
 
 const TabInTab = ({ ref, onChange }: ExampleComponentInterface) => {
     const tabs = [
@@ -24,7 +24,7 @@ const TabInTab = ({ ref, onChange }: ExampleComponentInterface) => {
         { label: 'tab4' }
     ]
 
-    const onTabChange: ATFormTabsOnChangeType = (props) => {
+    const onTabChange: AtFormTabsOnChangeType = (props) => {
         console.log('onTabChange', {
             props
         })
@@ -32,7 +32,7 @@ const TabInTab = ({ ref, onChange }: ExampleComponentInterface) => {
 
     return (
         // groupDataEnabled={true}
-        <ATForm
+        <AtForm
             ref={ref}
             tabs={tabs}
             onChange={onChange}
@@ -62,7 +62,7 @@ const TabInTab = ({ ref, onChange }: ExampleComponentInterface) => {
                 formBuilder.createTextBox({ id: 'NoTab_5' }),
                 formBuilder.createTextBox({ id: 'Tabb_0', tabPath: 0 }),
             ]}
-        </ATForm>
+        </AtForm>
     )
 }
 

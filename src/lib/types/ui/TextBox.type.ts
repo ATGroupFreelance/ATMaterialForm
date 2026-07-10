@@ -1,4 +1,4 @@
 import { TextFieldProps } from "@mui/material";
-import { ATFormMinimalControlledUIProps, StrictOmit } from "../Common.type";
+import { AtFormMinimalControlledUiProps, StrictOmit } from "../Common.type";
 
-export type ATFormTextBoxProps = ATFormMinimalControlledUIProps & StrictOmit<TextFieldProps, 'id' | 'value' | 'onChange' | 'error' | 'helperText'>;
+export type AtFormTextBoxProps = AtFormMinimalControlledUiProps & StrictOmit<TextFieldProps, 'id' | 'value' | 'onChange' | 'error' | 'helperText'>;

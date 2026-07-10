@@ -1,6 +1,6 @@
-import { ATFormTextBoxProps } from "./TextBox.type";
+import { AtFormTextBoxProps } from "./TextBox.type";
 
-export type ATFormIntegerTextBoxProps = ATFormTextBoxProps & {
+export type AtFormIntegerTextBoxProps = AtFormTextBoxProps & {
     min?: number;
     max?: number;
 }

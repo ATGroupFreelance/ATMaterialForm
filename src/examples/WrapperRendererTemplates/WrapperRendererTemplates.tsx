@@ -1,9 +1,9 @@
-import { ATForm, formBuilder } from "@/lib";
+import { AtForm, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from '@/App';
 
 const WrapperRendererTemplates = ({ ref, onChange }: ExampleComponentInterface) => {
     return (
-        <ATForm ref={ref} onChange={onChange} validationDisabled={false}>
+        <AtForm ref={ref} onChange={onChange} validationDisabled={false}>
             {
                 formBuilder.utils.createFieldDefBuilder(
                     [
@@ -14,9 +14,9 @@ const WrapperRendererTemplates = ({ ref, onChange }: ExampleComponentInterface) 
                         formBuilder.createTextBox({ id: "Text4" }),
                     ]
                 )
-                    .buildATForm()
+                    .buildAtForm()
             }
-        </ATForm>
+        </AtForm>
     )
 }
 

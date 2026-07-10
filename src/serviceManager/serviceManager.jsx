@@ -140,8 +140,8 @@ class ServiceManagerClass {
                         { id: 1, title: "England2", Country: 1 },
                         { id: 2, title: "England", Country: 1 },
                         { id: 3, title: "Alabama", Country: 2 },
-                        { id: 4, title: "EnglandCapital", ParentID: 2 },
-                        { id: 5, title: "AlabamaCapital", ParentID: 3 }
+                        { id: 4, title: "EnglandCapital", ParentId: 2 },
+                        { id: 5, title: "AlabamaCapital", ParentId: 3 }
                     ],
                     "CountriesIDVALUE": [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }],
                     "layerA": [{ id: 'A1_1', title: 'A1_1' }, { id: 'A1_2', title: 'A1_2' }],

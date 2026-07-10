@@ -1,12 +1,12 @@
-import { ATForm, formBuilder } from "@/lib";
+import { AtForm, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from '@/App';
 import { useState } from "react";
-import { ATFormOnChangeInterface } from "@/lib/types/ATForm.type";
+import { AtFormOnChangeInterface } from "@/lib/types/AtForm.type";
 
 const FormDataControlledForm = ({ ref, onChange }: ExampleComponentInterface) => {
     const [formData, setFormData] = useState<any>()
 
-    const internalOnChange = (props: ATFormOnChangeInterface) => {
+    const internalOnChange = (props: AtFormOnChangeInterface) => {
         setFormData(props.formData)
 
         console.log('###ATForm onChange###', props.formDataKeyValue)
@@ -34,7 +34,7 @@ const FormDataControlledForm = ({ ref, onChange }: ExampleComponentInterface) =>
     }
 
     return (
-        <ATForm ref={ref} onChange={internalOnChange} value={formData} valueFormat="FormData">
+        <AtForm ref={ref} onChange={internalOnChange} value={formData} valueFormat="FormData">
             {[
                 formBuilder.createTextBox({ id: 'TextBox1', size: 6 }),
                 formBuilder.createForm({ id: "SecondaryForm", size: 12 }, {
@@ -51,7 +51,7 @@ const FormDataControlledForm = ({ ref, onChange }: ExampleComponentInterface) =>
                     { onClick: () => manualSetValue({ SecondaryForm: { value: { TextBox2: { value: "I'm set Value" } } } }) }
                 ),
             ]}
-        </ATForm>
+        </AtForm>
     )
 }
 

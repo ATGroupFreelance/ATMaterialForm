@@ -1,16 +1,16 @@
 import { useCallback, useMemo, useState } from 'react';
 //services
 import ServiceManager from '@/serviceManager/serviceManager';
-import { ATForm, formBuilder } from "@/lib";
+import { AtForm, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from '@/App';
-import { ATFormOnClickProps } from '@/lib/types/Common.type';
+import { AtFormOnClickProps } from '@/lib/types/Common.type';
 
 const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
     const [hideElements, setHideElements] = useState(false)
     const [A, setA] = useState(0)
     const [B, setB] = useState(0)
 
-    const onSubmitClick = ({ startLoading, stopLoading }: ATFormOnClickProps) => {
+    const onSubmitClick = ({ startLoading, stopLoading }: AtFormOnClickProps) => {
         startLoading()
         setTimeout(() => {
             console.log('form submit')
@@ -24,7 +24,7 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
 
     const onRandomAClick = () => setA(Math.random() * 10)
 
-    const formJSON = useMemo(() => {
+    const formJson = useMemo(() => {
         return formBuilder.utils.createFieldDefBuilder(
             [
                 formBuilder.createMultiSelectTextBox({ id: 'MultiSelectTextBox' }),
@@ -68,7 +68,7 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                                 children: [
                                     {
                                         id: 'system_id',
-                                        enumsKeyParentIDField: 'business_id',
+                                        enumsKeyParentIdField: 'business_id',
                                     },
                                 ]
                             },
@@ -88,12 +88,12 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                                     {
                                         id: 'layerAB',
                                         options: ({ values }) => ServiceManager.getData_layerAB({ layerA: values?.layerA }),
-                                        enumsKeyParentIDField: 'layerA',
+                                        enumsKeyParentIdField: 'layerA',
                                         children: [
                                             {
                                                 id: 'layerABC1',
                                                 options: ({ values }) => ServiceManager.getData_layerABC1({ layerA: values?.layerA, layerAB: values?.layerAB }),
-                                                enumsKeyParentIDField: 'layerAB',
+                                                enumsKeyParentIdField: 'layerAB',
                                             },
                                         ]
                                     },
@@ -123,15 +123,15 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                     // readOnly: true,
                 }
             })
-            .buildATForm()
+            .buildAtForm()
     }, [A, B, hideElements, onHideSomeElementClick])
 
     return (
-        <ATForm ref={ref} onChange={onChange} validationDisabled={false}>
+        <AtForm ref={ref} onChange={onChange} validationDisabled={false}>
             {
-                formJSON
+                formJson
             }
-        </ATForm>
+        </AtForm>
     )
 }
 

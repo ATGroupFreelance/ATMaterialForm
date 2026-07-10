@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import ServiceManager from '@/serviceManager/serviceManager';
-import { ATForm, formBuilder } from '@/lib';
+import { AtForm, formBuilder } from '@/lib';
 import { ExampleComponentInterface } from '@/App';
 
 const HowToUseContainerWithTable = ({ ref, onChange }: ExampleComponentInterface) => {
@@ -9,7 +9,7 @@ const HowToUseContainerWithTable = ({ ref, onChange }: ExampleComponentInterface
     const [B, setB] = useState(0)
 
     return (
-        <ATForm ref={ref} onChange={onChange} validationDisabled={true}>
+        <AtForm ref={ref} onChange={onChange} validationDisabled={true}>
             {[
                 formBuilder.createTextBox({ id: 'OutsideContainer_TextBox1', size: 12 }),
                 formBuilder.createContainerWithTable(
@@ -28,7 +28,7 @@ const HowToUseContainerWithTable = ({ ref, onChange }: ExampleComponentInterface
                 ),
                 formBuilder.createTextBox({ id: 'OutsideContainer_TextBox2', size: 12 }),
             ]}
-        </ATForm>
+        </AtForm>
     )
 }
 

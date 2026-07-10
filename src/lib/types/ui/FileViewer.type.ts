@@ -1,13 +1,13 @@
-import { ATFormMinimalControlledUIProps } from "../Common.type";
+import { AtFormMinimalControlledUiProps } from "../Common.type";
 
-export interface ATFormFileViewerProps extends ATFormMinimalControlledUIProps {
+export interface AtFormFileViewerProps extends AtFormMinimalControlledUiProps {
     label?: string,
     fileWidth?: number,
     fileHeight?: number,
     getSortedFiles?: any,
 }
 
-export interface ATFormFileViewerFile {
+export interface AtFormFileViewerFile {
     id: string,
     name: string,
     size: number,

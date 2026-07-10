@@ -1,11 +1,11 @@
-import { ATFormWrapperRendererProps } from "../ATFormFieldWrapper.type";
+import { AtFormWrapperRendererProps } from "../AtFormFieldWrapper.type";
 import { StrictOmit } from "../Common.type";
-import { ATFormButtonProps } from "../ui/Button.type";
+import { AtFormButtonProps } from "../ui/Button.type";
 
-export type ATFormButtonDialogWrapperConfig = {
-    buttonProps: StrictOmit<ATFormButtonProps, 'children'>,
+export type AtFormButtonDialogWrapperConfig = {
+    buttonProps: StrictOmit<AtFormButtonProps, 'children'>,
     //TODO Handle dialog props
     dialogProps: any,
 }
 
-export type ATFormButtonDialogWrapperProps = ATFormWrapperRendererProps<{ config?: ATFormButtonDialogWrapperConfig }>;
+export type AtFormButtonDialogWrapperProps = AtFormWrapperRendererProps<{ config?: AtFormButtonDialogWrapperConfig }>;
