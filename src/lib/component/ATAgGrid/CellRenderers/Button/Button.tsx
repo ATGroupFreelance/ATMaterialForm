@@ -10,11 +10,13 @@ const Button = (props: ATAgGridButtonCellRendererProps) => {
     const { ["onClick"]: cellRendererParamsOnClick, ...restCellRendererParams } = cellRendererParams
 
     const onInternalClick = useCallback((onClickProps: ATFormOnClickProps) => {
+        const latestRow = props.node.data ?? props.data;
+
         if (props.config?.onClick)
-            props.config.onClick({ ...onClickProps, data: props.data, cellRendererProps: props })
+            props.config.onClick({ ...onClickProps, data: latestRow, cellRendererProps: { ...props, data: latestRow } })
 
         if (cellRendererParamsOnClick)
-            cellRendererParamsOnClick({ ...onClickProps, cellRendererProps: props })
+            cellRendererParamsOnClick({ ...onClickProps, cellRendererProps: { ...props, data: latestRow } })
     }, [cellRendererParamsOnClick, props])
 
     return <ATButton

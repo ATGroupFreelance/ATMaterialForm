@@ -19,7 +19,8 @@ import {
     PaginationModule,
     CellContextMenuEvent,
     RowSelectionModule,
-    DateFilterModule
+    DateFilterModule,
+    AutoGenerateColumnsModule
 } from 'ag-grid-community';
 import { useTheme } from '@mui/material';
 //ATForm
@@ -178,7 +179,6 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
         setContextMenu(null)
     }
 
-
     return <div
         style={{ height: domLayout ? undefined : (height || '80vh'), width: '100%' }}
         onContextMenu={(event) => {
@@ -196,6 +196,7 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
             rowHeight={48}
             enableRtl={rtl}
             domLayout={domLayout}
+            autoGenerateColumnDefs={basicColumnDefs2?.length ? false : true}
             modules={[
                 ClientSideRowModelModule,
                 ClientSideRowModelApiModule,
@@ -207,7 +208,8 @@ const ATAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
                 // ColumnAutoSizeModule,
                 PaginationModule,
                 RowSelectionModule,
-                DateFilterModule
+                DateFilterModule,
+                AutoGenerateColumnsModule
             ]}
             getRowId={uniqueKey ? (params) => String(params.data[uniqueKey]) : undefined}
             defaultColDef={{
