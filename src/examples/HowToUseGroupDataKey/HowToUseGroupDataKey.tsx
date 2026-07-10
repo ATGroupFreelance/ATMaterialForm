@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { ATForm, formBuilder } from "@/lib";
+import { AtForm, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from "@/App";
 
 const HowToUseGroupDataKey = ({ ref, onChange }: ExampleComponentInterface) => {
-    const formJSON = useMemo(() => {
+    const formJson = useMemo(() => {
         return formBuilder.utils
             .createFieldDefBuilder([
                 // --- Personal Group ---
@@ -38,13 +38,13 @@ const HowToUseGroupDataKey = ({ ref, onChange }: ExampleComponentInterface) => {
                     validation: { required: true }
                 }),
             ])
-            .buildATForm();
+            .buildAtForm();
     }, []);
 
     return (
-        <ATForm ref={ref} onChange={onChange} validationDisabled={false}>
-            {formJSON}
-        </ATForm>
+        <AtForm ref={ref} onChange={onChange} validationDisabled={false}>
+            {formJson}
+        </AtForm>
     );
 };
 

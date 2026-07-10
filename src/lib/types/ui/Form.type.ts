@@ -1,6 +1,6 @@
-import { ATFormMinimalControlledUIProps } from "../Common.type";
-import { ATFormProps } from "../ATForm.type";
+import { AtFormMinimalControlledUiProps } from "../Common.type";
+import { AtFormProps } from "../AtForm.type";
 
-export type ATFormFormProps = ATFormMinimalControlledUIProps & ATFormProps & {
+export type AtFormFormProps = AtFormMinimalControlledUiProps & AtFormProps & {
     formChildren?: any[],
 };

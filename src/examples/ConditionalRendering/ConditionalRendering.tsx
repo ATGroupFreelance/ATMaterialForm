@@ -1,4 +1,4 @@
-import { ATForm, formBuilder } from "@/lib";
+import { AtForm, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from '@/App';
 import { useState } from "react";
 
@@ -10,7 +10,7 @@ const ConditionalRendering = ({ ref, onChange }: ExampleComponentInterface) => {
     }
 
     return (
-        <ATForm
+        <AtForm
             ref={ref}
             onChange={onChange}
             defaultValue={{
@@ -30,7 +30,7 @@ const ConditionalRendering = ({ ref, onChange }: ExampleComponentInterface) => {
                     formBuilder.createButton({ id: "Toggle Condition" }, { onClick: onToggleClick })
                 ]
             }
-        </ATForm>
+        </AtForm>
     )
 }
 

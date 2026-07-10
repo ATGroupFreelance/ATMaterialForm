@@ -1,5 +1,5 @@
-import { ATFormMinimalControlledUIProps } from "../Common.type";
+import { AtFormMinimalControlledUiProps } from "../Common.type";
 
-export type ATFormCustomControlledFieldProps<P = Record<string, any>> = ATFormMinimalControlledUIProps & {
-    component?: React.JSXElementConstructor<ATFormMinimalControlledUIProps>;
-} & Omit<P, keyof ATFormMinimalControlledUIProps>;
+export type AtFormCustomControlledFieldProps<P = Record<string, any>> = AtFormMinimalControlledUiProps & {
+    component?: React.JSXElementConstructor<AtFormMinimalControlledUiProps>;
+} & Omit<P, keyof AtFormMinimalControlledUiProps>;

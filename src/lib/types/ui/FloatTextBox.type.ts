@@ -1,3 +1,3 @@
-import { ATFormTextBoxProps } from "./TextBox.type";
+import { AtFormTextBoxProps } from "./TextBox.type";
 
-export type ATFormFloatTextBoxProps = ATFormTextBoxProps
+export type AtFormFloatTextBoxProps = AtFormTextBoxProps

@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
 
-import ATAgGrid from '@/lib/component/ATAgGrid/ATAgGrid';
+import AtAgGrid from '@/lib/component/AtAgGrid/AtAgGrid';
 import { Columns } from './Columns';
-import Button from '@/lib/component/ATForm/UI/Button/Button';
+import Button from '@/lib/component/AtForm/Ui/Button/Button';
 import RecordDialog from './RecordDialog';
-import { ColumnDefTemplates } from '@/lib/component/ATAgGrid/ColumnDefTemplates/ColumnDefTemplates';
+import { ColumnDefTemplates } from '@/lib/component/AtAgGrid/ColumnDefTemplates/ColumnDefTemplates';
 import { Grid } from '@mui/material';
-import { ATFormOnClickType } from '@/lib/types/Common.type';
+import { AtFormOnClickType } from '@/lib/types/Common.type';
 
 const UserManager = () => {
     const [rowData, setRowData] = useState([{ id: 1, A: 10, B: 10, 'A + B': 20 }])
@@ -17,7 +17,7 @@ const UserManager = () => {
         setDialog(null)
     }
 
-    const onAddClick: ATFormOnClickType = () => {
+    const onAddClick: AtFormOnClickType = () => {
         setDialog(
             <RecordDialog
                 onSubmitClick={({ formDataKeyValue }: any) => {
@@ -36,7 +36,7 @@ const UserManager = () => {
         )
     }
 
-    const onEditClick: ATFormOnClickType = ({ data }) => {
+    const onEditClick: AtFormOnClickType = ({ data }) => {
         setDialog(
             <RecordDialog
                 defaultValue={data}
@@ -65,7 +65,7 @@ const UserManager = () => {
         )
     }
 
-    const onRemoveClick: ATFormOnClickType = ({ data }) => {
+    const onRemoveClick: AtFormOnClickType = ({ data }) => {
         setRowData(rowData.filter(item => item.id !== data.id))
     }
 
@@ -82,7 +82,7 @@ const UserManager = () => {
 
     return (
         <Grid size={12}>
-            <ATAgGrid columnDefs={columnDefs} rowData={rowData} />
+            <AtAgGrid columnDefs={columnDefs} rowData={rowData} />
             <Button onClick={onAddClick} label={'Add'} />
             {dialog}
         </Grid>

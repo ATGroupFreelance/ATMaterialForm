@@ -1,13 +1,13 @@
-import { ATFormMinimalControlledUIProps, ATFormOnClickType, StrictOmit } from "../Common.type";
-import { ATAgGridProps } from "../at-ag-grid/ATAgGrid.type";
-import { ATFormButtonProps } from "./Button.type";
+import { AtFormMinimalControlledUiProps, AtFormOnClickType, StrictOmit } from "../Common.type";
+import { AtAgGridProps } from "../at-ag-grid/AtAgGrid.type";
+import { AtFormButtonProps } from "./Button.type";
 import { RowSelectionOptions } from "ag-grid-community";
 import { GridProps } from "@mui/material";
 
-export type ATFormMultiSelectGridProps = ATFormMinimalControlledUIProps & StrictOmit<ATAgGridProps, 'rowSelection'> & {
+export type AtFormMultiSelectGridProps = AtFormMinimalControlledUiProps & StrictOmit<AtAgGridProps, 'rowSelection'> & {
     label?: string,
-    onConfirmButtonClick?: ATFormOnClickType,
-    confirmButtonProps?: ATFormButtonProps & {
+    onConfirmButtonClick?: AtFormOnClickType,
+    confirmButtonProps?: AtFormButtonProps & {
         wrapperRendererProps?: GridProps,
     },
     rowSelection?: RowSelectionOptions<any>,

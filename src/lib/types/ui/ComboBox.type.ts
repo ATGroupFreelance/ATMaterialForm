@@ -1,30 +1,30 @@
 import { AutocompleteProps, AutocompleteRenderInputParams } from "@mui/material";
-import { ATEnumType, ATFormMinimalControlledUIProps, StrictOmit } from "../Common.type";
+import { AtEnumType, AtFormMinimalControlledUiProps, StrictOmit } from "../Common.type";
 
 // Base shared props (used by both variants)
-export type ATFormComboBoxBaseProps = ATFormMinimalControlledUIProps &
+export type AtFormComboBoxBaseProps = AtFormMinimalControlledUiProps &
   StrictOmit<AutocompleteProps<any, boolean, boolean, boolean>, 'id' | 'value' | 'onChange' | 'readOnly' | 'options' | 'renderInput'> & {
     label?: string;
     renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode;
   };
 
 // Options type for sync
-export type ATFormComboBoxStaticOptions = ATEnumType | null | undefined;
+export type AtFormComboBoxStaticOptions = AtEnumType | null | undefined;
 
 // Options type for async
-export type ATFormComboBoxAsyncOptions = () => Promise<ATEnumType | null | undefined>;
+export type AtFormComboBoxAsyncOptions = () => Promise<AtEnumType | null | undefined>;
 
 // Props variant: static (no enumsKey required)
-export type ATFormComboBoxStaticProps = ATFormComboBoxBaseProps & {
-  options: ATFormComboBoxStaticOptions;
+export type AtFormComboBoxStaticProps = AtFormComboBoxBaseProps & {
+  options: AtFormComboBoxStaticOptions;
   enumsKey?: string;
 };
 
 // Props variant: async (enumsKey required)
-export type ATFormComboBoxAsyncProps = ATFormComboBoxBaseProps & {
-  options: ATFormComboBoxAsyncOptions;
+export type AtFormComboBoxAsyncProps = AtFormComboBoxBaseProps & {
+  options: AtFormComboBoxAsyncOptions;
   enumsKey: string;
 };
 
 // Final union type for export
-export type ATFormComboBoxProps = ATFormComboBoxStaticProps | ATFormComboBoxAsyncProps;
+export type AtFormComboBoxProps = AtFormComboBoxStaticProps | AtFormComboBoxAsyncProps;

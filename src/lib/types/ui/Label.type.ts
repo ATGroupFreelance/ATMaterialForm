@@ -1,6 +1,6 @@
 import { TypographyProps } from "@mui/material";
-import { ATFormMinimalUncontrolledUIProps, StrictOmit } from "../Common.type";
+import { AtFormMinimalUncontrolledUiProps, StrictOmit } from "../Common.type";
 
-export type ATFormLabelProps = ATFormMinimalUncontrolledUIProps & StrictOmit<TypographyProps, 'id'> & {
+export type AtFormLabelProps = AtFormMinimalUncontrolledUiProps & StrictOmit<TypographyProps, 'id'> & {
     label?: string,
 };

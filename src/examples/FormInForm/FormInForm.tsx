@@ -1,10 +1,10 @@
-import { ATForm, formBuilder } from "@/lib";
+import { AtForm, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from '@/App';
 import ServiceManager from "@/serviceManager/serviceManager";
 
 const FormInForm = ({ ref, onChange }: ExampleComponentInterface) => {
     return (
-        <ATForm ref={ref} onChange={onChange} tabs={[{ label: 'FormA' }, { label: 'FormB' }]}>
+        <AtForm ref={ref} onChange={onChange} tabs={[{ label: 'FormA' }, { label: 'FormB' }]}>
             {[
                 formBuilder.createTextBox({ id: '1' }),
                 formBuilder.createForm(
@@ -35,7 +35,7 @@ const FormInForm = ({ ref, onChange }: ExampleComponentInterface) => {
                     }
                 ),
             ]}
-        </ATForm>
+        </AtForm>
     )
 }
 

@@ -1,9 +1,9 @@
 import { ExampleComponentInterface } from '@/App';
-import { ATForm, formBuilder } from '@/lib';
+import { AtForm, formBuilder } from '@/lib';
 
 const WrapMultipleElements = ({ ref, onChange }: ExampleComponentInterface) => {
     return (
-        <ATForm ref={ref} onChange={onChange}>
+        <AtForm ref={ref} onChange={onChange}>
             {
                 formBuilder.utils.createFieldDefBuilder(
                     [
@@ -35,9 +35,9 @@ const WrapMultipleElements = ({ ref, onChange }: ExampleComponentInterface) => {
                         ),
                     ]
                 )
-                    .buildATForm()
+                    .buildAtForm()
             }
-        </ATForm>
+        </AtForm>
     )
 }
 

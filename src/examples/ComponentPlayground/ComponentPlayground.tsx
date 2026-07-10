@@ -1,4 +1,4 @@
-import { ATForm, formBuilder } from "@/lib";
+import { AtForm, formBuilder } from "@/lib";
 import { ExampleComponentInterface } from '@/App';
 
 const ComponentPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
@@ -40,7 +40,7 @@ const ComponentPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
     }
 
     return (
-        <ATForm ref={ref} onChange={onChange} validationDisabled={false} defaultValue={defaultValue} >
+        <AtForm ref={ref} onChange={onChange} validationDisabled={false} defaultValue={defaultValue} >
             {
                 formBuilder.utils.createFieldDefBuilder(
                     [
@@ -66,9 +66,9 @@ const ComponentPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
                         formBuilder.createTextBox({ id: 'Textbox_Text8', size: 4 }),
                     ]
                 )
-                    .buildATForm()
+                    .buildAtForm()
             }
-        </ATForm>
+        </AtForm>
     )
 }
 

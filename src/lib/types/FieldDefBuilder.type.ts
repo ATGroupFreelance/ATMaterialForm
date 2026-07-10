@@ -1,14 +1,14 @@
-import { ATFormFieldTProps } from "./ATForm.type";
+import { AtFormFieldTProps } from "./AtForm.type";
 import { StrictOmit } from "./Common.type";
 
-export type ATFieldTProps = StrictOmit<ATFormFieldTProps, 'id'> & {
+export type AtFieldTProps = StrictOmit<AtFormFieldTProps, 'id'> & {
     id?: string;
 }
 
-export interface ATFieldDefInterface {
+export interface AtFieldDefInterface {
     id: string;
     tags?: string[];
-    tProps: ATFieldTProps,
+    tProps: AtFieldTProps,
     uiProps?: any,
     colDef?: any,
 }

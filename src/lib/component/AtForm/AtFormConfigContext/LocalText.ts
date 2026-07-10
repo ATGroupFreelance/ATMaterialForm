@@ -1,0 +1,33 @@
+const localText = {
+    'Add': 'Add',
+    'Passwords do not match': 'Passwords do not match',
+    'Confirm': 'Confirm',
+    'file': 'file',
+    'Uploading': 'Uploading',    
+    'files': 'files',
+    'Delete All': 'Delete All',
+    'Yes': 'Yes',
+    'No': 'No',
+    'Cancel': 'Cancel',
+    'Submit': 'Submit',
+    'Edit': 'Edit',
+    'Remove': 'Remove',
+    'Download': 'Download',
+    'Delete': 'Delete',
+    'View Uploaded Files': 'View Uploaded Files',
+    'Save': 'Save',
+    'Show Files': 'Show Files',
+    'This field can not be empty': 'This field can not be empty',
+    'Upload Here': 'Upload Here',
+    'Apply Changes': 'Apply Changes',
+    'View Files': 'View Files',
+    'There are no files to view': 'There are no files to view',
+    'Upload': 'Upload',
+    'View': 'View',
+    'View Image': 'View Image',
+    'File size exceeds the limit. Please select a smaller file': 'File size exceeds the limit. Please select a smaller file',
+    'Choose A Color': 'Choose A Color',
+    'Open Color Picker': 'Open Color Picker'
+}
+
+export default localText

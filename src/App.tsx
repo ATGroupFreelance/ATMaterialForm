@@ -3,9 +3,9 @@ import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { Button, Divider, Grid, Tab, Tabs } from '@mui/material';
 //UI Utils
-import * as UITypeUtils from '@/lib/component/ATForm/UITypeUtils/UITypeUtils';
+import * as UiTypeUtils from '@/lib/component/AtForm/UiTypeUtils/UiTypeUtils';
 //Context
-import { ATFormConfigProvider } from './lib/component/ATForm/ATFormConfigContext/ATFormConfigContext';
+import { AtFormConfigProvider } from './lib/component/AtForm/AtFormConfigContext/AtFormConfigContext';
 //services
 import ServiceManager from '@/serviceManager/serviceManager';
 //DatePicker Provider
@@ -31,15 +31,15 @@ import TabInTab from '@/examples/TabInTab/TabInTab';
 import ComponentPlayground from '@/examples/ComponentPlayground/ComponentPlayground';
 import Playground from '@/examples/Playground/Playground';
 import CustomWrappers from './examples/CustomWrappers/CustomWrappers';
-import ATToastContainer from './lib/component/ATToast/ATToastContainer/ATToastContainer';
+import AtToastContainer from './lib/component/AtToast/AtToastContainer/AtToastContainer';
 import ToastPlayground from './examples/ToastPlayground/ToastPlayground';
 import AgGridCellRendererTemplates from './examples/AgGridCellRendererTemplates/AgGridCellRendererTemplates';
 import CascadeComboBoxPlayground from './examples/CascadeComboBoxPlayground/CascadeComboBoxPlayground';
-import ATToast from './lib/component/ATToast/ATToast';
+import AtToast from './lib/component/AtToast/AtToast';
 //Beta Components
 import ConditionalRender from './beta/ConditionalRender/ConditionalRender';
 import MultiForm from './beta/MultiForm/MultiForm';
-import { ATFormOnChangeInterface, ATFormRefInterface } from './lib/types/ATForm.type';
+import { AtFormOnChangeInterface, AtFormRefInterface } from './lib/types/AtForm.type';
 import { StringKeyedObject } from './lib/types/Common.type';
 import BasicForm2 from './examples/BasicForm2/BasicForm2';
 import ConditionalRendering from './examples/ConditionalRendering/ConditionalRendering';
@@ -50,7 +50,7 @@ import FormDataSemiKeyValueControlledForm from './examples/FormDataSemiKeyValueC
 import FormDataControlledForm from './examples/FormDataControlledForm/FormDataControlledForm';
 import FormDataKeyValueControlledForm from './examples/FormDataKeyValueControlledForm/FormDataKeyValueControlledForm';
 import FormBenchmark from './examples/FormBenchMark/FormBenchMark';
-import ReactAndJSONComponentTogether from './examples/ReactAndJSONComponentTogether/ReactAndJSONComponentTogether';
+import ReactAndJsonComponentTogether from './examples/ReactAndJsonComponentTogether/ReactAndJsonComponentTogether';
 import HowToUseRuntime from './examples/HowToUseRuntime/HowToUseRuntime';
 import ReportComponent from './examples/HowToUseRuntime/ReportComponent/ReportComponent';
 import HowToUseGroupDataKey from './examples/HowToUseGroupDataKey/HowToUseGroupDataKey';
@@ -75,8 +75,8 @@ const theme = createTheme({
 const ACTIVE_EXAMPLE = 'HowToUseGroupDataKey'
 
 function App() {
-  const formRef = useRef<ATFormRefInterface>(null)
-  const mFormData = useRef<ATFormOnChangeInterface>(null)
+  const formRef = useRef<AtFormRefInterface>(null)
+  const mFormData = useRef<AtFormOnChangeInterface>(null)
   const [savedFormData, setSavedFormData] = useState<StringKeyedObject | null | undefined>(null)
   const [realTimeFormData, setRealtimeFormData] = useState<StringKeyedObject | null | undefined>(null)
   const [enums, setEnums] = useState(null)
@@ -89,7 +89,7 @@ function App() {
       })
   }, [])
 
-  const onFormChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }: ATFormOnChangeInterface) => {
+  const onFormChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }: AtFormOnChangeInterface) => {
     mFormData.current = {
       formData: formData,
       formDataKeyValue: formDataKeyValue,
@@ -121,7 +121,7 @@ function App() {
             })
 
             setSavedFormData(mFormData.current?.formDataKeyValue)
-            ATToast.success('Formdata submitted successfully!')
+            AtToast.success('Formdata submitted successfully!')
           }, 500)
         })
   }
@@ -296,7 +296,7 @@ function App() {
     },
     {
       id: "ReactAndJSONComponentTogether",
-      component: ReactAndJSONComponentTogether,
+      component: ReactAndJsonComponentTogether,
       refEnabled: true,
       onChangeEnabled: true,
     },
@@ -317,9 +317,9 @@ function App() {
   console.log('App Renderer')
   return (
     <div className='App'>
-      <ATToastContainer />
+      <AtToastContainer />
       <ThemeProvider theme={theme}>
-        <ATFormConfigProvider
+        <AtFormConfigProvider
           value={{
             rtl: RTL,
             enums: enums,
@@ -329,15 +329,15 @@ function App() {
             customComponents: [
               {
                 component: MyTextField,
-                typeInfo: UITypeUtils.createType({
+                typeInfo: UiTypeUtils.createType({
                   type: 'MyTextField',
                   initialValue: '',
-                  validation: UITypeUtils.createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
+                  validation: UiTypeUtils.createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
                 })
               },
               {
                 component: ReportComponent,
-                typeInfo: UITypeUtils.createUncontrolledType({
+                typeInfo: UiTypeUtils.createUncontrolledType({
                   type: "ReportComponent",
                 })
               }
@@ -411,7 +411,7 @@ function App() {
               </Grid>
             </Grid>
           </LocalizationProvider>
-        </ATFormConfigProvider>
+        </AtFormConfigProvider>
       </ThemeProvider>
     </div>
   );

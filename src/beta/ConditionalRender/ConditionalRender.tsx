@@ -1,4 +1,4 @@
-import { ATForm, formBuilder } from "@/lib";
+import { AtForm, formBuilder } from "@/lib";
 import { useState } from "react";
 
 const ConditionalRender = ({ ref, onChange }: any) => {
@@ -8,7 +8,7 @@ const ConditionalRender = ({ ref, onChange }: any) => {
         ref.current.reset({ Date: '2025-03-21' })
     }
 
-    return <ATForm ref={ref} onChange={onChange}>
+    return <AtForm ref={ref} onChange={onChange}>
         {
             formBuilder.utils.createFieldDefBuilder(
                 [
@@ -20,9 +20,9 @@ const ConditionalRender = ({ ref, onChange }: any) => {
                 .addIf(showDatePicker, [
                     formBuilder.createDatePicker({ id: 'Date', label: 'Date' }),
                 ])
-                .buildATForm()
+                .buildAtForm()
         }
-    </ATForm>
+    </AtForm>
 }
 
 export default ConditionalRender;

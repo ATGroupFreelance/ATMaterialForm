@@ -1,7 +1,7 @@
 import { GridProps } from "@mui/material";
-import { ATFormMinimalControlledUIProps } from "../Common.type";
+import { AtFormMinimalControlledUiProps } from "../Common.type";
 
-export type ATFormImageSelectProps = ATFormMinimalControlledUIProps & {
+export type AtFormImageSelectProps = AtFormMinimalControlledUiProps & {
     label?: string,
     width?: number,
     height?: number,
@@ -10,7 +10,7 @@ export type ATFormImageSelectProps = ATFormMinimalControlledUIProps & {
     imageWrapperProps?: GridProps
 };
 
-export interface ATFormImageSelectImageProps {
+export interface AtFormImageSelectImageProps {
     id: string,
     name: string,
     src: string,

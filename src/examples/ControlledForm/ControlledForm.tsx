@@ -1,12 +1,12 @@
 import { ExampleComponentInterface } from '@/App';
-import { ATForm, formBuilder } from '@/lib';
-import Button from '@/lib/component/ATForm/UI/Button/Button';
-import { ATFormOnChangeInterface } from '@/lib/types/ATForm.type';
+import { AtForm, formBuilder } from '@/lib';
+import Button from '@/lib/component/AtForm/Ui/Button/Button';
+import { AtFormOnChangeInterface } from '@/lib/types/AtForm.type';
 import { Grid } from '@mui/material';
 import { useState } from 'react';
 
 const MyForm = ({ ref, onChange, value }: any) => {
-    return <ATForm ref={ref} onChange={onChange} value={value}>
+    return <AtForm ref={ref} onChange={onChange} value={value}>
         {
             formBuilder.utils.createFieldDefBuilder(
                 [
@@ -40,15 +40,15 @@ const MyForm = ({ ref, onChange, value }: any) => {
                     formBuilder.createCheckBox({ id: 'CheckBox' }),
                 ]
             )
-                .buildATForm()
+                .buildAtForm()
         }
-    </ATForm>
+    </AtForm>
 }
 
 const ControlledForm = ({ ref, onChange }: ExampleComponentInterface) => {
     const [value, setValue] = useState<Record<string, any>>({})
 
-    const onInternalChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }: ATFormOnChangeInterface) => {
+    const onInternalChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }: AtFormOnChangeInterface) => {
         console.log('setValue change', {
             formDataSemiKeyValue,
         })

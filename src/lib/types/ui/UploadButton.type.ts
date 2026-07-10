@@ -1,8 +1,8 @@
 import { ColDef } from "ag-grid-community";
-import { ATFormMinimalControlledUIProps, ATFormOnClickType } from "../Common.type";
-import { ATFormIconButtonProps } from "./IconButton.type";
+import { AtFormMinimalControlledUiProps, AtFormOnClickType } from "../Common.type";
+import { AtFormIconButtonProps } from "./IconButton.type";
 
-export type ATFormButtonFileType = {
+export type AtFormButtonFileType = {
     id?: string,
     lastModified: number;
     lastModifiedDate: Date;
@@ -14,7 +14,7 @@ export type ATFormButtonFileType = {
     webkitRelativePath: string;
 }
 
-export interface ATFormUploadButtonProps extends ATFormMinimalControlledUIProps {
+export interface AtFormUploadButtonProps extends AtFormMinimalControlledUiProps {
     disabled?: boolean;
     accept?: string,
     multiple?: boolean,
@@ -22,33 +22,33 @@ export interface ATFormUploadButtonProps extends ATFormMinimalControlledUIProps 
     authToken?: string,
 };
 
-export interface ATFormUploadButtonShowFilesDialogProps {
-    onSave?: ATFormOnClickType,
-    onClose: ATFormOnClickType,
-    files: ATFormButtonFileType[] | null | undefined,
+export interface AtFormUploadButtonShowFilesDialogProps {
+    onSave?: AtFormOnClickType,
+    onClose: AtFormOnClickType,
+    files: AtFormButtonFileType[] | null | undefined,
     readOnly: boolean,
     authToken?: string,
 }
 
-export interface ATFormUploadButtonFileProps extends ATFormButtonFileType {
+export interface AtFormUploadButtonFileProps extends AtFormButtonFileType {
     onRemove: (props: any) => void;
     showRemoveIcon?: boolean;
     authToken?: string;
 }
 
-export interface ATFormUploadButtonViewImageDialog {
+export interface AtFormUploadButtonViewImageDialog {
     onClose: (props: any) => void,
     image: string,
     name: string,
 }
 
-export interface ATFormUploadButtonCellRenderer {
+export interface AtFormUploadButtonCellRenderer {
     data: any,
     colDef: ColDef,
 
 }
 
-export interface ATFormUploadButtonShowFilesIconButtonProps extends ATFormIconButtonProps {
-    files: ATFormButtonFileType[] | null | undefined,
+export interface AtFormUploadButtonShowFilesIconButtonProps extends AtFormIconButtonProps {
+    files: AtFormButtonFileType[] | null | undefined,
     label: string,
 }

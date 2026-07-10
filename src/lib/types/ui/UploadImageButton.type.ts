@@ -1,6 +1,6 @@
-import { ATFormMinimalControlledUIProps } from "../Common.type";
+import { AtFormMinimalControlledUiProps } from "../Common.type";
 
-export interface ATFormUploadImageButtonProps extends ATFormMinimalControlledUIProps {
+export interface AtFormUploadImageButtonProps extends AtFormMinimalControlledUiProps {
     label?: string,
     disabled?: boolean,
     accept?: string | undefined,

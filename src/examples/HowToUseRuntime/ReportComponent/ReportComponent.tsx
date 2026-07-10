@@ -1,12 +1,12 @@
-import { ATForm } from "@/lib";
+import { AtForm } from "@/lib";
 
-import { useRequiredATFormRuntime } from "@/lib/hooks/useRequiredATFormRuntime/useRequiredATFormRuntime";
-import { ATFormMinimalUncontrolledUIProps } from "@/lib/types/Common.type";
+import { useRequiredAtFormRuntime } from "@/lib/hooks/useRequiredAtFormRuntime/useRequiredAtFormRuntime";
+import { AtFormMinimalUncontrolledUiProps } from "@/lib/types/Common.type";
 import { Button } from "@mui/material";
 import { useState } from "react";
 
-const ReportComponent = ({ id, formChildren }: ATFormMinimalUncontrolledUIProps & { formChildren: any }) => {
-    const runtime = useRequiredATFormRuntime()
+const ReportComponent = ({ id, formChildren }: AtFormMinimalUncontrolledUiProps & { formChildren: any }) => {
+    const runtime = useRequiredAtFormRuntime()
     const { execute, useRuntimeState } = runtime
 
     const [rowData, setRowData] = useState(null)
@@ -28,11 +28,11 @@ const ReportComponent = ({ id, formChildren }: ATFormMinimalUncontrolledUIProps 
     return <div >
         <Button disabled={isDisabled} onClick={onShowReportResultClick}>Show Report Result</Button>
         {JSON.stringify(rowData)}
-        <ATForm runtime={runtime} runtimePrefix={`${id}.`}>
+        <AtForm runtime={runtime} runtimePrefix={`${id}.`}>
             {
                 formChildren
             }
-        </ATForm>
+        </AtForm>
     </div>
 }
 
