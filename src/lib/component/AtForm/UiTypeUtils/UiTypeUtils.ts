@@ -407,8 +407,8 @@ export const types = [
 
                 const found = enums?.[leaf.enumsKey || leaf.id]?.find((item: any) => String(item.id) === String(value))
 
-                const enumsKeyParentIdField = leaf.enumsKeyParentIdField === undefined ? 'parent_id' : leaf.enumsKeyParentIdField
-                const parentId = found?.[enumsKeyParentIdField]
+                const enumsKeyParentIdField = leaf.enumsKeyParentIdField === undefined ? 'parentId' : leaf.enumsKeyParentIdField
+                const parentId = found?.metadata?.[enumsKeyParentIdField]
 
                 if (enumsKeyParentIdField && parentId) {
                     const parentValueResult = getLeafCascadeValue(getParentNode(childProps.uiProps?.design, leaf), parentId)

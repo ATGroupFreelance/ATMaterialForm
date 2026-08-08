@@ -64,12 +64,12 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
         const result: AtFormCascadeComboBoxBaseComboBoxProps[] = [];
         /**enumsKey and enumsKeyParentIDField are used for reverse convert from a single leaf to a whole object of values */
         designLayers?.forEach((currentLayer) => {
-            const enumsKeyParentIdField = currentLayer.enumsKeyParentIdField || 'parent_id'
+            const enumsKeyParentIdField = currentLayer.enumsKeyParentIdField || 'parentId'
 
             // Default filter fallback
             const defaultFilterOptions: AtFormCascadeComboBoxOptionsFilterFunction = (params) => {
                 if (designLayersParent?.id) {
-                    return params.option?.[enumsKeyParentIdField] === params?.values?.[designLayersParent.id]
+                    return params.option?.metadata?.[enumsKeyParentIdField] === params?.values?.[designLayersParent.id]
                 }
                 else {
                     /**If designLayersParent?.id is undefined it means we are at the very root so we just return the options without filter  */

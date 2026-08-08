@@ -38,7 +38,7 @@ export interface AtFormCascadeComboBoxDesignLayerBase {
     enumsKey?: string;
     /** 
      * The key of the parent. 
-     * Defaults to "parent_id" if not provided.
+     * Defaults to "parentId" if not provided.
     */
     enumsKeyParentIdField?: string;
 }

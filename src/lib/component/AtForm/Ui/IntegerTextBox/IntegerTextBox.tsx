@@ -4,30 +4,55 @@ import TextBox from '../TextBox/TextBox';
 import { convertNoneEnglishNumbers } from '../../FormUtils/FormUtils';
 import { AtFormIntegerTextBoxProps } from '../../../../types/ui/IntegerTextBox.type';
 
-const IntegerTextBox = ({ value, onChange, onKeyDown, min, max, slotProps, ...restProps }: AtFormIntegerTextBoxProps) => {
+const IntegerTextBox = ({
+    value,
+    onChange,
+    onBlur,
+    onKeyDown,
+    min,
+    max,
+    slotProps,
+    ...restProps
+}: AtFormIntegerTextBoxProps) => {
+    const getIntegerValue = (value: string): number | null => {
+        const newValue = convertNoneEnglishNumbers(value);
+
+        if (!newValue)
+            return null;
+
+        const integerValue = parseInt(newValue, 10);
+
+        if (isNaN(integerValue))
+            return null;
+
+        return integerValue;
+    };
+
     const onInternalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = convertNoneEnglishNumbers(event.target.value)
-        let integerValue: number | null = null
+        const integerValue = getIntegerValue(event.target.value);
 
-        if (newValue)
-            integerValue = parseInt(newValue)
+        if (onChange)
+            onChange({ target: { value: integerValue } });
+    };
 
-        if (integerValue !== null && isNaN(integerValue))
-            integerValue = null
+    const onInternalBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+        let integerValue = getIntegerValue(event.target.value);
 
         if (integerValue !== null) {
             if (min !== undefined && integerValue < min)
-                integerValue = min
+                integerValue = min;
 
             if (max !== undefined && integerValue > max)
-                integerValue = max
+                integerValue = max;
+
+            if (integerValue !== value && onChange)
+                onChange({ target: { value: integerValue } });
         }
 
-        if (onChange)
-            onChange({ target: { value: integerValue } })
-    }
+        onBlur?.(event);
+    };
 
-    const newValue = value === null || value === undefined ? '' : value
+    const newValue = value === null || value === undefined ? '' : value;
 
     return (
         <TextBox
@@ -35,6 +60,7 @@ const IntegerTextBox = ({ value, onChange, onKeyDown, min, max, slotProps, ...re
             type="number"
             value={newValue}
             onChange={onInternalChange}
+            onBlur={onInternalBlur}
             slotProps={{
                 ...(slotProps || {}),
                 htmlInput: {

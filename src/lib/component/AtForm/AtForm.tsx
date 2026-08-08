@@ -383,7 +383,7 @@ const AtFormFunction = (props: AtFormProps) => {
         let uiPropsRuntimeOverride;
 
         if (props.runtime) {
-            const effectiveId = `${props.runtimePrefix || ""}${childProps.tProps.id}`
+            const effectiveId = `${props.runtimePrefix ? props.runtimePrefix + "." : ""}${childProps.tProps.id}`
             const { tProps, uiProps } = props.runtime.getBindings(effectiveId)
             tPropsRuntimeOverride = tProps
             uiPropsRuntimeOverride = uiProps
