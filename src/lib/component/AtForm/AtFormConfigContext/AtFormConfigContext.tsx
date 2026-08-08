@@ -45,7 +45,15 @@ export const AtFormConfigProvider: React.FC<AtFormConfigProviderProps> = ({ chil
   }, [customComponents])
 
   return (
-    <AtFormConfigContext.Provider value={{ ...restValue, customComponents, getTypeInfo, localText: newLocalText, getLocalText: getLocalText || fallbackGetLocalText }}>
+    <AtFormConfigContext.Provider
+      value={{
+        ...restValue,
+        customComponents,
+        getTypeInfo,
+        localText: newLocalText,
+        getLocalText: getLocalText || fallbackGetLocalText,
+        enums: restValue.enums ?? {}
+      }}>
       {children}
     </AtFormConfigContext.Provider>
   );

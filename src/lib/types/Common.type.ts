@@ -48,7 +48,7 @@ export type AtEnumItemType = {
 
 export type AtEnumType = Array<AtEnumItemType>;
 
-export type AtEnumsType = { [key: AtEnumKey]: AtEnumType } | null | undefined;
+export type AtEnumsType = { [key: AtEnumKey]: AtEnumType };
 
 export interface AtFormMinimalControlledUiProps<
     T extends {

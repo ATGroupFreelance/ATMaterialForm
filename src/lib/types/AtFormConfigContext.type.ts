@@ -28,7 +28,7 @@ export interface AtFormConfigContextInterface {
 
 export interface AtFormConfigContextGuaranteedInterface {
     rtl?: boolean;
-    enums?: AtEnumsType;
+    enums: AtEnumsType;
     uploadFilesToServer?: (props: UploadFilesToServerProps) => Promise<any>;
     maxUploadFileSizeInBytes?: number,
     getFile?: (props: GetFileProps) => Promise<any>;
