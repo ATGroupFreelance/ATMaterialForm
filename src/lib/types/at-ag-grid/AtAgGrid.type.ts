@@ -17,7 +17,7 @@ export interface AtAgGridExtendedColDef extends ColDef {
 
 export type AtAgGridCellRendererParamConfig<
     UiProps = unknown,
-    ExtraParams extends object = {}
+    ExtraParams extends object = object
 > = {
     /** Use this to change UI props each time the component re-renders */
     getCellRendererParams?: (
@@ -28,21 +28,21 @@ export type AtAgGridCellRendererParamConfig<
 
 export type AtAgGridBaseCellRendererParams<
     UiProps = unknown,
-    ExtraParams extends object = {}
+    ExtraParams extends object = object
 > = {
     config?: AtAgGridCellRendererParamConfig<UiProps, ExtraParams>;
 };
 
 export interface AtAgGridCustomCellRendererProps<
     UiProps = unknown,
-    ExtraParams extends object = {}
+    ExtraParams extends object = object
 > extends CustomCellRendererProps {
     config?: AtAgGridBaseCellRendererParams<UiProps, ExtraParams>["config"];
 }
 
 export type CreateAtCellRendererPropsInterface<
     UiProps,
-    ExtraParams extends object = {}
+    ExtraParams extends object = object
 > = AtAgGridCustomCellRendererProps<UiProps, ExtraParams>;
 
 export type AtAgGridColumnDefFromCellRenderer<

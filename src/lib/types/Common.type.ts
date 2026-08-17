@@ -78,8 +78,8 @@ export interface AtFormOnClickBaseProps {
     [key: string]: any;
 }
 
-export type AtFormOnClickProps<TExtraProps = {}> = AtFormOnClickBaseProps & TExtraProps;
+export type AtFormOnClickProps<TExtraProps extends object = object> = AtFormOnClickBaseProps & TExtraProps;
 
-export type AtFormOnClickType<TExtraProps = {}> = (props: AtFormOnClickProps<TExtraProps>) => void;
+export type AtFormOnClickType<TExtraProps extends object = object> = (props: AtFormOnClickProps<TExtraProps>) => void;
 
 export type AtFormGetLocalTextFunctionType = (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined

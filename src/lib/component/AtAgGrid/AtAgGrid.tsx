@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import _React, { useCallback, useMemo, useState } from 'react';
 
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component

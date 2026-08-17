@@ -2,7 +2,7 @@ import { AtFormChildProps, AtFormFieldDefGenericProps } from "./AtForm.type";
 import { AtEnumsType } from "./Common.type";
 import { AtFormComboBoxAsyncOptions, AtFormComboBoxStaticOptions } from "./ui/ComboBox.type";
 
-export interface AtFormTypeInfoInterface<T extends AtFormFieldDefGenericProps = {}> {
+export interface AtFormTypeInfoInterface<T extends AtFormFieldDefGenericProps = any> {
     type: string,
     initialValue?: any,
     isNullValueValid?: boolean,
@@ -22,13 +22,13 @@ export type AtFormCreateControlledType = Omit<AtFormTypeInfoInterface, 'isContro
 
 export type AtFormCreateUncontrolledType = Pick<AtFormTypeInfoInterface, 'type' | 'getAgGridColumnDef'>
 
-export interface AtConvertInterface<T extends AtFormFieldDefGenericProps = {}> {
+export interface AtConvertInterface<T extends AtFormFieldDefGenericProps = any> {
     event: { target: { value: any } },
     childProps: AtFormChildProps<T>,
     enums: AtEnumsType
 }
 
-export interface AtReverseConvertInterface<T extends AtFormFieldDefGenericProps = {}> {
+export interface AtReverseConvertInterface<T extends AtFormFieldDefGenericProps = any> {
     value: any,
     childProps: AtFormChildProps<T>,
     enums: AtEnumsType,

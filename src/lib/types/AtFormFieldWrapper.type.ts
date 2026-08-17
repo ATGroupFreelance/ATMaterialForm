@@ -17,7 +17,7 @@ export interface BuiltInWrapperConfigsMap {
     Grid: AtFormGridConfig;
     Button: AtFormButtonWrapperConfig;
     ButtonDialog: AtFormButtonDialogWrapperConfig;
-    None: {};
+    None: never;
 }
 
 type AtFormBuiltInWrapperType = keyof BuiltInWrapperConfigsMap;

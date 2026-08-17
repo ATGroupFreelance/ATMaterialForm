@@ -41,8 +41,7 @@ const AtFormButtonDialogWrapper = ({ children, childProps, config }: AtFormButto
         const lastValue = getFormData().formDataSemiKeyValue?.[childProps.tProps.id]
         const child: ReactElement = children
 
-        //We remove ref from tProps because we don't want to pass the ref down to the child component        
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        //We remove ref from tProps because we don't want to pass the ref down to the child component                
         const { ref: _unusedRef, ...refFreeTProps } = childProps.tProps
 
         const props = {
