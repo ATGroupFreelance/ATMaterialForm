@@ -11,5 +11,5 @@ export interface AtFormContextInterface {
     reset: (props?: AtFormResetInterface) => void,
     getFormData: () => AtFormOnChangeInterface,
     runtime?: AtFormRuntime,
+    runtimePrefix?: string,
 }
-

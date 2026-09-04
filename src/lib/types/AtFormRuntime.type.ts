@@ -58,7 +58,20 @@ export type AtFormRuntimeBindingsMap = Record<
     AtFormRuntimeBindings
 >;
 
+export interface AtFormRuntimeSetPropertyParams {
+    fieldId: string;
+    target: "uiProps" | "tProps";
+    key: string;
+    value: unknown;
+}
+
 export interface AtFormRuntime {
+    /**
+     * Applies an imperative runtime property override to one field.
+     *
+     * This does not mutate the persisted field definition.
+    */
+    setProperty(props: AtFormRuntimeSetPropertyParams): void;
 
     /*
      * True while the runtime is resolving its "initialize" bindings.

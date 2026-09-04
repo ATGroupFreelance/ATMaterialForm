@@ -2,12 +2,14 @@ import React, { Suspense } from "react";
 import UiBuilder from "../../UiBuilder/UiBuilder";
 import { AtFormChildProps, AtUiRenderProps } from "../../../../types/AtForm.type";
 import UiRenderWrapperResolver from "./UiRenderWrapperResolver/UiRenderWrapperResolver";
+import AtFormFieldErrorBoundary from "./AtFormFieldErrorBoundary";
 
 const UiRenderDebugWrapper = React.lazy(() => import("./UiRenderDebugWrapper/UiRenderDebugWrapper"));
 
-function UiRender({ children, childProps }: AtUiRenderProps) {
-    if (childProps.tProps?.skipRender) return null;
-
+function UiRender({ children, childProps, fieldErrorFallback }: AtUiRenderProps) {
+    if (childProps.tProps?.skipRender || childProps.uiProps?.visible === false)
+        return null;
+    
     const debug = childProps.tProps?.debug === true;
 
     // Render actual UI field
@@ -33,13 +35,23 @@ function UiRender({ children, childProps }: AtUiRenderProps) {
         </Suspense>
     ) : renderedElement;
 
+    const safeElement = fieldErrorFallback ? (
+        <AtFormFieldErrorBoundary
+            fallback={fieldErrorFallback}
+            childProps={childProps}
+            resetKey={childProps}
+        >
+            {maybeDebuggedElement}
+        </AtFormFieldErrorBoundary>
+    ) : maybeDebuggedElement;
+
     // Wrap final result in layout (Grid etc.)
     return (
         <UiRenderWrapperResolver
             wrapperRenderer={childProps?.tProps?.wrapperRenderer || {}}
             childProps={childProps}
         >
-            {maybeDebuggedElement}
+            {safeElement}
         </UiRenderWrapperResolver>
     );
 }

@@ -17,7 +17,75 @@ export interface AtFormOnChangeInterface {
     formDataSemiKeyValue: AtFormFormDataSemiKeyValueType,
 }
 
+export interface AtFormSetDataInterface {
+    /**
+     * The complete form data in FormDataSemiKeyValue format.
+     *
+     * setData replaces the current form data snapshot.
+     * Fields omitted from data are reset to their normal/default value.
+     *
+     * Use setValue when only one field should change while preserving
+     * the rest of the current form data.
+     */
+    data: AtFormFormDataSemiKeyValueType;
+
+    /**
+     * Prevent AtForm.onChange from being triggered while the new data
+     * is applied to the form.
+     */
+    suppressFormOnChange?: boolean;
+}
+
+export interface AtFormGetValueInterface {
+    /**
+     * The AtForm field ID whose value should be returned.
+     */
+    fieldId: string;
+}
+
+export interface AtFormSetValueInterface {
+    /**
+     * The AtForm field ID whose value should be changed.
+     */
+    fieldId: string;
+
+    /**
+     * New value for the field.
+     */
+    value: unknown;
+
+    /**
+     * Prevent AtForm.onChange from being triggered while the value
+     * is applied to the form.
+     */
+    suppressFormOnChange?: boolean;
+}
+
 export interface AtFormRefInterface {
+    /**
+     * Returns the complete current form data using AtForm's canonical
+     * FormDataSemiKeyValue representation.
+     */
+    getData: () => AtFormFormDataSemiKeyValueType;
+
+    /**
+     * Replaces the current form data snapshot.
+     *
+     * Fields omitted from data are reset to their normal/default value.
+     * Use setValue to update a single field without replacing the rest.
+     */
+    setData: (props: AtFormSetDataInterface) => void;
+
+    /**
+     * Returns the current value of a single field.
+     */
+    getValue: (props: AtFormGetValueInterface) => unknown;
+
+    /**
+     * Updates one field while preserving all other current form values.
+     */
+    setValue: (props: AtFormSetValueInterface) => void;
+
     reset: (props?: AtFormResetInterface) => void;
     checkValidation: (onValid: any, onInvalid?: any) => void;
     getFormData: () => AtFormOnChangeInterface;
@@ -40,6 +108,16 @@ export interface AtFormDebugProps {
 }
 
 export type LogLevel = 0 | 1 | 2 | 3 | 4;
+
+export interface AtFormFieldErrorFallbackProps {
+    error: Error;
+    errorInfo: React.ErrorInfo | null;
+    childProps: AtFormChildProps | AtFormUnknownChildProps;
+}
+
+export type AtFormFieldErrorFallback = (
+    props: AtFormFieldErrorFallbackProps
+) => React.ReactNode;
 
 export interface AtFormProps {
     ref?: React.Ref<AtFormRefInterface>,
@@ -71,6 +149,7 @@ export interface AtFormProps {
     logLevel?: LogLevel;
     runtime?: AtFormRuntime;
     runtimePrefix?: string,
+    fieldErrorFallback?: AtFormFieldErrorFallback,
 }
 
 export interface AtFormResetInterface {
@@ -82,7 +161,7 @@ export interface AtFormResetInterface {
 export interface AtFormOnChildChangeInterface {
     event: any,
     childProps: AtFormChildProps,
-    suppressFormOnChange?: boolean,    
+    suppressFormOnChange?: boolean,
     changeId: number,
 }
 
@@ -92,9 +171,35 @@ export interface AtFormPendingValidationCallbackInterface {
     onInvalid: any,
 }
 
+export interface AtFormChildSetValueInterface {
+    /**
+     * New value to assign to this individual field.
+     */
+    value: unknown;
+
+    /**
+     * Prevent AtForm.onChange from being triggered by this update.
+     *
+     * This does not suppress the field's own onChange handler.
+     */
+    suppressFormOnChange?: boolean;
+}
+
+/**Type def for tProps.ref */
 /**Type def for tProps.ref */
 export interface AtFormChildRefInterface {
-    reset?: (resetProps?: AtFormChildResetInterface) => void,
+    reset?: (resetProps?: AtFormChildResetInterface) => void;
+    /**
+        * Returns the current value of this individual field.
+        */
+    getValue?: () => unknown;
+    /**
+     * Updates only this field.
+     *
+     * Unlike a form reset/setData operation, this must not cause other
+     * fields in the form to reset or emit changes.
+     */
+    setValue?: (props: AtFormChildSetValueInterface) => void;
 }
 
 /**Type def for tProps */
@@ -150,11 +255,13 @@ export interface AtFormUnknownChildProps {
 export interface AtFormRenderProps {
     children: any,
     childrenProps: (AtFormChildProps | AtFormUnknownChildProps)[],
+    fieldErrorFallback?: AtFormFieldErrorFallback,
 }
 
 export interface AtUiRenderProps {
     children: any,
     childProps: AtFormChildProps | AtFormUnknownChildProps,
+    fieldErrorFallback?: AtFormFieldErrorFallback,
 }
 
 export interface AtUiBuilderProps {

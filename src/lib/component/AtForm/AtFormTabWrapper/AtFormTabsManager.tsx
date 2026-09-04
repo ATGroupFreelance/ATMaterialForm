@@ -28,7 +28,7 @@ const enrichTabs = (tabs: AtFormTabConfigInterface[], parentTabPath: number[]): 
     })
 }
 
-const AtFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSelectedTabPaths }: AtFormTabsManagerProps) => {
+const AtFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSelectedTabPaths, fieldErrorFallback }: AtFormTabsManagerProps) => {
     //TODO Add suppport for defaultSelectedTabPaths
     void defaultSelectedTabPaths;
 
@@ -57,9 +57,14 @@ const AtFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
 
     /**If tabs does not exist just skip and go to render stage */
     if (!tabs)
-        return <AtFormRender childrenProps={childrenProps}>
-            {children}
-        </AtFormRender>
+        return (
+            <AtFormRender
+                childrenProps={childrenProps}
+                fieldErrorFallback={fieldErrorFallback}
+            >
+                {children}
+            </AtFormRender>
+        );
 
     const tabContainerList: AtFormTabContainer[] = []
 
@@ -201,7 +206,7 @@ const AtFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
                     />
                 </Grid>
             }
-            <UiRender childProps={newChildrenProps[index]}>
+            <UiRender childProps={newChildrenProps[index]} fieldErrorFallback={fieldErrorFallback}>
                 {item}
             </UiRender>
         </React.Fragment>

@@ -46,6 +46,7 @@ const FormDialog = ({ id, children, open: openProp, onClose, formChildren, value
                 open &&
                 <AtFormDialog
                     ref={mFormRef}
+                    runtimePrefix={id}
                     onClose={handleClose}
                     defaultValue={value}
                     valueFormat='FormDataSemiKeyValue'

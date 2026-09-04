@@ -179,7 +179,7 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
     }
 
     return <div
-        style={{ height: domLayout ? undefined : (height || '80vh'), width: '100%' }}
+        style={{ height: domLayout ? undefined : (height || '75vh'), width: '100%' }}
         onContextMenu={(event) => {
             // Prevent the browser's default context menu, using aggrid suppressContextMenu or onContextMenu prevent default did not work!!!
             event.preventDefault();

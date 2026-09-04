@@ -37,7 +37,7 @@ const initializeOnChangeInterface = () => {
     }
 }
 
-const ContainerWithTable = ({ value, formChildren, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: AtFormContainerWithTableProps) => {
+const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: AtFormContainerWithTableProps) => {
     const { enums, rtl, localText } = useAtFormConfig()
     const { getTypeInfo } = useAtForm()
     const theme = useTheme()
@@ -275,6 +275,7 @@ const ContainerWithTable = ({ value, formChildren, getGridColumnDefs, onChange, 
                     //@ts-ignore
                     <AtFormDialog
                         ref={formRefCallback}
+                        runtimePrefix={id}
                         onChange={onFormDialogChange}
                         onSubmitClick={() => {
                             if (recordDialog.editMode)
@@ -298,6 +299,7 @@ const ContainerWithTable = ({ value, formChildren, getGridColumnDefs, onChange, 
                     addInterface === INTERFACE_TYPES.form &&
                     <AtForm
                         ref={formRefCallback}
+                        runtimePrefix={id}
                         onChange={onFormChange}
                         defaultValue={recordDialog.defaultValue}
                     >

@@ -6,8 +6,8 @@ import AVJErrors from 'ajv-errors';
 //Components
 import { getFlatChildren, anyToFormData, formDataToAny } from './FormUtils/FormUtils';
 import useAtFormConfig from '../../hooks/useAtFormConfig/useAtFormConfig';
-import { AtFormChildProps, AtFormFieldTProps, AtFormChildRefInterface, AtFormOnChildChangeInterface, AtFormPendingValidationCallbackInterface, AtFormProps, AtFormResetInterface, AtFormUnknownChildProps, AtFormFieldDefInterface, AtFormOnChangeInterface } from '../../types/AtForm.type';
-import { AtFormContextProvider } from './AtFormContext/AtFormContext';
+import { AtFormChildProps, AtFormFieldTProps, AtFormChildRefInterface, AtFormOnChildChangeInterface, AtFormPendingValidationCallbackInterface, AtFormProps, AtFormResetInterface, AtFormUnknownChildProps, AtFormFieldDefInterface, AtFormOnChangeInterface, AtFormGetValueInterface, AtFormSetDataInterface, AtFormSetValueInterface } from '../../types/AtForm.type';
+import { AtFormContext, AtFormContextProvider } from './AtFormContext/AtFormContext';
 import AtFormTabsManager from './AtFormTabWrapper/AtFormTabsManager';
 import { AtFormFormDataKeyValueType, AtFormFormDataSemiKeyValueType, AtFormFormDataType } from '../../types/AtFormFormData.type';
 import { createLogger } from './AtFormLogger';
@@ -27,6 +27,18 @@ interface LocalValueInterface {
 }
 
 const AtFormFunction = (props: AtFormProps) => {
+    const parentFormContext = React.useContext(AtFormContext);
+
+    const runtime = props.runtime ?? parentFormContext?.runtime;
+
+    const inheritedRuntimePrefix = [
+        parentFormContext?.runtimePrefix,
+        props.runtimePrefix,
+    ]
+        .filter(Boolean).join(".");
+
+    const runtimePrefix = props.runtime ? props.runtimePrefix : inheritedRuntimePrefix || undefined;
+
     const logger = useMemo(() => {
         return createLogger(props.logLevel, { prefix: props.debugProps?.id, preventDuplicates: true })
     }, [props.logLevel, props.debugProps?.id])
@@ -265,8 +277,22 @@ const AtFormFunction = (props: AtFormProps) => {
         }
     }, [formGroupMap])
 
-    const onAssignChildRef = useCallback((id: string, childRef: AtFormChildRefInterface) => {
-        mChildrenRefs.current[id] = childRef
+    const getData = useCallback((): AtFormFormDataSemiKeyValueType => {
+        return formGroupMap ?
+            groupFormDataByGroupKey(mFormDataSemiKeyValue.current, formGroupMap)
+            :
+            { ...mFormDataSemiKeyValue.current };
+    }, [formGroupMap]);
+
+    const getValue = useCallback(({ fieldId }: AtFormGetValueInterface): unknown => {
+        return mFormDataSemiKeyValue.current[fieldId];
+    }, []);
+
+    const onAssignChildRef = useCallback((id: string, childRef: AtFormChildRefInterface | null) => {
+        if (childRef)
+            mChildrenRefs.current[id] = childRef
+        else
+            delete mChildrenRefs.current[id]
     }, [])
 
     const onLockdownChange = useCallback((id: string, state: boolean) => {
@@ -382,9 +408,9 @@ const AtFormFunction = (props: AtFormProps) => {
         let tPropsRuntimeOverride;
         let uiPropsRuntimeOverride;
 
-        if (props.runtime) {
-            const effectiveId = `${props.runtimePrefix ? props.runtimePrefix + "." : ""}${childProps.tProps.id}`
-            const { tProps, uiProps } = props.runtime.getBindings(effectiveId)
+        if (runtime) {
+            const effectiveId = `${runtimePrefix ? runtimePrefix + "." : ""}${childProps.tProps.id}`
+            const { tProps, uiProps } = runtime.getBindings(effectiveId)
             tPropsRuntimeOverride = tProps
             uiPropsRuntimeOverride = uiProps
         }
@@ -396,15 +422,13 @@ const AtFormFunction = (props: AtFormProps) => {
                 label: tPropsRuntimeOverride?.label ?? (childProps.tProps.label !== undefined ? childProps.tProps.label : getLocalText(childProps.tProps.id, childProps.tProps.id)),
                 defaultValue: tPropsRuntimeOverride?.defaultValue ?? newDefaultValue,
                 ref: (newRef) => {
-                    if (newRef) {
-                        onAssignChildRef(childProps.tProps.id, newRef)
+                    onAssignChildRef(childProps.tProps.id, newRef)
 
-                        const ref = childProps.tProps.ref;
-                        if (typeof ref === 'function') {
-                            ref(newRef);
-                        } else if (ref && typeof ref === 'object' && 'current' in ref) {
-                            ref.current = newRef;
-                        }
+                    const ref = childProps.tProps.ref;
+                    if (typeof ref === 'function') {
+                        ref(newRef);
+                    } else if (ref && typeof ref === 'object' && 'current' in ref) {
+                        ref.current = newRef;
                     }
                 },
                 debug: tPropsRuntimeOverride?.debug ?? (childProps.tProps.debug === undefined ? props.debugProps?.enabled : childProps.tProps.debug),
@@ -420,7 +444,7 @@ const AtFormFunction = (props: AtFormProps) => {
             changeId: localValue?.changeId,
             isFormControlled,
         }
-    }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps, props.runtime, props.runtimePrefix])
+    }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps, runtime, runtimePrefix])
 
     const [flatChildren, flatChildrenProps] = useMemo(() => {
         const flatChildren = getFlatChildren(props.children)
@@ -529,6 +553,82 @@ const AtFormFunction = (props: AtFormProps) => {
         setInternalDefaultValue({ value: newDefaultValue, suppressFormOnChange })
     }, [enums, rtl, flatChildrenProps, formGroupMap])
 
+    const setData = useCallback(({ data, suppressFormOnChange = false }: AtFormSetDataInterface) => {
+        const flattenValue = formGroupMap ?
+            flattenGroupedFormData(data, formGroupMap)
+            :
+            data;
+
+        const formData = anyToFormData({
+            value: flattenValue,
+            enums,
+            rtl,
+            flatChildrenProps,
+            valueFormat: "FormDataSemiKeyValue",
+        });
+
+        /*
+         * Keep AtForm's internal data references synchronized immediately.
+         *
+         * This is important because callers may call getData/getValue directly
+         * after setData and should receive the newly assigned data.
+         */
+        const formDataKeyValue = formDataToAny({
+            formData,
+            targetFormat: "FormDataKeyValue",
+            enums,
+            flatChildrenProps,
+        });
+
+        const formDataSemiKeyValue = formDataToAny({
+            formData,
+            targetFormat: "FormDataSemiKeyValue",
+            enums,
+            flatChildrenProps,
+        });
+
+        mFormData.current = { ...formData };
+        mFormDataKeyValue.current = { ...formDataKeyValue };
+        mFormDataSemiKeyValue.current = { ...formDataSemiKeyValue };
+
+        /*
+         * Reuse AtForm's existing reset/default-value pipeline to update
+         * the rendered child components.
+         *
+         * Because setData represents replacement semantics, fields omitted
+         * from data will resolve back to their configured/default value.
+         */
+        setInternalDefaultValue({
+            value: formData,
+            suppressFormOnChange,
+        });
+    }, [enums, rtl, flatChildrenProps, formGroupMap]);
+
+    const setValue = useCallback(({ fieldId, value, suppressFormOnChange = false }: AtFormSetValueInterface) => {
+        const childRef = mChildrenRefs.current[fieldId];
+
+        if (!childRef)
+            throw new Error(`AtForm.setValue could not find field "${fieldId}".`);
+
+        if (!childRef.setValue)
+            throw new Error(`AtForm field "${fieldId}" does not support setValue.`);
+
+        /*
+         * setValue is intentionally a single-field operation.
+         *
+         * Do not route this through setData/reset because doing so would reset
+         * every field in the form and could incorrectly trigger sibling field
+         * events such as ComboBox.onChange.
+         *
+         * The child update flows back through onChildChange, which keeps all
+         * AtForm data representations synchronized.
+         */
+        childRef.setValue({
+            value,
+            suppressFormOnChange,
+        });
+    }, []);
+
     useEffect(() => {
         if (props.defaultValue && !mIsDefaultValueResetCalledOnMount.current) {
             reset({ inputDefaultValue: props.defaultValue, inputDefaultValueFormat: props.defaultValueFormat })
@@ -547,12 +647,37 @@ const AtFormFunction = (props: AtFormProps) => {
             logger,
             reset,
             getFormData,
-            runtime: props.runtime,
+            runtime,
+            runtimePrefix,
+            getData,
+            setData,
+            getValue,
+            setValue,
         }
-    }, [onLockdownChange, isFormOnLockdown, validationErrors, getTypeInfo, checkValidation, onChildChange, logger, reset, getFormData, props.runtime])
+    }, [
+        onLockdownChange,
+        isFormOnLockdown,
+        validationErrors,
+        getTypeInfo,
+        checkValidation,
+        onChildChange,
+        logger,
+        reset,
+        getFormData,
+        runtime,
+        runtimePrefix,
+        getData,
+        setData,
+        getValue,
+        setValue,
+    ])
 
     useImperativeHandle(props.ref, () => {
         return {
+            getData,
+            setData,
+            getValue,
+            setValue,
             reset,
             checkValidation,
             getFormData,
@@ -566,6 +691,7 @@ const AtFormFunction = (props: AtFormProps) => {
                 childrenProps={flatChildrenProps}
                 onChange={props.onTabChange}
                 defaultSelectedTabPaths={props.defaultSelectedTabPaths}
+                fieldErrorFallback={props.fieldErrorFallback}
             >
                 {flatChildren}
             </AtFormTabsManager>

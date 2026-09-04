@@ -117,7 +117,7 @@ const AtFormDialog = ({
             <Grid container spacing={2} sx={{ width: '100%' }}>
                 {
                     newActions.map((item: any) => {
-                        const { size = { xs: 12, md: 2 }, id, label, onClick, disabled, ...restItem } = item
+                        const { size = { xs: 12, md: maxWidth === "xs" ? 12 : 2 }, id, label, onClick, disabled, ...restItem } = item
                         return <Grid key={id} size={size}>
                             <Button
                                 label={label ? label : id}

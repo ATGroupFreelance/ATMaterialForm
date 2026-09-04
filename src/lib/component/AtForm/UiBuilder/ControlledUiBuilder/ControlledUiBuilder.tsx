@@ -1,7 +1,7 @@
 import React, { Suspense, useState, useImperativeHandle, useEffect, useRef } from 'react';
 //Context
 import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
-import { AtControlledUiBuilderProps, AtFormChildResetInterface } from '../../../../types/AtForm.type';
+import { AtControlledUiBuilderProps, AtFormChildResetInterface, AtFormChildSetValueInterface } from '../../../../types/AtForm.type';
 import { AtFormTypeInfoInterface } from '../../../../types/UiTypeUtils.type';
 import { AtFormComboBoxProps } from '../../../../types/ui/ComboBox.type';
 import { AtFormMultiComboBoxProps } from '../../../../types/ui/MultiComboBox.type';
@@ -133,9 +133,30 @@ const ControlledUiBuilder = ({ childProps }: AtControlledUiBuilderProps) => {
         internalOnChange({ target: { value: getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue) } }, { suppressFormOnChange })
     }
 
+    const getValue = () => {
+        return localValue;
+    }
+
+    const setValue = ({ value, suppressFormOnChange = false }: AtFormChildSetValueInterface) => {
+        /*
+         * Programmatically update only this field.
+         *
+         * We intentionally reuse internalOnChange so the field's local state,
+         * AtForm data representations and normal change pipeline stay in sync.
+         *
+         * Crucially, this does not reset any sibling fields.
+         */
+        internalOnChange(
+            { target: { value } },
+            { suppressFormOnChange }
+        );
+    }
+
     useImperativeHandle(childProps.tProps.ref, () => {
         return {
-            reset: reset,
+            reset,
+            getValue,
+            setValue,
         }
     })
 

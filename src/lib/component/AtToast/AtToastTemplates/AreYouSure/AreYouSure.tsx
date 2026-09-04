@@ -1,7 +1,8 @@
 import Button from "../../../AtForm/Ui/Button/Button";
 import useAtFormConfig from "../../../../hooks/useAtFormConfig/useAtFormConfig";
 import { AtFormOnClickProps } from "../../../../types/Common.type";
-import { Grid, Typography, Box } from "@mui/material";
+import { Grid, Typography, Box, alpha } from "@mui/material";
+import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import { ToastContentProps } from "react-toastify";
 
 interface AreYouSureProps extends ToastContentProps {
@@ -35,23 +36,51 @@ const AreYouSure = ({
     return (
         <Grid
             container
-            spacing={2}
+            spacing={1.5}
             sx={{
-                minWidth: 240,
+                minWidth: 260,
+                maxWidth: 360,
             }}
         >
             {/* Message */}
             <Grid size={12}>
-                <Typography
-                    variant="subtitle1"
+                <Box
                     sx={{
-                        fontWeight: 500,
-                        textAlign: "center",
-                        lineHeight: 1.5,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1.25,
                     }}
                 >
-                    {toastContent}
-                </Typography>
+                    <Box
+                        sx={theme => ({
+                            width: 36,
+                            height: 36,
+                            flexShrink: 0,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: 2,
+                            color: "warning.main",
+                            backgroundColor: alpha(theme.palette.warning.main, theme.palette.mode === "dark" ? 0.16 : 0.1),
+                            border: 1,
+                            borderColor: alpha(theme.palette.warning.main, 0.22),
+                        })}
+                    >
+                        <HelpOutlineRoundedIcon sx={{ fontSize: 21 }} />
+                    </Box>
+
+                    <Typography
+                        variant="body2"
+                        sx={{
+                            flex: 1,
+                            fontWeight: 600,
+                            color: "text.primary",
+                            lineHeight: 1.5,
+                        }}
+                    >
+                        {toastContent}
+                    </Typography>
+                </Box>
             </Grid>
 
             {/* Actions */}
@@ -60,23 +89,33 @@ const AreYouSure = ({
                     sx={{
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "space-between",
-                        gap: 1.5,
+                        justifyContent: "flex-end",
+                        gap: 1,
+                        pt: 0.25,
                     }}
                 >
                     <Button
                         fullWidth
                         variant="outlined"
-                        color="error"
+                        color="inherit"
                         onClick={onInternalNoClick}
+                        sx={{
+                            minHeight: 34,
+                            borderColor: "divider",
+                            color: "text.secondary",
+                        }}
                     >
                         {getLocalText("No")}
                     </Button>
 
                     <Button
                         fullWidth
-                        variant="outlined"
+                        variant="contained"
                         onClick={onInternalYesClick}
+                        sx={{
+                            minHeight: 34,
+                            boxShadow: "none",
+                        }}
                     >
                         {getLocalText("Yes")}
                     </Button>
