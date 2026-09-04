@@ -3,9 +3,8 @@ import { useEffect, useState } from 'react';
 import ComboBox from '../../ComboBox/ComboBox';
 import { Grid } from "@mui/material";
 import useAtFormConfig from '../../../../../hooks/useAtFormConfig/useAtFormConfig';
-import { AtFormCascadeComboBoxBaseComboBoxProps } from '../../../../../types/ui/CascadeComboBox.type';
+import { AtFormCascadeComboBoxBaseComboBoxProps, AtFormCascadeComboBoxValues } from '../../../../../types/ui/CascadeComboBox.type';
 import { AtFormComboBoxStaticOptions } from '../../../../../types/ui/ComboBox.type';
-import { AtEnumItemType } from '../../../../../types/Common.type';
 
 const BaseComboBox = ({ id, value, parentId, options, multiple, readOnly, size = { xs: 12, md: 3, lg: 3, xl: 3 }, uiProps }: AtFormCascadeComboBoxBaseComboBoxProps) => {
     const [localValue, setLocalValue] = useState(value)
@@ -47,7 +46,7 @@ const BaseComboBox = ({ id, value, parentId, options, multiple, readOnly, size =
     useEffect(() => {
         /**If its a child its data must be filtered based on its parent's value */
         if (parentId && value && value[parentId] && (parentPrevValue !== value[parentId])) {
-            const values: Record<string, string | Array<AtEnumItemType>> = {}
+            const values: AtFormCascadeComboBoxValues = {}
 
             for (const key in value) {
                 if (Array.isArray(value[key]))

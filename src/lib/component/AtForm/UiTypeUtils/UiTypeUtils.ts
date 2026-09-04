@@ -7,6 +7,7 @@ import { AtFormMultiComboBoxProps } from '../../../types/ui/MultiComboBox.type';
 import { AtFormCascadeComboBoxProps } from '../../../types/ui/CascadeComboBox.type';
 import { AtFormMultiSelectTextBoxOption } from '../../../types/ui/MultiSelectTextBox.type';
 import { AtFormFormProps } from '../../../types/ui/Form.type';
+import { getEnumItemParentId } from '../FormUtils/FormUtils';
 
 export const UiTypes = {
     Button: 'Button',
@@ -407,10 +408,9 @@ export const types = [
 
                 const found = enums?.[leaf.enumsKey || leaf.id]?.find((item: any) => String(item.id) === String(value))
 
-                const enumsKeyParentIdField = leaf.enumsKeyParentIdField === undefined ? 'parentId' : leaf.enumsKeyParentIdField
-                const parentId = found?.metadata?.[enumsKeyParentIdField]
+                const parentId = getEnumItemParentId(found, leaf.enumsKeyParentIdField)
 
-                if (enumsKeyParentIdField && parentId) {
+                if (parentId !== undefined && parentId !== null) {
                     const parentValueResult = getLeafCascadeValue(getParentNode(childProps.uiProps?.design, leaf), parentId)
                     console.log('parentValueResult', found, parentValueResult, leaf)
 

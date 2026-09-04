@@ -1,11 +1,16 @@
-import { AtEnumItemType, AtEnumsType, AtEnumType, AtFormMinimalControlledUiProps, StrictOmit } from "../Common.type";
+import { AtEnumItemId, AtEnumItemType, AtEnumsType, AtEnumType, AtFormMinimalControlledUiProps, StrictOmit } from "../Common.type";
 import { AtFormComboBoxProps } from "./ComboBox.type";
 import { AtFormGridSize } from "../AtForm.type";
+
+export type AtFormCascadeComboBoxValues = Record<
+    string,
+    AtEnumItemId | AtEnumItemId[] | null
+>;
 
 export type AtFormCascadeComboBoxOptionsFilterFunction = (params: {
     index: number,
     enums: AtEnumsType;
-    values: Record<string, string | Array<AtEnumItemType>> | null;
+    values: AtFormCascadeComboBoxValues | null;
     option: AtEnumItemType;
 }) => boolean;
 
@@ -14,7 +19,7 @@ export type AtFormCascadeComboBoxStaticOptions = AtEnumType | null | undefined;
 export type AtFormCascadeComboBoxAsyncOptions = (
     params: {
         enums: AtEnumsType;
-        values: Record<string, string | Array<AtEnumItemType>> | null;
+        values: AtFormCascadeComboBoxValues | null;
     }
 ) => Promise<AtFormCascadeComboBoxStaticOptions>
 
@@ -37,8 +42,9 @@ export interface AtFormCascadeComboBoxDesignLayerBase {
      */
     enumsKey?: string;
     /** 
-     * The key of the parent. 
-     * Defaults to "parentId" if not provided.
+     * Custom metadata key containing the parent id.
+     * When omitted (or set to "parentId"), the canonical top-level
+     * AtEnumItemType.parentId field is used.
     */
     enumsKeyParentIdField?: string;
 }

@@ -7,15 +7,15 @@ import { AtFormCascadeComboBoxDesignLayer } from '@/lib/types/ui/CascadeComboBox
 const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface) => {
     const { enums } = useAtFormConfig()
 
-    const countryStates = enums?.StateAndCapitals?.filter(item => item.Country)
-    const countryCapitals = enums?.StateAndCapitals?.filter(item => !item.Country)
+    const countryStates = enums?.StateAndCapitals?.filter(item => item.metadata?.Country)
+    const countryCapitals = enums?.StateAndCapitals?.filter(item => !item.metadata?.Country)
 
-    /**Type 1 : static enums options + custom enumsKeyParentIDField
+    /**Type 1 : static enums options + custom enumsKeyParentIdField
      * a- You provide an enums key for load or reverseConvertToKeyValue where from a simple id value the form will reach to a full id + title, if u do not provide a 
      *      enumsKey it will defaults to id
      * b- You have to filter each layer's data based on its previous layer manually using a function(): promise or make sure your data containes a field
      *      which determines the parent.
-     *      You may use enumsKeyParentIDField which defaults to parent_id to determine what is the name of the field in the option you are providing as parent.\          
+     *      The canonical relationship uses parentId. For custom relationships, enumsKeyParentIdField points to a key inside option.metadata.
      * */
     const singleLeafCascadeDesign1: AtFormCascadeComboBoxDesignLayer[] = [
         {
@@ -25,19 +25,19 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
                 {
                     id: 'State',
                     enumsKey: 'StateAndCapitals',
-                    /** The following means inside StateAndCapitals there is a field called "Country" per item*/
+                    /** The following means inside StateAndCapitals metadata there is a field called "Country" per item*/
                     /** "Country" determines the Country for the current State */
-                    /** The value of countryStates[index][enumsKeyParentIDField] is compared to value of the parent of this design layer  */
+                    /** The value of countryStates[index][enumsKeyParentIdField] is compared to value of the parent of this design layer  */
                     enumsKeyParentIdField: 'Country',
                     options: countryStates,
                     children: [
                         {
                             id: 'Capital',
                             enumsKey: 'StateAndCapitals',
-                            /** The following means inside StateAndCapitals there is a field called "ParentID" per item*/
+                            /** The following means inside StateAndCapitals metadata there is a field called "ParentId" per item*/
                             /** Parent ID determines the state for the current capital */
-                            /** The value of countryStates[index][enumsKeyParentIDField] is compared to value of the parent of this design layer  */
-                            enumsKeyParentIdField: 'ParentID',
+                            /** The value of countryStates[index][enumsKeyParentIdField] is compared to value of the parent of this design layer  */
+                            enumsKeyParentIdField: 'ParentId',
                             options: countryCapitals
                         },
                     ]
@@ -100,13 +100,13 @@ const CascadeComboBoxPlayground = ({ ref, onChange }: ExampleComponentInterface)
                     id: 'State',
                     enumsKey: 'StrictFormatState',
                     options: ServiceManager.getStrictFormatState,
-                    filterOptions: (params) => params.option.parent_id === params.values?.Country,
+                    filterOptions: (params) => params.option.parentId === params.values?.Country,
                     children: [
                         {
                             id: 'Capital',
                             enumsKey: 'StrictFormatCapital',
                             options: ServiceManager.getStrictFormatCapital,
-                            filterOptions: (params) => params.option.parent_id === params.values?.State,
+                            filterOptions: (params) => params.option.parentId === params.values?.State,
                         },
                     ]
                 },

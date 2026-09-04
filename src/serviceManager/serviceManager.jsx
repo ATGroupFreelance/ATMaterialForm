@@ -51,12 +51,12 @@ class ServiceManagerClass {
                     {
                         id: `${layerA}_AB1_1`,
                         title: `${layerA}_AB1_1`,
-                        layerA,
+                        metadata: { layerA },
                     },
                     {
                         id: `${layerA}_AB1_2`,
                         title: `${layerA}_AB1_2`,
-                        layerA,
+                        metadata: { layerA },
                     }
                 ])
             })
@@ -70,8 +70,7 @@ class ServiceManagerClass {
                     {
                         id: `${layerA}_${layerAB}_ABC1`,
                         title: `${layerA}_${layerAB}_ABC1`,
-                        layerA,
-                        layerAB,
+                        metadata: { layerA, layerAB },
                     }
                 ])
             })
@@ -85,14 +84,12 @@ class ServiceManagerClass {
                     {
                         id: `${layerA}_${layerAB}_ABC2_1`,
                         title: `${layerA}_${layerAB}_ABC2_1`,
-                        layerA,
-                        layerAB,
+                        metadata: { layerA, layerAB },
                     },
                     {
                         id: `${layerA}_${layerAB}_ABC2_2`,
                         title: `${layerA}_${layerAB}_ABC2_2`,
-                        layerA,
-                        layerAB,
+                        metadata: { layerA, layerAB },
                     }
                 ])
             })
@@ -133,134 +130,160 @@ class ServiceManagerClass {
         return new Promise((resolve) => {
             setTimeout(() => {
                 const enums = {
-                    "StrictFormatState": [{ title: 'England2', id: 1, parent_id: 1 }, { title: 'England', id: 2, parent_id: 1 }, { title: 'Alabama', id: 3, parent_id: 2 }],
-                    "StrictFormatCapital": [{ title: 'EnglandCapital', id: 4, parent_id: 2 }, { title: 'AlabamaCapital', id: 5, parent_id: 3 }],
+                    "StrictFormatState": [{ title: 'England2', id: 1, parentId: 1 }, { title: 'England', id: 2, parentId: 1 }, { title: 'Alabama', id: 3, parentId: 2 }],
+                    "StrictFormatCapital": [{ title: 'EnglandCapital', id: 4, parentId: 2 }, { title: 'AlabamaCapital', id: 5, parentId: 3 }],
                     "Countries": [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }],
                     "StateAndCapitals": [
-                        { id: 1, title: "England2", Country: 1 },
-                        { id: 2, title: "England", Country: 1 },
-                        { id: 3, title: "Alabama", Country: 2 },
-                        { id: 4, title: "EnglandCapital", ParentId: 2 },
-                        { id: 5, title: "AlabamaCapital", ParentId: 3 }
+                        { id: 1, title: "England2", metadata: { Country: 1 } },
+                        { id: 2, title: "England", metadata: { Country: 1 } },
+                        { id: 3, title: "Alabama", metadata: { Country: 2 } },
+                        { id: 4, title: "EnglandCapital", metadata: { ParentId: 2 } },
+                        { id: 5, title: "AlabamaCapital", metadata: { ParentId: 3 } }
                     ],
                     "CountriesIDVALUE": [{ title: 'UK', id: 1 }, { title: 'US', id: 2 }],
                     "layerA": [{ id: 'A1_1', title: 'A1_1' }, { id: 'A1_2', title: 'A1_2' }],
-                    "layerAB": [{ id: 'A1_1_AB1_1', title: 'A1_1_AB1_1', layerA: 'A1_1' }],
+                    "layerAB": [{ id: 'A1_1_AB1_1', title: 'A1_1_AB1_1', metadata: { layerA: 'A1_1' } }],
                     "business_id": [
                         {
-                            "meta_table_id": 8,
-                            "schema_name": "uac",
-                            "table_name": "businesses",
                             "id": 1,
                             "title": "Water",
-                            "key_name": "wat"
+                            "metadata": {
+                                "meta_table_id": 8,
+                                "schema_name": "uac",
+                                "table_name": "businesses",
+                                "key_name": "wat"
+                            }
                         },
                         {
-                            "meta_table_id": 8,
-                            "schema_name": "uac",
-                            "table_name": "businesses",
                             "id": 2,
                             "title": "Electricity",
-                            "key_name": "elt"
+                            "metadata": {
+                                "meta_table_id": 8,
+                                "schema_name": "uac",
+                                "table_name": "businesses",
+                                "key_name": "elt"
+                            }
                         },
                         {
-                            "meta_table_id": 8,
-                            "schema_name": "uac",
-                            "table_name": "businesses",
                             "id": 3,
                             "title": "Gas",
-                            "key_name": "gas"
+                            "metadata": {
+                                "meta_table_id": 8,
+                                "schema_name": "uac",
+                                "table_name": "businesses",
+                                "key_name": "gas"
+                            }
                         },
                         {
-                            "meta_table_id": 8,
-                            "schema_name": "uac",
-                            "table_name": "businesses",
                             "id": 4,
                             "title": "Telecom",
-                            "key_name": "tci"
+                            "metadata": {
+                                "meta_table_id": 8,
+                                "schema_name": "uac",
+                                "table_name": "businesses",
+                                "key_name": "tci"
+                            }
                         }
                     ],
                     system_id: [
                         {
-                            "meta_table_id": 17,
-                            "schema_name": "uac",
-                            "table_name": "systems",
                             "id": 1,
                             "title": "Provisioning",
-                            "key_name": "prov",
-                            "business_id": 4
+                            "metadata": {
+                                "meta_table_id": 17,
+                                "schema_name": "uac",
+                                "table_name": "systems",
+                                "key_name": "prov",
+                                "business_id": 4
+                            }
                         },
                         {
-                            "meta_table_id": 17,
-                            "schema_name": "uac",
-                            "table_name": "systems",
                             "id": 2,
                             "title": "Billing",
-                            "key_name": "billing",
-                            "business_id": 4
+                            "metadata": {
+                                "meta_table_id": 17,
+                                "schema_name": "uac",
+                                "table_name": "systems",
+                                "key_name": "billing",
+                                "business_id": 4
+                            }
                         },
                         {
-                            "meta_table_id": 17,
-                            "schema_name": "uac",
-                            "table_name": "systems",
                             "id": 3,
                             "title": "CRM",
-                            "key_name": "crm",
-                            "business_id": 4
+                            "metadata": {
+                                "meta_table_id": 17,
+                                "schema_name": "uac",
+                                "table_name": "systems",
+                                "key_name": "crm",
+                                "business_id": 4
+                            }
                         },
                         {
-                            "meta_table_id": 17,
-                            "schema_name": "uac",
-                            "table_name": "systems",
                             "id": 4,
                             "title": "Mediation",
-                            "key_name": "med",
-                            "business_id": 4
+                            "metadata": {
+                                "meta_table_id": 17,
+                                "schema_name": "uac",
+                                "table_name": "systems",
+                                "key_name": "med",
+                                "business_id": 4
+                            }
                         },
                         {
-                            "meta_table_id": 17,
-                            "schema_name": "uac",
-                            "table_name": "systems",
                             "id": 5,
                             "title": "User Management",
-                            "key_name": "uac",
-                            "business_id": 4
+                            "metadata": {
+                                "meta_table_id": 17,
+                                "schema_name": "uac",
+                                "table_name": "systems",
+                                "key_name": "uac",
+                                "business_id": 4
+                            }
                         },
                         {
-                            "meta_table_id": 17,
-                            "schema_name": "uac",
-                            "table_name": "systems",
                             "id": 41,
                             "title": "WaterSystem",
-                            "key_name": "WaterSystemKeyName",
-                            "business_id": 1
+                            "metadata": {
+                                "meta_table_id": 17,
+                                "schema_name": "uac",
+                                "table_name": "systems",
+                                "key_name": "WaterSystemKeyName",
+                                "business_id": 1
+                            }
                         },
                         {
-                            "meta_table_id": 17,
-                            "schema_name": "uac",
-                            "table_name": "systems",
                             "id": 42,
                             "title": "ElecSystem",
-                            "key_name": "ElecSystemKeyName",
-                            "business_id": 2
+                            "metadata": {
+                                "meta_table_id": 17,
+                                "schema_name": "uac",
+                                "table_name": "systems",
+                                "key_name": "ElecSystemKeyName",
+                                "business_id": 2
+                            }
                         },
                         {
-                            "meta_table_id": 17,
-                            "schema_name": "uac",
-                            "table_name": "systems",
                             "id": 43,
                             "title": "GasSystem",
-                            "key_name": "GasSystemKeyName",
-                            "business_id": 3
+                            "metadata": {
+                                "meta_table_id": 17,
+                                "schema_name": "uac",
+                                "table_name": "systems",
+                                "key_name": "GasSystemKeyName",
+                                "business_id": 3
+                            }
                         },
                         {
-                            "meta_table_id": 17,
-                            "schema_name": "uac",
-                            "table_name": "systems",
                             "id": 44,
                             "title": "TelecomSystem",
-                            "key_name": "TelecomSystemKeyName",
-                            "business_id": 4
+                            "metadata": {
+                                "meta_table_id": 17,
+                                "schema_name": "uac",
+                                "table_name": "systems",
+                                "key_name": "TelecomSystemKeyName",
+                                "business_id": 4
+                            }
                         }
                     ]
                 }

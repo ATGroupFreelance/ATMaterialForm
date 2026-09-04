@@ -3,7 +3,7 @@ import React from 'react';
 import BaseComboBox from './BaseComboBox/BaseComboBox';
 import { AtFormCascadeComboBoxProps, AtFormCascadeComboBoxBaseComboBoxProps, AtFormCascadeComboBoxDesignLayer, AtFormCascadeComboBoxAsyncOptions, AtFormCascadeComboBoxOptionsFilterFunction } from '../../../../types/ui/CascadeComboBox.type';
 import ComboBox from '../ComboBox/ComboBox';
-import { isAsyncOptions } from '../../FormUtils/FormUtils';
+import { areEnumItemIdsEqual, getEnumItemParentId, isAsyncOptions } from '../../FormUtils/FormUtils';
 /**
     Cascade Overview:
 
@@ -17,18 +17,18 @@ import { isAsyncOptions } from '../../FormUtils/FormUtils';
 
     enumsKey: Specifies which enum is used to map a single leaf value back into the full object containing all combo box values.
 
-    enumsKeyParentIDField: Indicates the key in the current enum that identifies the parent ID of the current value.
-    For example, if the current layer has id and title, it will also have another property named by enumsKeyParentIDField, which helps locate the parent ID.
+    enumsKeyParentIdField: Indicates a custom metadata key in the current enum item that identifies the parent ID.
+    If it is omitted (or set to "parentId"), the canonical AtEnumItemType.parentId field is used.
 
     data: A function that returns a promise, providing the data for the current combo box.
-    You can filter this data based on enumsKeyParentIDField and the current enum?.enumsKey.
-    If no data is provided, it will be auto-generated using enumsKey and enumsKeyParentIDField.
+    You can filter this data based on enumsKeyParentIdField and the current enum?.enumsKey.
+    If no data is provided, it will be auto-generated using enumsKey and enumsKeyParentIdField.
 
     Default Behavior:
 
-    If enumsKey and enumsKeyParentIDField are not provided, the createCascadeDesign function will:
+    If enumsKey and enumsKeyParentIdField are not provided, the createCascadeDesign function will:
     Use id to deduce the enumsKey.
-    Determine the enumsKeyParentIDField based on the parent-child relationship.
+    Use the canonical parentId relationship.
     Automatically generate the data.
     
     Example and Playground:
@@ -62,14 +62,20 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
 
     const getRenderableComboBoxFlatList = (designLayers?: AtFormCascadeComboBoxDesignLayer[], designLayersParent: AtFormCascadeComboBoxDesignLayer | null | undefined = null): AtFormCascadeComboBoxBaseComboBoxProps[] => {
         const result: AtFormCascadeComboBoxBaseComboBoxProps[] = [];
-        /**enumsKey and enumsKeyParentIDField are used for reverse convert from a single leaf to a whole object of values */
+        /**enumsKey and enumsKeyParentIdField are used for reverse convert from a single leaf to a whole object of values */
         designLayers?.forEach((currentLayer) => {
-            const enumsKeyParentIdField = currentLayer.enumsKeyParentIdField || 'parentId'
-
             // Default filter fallback
             const defaultFilterOptions: AtFormCascadeComboBoxOptionsFilterFunction = (params) => {
                 if (designLayersParent?.id) {
-                    return params.option?.metadata?.[enumsKeyParentIdField] === params?.values?.[designLayersParent.id]
+                    const parentValue = params?.values?.[designLayersParent.id]
+
+                    if (Array.isArray(parentValue))
+                        return false
+
+                    return areEnumItemIdsEqual(
+                        getEnumItemParentId(params.option, currentLayer.enumsKeyParentIdField),
+                        parentValue,
+                    )
                 }
                 else {
                     /**If designLayersParent?.id is undefined it means we are at the very root so we just return the options without filter  */

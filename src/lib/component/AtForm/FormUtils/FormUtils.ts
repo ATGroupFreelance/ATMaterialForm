@@ -1,5 +1,6 @@
 import { AtFormAnyToFormDataInterface, AtFormChildProps, AtFormFormDataToAnyInterface } from "../../../types/AtForm.type";
 import { AtFormFormDataType } from "../../../types/AtFormFormData.type";
+import { AtEnumItemId, AtEnumItemType } from "../../../types/Common.type";
 import { AtFormCascadeComboBoxAsyncOptions, AtFormCascadeComboBoxOptionsType } from "../../../types/ui/CascadeComboBox.type";
 
 export const capitalizeFirstLetter = (string: any) => {
@@ -43,6 +44,44 @@ export const getFlatChildren = (children: any) => {
 
 export function isAsyncOptions(options: AtFormCascadeComboBoxOptionsType): options is AtFormCascadeComboBoxAsyncOptions {
     return typeof options === 'function';
+}
+
+/**
+ * Resolve the parent id of an enum item using the canonical enum contract.
+ *
+ * `parentId` is a first-class field on AtEnumItemType. Custom cascade
+ * relationships are stored under `metadata` and can be selected through
+ * `enumsKeyParentIdField`.
+ */
+export function getEnumItemParentId(
+    item: AtEnumItemType | null | undefined,
+    enumsKeyParentIdField?: string,
+): AtEnumItemId | null | undefined {
+    if (!item)
+        return undefined;
+
+    if (!enumsKeyParentIdField || enumsKeyParentIdField === 'parentId')
+        return item.parentId;
+
+    const metadataParentId = item.metadata?.[enumsKeyParentIdField];
+
+    if (metadataParentId === null)
+        return null;
+
+    if (typeof metadataParentId === 'string' || typeof metadataParentId === 'number')
+        return metadataParentId;
+
+    return undefined;
+}
+
+export function areEnumItemIdsEqual(
+    first: AtEnumItemId | null | undefined,
+    second: AtEnumItemId | null | undefined,
+) {
+    if (first === null || first === undefined || second === null || second === undefined)
+        return first === second;
+
+    return String(first) === String(second);
 }
 
 //Convert any format type to formData format type
