@@ -72,7 +72,7 @@ const theme = createTheme({
   }
 });
 
-const ACTIVE_EXAMPLE = 'HowToUseGroupDataKey'
+const ACTIVE_EXAMPLE = 'CascadeComboBoxPlayground'
 
 function App() {
   const formRef = useRef<AtFormRefInterface>(null)

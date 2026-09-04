@@ -23,9 +23,15 @@ export default tseslint.config(
         'off',
         { allowConstantExport: true },
       ],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
       'react/prop-types': 'off',
-      'react/react-in-jsx-scope': 'off',
-      '@typescript-eslint/no-unused-vars': 'warn',
+      'react/react-in-jsx-scope': 'off',      
       '@typescript-eslint/no-explicit-any': 'off',
       "@typescript-eslint/ban-ts-comment": "off",
       "react-hooks/refs": "off",
