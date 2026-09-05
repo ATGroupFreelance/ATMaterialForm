@@ -17,6 +17,8 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "types": ["vite/client"],
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,  
@@ -38,5 +40,9 @@
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "src/**/test/**",
+    "src/testing/playwright/**"
   ]
 }

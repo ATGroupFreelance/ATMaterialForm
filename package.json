@@ -24,7 +24,15 @@
     "start": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start:test": "vite --mode test --host 127.0.0.1 --port 4173 --strictPort",
+    "test:setup": "playwright install chromium",
+    "test": "node scripts/check-example-coverage.mjs && node scripts/regression-suite-runner.mjs",
+    "test:visual:update": "node scripts/check-example-coverage.mjs && playwright test --config=playwright.config.ts --project=regression --update-snapshots=all",
+    "test:example": "node scripts/example-test-runner.mjs regression",
+    "test-performance": "node scripts/check-example-coverage.mjs && playwright test --config=playwright.config.ts --project=performance --reporter=./scripts/performance-reporter.mjs",
+    "test-performance:example": "node scripts/example-test-runner.mjs performance",
+    "test:visual:example": "node scripts/example-test-runner.mjs visual-update"
   },
   "peerDependencies": {
     "react": "^19.0.0",
@@ -37,11 +45,12 @@
     "@mui/icons-material": "^9.2.0",
     "@mui/material": "^9.2.0",
     "@mui/x-date-pickers": "^9.9.0",
+    "@playwright/test": "^1.55.0",
     "@types/node": "^26.1.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@uiw/react-color-sketch": "^2.10.3",
-    "@vitejs/plugin-react-swc": "^4.3.1",
+    "@vitejs/plugin-react": "^6.0.0",
     "ag-grid-community": "^36.0.0",
     "ag-grid-react": "^36.0.0",
     "ajv": "^8.20.0",
@@ -60,9 +69,7 @@
     "react-toastify": "^11.1.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.63.0",
-    "vite": "^8.1.4",
-    "vite-plugin-eslint": "^1.8.1",
-    "vite-tsconfig-paths": "^6.1.1"
+    "vite": "^8.1.4"
   },
   "dependencies": {
     "at-shared-types": "^1.2.17"

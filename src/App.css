@@ -1,42 +1,181 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
 .App {
-  text-align: center;
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  width: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  max-width: 1920px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 10px clamp(10px, 1.35vw, 22px) 24px;
+  text-align: start;
+}
+
+.playground-toolbar {
+  position: sticky;
+  top: 8px;
+  z-index: 1200;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid;
+  border-radius: 16px !important;
+  backdrop-filter: blur(16px);
+}
+
+.playground-toolbar-grid {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.72fr) minmax(260px, 1fr) minmax(0, 1.45fr);
+  gap: 12px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-width: 0;
 }
 
-.App-link {
-  color: #61dafb;
+.playground-brand,
+.example-selector-slot,
+.playground-tools {
+  min-width: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.playground-brand {
+  overflow: hidden;
+}
+
+.playground-tools {
+  row-gap: 6px;
+}
+
+.playground-workspace {
+  direction: ltr;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 430px);
+  gap: 14px;
+  align-items: start;
+  width: 100%;
+  min-width: 0;
+}
+
+.playground-workspace--test {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.playground-main-column {
+  grid-column: 1;
+  width: 100%;
+  min-width: 0;
+}
+
+.example-surface {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: clamp(12px, 1.5vw, 20px);
+  border-radius: 16px !important;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.playground-inspector {
+  grid-column: 2;
+  position: sticky;
+  top: 86px;
+  width: 100%;
+  min-width: 0;
+  height: calc(100vh - 102px);
+  min-height: 520px;
+  max-height: 920px;
+  overflow: hidden;
+  border-radius: 16px !important;
+  background: var(--mui-palette-background-default, #fafafa);
+}
+
+.playground-inspector-body {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
+  padding: 14px;
+  overscroll-behavior: contain;
+}
+
+[dir='rtl'] .playground-toolbar .MuiButton-startIcon,
+.playground-inspector[dir='rtl'] .MuiButton-startIcon {
+  margin-right: -4px;
+  margin-left: 8px;
+}
+
+@media (max-width: 1250px) {
+  .playground-toolbar-grid {
+    grid-template-columns: minmax(190px, 0.8fr) minmax(260px, 1.15fr);
   }
 
-  to {
-    transform: rotate(360deg);
+  .playground-tools {
+    grid-column: 1 / -1;
+    justify-content: flex-start !important;
+  }
+
+  .playground-workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(330px, 370px);
+  }
+
+  .playground-inspector {
+    top: 126px;
+    height: calc(100vh - 142px);
+  }
+}
+
+@media (max-width: 900px) {
+  .playground-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .playground-main-column,
+  .playground-inspector {
+    grid-column: 1;
+  }
+
+  .playground-inspector {
+    position: relative;
+    top: auto;
+    height: 620px;
+    min-height: 0;
+    max-height: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .App {
+    padding: 8px 8px 18px;
+  }
+
+  .playground-toolbar {
+    top: 4px;
+    padding: 9px;
+    border-radius: 13px !important;
+  }
+
+  .playground-toolbar-grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .playground-tools {
+    grid-column: auto;
+    justify-content: flex-start !important;
+  }
+
+  .example-surface,
+  .playground-inspector {
+    border-radius: 13px !important;
   }
 }

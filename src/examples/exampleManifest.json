@@ -1,0 +1,174 @@
+[
+  {
+    "id": "BasicForm",
+    "sourcePath": "/src/examples/BasicForm/BasicForm.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "BasicForm2",
+    "sourcePath": "/src/examples/BasicForm2/BasicForm2.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "ExternalComponentIntegration",
+    "sourcePath": "/src/examples/ExternalComponentIntegration/ExternalComponentIntegration.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "FormDialog",
+    "sourcePath": "/src/examples/FormDialog/FormDialog.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "HowToUseContainerWithTable",
+    "sourcePath": "/src/examples/HowToUseContainerWithTable/HowToUseContainerWithTable.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "ContainerWithTablePlayground",
+    "sourcePath": "/src/examples/ContainerWithTablePlayground/ContainerWithTablePlayground.tsx",
+    "refEnabled": false,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "UserManager",
+    "sourcePath": "/src/examples/UserManager/UserManager.tsx"
+  },
+  {
+    "id": "BasicValidation",
+    "sourcePath": "/src/examples/BasicValidation/BasicValidation.tsx"
+  },
+  {
+    "id": "Table",
+    "sourcePath": "/src/examples/Table/Table.tsx"
+  },
+  {
+    "id": "TabsInForm",
+    "sourcePath": "/src/examples/TabsInForm/TabsInForm.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "FormInForm",
+    "sourcePath": "/src/examples/FormInForm/FormInForm.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "TabInTab",
+    "sourcePath": "/src/examples/TabInTab/TabInTab.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "ComponentPlayground",
+    "sourcePath": "/src/examples/ComponentPlayground/ComponentPlayground.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "Playground",
+    "sourcePath": "/src/examples/Playground/Playground.jsx"
+  },
+  {
+    "id": "CustomWrappers",
+    "sourcePath": "/src/examples/CustomWrappers/CustomWrappers.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "ToastPlayground",
+    "sourcePath": "/src/examples/ToastPlayground/ToastPlayground.tsx"
+  },
+  {
+    "id": "AgGridCellRendererTemplates",
+    "sourcePath": "/src/examples/AgGridCellRendererTemplates/AgGridCellRendererTemplates.tsx"
+  },
+  {
+    "id": "CascadeComboBoxPlayground",
+    "sourcePath": "/src/examples/CascadeComboBoxPlayground/CascadeComboBoxPlayground.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "ConditionalRender",
+    "sourcePath": "/src/beta/ConditionalRender/ConditionalRender.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "MultiForm",
+    "sourcePath": "/src/beta/MultiForm/MultiForm.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "ConditionalRendering",
+    "sourcePath": "/src/examples/ConditionalRendering/ConditionalRendering.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "WrapMultipleElements",
+    "sourcePath": "/src/examples/WrapMultipleElements/WrapMultipleElements.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "ControlledForm",
+    "sourcePath": "/src/examples/ControlledForm/ControlledForm.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "WrapperRendererTemplates",
+    "sourcePath": "/src/examples/WrapperRendererTemplates/WrapperRendererTemplates.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "FormDataControlledForm",
+    "sourcePath": "/src/examples/FormDataControlledForm/FormDataControlledForm.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "FormDataKeyValueControlledForm",
+    "sourcePath": "/src/examples/FormDataKeyValueControlledForm/FormDataKeyValueControlledForm.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "FormDataSemiKeyValueControlledForm",
+    "sourcePath": "/src/examples/FormDataSemiKeyValueControlledForm/FormDataSemiKeyValueControlledForm.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "FormBenchMark",
+    "sourcePath": "/src/examples/FormBenchMark/FormBenchMark.tsx"
+  },
+  {
+    "id": "ReactAndJSONComponentTogether",
+    "sourcePath": "/src/examples/ReactAndJsonComponentTogether/ReactAndJsonComponentTogether.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "HowToUseRuntime",
+    "sourcePath": "/src/examples/HowToUseRuntime/HowToUseRuntime.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
+    "id": "HowToUseGroupDataKey",
+    "sourcePath": "/src/examples/HowToUseGroupDataKey/HowToUseGroupDataKey.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  }
+]
