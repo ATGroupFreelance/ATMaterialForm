@@ -163,12 +163,12 @@ const TestAction = ({
       }}
     >
       <Stack spacing={1}>
-        <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
+        <Stack direction="row" spacing={1} sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <Box sx={{ minWidth: 0 }}>
-            <Typography variant="subtitle2" fontWeight={800}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 800 }}>
               {label}
             </Typography>
-            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.2 }}>
+            <Typography variant="caption" sx={{ display: 'block', mt: 0.2, color: 'text.secondary' }}>
               {description}
             </Typography>
           </Box>
@@ -214,15 +214,15 @@ const TestAction = ({
                 '& .MuiAlert-message': { minWidth: 0 },
               }}
             >
-              <Typography variant="body2" fontWeight={800}>
+              <Typography variant="body2" sx={{ fontWeight: 800 }}>
                 {state.result.summary}
               </Typography>
-              <Typography variant="caption" component="div" color="text.secondary">
+              <Typography variant="caption" component="div" sx={{ color: 'text.secondary' }}>
                 {state.result.passed} passed · {state.result.failed} failed · {(state.result.durationMs / 1000).toFixed(2)}s
               </Typography>
 
               {state.result.baselineCreated ? (
-                <Typography variant="caption" component="div" color="success.main" sx={{ mt: 0.35 }}>
+                <Typography variant="caption" component="div" sx={{ mt: 0.35, color: 'success.main' }}>
                   Missing visual baseline was created automatically, then the test was rerun.
                 </Typography>
               ) : null}
@@ -277,16 +277,14 @@ const PerformanceHistory = ({
     >
       <Stack
         direction="row"
-        alignItems="center"
-        justifyContent="space-between"
         spacing={1}
-        sx={{ px: 1.25, py: 1 }}
+        sx={{ px: 1.25, py: 1, alignItems: 'center', justifyContent: 'space-between' }}
       >
         <Box>
-          <Typography variant="subtitle2" fontWeight={850}>
+          <Typography variant="subtitle2" sx={{ fontWeight: 850 }}>
             Performance history
           </Typography>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
             Stored locally in this browser for this example.
           </Typography>
         </Box>
@@ -308,7 +306,7 @@ const PerformanceHistory = ({
       <Divider />
 
       {!visibleEntries.length ? (
-        <Typography variant="body2" color="text.secondary" sx={{ px: 1.25, py: 1.5 }}>
+        <Typography variant="body2" sx={{ px: 1.25, py: 1.5, color: 'text.secondary' }}>
           No performance runs yet. Run “Test Performance” to start a local history.
         </Typography>
       ) : (
@@ -318,8 +316,8 @@ const PerformanceHistory = ({
 
             return (
               <Box key={entry.id} sx={{ px: 1.25, py: 1 }}>
-                <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-                  <Typography variant="caption" fontWeight={800}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Typography variant="caption" sx={{ fontWeight: 800 }}>
                     {formatDate(entry.createdAt)}
                   </Typography>
                   <Chip
@@ -341,11 +339,10 @@ const PerformanceHistory = ({
                       <Stack
                         key={metric.name}
                         direction="row"
-                        justifyContent="space-between"
-                        alignItems="baseline"
                         spacing={1}
+                        sx={{ justifyContent: 'space-between', alignItems: 'baseline' }}
                       >
-                        <Typography variant="caption" color="text.secondary">
+                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                           {metric.name}
                         </Typography>
                         <Typography variant="caption" sx={{ fontFamily: 'monospace', textAlign: 'right' }}>

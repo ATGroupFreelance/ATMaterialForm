@@ -431,8 +431,8 @@ function App() {
               >
                 <Box className="playground-toolbar-grid">
                   <Box className="playground-brand">
-                    <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap" useFlexGap>
-                      <Typography variant="overline" color="primary.main" fontWeight={900} letterSpacing="0.11em">
+                    <Stack direction="row" spacing={1} useFlexGap sx={{ alignItems: 'center', flexWrap: 'wrap' }}>
+                      <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 900, letterSpacing: '0.11em' }}>
                         ATMaterialForm
                       </Typography>
                       <Chip
@@ -442,7 +442,7 @@ function App() {
                         label={enums ? 'Ready' : 'Loading enums…'}
                       />
                     </Stack>
-                    <Typography variant="h6" component="h1" fontWeight={850} noWrap title={selectedExample.label}>
+                    <Typography variant="h6" component="h1" noWrap title={selectedExample.label} sx={{ fontWeight: 850 }}>
                       {selectedExample.label}
                     </Typography>
                   </Box>
@@ -457,12 +457,10 @@ function App() {
 
                   <Stack
                     direction="row"
-                    alignItems="center"
-                    justifyContent="flex-end"
                     spacing={0.75}
-                    flexWrap="wrap"
                     useFlexGap
                     className="playground-tools"
+                    sx={{ alignItems: 'center', justifyContent: 'flex-end', flexWrap: 'wrap' }}
                   >
                     <ToggleButtonGroup
                       exclusive

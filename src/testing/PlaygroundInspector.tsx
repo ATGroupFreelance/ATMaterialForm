@@ -121,10 +121,10 @@ const SnapshotDiffDialog = ({
       aria-labelledby="snapshot-diff-dialog-title"
     >
       <DialogTitle id="snapshot-diff-dialog-title" sx={{ pr: 7 }}>
-        <Typography component="div" variant="h6" fontWeight={850}>
+        <Typography component="div" variant="h6" sx={{ fontWeight: 850 }}>
           Snapshot mismatch details
         </Typography>
-        <Typography component="div" variant="body2" color="text.secondary" sx={{ mt: 0.35 }}>
+        <Typography component="div" variant="body2" sx={{ mt: 0.35, color: 'text.secondary' }}>
           Saved values are shown beside the values returned after AtForm.reset. Paths use JSONPath-style notation.
         </Typography>
         <Tooltip title="Close the snapshot mismatch dialog without changing the saved snapshot or current form data.">
@@ -180,13 +180,11 @@ const SnapshotDiffDialog = ({
               >
                 <Stack
                   direction={{ xs: 'column', sm: 'row' }}
-                  justifyContent="space-between"
-                  alignItems={{ xs: 'flex-start', sm: 'center' }}
                   spacing={0.75}
-                  sx={{ px: 1.25, py: 1, bgcolor: 'action.hover' }}
+                  sx={{ px: 1.25, py: 1, bgcolor: 'action.hover', justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' } }}
                 >
                   <Box sx={{ minWidth: 0 }}>
-                    <Typography variant="caption" color="text.secondary" fontWeight={800}>
+                    <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 800 }}>
                       {formatLabels[difference.format]}
                     </Typography>
                     <Typography
@@ -214,7 +212,7 @@ const SnapshotDiffDialog = ({
                   }}
                 >
                   <Box sx={{ minWidth: 0, p: 1.25, borderRight: { md: 1 }, borderColor: { md: 'divider' } }}>
-                    <Typography variant="caption" color="primary.main" fontWeight={900}>
+                    <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 900 }}>
                       SAVED SNAPSHOT
                     </Typography>
                     <Box
@@ -240,7 +238,7 @@ const SnapshotDiffDialog = ({
                   </Box>
 
                   <Box sx={{ minWidth: 0, p: 1.25 }}>
-                    <Typography variant="caption" color="error.main" fontWeight={900}>
+                    <Typography variant="caption" sx={{ color: 'error.main', fontWeight: 900 }}>
                       AFTER RESTORE
                     </Typography>
                     <Box
@@ -314,12 +312,12 @@ const SnapshotPanel = ({
         }}
       >
         <Stack spacing={1.1} sx={{ p: 1.25 }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
+          <Stack direction="row" spacing={1} sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <Box sx={{ minWidth: 0 }}>
-              <Typography variant="subtitle2" fontWeight={850}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 850 }}>
                 Saved form snapshot
               </Typography>
-              <Typography variant="caption" color="text.secondary">
+              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                 Save the current form locally, then restore it through AtForm.reset and verify every form-data format matches.
               </Typography>
             </Box>
@@ -332,12 +330,12 @@ const SnapshotPanel = ({
           </Stack>
 
           {snapshot ? (
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
               Saved {formatDateTime(snapshot.createdAt)}
             </Typography>
           ) : null}
 
-          <Stack direction="row" spacing={0.8} flexWrap="wrap" useFlexGap>
+          <Stack direction="row" spacing={0.8} useFlexGap sx={{ flexWrap: 'wrap' }}>
             <Tooltip title="Capture the form's current FormData, FormDataKeyValue, and FormDataSemiKeyValue and save them locally for this example. Later restores are verified against all three formats.">
               <span>
                 <Button
@@ -385,7 +383,7 @@ const SnapshotPanel = ({
           </Stack>
 
           {!enabled ? (
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
               This example does not expose a playground form ref, so snapshot/reset verification is unavailable.
             </Typography>
           ) : null}
@@ -408,12 +406,12 @@ const SnapshotPanel = ({
                 </Tooltip>
               ) : undefined}
             >
-              <Typography variant="body2" fontWeight={800}>
+              <Typography variant="body2" sx={{ fontWeight: 800 }}>
                 {verification.status === 'passed'
                   ? 'Restore verified — all three form-data formats match the saved snapshot.'
                   : 'Restore mismatch detected.'}
               </Typography>
-              <Typography variant="caption" component="div" color="text.secondary">
+              <Typography variant="caption" component="div" sx={{ color: 'text.secondary' }}>
                 Checked {formatDateTime(verification.checkedAt)}
               </Typography>
               {verification.mismatches.map((message) => (
@@ -487,10 +485,10 @@ const PlaygroundInspector = ({
     >
       <Stack sx={{ height: '100%', minHeight: 0 }}>
         <Box sx={{ px: 1.75, pt: 1.5, pb: 1.1 }}>
-          <Typography variant="overline" color="primary.main" fontWeight={900}>
+          <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 900 }}>
             Playground inspector
           </Typography>
-          <Typography variant="subtitle1" fontWeight={850} noWrap title={exampleId}>
+          <Typography variant="subtitle1" noWrap title={exampleId} sx={{ fontWeight: 850 }}>
             {exampleId}
           </Typography>
         </Box>
@@ -505,7 +503,7 @@ const PlaygroundInspector = ({
             value="data"
             label={(
               <Tooltip title="Inspect live ATMaterialForm output and test save/reset round trips with locally stored form snapshots.">
-                <Stack component="span" direction="row" spacing={0.7} alignItems="center">
+                <Stack component="span" direction="row" spacing={0.7} sx={{ alignItems: 'center' }}>
                   <DataObjectOutlinedIcon fontSize="small" />
                   <span>Form Data</span>
                 </Stack>
@@ -517,7 +515,7 @@ const PlaygroundInspector = ({
               value="tests"
               label={(
                 <Tooltip title="Run the current example's regression, visual-baseline, and performance checks and inspect local performance history.">
-                  <Stack component="span" direction="row" spacing={0.7} alignItems="center">
+                  <Stack component="span" direction="row" spacing={0.7} sx={{ alignItems: 'center' }}>
                     <ScienceOutlinedIcon fontSize="small" />
                     <span>Tests</span>
                   </Stack>
@@ -542,12 +540,12 @@ const PlaygroundInspector = ({
 
               <Divider />
 
-              <Stack direction="row" alignItems="flex-start" justifyContent="space-between" spacing={1}>
+              <Stack direction="row" spacing={1} sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }}>
                 <Box sx={{ minWidth: 0 }}>
-                  <Typography variant="subtitle1" fontWeight={850}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 850 }}>
                     Live form data
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                     Inspect the values emitted by the selected example while you work.
                   </Typography>
                 </Box>
@@ -565,7 +563,7 @@ const PlaygroundInspector = ({
                     borderColor: 'divider',
                   }}
                 >
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                     This example does not expose the playground onChange stream, so live data remains empty.
                   </Typography>
                 </Box>
@@ -607,11 +605,9 @@ const PlaygroundInspector = ({
               >
                 <Stack
                   direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                  sx={{ px: 1.25, py: 0.8, borderBottom: 1, borderColor: 'divider' }}
+                  sx={{ px: 1.25, py: 0.8, borderBottom: 1, borderColor: 'divider', alignItems: 'center', justifyContent: 'space-between' }}
                 >
-                  <Typography variant="caption" color="text.secondary" fontWeight={800}>
+                  <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 800 }}>
                     JSON
                   </Typography>
                   <Tooltip title="Copy the currently selected form-data format as pretty-printed JSON to the clipboard.">
@@ -642,10 +638,10 @@ const PlaygroundInspector = ({
           ) : (
             <Stack spacing={1.35}>
               <Box>
-                <Typography variant="subtitle1" fontWeight={850}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 850 }}>
                   Developer checks
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                   Run regression, visual, and performance checks without changing the main layout.
                 </Typography>
               </Box>

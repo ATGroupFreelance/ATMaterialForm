@@ -32,6 +32,7 @@ import { formBuilderUtils } from "./FormBuilderUtils";
 import { AtFormFormDialogProps } from "../../../types/ui/FormDialog.type";
 import { AtFormCustomControlledFieldProps } from "../../../types/ui/CustomControlledField.type";
 import { AtFormCustomUncontrolledFieldProps } from "../../../types/ui/CustomUncontrolledField.type";
+import { AtFormCardSelectProps } from "../../../types/ui/CardSelect.type";
 
 // const splitCapitalBySpace = (input: string) => {
 //     const result = input.replace(/([A-Z]+)/g, ",$1").replace(/^,/, "");
@@ -325,6 +326,19 @@ const createImageSelect = (tProps: AtFormFieldTypelessTProps, uiProps?: AtFormIm
     })
 }
 
+/**
+ * Large single-choice cards grouped into optional business categories.
+ * The selected card id is used directly by FormDataKeyValue and FormDataSemiKeyValue.
+ */
+const createCardSelect = (tProps: AtFormFieldTypelessTProps, uiProps?: AtFormCardSelectProps) => {
+    return create({
+        type: 'CardSelect',
+        defaultSize: 12,
+        tProps,
+        uiProps,
+    })
+}
+
 const createAdvanceStepper = (tProps: AtFormFieldTypelessTProps, uiProps?: AtFormAdvanceStepperProps) => {
     return create({
         type: 'AdvanceStepper',
@@ -417,6 +431,7 @@ export const formBuilder = {
     createTable,
     createMultiSelectGrid,
     createImageSelect,
+    createCardSelect,
     createAdvanceStepper,
     createForm,
     createFormDialog,

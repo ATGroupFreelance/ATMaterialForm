@@ -24,6 +24,7 @@ import { AtFormImageSelectProps } from "./ui/ImageSelect.type";
 import { AtFormAdvanceStepperProps } from "./ui/AdvanceStepper.type";
 import { AtFormFormProps } from "./ui/Form.type";
 import { AtFormColorTextBoxProps } from "./ui/ColorTextBox.type";
+import { AtFormCardSelectProps } from "./ui/CardSelect.type";
 
 export interface AtFormUiTypeMap {
     Button: AtFormButtonProps;
@@ -52,4 +53,5 @@ export interface AtFormUiTypeMap {
     AdvanceStepper: AtFormAdvanceStepperProps;
     Form: AtFormFormProps;
     ColorTextBox: AtFormColorTextBoxProps;
+    CardSelect: AtFormCardSelectProps;
 }

@@ -33,6 +33,7 @@ const AdvanceStepper = React.lazy(() => import('../../Ui/AdvanceStepper/AdvanceS
 const Form = React.lazy(() => import('../../Ui/Form/Form'));
 const FormDialog = React.lazy(() => import('../../Ui/FormDialog/FormDialog'));
 const ColorTextBox = React.lazy(() => import('../../Ui/ColorTextBox/ColorTextBox'));
+const CardSelect = React.lazy(() => import('../../Ui/CardSelect/CardSelect'));
 const CustomControlledField = React.lazy(() => import('../../Ui/CustomControlledField/CustomControlledField'));
 
 export const getInitialValue = (typeInfo: AtFormTypeInfoInterface, defaultValue: any) => {
@@ -207,6 +208,7 @@ const ControlledUiBuilder = ({ childProps }: AtControlledUiBuilderProps) => {
         {type === 'Form' && <Form {...commonProps} />}
         {type === 'FormDialog' && <FormDialog {...commonProps} />}
         {type === 'ColorTextBox' && <ColorTextBox {...commonProps} />}
+        {type === 'CardSelect' && <CardSelect {...commonProps} />}
         {type === 'CustomControlledField' && <CustomControlledField {...commonProps as unknown as AtFormCustomControlledFieldProps} />}
         {CustomComponent && <CustomComponent {...commonProps} />}
     </Suspense>

@@ -38,6 +38,7 @@ export const UiTypes = {
     Form: 'Form',
     FormDialog: 'FormDialog',
     ColorTextBox: 'ColorTextBox',
+    CardSelect: 'CardSelect',
     CustomControlledField: 'CustomControlledField',
     CustomUncontrolledField: 'CustomUncontrolledField',
 }
@@ -651,6 +652,15 @@ export const types = [
 
             return value
         },
+    }),
+    createType({
+        type: 'CardSelect',
+        initialValue: null,
+        validation: createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
+        convertToKeyValue: ({ event }: AtConvertInterface) => event.target.value,
+        reverseConvertToKeyValue: ({ value }: AtReverseConvertInterface) => value ?? null,
+        convertToSemiKeyValue: ({ event }: AtConvertInterface) => event.target.value,
+        reverseConvertToSemiKeyValue: ({ value }: AtReverseConvertInterface) => value ?? null,
     }),
     createType({
         type: 'AdvanceStepper',

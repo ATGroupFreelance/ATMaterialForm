@@ -170,5 +170,11 @@
     "sourcePath": "/src/examples/HowToUseGroupDataKey/HowToUseGroupDataKey.tsx",
     "refEnabled": true,
     "onChangeEnabled": true
+  },
+  {
+    "id": "CardSelectPlayground",
+    "sourcePath": "/src/examples/CardSelectPlayground/CardSelectPlayground.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
   }
 ]
