@@ -5,6 +5,7 @@ import AtFormTabs from './AtFormTabs/AtFormTabs';
 import { AtFormTabConfigInterface, AtFormTabContainer, AtFormTabsManagerProps, AtFormTabsOnChangeProps } from '../../../types/AtFormTabsManager.type';
 import { AtFormChildProps, AtFormUnknownChildProps } from '../../../types/AtForm.type';
 import { Grid } from '@mui/material';
+import AtFormLayoutRender from '../AtFormLayout/AtFormLayoutRender/AtFormLayoutRender';
 
 const getFirstIndex = (input: number | number[] | undefined | null) => {
     if (Array.isArray(input) && input.length)
@@ -28,7 +29,7 @@ const enrichTabs = (tabs: AtFormTabConfigInterface[], parentTabPath: number[]): 
     })
 }
 
-const AtFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSelectedTabPaths, fieldErrorFallback }: AtFormTabsManagerProps) => {
+const AtFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSelectedTabPaths, fieldErrorFallback, layoutChildren }: AtFormTabsManagerProps) => {
     //TODO Add suppport for defaultSelectedTabPaths
     void defaultSelectedTabPaths;
 
@@ -56,7 +57,17 @@ const AtFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
     }, [onChange])
 
     /**If tabs does not exist just skip and go to render stage */
-    if (!tabs)
+    if (!tabs) {
+        if (layoutChildren !== undefined)
+            return (
+                <AtFormLayoutRender
+                    childrenProps={childrenProps}
+                    fieldErrorFallback={fieldErrorFallback}
+                >
+                    {layoutChildren}
+                </AtFormLayoutRender>
+            );
+
         return (
             <AtFormRender
                 childrenProps={childrenProps}
@@ -65,6 +76,7 @@ const AtFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
                 {children}
             </AtFormRender>
         );
+    }
 
     const tabContainerList: AtFormTabContainer[] = []
 
@@ -189,6 +201,36 @@ const AtFormTabsManager = ({ tabs, children, childrenProps, onChange, defaultSel
             }
         };
     });
+
+    if (layoutChildren !== undefined)
+        return (
+            <AtFormLayoutRender
+                childrenProps={newChildrenProps}
+                fieldErrorFallback={fieldErrorFallback}
+                renderBeforeLeaf={(leafIndex) => {
+                    const foundTabContainer = tabContainerList.find(
+                        tab => tab.childIndex === leafIndex
+                    );
+
+                    if (!foundTabContainer)
+                        return null;
+
+                    return (
+                        <Grid size={12}>
+                            <AtFormTabs
+                                tabs={foundTabContainer.tabs}
+                                onTabChange={onTabChange}
+                                value={selectedTabMap[foundTabContainer.primarytabPathIndex]}
+                                depth={0}
+                                tabContainer={foundTabContainer}
+                            />
+                        </Grid>
+                    );
+                }}
+            >
+                {layoutChildren}
+            </AtFormLayoutRender>
+        );
 
     return children.map((item: any, index: number) => {
         const foundTabContainer = tabContainerList.find((tab) => tab.childIndex === index)

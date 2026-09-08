@@ -7,6 +7,7 @@ import { AtFormTabConfigInterface, AtFormTabsManagerDefaultSelectedTabPathsType,
 import { AtFormFormDataFormat, AtFormFormDataKeyValueType, AtFormFormDataSemiKeyValueType, AtFormFormDataType } from "./AtFormFormData.type";
 import { AtFormWrapperConfig } from "./AtFormFieldWrapper.type";
 import { AtFormRuntime, AtFormRuntimeBindings } from "./AtFormRuntime.type";
+import type { AtFormChildren } from "./AtFormLayout.type";
 
 export type AtFormGridSize = React.ComponentProps<typeof Grid>['size'];
 export type AtFormColor = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | 'default'
@@ -121,7 +122,7 @@ export type AtFormFieldErrorFallback = (
 
 export interface AtFormProps {
     ref?: React.Ref<AtFormRefInterface>,
-    children?: React.ReactNode | AtFormFieldDefInterface[],
+    children?: AtFormChildren,
     validationDisabled?: boolean,
     /**The default format for a default value is "FormDataSemiKeyValue" here is an example:
      * { name: "Test", myDatePicker: "2025-01-01", myContainerWithTable: [{}, {}] }

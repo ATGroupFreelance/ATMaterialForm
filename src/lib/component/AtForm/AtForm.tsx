@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useImperativeHandle, useMemo, useRef, us
 import Ajv, { ErrorObject, ValidateFunction } from "ajv"
 import AVJErrors from 'ajv-errors';
 //Components
-import { getFlatChildren, anyToFormData, formDataToAny } from './FormUtils/FormUtils';
+import { getAtFormLeafChildren, hasAtFormLayout, anyToFormData, formDataToAny } from './FormUtils/FormUtils';
 import useAtFormConfig from '../../hooks/useAtFormConfig/useAtFormConfig';
 import { AtFormChildProps, AtFormFieldTProps, AtFormChildRefInterface, AtFormOnChildChangeInterface, AtFormPendingValidationCallbackInterface, AtFormProps, AtFormResetInterface, AtFormUnknownChildProps, AtFormFieldDefInterface, AtFormOnChangeInterface, AtFormGetValueInterface, AtFormSetDataInterface, AtFormSetValueInterface } from '../../types/AtForm.type';
 import { AtFormContext, AtFormContextProvider } from './AtFormContext/AtFormContext';
@@ -65,7 +65,7 @@ const AtFormFunction = (props: AtFormProps) => {
 
     const compileAJV = useCallback(({ children }: any) => {
         if (!props.validationDisabled) {
-            const flatChildren = getFlatChildren(children)
+            const flatChildren = getAtFormLeafChildren(children)
 
             const properties: Record<string, any> = {}
             const requiredList: any[] = []
@@ -147,8 +147,8 @@ const AtFormFunction = (props: AtFormProps) => {
     }, [])
 
     useEffect(() => {
-        const oldFlatChildren = getFlatChildren(mPrevChildren.current)
-        const newFlatChildren = getFlatChildren(props.children)
+        const oldFlatChildren = getAtFormLeafChildren(mPrevChildren.current)
+        const newFlatChildren = getAtFormLeafChildren(props.children)
 
         if (oldFlatChildren.length !== newFlatChildren.length)
             compileAJV({ children: props.children })
@@ -182,7 +182,11 @@ const AtFormFunction = (props: AtFormProps) => {
     }, [internalDefaultValue]);
 
     const rawFlatChildren = useMemo(() => {
-        return getFlatChildren(props.children);
+        return getAtFormLeafChildren(props.children);
+    }, [props.children]);
+
+    const hasLayouts = useMemo(() => {
+        return hasAtFormLayout(props.children);
     }, [props.children]);
 
     const flatChildrenGroupProps = useMemo(() => {
@@ -447,7 +451,7 @@ const AtFormFunction = (props: AtFormProps) => {
     }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps, runtime, runtimePrefix])
 
     const [flatChildren, flatChildrenProps] = useMemo(() => {
-        const flatChildren = getFlatChildren(props.children)
+        const flatChildren = getAtFormLeafChildren(props.children)
 
         const flatChildrenProps: (AtFormChildProps | AtFormUnknownChildProps)[] = flatChildren.map(item => {
             const { tProps, ...restProps } = item?.props || item
@@ -692,6 +696,7 @@ const AtFormFunction = (props: AtFormProps) => {
                 onChange={props.onTabChange}
                 defaultSelectedTabPaths={props.defaultSelectedTabPaths}
                 fieldErrorFallback={props.fieldErrorFallback}
+                layoutChildren={hasLayouts ? props.children : undefined}
             >
                 {flatChildren}
             </AtFormTabsManager>

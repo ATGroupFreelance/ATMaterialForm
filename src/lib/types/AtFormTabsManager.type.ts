@@ -1,5 +1,6 @@
 import { TabProps, TabsProps } from "@mui/material";
 import { AtFormChildProps, AtFormUnknownChildProps, AtFormFieldErrorFallback } from "./AtForm.type";
+import type { AtFormChildren } from "./AtFormLayout.type";
 
 /**Material UI Grid is used as the default wrapperRenderer */
 export interface AtFormTabConfigInterface {
@@ -30,6 +31,7 @@ export interface AtFormTabsManagerProps {
     onChange?: AtFormTabsOnChangeType,
     defaultSelectedTabPaths?: AtFormTabsManagerDefaultSelectedTabPathsType;
     fieldErrorFallback?: AtFormFieldErrorFallback,
+    layoutChildren?: AtFormChildren,
 }
 
 /** Events */

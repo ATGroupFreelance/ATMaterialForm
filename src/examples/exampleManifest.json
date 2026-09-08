@@ -54,6 +54,12 @@
     "onChangeEnabled": true
   },
   {
+    "id": "FormLayouts",
+    "sourcePath": "/src/examples/FormLayouts/FormLayouts.tsx",
+    "refEnabled": true,
+    "onChangeEnabled": true
+  },
+  {
     "id": "FormInForm",
     "sourcePath": "/src/examples/FormInForm/FormInForm.tsx",
     "refEnabled": true,

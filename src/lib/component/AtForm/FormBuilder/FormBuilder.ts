@@ -33,6 +33,17 @@ import { AtFormFormDialogProps } from "../../../types/ui/FormDialog.type";
 import { AtFormCustomControlledFieldProps } from "../../../types/ui/CustomControlledField.type";
 import { AtFormCustomUncontrolledFieldProps } from "../../../types/ui/CustomUncontrolledField.type";
 import { AtFormCardSelectProps } from "../../../types/ui/CardSelect.type";
+import type {
+    AtFormBuiltInLayoutCreateProps,
+    AtFormBuiltInLayoutDef,
+    AtFormBuiltInLayoutType,
+    AtFormChildren,
+    AtFormCustomLayoutCreateProps,
+    AtFormCustomLayoutDef,
+    AtFormLayoutDefInterface,
+    AtFormLayoutRenderer,
+    AtFormLayoutBaseInterface,
+} from "../../../types/AtFormLayout.type";
 
 // const splitCapitalBySpace = (input: string) => {
 //     const result = input.replace(/([A-Z]+)/g, ",$1").replace(/^,/, "");
@@ -48,6 +59,30 @@ const create = (props: AtFormBuilderCreateInterface): AtFormFieldDefInterface =>
         },
         uiProps: props.uiProps,
     }
+}
+
+function createLayout<K extends AtFormBuiltInLayoutType>(
+    props: AtFormBuiltInLayoutCreateProps<K>,
+    children: AtFormChildren,
+): AtFormBuiltInLayoutDef<K>;
+
+function createLayout<TConfig>(
+    props: AtFormCustomLayoutCreateProps<TConfig>,
+    children: AtFormChildren,
+): AtFormCustomLayoutDef<TConfig>;
+
+function createLayout(
+    props: AtFormLayoutBaseInterface & {
+        renderer: AtFormLayoutRenderer,
+        config?: unknown,
+    },
+    children: AtFormChildren,
+): AtFormLayoutDefInterface {
+    return {
+        kind: 'layout',
+        ...props,
+        children,
+    };
 }
 
 /**
@@ -437,5 +472,6 @@ export const formBuilder = {
     createFormDialog,
     createColorTextBox,
     createCustomControlledField,
-    createCustomUncontrolledField
+    createCustomUncontrolledField,
+    createLayout
 }

@@ -2,6 +2,7 @@ import { AtFormAnyToFormDataInterface, AtFormChildProps, AtFormFormDataToAnyInte
 import { AtFormFormDataType } from "../../../types/AtFormFormData.type";
 import { AtEnumItemId, AtEnumItemType } from "../../../types/Common.type";
 import { AtFormCascadeComboBoxAsyncOptions, AtFormCascadeComboBoxOptionsType } from "../../../types/ui/CascadeComboBox.type";
+import type { AtFormLayoutDefInterface } from "../../../types/AtFormLayout.type";
 
 export const capitalizeFirstLetter = (string: any) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -40,6 +41,28 @@ export const getFlatChildren = (children: any) => {
     }
 
     return arrayChildren.flat(1)
+}
+
+export const isAtFormLayout = (item: unknown): item is AtFormLayoutDefInterface => {
+    if (!item || typeof item !== 'object')
+        return false;
+
+    return (item as { kind?: unknown }).kind === 'layout';
+}
+
+export const getAtFormLeafChildren = (children: any): any[] => {
+    const flatChildren = getFlatChildren(children);
+
+    return flatChildren.flatMap(item => {
+        if (isAtFormLayout(item))
+            return getAtFormLeafChildren(item.children);
+
+        return [item];
+    });
+}
+
+export const hasAtFormLayout = (children: any) => {
+    return getFlatChildren(children).some(isAtFormLayout);
 }
 
 export function isAsyncOptions(options: AtFormCascadeComboBoxOptionsType): options is AtFormCascadeComboBoxAsyncOptions {
