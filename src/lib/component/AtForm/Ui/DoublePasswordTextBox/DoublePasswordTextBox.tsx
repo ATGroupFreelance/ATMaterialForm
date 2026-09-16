@@ -7,7 +7,7 @@ import { AtFormDoublePasswordTextBoxProps } from '../../../../types/ui/DoublePas
 import { AtFormPasswordTextBoxProps } from '../../../../types/ui/PasswordTextBox.type';
 
 const DoublePasswordTextBox = ({ value, onChange, showPassword, helperText, error, label, ...restProps }: AtFormDoublePasswordTextBoxProps) => {
-    const { localText } = useAtFormConfig()
+    const { t } = useAtFormConfig()
 
     const [valueA, setValueA] = useState('')
     const [valueB, setValueB] = useState('')
@@ -49,7 +49,7 @@ const DoublePasswordTextBox = ({ value, onChange, showPassword, helperText, erro
         onToggleShowPasswordClick: onToggleShowPasswordClick,
         showPassword: lShowPassword,
         error: ((valueA !== valueB) && valueA !== '') || error,
-        helperText: ((valueA !== valueB) && valueA !== '') ? localText['Passwords do not match'] : helperText,
+        helperText: ((valueA !== valueB) && valueA !== '') ? t('Passwords do not match') : helperText,
         slotProps: {
             htmlInput: {
                 autoComplete: 'new-password',
@@ -65,7 +65,7 @@ const DoublePasswordTextBox = ({ value, onChange, showPassword, helperText, erro
 
         </div>
         <div style={{ width: '49.5%', display: 'inline-block', margin: 0, padding: 0 }}>
-            <PasswordTextBox {...commonProps} onChange={internalOnChangeB} value={valueB} label={`${localText['Confirm']} ${label}`} {...restProps} />
+            <PasswordTextBox {...commonProps} onChange={internalOnChangeB} value={valueB} label={t('atform.password.confirmLabel', 'Confirm {label}', { label: typeof label === 'string' || typeof label === 'number' ? String(label) : '' })} {...restProps} />
         </div>
     </div>
 }

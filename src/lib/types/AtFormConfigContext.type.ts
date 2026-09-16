@@ -1,27 +1,23 @@
 import { AtEnumsType, AtFormGetLocalTextFunctionType } from "./Common.type";
 import { AtFormCustomComponentInterface, AtFormTypeInfoInterface } from "./UiTypeUtils.type";
-
-export interface UploadFilesToServerProps {
-    files: FormData,
-    authToken?: string
-}
-
-interface GetFileProps {
-    id: string,
-    authToken?: string,
-    width?: number,
-    height?: number,
-}
+import type { AtFormAgGridTheme } from "./AtAgGridTheme.type";
+import type { AtFormArchiveAdapter } from "./AtFormArchive.type";
+import type { AtLocalizeFunction, AtMessageDefinition, AtMessageTranslationMap } from "../localization";
 
 export interface AtFormConfigContextInterface {
     rtl?: boolean;
     enums?: AtEnumsType;
-    uploadFilesToServer?: (props: UploadFilesToServerProps) => Promise<any>;
+    locale?: string;
+    calendar?: string;
+    messages?: AtMessageTranslationMap;
+    messageDefinitions?: AtMessageDefinition[];
+    archive?: AtFormArchiveAdapter;
     maxUploadFileSizeInBytes?: number,
-    getFile?: (props: GetFileProps) => Promise<any>;
     localText?: Record<string, string>;
     agGridLocalText?: Record<string, string>;
+    agGridTheme?: AtFormAgGridTheme;
     customComponents?: AtFormCustomComponentInterface[];
+    t?: AtLocalizeFunction;
     getLocalText?: AtFormGetLocalTextFunctionType;
     getTypeInfo?: GetTypeInfoFunctionType,
 }
@@ -29,12 +25,17 @@ export interface AtFormConfigContextInterface {
 export interface AtFormConfigContextGuaranteedInterface {
     rtl?: boolean;
     enums: AtEnumsType;
-    uploadFilesToServer?: (props: UploadFilesToServerProps) => Promise<any>;
+    locale: string;
+    calendar?: string;
+    messages: AtMessageTranslationMap;
+    messageDefinitions: AtMessageDefinition[];
+    archive?: AtFormArchiveAdapter;
     maxUploadFileSizeInBytes?: number,
-    getFile?: (props: GetFileProps) => Promise<any>;
     localText: Record<string, string>;
     agGridLocalText?: Record<string, string>;
+    agGridTheme?: AtFormAgGridTheme;
     customComponents?: AtFormCustomComponentInterface[];
+    t: AtLocalizeFunction;
     getLocalText: AtFormGetLocalTextFunctionType;
     getTypeInfo: GetTypeInfoFunctionType,
 }

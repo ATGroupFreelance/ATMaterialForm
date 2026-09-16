@@ -38,6 +38,9 @@ const CardLayout = ({ children, config }: AtFormLayoutRendererProps<AtFormCardLa
             variant={variant}
             elevation={elevation}
             sx={mergeSx({
+                p: 0,
+                borderRadius: 1,
+                ...(variant === 'outlined' ? { borderColor: 'divider' } : {}),
                 overflow: 'hidden',
                 backgroundImage: 'none',
             }, cardProps?.sx)}

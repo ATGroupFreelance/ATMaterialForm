@@ -1,9 +1,6 @@
 import _React, { useCallback, useMemo, useState } from 'react';
 
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
-//Utils
-import { getTitleByEnums } from '../AtForm/UiTypeUtils/UiTypeUtils';
-
 import {
     ClientSideRowModelModule,
     ClientSideRowModelApiModule,
@@ -14,14 +11,13 @@ import {
     TextFilterModule,
     NumberFilterModule,
     ColDef,
-    themeBalham,
     PaginationModule,
     CellContextMenuEvent,
     RowSelectionModule,
     DateFilterModule,
     AutoGenerateColumnsModule
 } from 'ag-grid-community';
-import { useTheme } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 //ATForm
 import { AtAgGridExtendedColDef, AtAgGridProps, AtAgGridTColumnInterface } from '../../types/at-ag-grid/AtAgGrid.type';
 import useAtFormConfig from '../../hooks/useAtFormConfig/useAtFormConfig';
@@ -30,10 +26,28 @@ import { ColumnDefTemplates } from './ColumnDefTemplates/ColumnDefTemplates';
 import AtFormDialog from '../AtForm/AtFormDialog';
 import AtAgGridContextMenu from './AtAgGridContextMenu/AtAgGridContextMenu';
 import { AtFormOnClickProps, AtFormOnClickType } from '../../types/Common.type';
+import { atAgGridDarkFallback, atAgGridLightFallback } from './theme/AtAgGridFallbackThemes';
+import { useAtAgGridTheme } from './theme/AtAgGridThemeContext';
+
+const AT_AG_GRID_MODULES = [
+    ClientSideRowModelModule,
+    ClientSideRowModelApiModule,
+    ValidationModule,
+    LocaleModule,
+    RowApiModule,
+    TextFilterModule,
+    NumberFilterModule,
+    PaginationModule,
+    RowSelectionModule,
+    DateFilterModule,
+    AutoGenerateColumnsModule,
+];
 
 const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqueKey, translateUniqueKey, ...restProps }: AtAgGridProps) => {
-    const theme = useTheme()
-    const { rtl, enums, agGridLocalText, getLocalText } = useAtFormConfig()
+    const muiTheme = useTheme();
+    const { rtl, enums, agGridLocalText, agGridTheme: legacyAgGridTheme, t } = useAtFormConfig();
+    const injectedAgGridTheme = useAtAgGridTheme();
+    const resolvedAgGridTheme = injectedAgGridTheme ?? legacyAgGridTheme ?? (muiTheme.palette.mode === 'dark' ? atAgGridDarkFallback : atAgGridLightFallback)
     const [contextMenu, setContextMenu] = useState<any>(null)
 
     const [dialog, setDialog] = useState<any>(null)
@@ -57,7 +71,7 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
                 const { cellRendererParams, ...restColProps } = currentTColumn.colProps || {}
                 return ColumnDefTemplates.createButton({
                     field: currentTColumn.id,
-                    headerName: ((currentTColumn.colProps?.headerName === undefined) || (currentTColumn.colProps?.headerName === null)) ? getLocalText(currentTColumn.id) ?? undefined : currentTColumn.colProps?.headerName,
+                    headerName: ((currentTColumn.colProps?.headerName === undefined) || (currentTColumn.colProps?.headerName === null)) ? t(currentTColumn.id) ?? undefined : currentTColumn.colProps?.headerName,
                     cellRendererParams: {
                         onClick: (props: AtFormOnClickProps) => onTColumnFormDialogClick({ ...props, tColumn: currentTColumn }),
                         ...cellRendererParams
@@ -66,7 +80,7 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
                 })
             }
         }
-    }, [getLocalText, onTColumnFormDialogClick])
+    }, [t, onTColumnFormDialogClick])
 
     const basicColumnDefs: ColDef[] = useMemo(() => {
         const result: ColDef[] = []
@@ -77,18 +91,21 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
 
                 result.push({
                     field,
-                    headerName: ((headerName === undefined) || (headerName === null)) ? getLocalText(field) ?? undefined : headerName,
+                    headerName: ((headerName === undefined) || (headerName === null)) ? t(field) ?? undefined : headerName,
                     /**Do not translate uniqueKey columns unless translateUniqueKey is true*/
                     valueFormatter: (field === uniqueKey && !translateUniqueKey) ?
                         undefined
                         :
                         (params: any) => {
-                            const enumValue = getTitleByEnums({ id: enumsKey || params.colDef.field, enums, value: params.value, options: enumOptions })
+                            const enumItems = enumOptions || enums?.[enumsKey || params.colDef.field]
+                            const enumItem = enumItems?.find((item: any) => String(item.id) === String(params.value))
 
-                            if (enumValue && enumValue !== params.value)
-                                return enumValue
-                            else
-                                return getLocalText(params.value) ?? params.value
+                            if (enumItem)
+                                return t(enumItem.languageKey ?? enumItem.title, enumItem.title) ?? enumItem.title
+
+                            return typeof params.value === 'string'
+                                ? t(params.value, params.value) ?? params.value
+                                : params.value
                         },
                     ...restColumnDefs
                 })
@@ -96,7 +113,7 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
         }
 
         return result
-    }, [enums, translateUniqueKey, uniqueKey, columnDefs, getLocalText])
+    }, [enums, translateUniqueKey, uniqueKey, columnDefs, t])
 
     const basicColumnDefs2: ColDef[] = useMemo(() => {
         const result = [
@@ -108,11 +125,20 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
             for (let j = 0; j < tColumns.length; j++) {
                 const currentTColumn = tColumns[j]
 
+                if (!currentTColumn)
+                    continue;
+
+                const tColumnFactory = tColumnTypes[currentTColumn.type as keyof typeof tColumnTypes];
+                if (!tColumnFactory) {
+                    console.warn('Unsupported ATForm AG Grid tColumn type', currentTColumn.type);
+                    continue;
+                }
+
                 // Create the new column definition
-                const newColumn = tColumnTypes[currentTColumn.type](currentTColumn)
+                const newColumn = tColumnFactory(currentTColumn)
 
                 // Insert the column at the specified index
-                if (currentTColumn.index !== undefined && currentTColumn?.index >= 0 && currentTColumn?.index < result.length) {
+                if (currentTColumn.index !== undefined && currentTColumn.index >= 0 && currentTColumn.index < result.length) {
                     result.splice(currentTColumn.index, 0, newColumn)
                 } else {
                     result.push(newColumn)
@@ -179,15 +205,22 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
     }
 
     return <div
-        style={{ height: domLayout ? undefined : (height || '75vh'), width: '100%' }}
+        style={{
+            height: domLayout ? undefined : (height || '75vh'),
+            width: '100%',
+            minWidth: 0,
+            fontFamily: muiTheme.typography.fontFamily,
+            // Preserve native glyph rasterization (especially for Persian) while avoiding
+            // synthetic bolding from the single bundled IRANSans face.
+            fontSynthesis: 'none',
+        }}
         onContextMenu={(event) => {
             // Prevent the browser's default context menu, using aggrid suppressContextMenu or onContextMenu prevent default did not work!!!
             event.preventDefault();
         }}
     >
         <AgGridReact
-            //@ts-ignore
-            theme={theme?.atConfig?.gridTheme || themeBalham}
+            theme={resolvedAgGridTheme}
             ref={ref}
             rowData={rowData}
             columnDefs={basicColumnDefs2}
@@ -196,20 +229,7 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
             enableRtl={rtl}
             domLayout={domLayout}
             autoGenerateColumnDefs={basicColumnDefs2?.length ? false : true}
-            modules={[
-                ClientSideRowModelModule,
-                ClientSideRowModelApiModule,
-                ValidationModule,
-                LocaleModule,
-                RowApiModule,
-                TextFilterModule,
-                NumberFilterModule,
-                // ColumnAutoSizeModule,
-                PaginationModule,
-                RowSelectionModule,
-                DateFilterModule,
-                AutoGenerateColumnsModule
-            ]}
+            modules={AT_AG_GRID_MODULES}
             getRowId={uniqueKey ? (params) => String(params.data[uniqueKey]) : undefined}
             defaultColDef={{
                 filter: true,

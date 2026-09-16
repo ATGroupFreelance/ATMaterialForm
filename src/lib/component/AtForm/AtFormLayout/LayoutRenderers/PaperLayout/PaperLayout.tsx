@@ -10,6 +10,7 @@ import LayoutHeader from '../LayoutHeader/LayoutHeader';
 const getDefaultSx = (appearance: AtFormPaperLayoutAppearance): SxProps<Theme> => {
     return {
         p: 1.75,
+        borderRadius: 1,
         backgroundImage: 'none',
         ...(appearance === 'soft' ? { bgcolor: 'action.hover' } : {}),
     };

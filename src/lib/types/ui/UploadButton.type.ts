@@ -1,25 +1,20 @@
 import { ColDef } from "ag-grid-community";
+import type {
+    ArchiveFileReference,
+    ArchiveId,
+    ArchiveUploadOptions,
+} from "at-shared-types/domain";
 import { AtFormMinimalControlledUiProps, AtFormOnClickType } from "../Common.type";
 import { AtFormIconButtonProps } from "./IconButton.type";
 
-export type AtFormButtonFileType = {
-    id?: string,
-    lastModified: number;
-    lastModifiedDate: Date;
-    name: string;
-    size: number;
-    // The MIME type of the file (e.g., "image/png")
-    type: string;
-    // Path to the file relative to the file system (typically an empty string for most browsers)
-    webkitRelativePath: string;
-}
+export type AtFormButtonFileType = ArchiveFileReference;
 
 export interface AtFormUploadButtonProps extends AtFormMinimalControlledUiProps {
     disabled?: boolean;
     accept?: string,
     multiple?: boolean,
     uploadButtonViewType?: 1 | 2,
-    authToken?: string,
+    archiveUploadOptions?: ArchiveUploadOptions,
 };
 
 export interface AtFormUploadButtonShowFilesDialogProps {
@@ -27,13 +22,11 @@ export interface AtFormUploadButtonShowFilesDialogProps {
     onClose: AtFormOnClickType,
     files: AtFormButtonFileType[] | null | undefined,
     readOnly: boolean,
-    authToken?: string,
 }
 
 export interface AtFormUploadButtonFileProps extends AtFormButtonFileType {
-    onRemove: (props: any) => void;
+    onRemove: (archiveId: ArchiveId) => void;
     showRemoveIcon?: boolean;
-    authToken?: string;
 }
 
 export interface AtFormUploadButtonViewImageDialog {
@@ -45,7 +38,6 @@ export interface AtFormUploadButtonViewImageDialog {
 export interface AtFormUploadButtonCellRenderer {
     data: any,
     colDef: ColDef,
-
 }
 
 export interface AtFormUploadButtonShowFilesIconButtonProps extends AtFormIconButtonProps {

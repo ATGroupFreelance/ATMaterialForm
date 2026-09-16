@@ -1,6 +1,6 @@
 import { Box, Divider, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import type { BoxProps, DividerProps } from '@mui/material';
+import type { DividerProps } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material/styles';
 import type { AtFormLayoutHeaderConfig } from '../../../../../types/layouts/LayoutHeader.type';
 

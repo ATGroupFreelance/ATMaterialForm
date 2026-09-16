@@ -14,7 +14,7 @@ const DEFAULT_UNIQUE_KEY = 'AT_GRID_INDEX'
 const MultiSelectGrid = ({ id, value, label, onChange, columnDefs, uniqueKey = DEFAULT_UNIQUE_KEY, onConfirmButtonClick, confirmButtonProps = {}, rowSelection, height = '50vh', ...restProps }: AtFormMultiSelectGridProps) => {
     void id;
 
-    const { localText } = useAtFormConfig()
+    const { t } = useAtFormConfig()
 
     const ref = useRef<any>(null)
 
@@ -107,7 +107,7 @@ const MultiSelectGrid = ({ id, value, label, onChange, columnDefs, uniqueKey = D
                         onClick={onInternalConfirmButtonClick}
                         color={'secondary'}
                         {...confirmButtonProps}
-                        label={confirmButtonProps.label ? confirmButtonProps.label : localText['Apply Changes']}
+                        label={confirmButtonProps.label ? confirmButtonProps.label : t('Apply Changes')}
                     />
                 </Grid>
             </Grid>

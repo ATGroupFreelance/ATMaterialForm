@@ -53,12 +53,14 @@ export const isAtFormLayout = (item: unknown): item is AtFormLayoutDefInterface 
 export const getAtFormLeafChildren = (children: any): any[] => {
     const flatChildren = getFlatChildren(children);
 
-    return flatChildren.flatMap(item => {
-        if (isAtFormLayout(item))
-            return getAtFormLeafChildren(item.children);
+    if (!flatChildren.some(isAtFormLayout))
+        return flatChildren;
 
-        return [item];
-    });
+    return flatChildren.flatMap(item =>
+        isAtFormLayout(item)
+            ? getAtFormLeafChildren(item.children)
+            : [item]
+    );
 }
 
 export const hasAtFormLayout = (children: any) => {

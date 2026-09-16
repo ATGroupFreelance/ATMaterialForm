@@ -83,12 +83,28 @@ const AtFormLayoutRendererResolver = ({ layout, children, hidden }: AtFormLayout
         );
     }
 
+    let result = renderedLayout;
+
+    if (layout.wrapperRenderer) {
+        const Wrapper = layout.wrapperRenderer.renderer;
+
+        result = (
+            <Wrapper
+                id={layout.id}
+                size={layout.size}
+                config={layout.wrapperRenderer.config}
+            >
+                {renderedLayout}
+            </Wrapper>
+        );
+    }
+
     return (
         <Grid
             size={size}
             sx={hidden ? { display: 'none' } : undefined}
         >
-            {renderedLayout}
+            {result}
         </Grid>
     );
 };

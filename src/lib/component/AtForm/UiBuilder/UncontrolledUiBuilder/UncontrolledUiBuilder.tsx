@@ -11,7 +11,7 @@ const Table = React.lazy(() => import('../../Ui/Table/Table'));
 const CustomUncontrolledField = React.lazy(() => import('../../Ui/CustomUncontrolledField/CustomUncontrolledField'));
 
 const UncontrolledUiBuilder = ({ childProps }: AtUnControlledUiBuilderProps) => {
-    const { customComponents } = useAtFormConfig()    
+    const { customComponents, t } = useAtFormConfig()
 
     const commonProps = {
         id: childProps.tProps.id,
@@ -27,7 +27,7 @@ const UncontrolledUiBuilder = ({ childProps }: AtUnControlledUiBuilderProps) => 
 
     const type = childProps.tProps.type
 
-    return <Suspense fallback={<div>Loading...</div>}>
+    return <Suspense fallback={<div>{t('Loading...', 'Loading...')}</div>}>
         {type === 'Button' && <Button {...commonProps} />}
         {type === 'Label' && <Label {...commonProps} />}
         {type === 'Table' && <Table {...commonProps as AtFormTableProps} />}

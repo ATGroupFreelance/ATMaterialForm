@@ -1,4 +1,5 @@
 import { AtJsonValue } from "at-shared-types/domain";
+import type { AtLocalizeFunction, AtTranslationKey } from "../localization";
 
 export type StrictOmit<T, K extends keyof T> = Omit<T, K>;
 export type DeepPartial<T> = {
@@ -33,7 +34,7 @@ export type AtEnumItemType = {
      * Optional stable language key.
      * Example: "gender.male"
      */
-    languageKey?: string;
+    languageKey?: AtTranslationKey;
 
     /**
      * Used for hierarchical enums and cascades.
@@ -82,4 +83,5 @@ export type AtFormOnClickProps<TExtraProps extends object = object> = AtFormOnCl
 
 export type AtFormOnClickType<TExtraProps extends object = object> = (props: AtFormOnClickProps<TExtraProps>) => void;
 
-export type AtFormGetLocalTextFunctionType = (id: string | null | undefined, fallbackLabel?: string) => string | null | undefined
+/** @deprecated Use AtLocalizeFunction. */
+export type AtFormGetLocalTextFunctionType = AtLocalizeFunction;

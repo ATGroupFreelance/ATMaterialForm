@@ -1,7 +1,9 @@
 import { Menu, MenuItem } from "@mui/material";
+import useAtFormConfig from "../../../hooks/useAtFormConfig/useAtFormConfig";
 // import { useState } from "react";
 
 const AtAgGridContextMenu = ({ agEvent, onClose }: any) => {
+    const { t } = useAtFormConfig();
 
     const handleMenuAction = async (action: any) => {
         console.log(`${action} clicked for:`, agEvent);
@@ -29,9 +31,9 @@ const AtAgGridContextMenu = ({ agEvent, onClose }: any) => {
             }
         }}
     >
-        <MenuItem onClick={() => handleMenuAction('Copy')}>Copy</MenuItem>
-        <MenuItem disabled={true} onClick={() => handleMenuAction('Export')}>Export</MenuItem>
-        <MenuItem disabled={true} onClick={() => handleMenuAction('Delete')}>Delete</MenuItem>
+        <MenuItem onClick={() => handleMenuAction('Copy')}>{t('Copy')}</MenuItem>
+        <MenuItem disabled={true} onClick={() => handleMenuAction('Export')}>{t('Export')}</MenuItem>
+        <MenuItem disabled={true} onClick={() => handleMenuAction('Delete')}>{t('Delete')}</MenuItem>
     </Menu>
 }
 

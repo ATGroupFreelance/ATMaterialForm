@@ -9,6 +9,7 @@ import {
     useTheme,
 } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { alpha } from "@mui/material/styles";
 import { AtFormChildProps, AtFormFieldTProps, AtFormUnknownChildProps } from "../../../../../types/AtForm.type";
 import UiRenderDebugWrapperTable from "./UiRenderDebugWrapperTable/UiRenderDebugWrapperTable";
 
@@ -38,7 +39,7 @@ function UiRenderDebugWrapper({ childProps, children }: UiRenderDebugWrapperProp
                 borderRadius: 2,
                 padding: 1,
                 marginBottom: 2,
-                backgroundColor: theme.palette.mode === "dark" ? theme.palette.background.paper : "#f0f7ff",
+                backgroundColor: alpha(theme.palette.primary.main, theme.palette.mode === "dark" ? 0.08 : 0.045),
                 fontSize: "12px",
                 position: "relative",
                 overflow: "hidden",
@@ -99,7 +100,7 @@ function UiRenderDebugWrapper({ childProps, children }: UiRenderDebugWrapperProp
                 <Paper
                     elevation={0}
                     sx={{
-                        backgroundColor: theme.palette.mode === "dark" ? theme.palette.grey[900] : "#e3f2fd",
+                        backgroundColor: alpha(theme.palette.primary.main, theme.palette.mode === "dark" ? 0.1 : 0.06),
                         padding: 1,
                         borderRadius: 1,
                         maxHeight: 400,

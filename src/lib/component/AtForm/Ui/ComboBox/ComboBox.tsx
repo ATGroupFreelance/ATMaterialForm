@@ -16,7 +16,7 @@ const isMobile = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 //['uk', 'us']
 //[{label: 'uk'}, {label: 'us'}]
 const ComboBox = ({ id, onChange, value, readOnly, error, helperText, options, renderInput, label, enumsKey, ...restProps }: AtFormComboBoxProps) => {
-    const { enums } = useAtFormConfig()
+    const { enums, t } = useAtFormConfig()
     const [asyncData, setAsyncData] = useState<AtEnumType | null>(null);
 
     useEffect(() => {
@@ -69,7 +69,10 @@ const ComboBox = ({ id, onChange, value, readOnly, error, helperText, options, r
         fullWidth={true}
         options={(data || [])}
         onChange={onInternalChange}
-        getOptionLabel={(option) => option.title}
+        getOptionLabel={(option) => {
+            const item = data?.find(current => String(current.id) === String(option.id)) ?? option;
+            return t(item.languageKey ?? item.title, item.title) ?? item.title;
+        }}
         isOptionEqualToValue={(option, value) => String(option.id) === String(value.id)}
         value={value}
         renderInput={renderInput ? renderInput : defaultRenderInput}

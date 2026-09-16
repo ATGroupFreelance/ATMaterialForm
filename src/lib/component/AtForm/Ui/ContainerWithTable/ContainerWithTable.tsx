@@ -38,12 +38,13 @@ const initializeOnChangeInterface = () => {
 }
 
 const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChange, getRowId, label, addInterface = 'form', addButtonOrigin = 'right', showHeader = true, height = 400, actionPanelStyle, addButtonProps, resetFormAfterAdd = false, showHeaderlessTitle = false, disabled }: AtFormContainerWithTableProps) => {
-    const { enums, rtl, localText } = useAtFormConfig()
+    const { enums, rtl, t } = useAtFormConfig()
     const { getTypeInfo } = useAtForm()
     const theme = useTheme()
 
     const [currentGridRef, setCurrentGridRef] = useState<AtAgGridRef>(null)
     const formRef = useRef<AtFormRefInterface | null>(null)
+    const formDialogRef = useRef<AtFormRefInterface | null>(null)
     const formDataRef = useRef<AtFormOnChangeInterface>(initializeOnChangeInterface())
     const formDialogDataRef = useRef<AtFormOnChangeInterface>(initializeOnChangeInterface())
     const rowIdCounter = useRef(0)
@@ -53,12 +54,6 @@ const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChan
         if (ref) {
             setCurrentGridRef(ref)
             ref.api.showNoRowsOverlay()
-        }
-    }, [])
-
-    const formRefCallback = useCallback((ref: AtFormRefInterface) => {
-        if (ref) {
-            formRef.current = ref
         }
     }, [])
 
@@ -81,7 +76,7 @@ const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChan
         }
     }, [value, currentGridRef])
 
-    const onInternalChange = () => {
+    const onInternalChange = useCallback(() => {
         if (onChange && currentGridRef) {
             const gridData: Array<any> = []
             currentGridRef.api.forEachNode((node) => {
@@ -95,7 +90,7 @@ const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChan
 
             onChange({ target: { value: gridData } })
         }
-    }
+    }, [currentGridRef, onChange])
 
     const onFormChange = ({ formData, formDataKeyValue, formDataSemiKeyValue }: AtFormOnChangeInterface) => {
         formDataRef.current.formData = formData;
@@ -117,7 +112,7 @@ const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChan
         return rowIdCounter.current
     }
 
-    const addRow = ({ formDataKeyValue }: Partial<AtFormOnChangeInterface>) => {
+    const addRow = ({ formDataKeyValue }: Partial<AtFormOnChangeInterface>, sourceForm: AtFormRefInterface | null) => {
         if (currentGridRef) {
             const newId = getNewRowId()
             console.log('rowIDCounter addRow', newId)
@@ -127,8 +122,8 @@ const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChan
 
             console.log('AddRowA', { newId, newAddOperation })
 
-            if (resetFormAfterAdd && formRef) {
-                formRef.current?.reset()
+            if (resetFormAfterAdd) {
+                sourceForm?.reset()
             }
 
             onInternalChange()
@@ -143,6 +138,13 @@ const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChan
         }
     }
 
+    // Programmatic field updates may intentionally suppress the nested form's
+    // onChange callback. Commit rows from the form ref so Add/Edit always sees
+    // the authoritative current values; keep the callback snapshot as fallback.
+    const getCurrentFormData = (sourceForm: AtFormRefInterface | null, fallback: AtFormOnChangeInterface) => {
+        return sourceForm?.getFormData() ?? fallback
+    }
+
     const onAddClick = () => {
         if (addInterface === INTERFACE_TYPES.formDialog) {
             setRecordDialog({
@@ -152,36 +154,35 @@ const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChan
             })
         }
         else if (addInterface === INTERFACE_TYPES.form) {
-            addRow({ formDataKeyValue: formDataRef.current.formDataKeyValue })
+            addRow(getCurrentFormData(formRef.current, formDataRef.current), formRef.current)
         }
         else
             console.error('Invalid interface type inside containerWithTable component, possible values: ', INTERFACE_TYPES)
     }
 
-    const onEditClick: AtFormOnClickType<{ data?: any }> = ({ data }) => {
+    const onEditClick: AtFormOnClickType<{ data?: any }> = useCallback(({ data }) => {
         console.log('onEditClick', data)
         setRecordDialog({
             show: true,
             editMode: true,
             defaultValue: data,
         })
-    }
+    }, [])
 
-    const onRemoveClick: AtFormOnClickType<{ data?: any }> = ({ data }) => {
+    const onRemoveClick: AtFormOnClickType<{ data?: any }> = useCallback(({ data }) => {
         console.log('onRemoveClick', data)
         if (currentGridRef) {
             currentGridRef.api.applyTransaction({ remove: [data] });
-
             onInternalChange()
         }
-    }
+    }, [currentGridRef, onInternalChange])
 
-    const baseGridColumnDefs = getGridColumnDefs ?
-        getGridColumnDefs(getColumnDefsByAtFormChildren({ formChildren, enums, getTypeInfo }))
-        :
-        getColumnDefsByAtFormChildren({ formChildren, enums, getTypeInfo })
+    const baseGridColumnDefs = useMemo(() => {
+        const generated = getColumnDefsByAtFormChildren({ formChildren, enums, getTypeInfo });
+        return getGridColumnDefs ? getGridColumnDefs(generated) : generated;
+    }, [enums, formChildren, getGridColumnDefs, getTypeInfo]);
 
-    const gridColumnDefs = baseGridColumnDefs?.map((item: any) => {
+    const gridColumnDefs = useMemo(() => baseGridColumnDefs?.map((item: any) => {
         if (item.cellRenderer) {
             const cellRendererParams = {
                 commonEventProps: { tableApi: { onInternalChange } }
@@ -195,73 +196,65 @@ const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChan
                 }
             }
         }
-        else
-            return item
-    })
+        return item;
+    }), [baseGridColumnDefs, onInternalChange]);
+
+    const finalGridColumnDefs = useMemo(() => ([
+        ...(gridColumnDefs || []),
+        ColumnDefTemplates.createEdit({ cellRendererParams: { config: { onClick: onEditClick } }, pinned: 'left' }),
+        ColumnDefTemplates.createRemove({ cellRendererParams: { config: { onClick: onRemoveClick } }, pinned: 'left' }),
+    ]), [gridColumnDefs, onEditClick, onRemoveClick]);
 
     const containerSx = useMemo(() => ({
         width: '100%',
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        // dark mode: a slight white overlay so it reads like a filled TextField
-        // light mode: use paper so it remains neutral
-        bgcolor: theme.palette.mode === 'dark'
-            ? 'rgba(255,255,255,0.04)'
-            : theme.palette.background.paper,
+        minWidth: 0,
+        fontFamily: theme.typography.fontFamily,
+        bgcolor: theme.palette.background.paper,
         padding: 0,
-        boxSizing: 'border-box',
-        transition: 'background-color 200ms ease',
-        // use theme radius so component corners match your theme
+        boxSizing: 'border-box' as const,
+        border: `1px solid ${theme.palette.divider}`,
         borderRadius: theme.shape.borderRadius,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        transition: theme.transitions.create(['background-color', 'border-color'], {
+            duration: theme.transitions.duration.shorter,
+        }),
     }), [theme])
 
     const headerWrapperSx = useMemo(() => ({
-        margin: '0 auto 24px',
-        // subtle border that adapts to mode
-        border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : theme.palette.divider}`,
-        // use the same theme radius for a consistent look
-        borderRadius: theme.shape.borderRadius,
-        // keep wrapper nearly transparent so the container fill shows through
-        backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.02)' : 'transparent',
-        boxShadow: 'none', // sit flush like a textfield    
-        overflow: 'hidden'
+        margin: 0,
+        border: 0,
+        borderRadius: 0,
+        backgroundColor: 'transparent',
+        boxShadow: 'none',
+        overflow: 'hidden',
+    }), [])
+
+    const headerBarSx = useMemo(() => ({
+        minHeight: 48,
+        display: 'flex',
+        alignItems: 'center',
+        px: 1.5,
+        userSelect: 'none' as const,
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+        borderBottom: `1px solid ${theme.palette.divider}`,
+        transition: theme.transitions.create(['background-color', 'color'], {
+            duration: theme.transitions.duration.shorter,
+        }),
     }), [theme])
-
-    const headerBarSx = useMemo(() => {
-        // choose header background only in light mode, keep transparent in dark
-        const bg = theme.palette.mode === 'light' ? theme.palette.primary.main : 'transparent'
-        // prefer the theme-provided contrast text for the chosen background
-        const fg = theme.palette.mode === 'light'
-            ? (theme.palette.primary.contrastText || theme.palette.getContrastText?.(theme.palette.primary.main))
-            : theme.palette.text.primary
-
-        return {
-            height: 56,
-            display: 'flex',
-            alignItems: 'center',
-            px: 2,
-            userSelect: 'none',
-            backgroundColor: bg,
-            color: fg,
-            // subtle divider: use a darker primary shade in light mode, or a soft white in dark mode
-            borderBottom: `1px solid ${theme.palette.mode === 'light' ? theme.palette.primary.dark : 'rgba(255,255,255,0.06)'}`,
-            transition: 'background-color 150ms ease, color 150ms ease'
-        }
-    }, [theme])
 
     const contentSx = useMemo(() => ({
         width: rtl ? undefined : '100%',
-        p: 2,
-        pt: 2,
-        // inner area stays transparent so the container background shows through
-        backgroundColor: 'transparent'
-    }), [rtl])
+        minWidth: 0,
+        p: 1.5,
+        backgroundColor: theme.palette.background.paper,
+    }), [rtl, theme.palette.background.paper])
 
     return <Box sx={containerSx}>
         {showHeader && (
             <Box sx={headerWrapperSx}>
                 <Box sx={{ ...headerBarSx, textAlign: rtl ? 'right' : 'left' }}>
-                    <Typography variant="h5" sx={{ ml: rtl ? 0 : 1.5, mr: rtl ? 1.5 : 0, display: 'flex', alignItems: 'center', fontWeight: 600 }}>
+                    <Typography variant="subtitle1" sx={{ ml: rtl ? 0 : 0.5, mr: rtl ? 0.5 : 0, display: 'flex', alignItems: 'center', fontWeight: 600 }}>
                         {label}
                     </Typography>
                 </Box>
@@ -274,19 +267,22 @@ const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChan
                     recordDialog.show &&
                     //@ts-ignore
                     <AtFormDialog
-                        ref={formRefCallback}
+                        ref={formDialogRef}
                         runtimePrefix={id}
                         onChange={onFormDialogChange}
                         onSubmitClick={() => {
+                            const currentFormData = getCurrentFormData(formDialogRef.current, formDialogDataRef.current)
+
                             if (recordDialog.editMode)
-                                editRow({ data: recordDialog.defaultValue, formDataKeyValue: formDialogDataRef.current.formDataKeyValue })
+                                editRow({ data: recordDialog.defaultValue, formDataKeyValue: currentFormData.formDataKeyValue })
                             else
-                                addRow({ formDataKeyValue: formDialogDataRef.current.formDataKeyValue })
+                                addRow(currentFormData, formDialogRef.current)
 
                             setRecordDialog((prevState) => ({ ...prevState, show: false }))
                         }}
                         onClose={() => setRecordDialog((prevState) => ({ ...prevState, show: false }))}
                         defaultValue={recordDialog.defaultValue}
+                        defaultValueFormat="FormDataKeyValue"
                     >
                         {
                             [
@@ -298,10 +294,9 @@ const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChan
                 {
                     addInterface === INTERFACE_TYPES.form &&
                     <AtForm
-                        ref={formRefCallback}
+                        ref={formRef}
                         runtimePrefix={id}
                         onChange={onFormChange}
-                        defaultValue={recordDialog.defaultValue}
                     >
                         {
                             [
@@ -329,7 +324,7 @@ const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChan
                     </>
                 }
                 <Grid size={2}>
-                    <Button label={localText['Add']} onClick={onAddClick} disabled={disabled} {...addButtonProps || {}} />
+                    <Button label={t('Add') ?? 'Add'} onClick={onAddClick} disabled={disabled} {...addButtonProps || {}} />
                 </Grid>
             </Grid>
 
@@ -337,11 +332,7 @@ const ContainerWithTable = ({ id, value, formChildren, getGridColumnDefs, onChan
                 //@ts-ignore
                 onGridReady={gridRefCallback}
                 height={height}
-                columnDefs={[
-                    ...(gridColumnDefs || []),
-                    ColumnDefTemplates.createEdit({ cellRendererParams: { config: { onClick: onEditClick } }, pinned: 'left' }),
-                    ColumnDefTemplates.createRemove({ cellRendererParams: { config: { onClick: onRemoveClick } }, pinned: 'left' })
-                ]}
+                columnDefs={finalGridColumnDefs}
                 getRowId={getRowId ? getRowId() : (params) => {
                     console.log('params', {
                         params,

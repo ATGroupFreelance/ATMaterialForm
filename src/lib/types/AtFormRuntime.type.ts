@@ -1,3 +1,5 @@
+import type { DataResource, DataSourceExecutionResult } from "at-shared-types/domain";
+
 /**
  * AtForm runtime allows field values and actions to be resolved dynamically.
  *
@@ -65,7 +67,27 @@ export interface AtFormRuntimeSetPropertyParams {
     value: unknown;
 }
 
+export interface AtFormRuntimeResourceSnapshot {
+    status: "idle" | "loading" | "success" | "error";
+    freshness: "fresh" | "dirty";
+    revision: number;
+    error?: unknown;
+}
+
+export interface AtFormRuntimeResourceApi {
+    getDefinition(resourceId: string): DataResource | undefined;
+    listDefinitions(): DataResource[];
+    getDependencies(resourceId: string): { formValuePaths: string[]; resourceIds: string[]; dynamic: boolean };
+    getDependents(resourceId: string): string[];
+    getSnapshot(resourceId: string): AtFormRuntimeResourceSnapshot;
+    getValue(resourceId: string): unknown;
+    invoke<T = unknown>(resourceId: string, payload?: unknown, options?: { signal?: AbortSignal }): Promise<DataSourceExecutionResult<T>>;
+    refresh(resourceId: string): Promise<unknown>;
+}
+
 export interface AtFormRuntime {
+    /** Narrow read/invoke API for resource-aware complex components. */
+    resources?: AtFormRuntimeResourceApi;
     /**
      * Applies an imperative runtime property override to one field.
      *

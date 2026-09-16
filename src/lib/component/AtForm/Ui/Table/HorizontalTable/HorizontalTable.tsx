@@ -10,7 +10,7 @@ import { AtFormHorizontalTableProps } from '../../../../../types/ui/Table.type';
 const HorizontalTable = ({ id, data, columns, rowProps, cellProps, headerCellProps, headerRowProps, hideColumns }: AtFormHorizontalTableProps) => {
     void id;
 
-    const { getLocalText } = useAtFormConfig()
+    const { t } = useAtFormConfig()
 
     const newColumns = [
         ...(columns || [])
@@ -32,7 +32,7 @@ const HorizontalTable = ({ id, data, columns, rowProps, cellProps, headerCellPro
                 <TableRow {...(headerRowProps || {})}>
                     {
                         newColumns.map(item => {
-                            return <TableCell key={item} {...(headerCellProps || {})}>{getLocalText(item)}</TableCell>
+                            return <TableCell key={item} {...(headerCellProps || {})}>{t(item, item)}</TableCell>
                         })
                     }
                 </TableRow>

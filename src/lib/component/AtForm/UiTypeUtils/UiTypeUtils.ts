@@ -320,12 +320,24 @@ export const types = [
     createType({
         type: 'UploadImageButton',
         initialValue: null,
-        validation: createValidation({ anyOf: [{ type: 'string', minLength: 1 }, { type: 'integer' }] }),
+        validation: createValidation({ type: 'object' }),
         convertToKeyValue: ({ event }: AtConvertInterface) => {
-            return event.target.value
+            if (!event.target.value)
+                return null
+
+            return JSON.stringify(event.target.value)
         },
         reverseConvertToKeyValue: ({ value }: AtReverseConvertInterface) => {
-            return value
+            if (!value)
+                return null
+
+            return typeof value === 'string' ? JSON.parse(value) : value
+        },
+        convertToSemiKeyValue: ({ event }: AtConvertInterface) => {
+            return event.target.value
+        },
+        reverseConvertToSemiKeyValue: ({ value }: AtReverseConvertInterface) => {
+            return value || null
         },
     }),
     createType({

@@ -13,20 +13,19 @@ import ShowFilesIconButton from './ShowFilesIconButton/ShowFilesIconButton';
 import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
 //Dialog
 import ShowFilesDialog from './ShowFilesDialog/ShowFilesDialog';
-import { useTheme } from "@mui/material";
 import AtToast from '../../../AtToast/AtToast';
 import { AtFormButtonFileType, AtFormUploadButtonProps } from '../../../../types/ui/UploadButton.type';
 import useAtForm from '../../../../hooks/useAtForm/useAtForm';
 import { AtFormOnClickType } from '../../../../types/Common.type';
 import TextBox from '../TextBox/TextBox';
 
-const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, authToken, readOnly }: AtFormUploadButtonProps) => {
-    const theme = useTheme()
+const UploadButton = ({ id, onChange, value = [], disabled, accept, error, helperText, multiple = true, uploadButtonViewType = 1, archiveUploadOptions, readOnly }: AtFormUploadButtonProps) => {
     const { onLockdownChange } = useAtForm()
-    const { uploadFilesToServer, localText, maxUploadFileSizeInBytes } = useAtFormConfig()
+    const { archive, t, maxUploadFileSizeInBytes } = useAtFormConfig()
 
     const [loading, setLoading] = useState(false)
     const [dialog, setDialog] = useState<any>(null)
+    const filesValue = Array.isArray(value) ? value as AtFormButtonFileType[] : []
 
     const onInternalChange = (event: ChangeEvent<HTMLInputElement>) => {
         //selectedFiles is an object
@@ -39,41 +38,36 @@ const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText
         // size: 4402
         // type: "image/png"
         // webkitRelativePath: ""
-        const selectedFiles = event.target.files ? Array.from(event.target.files) : []
+        const selectedFiles: File[] = event.target.files ? Array.from(event.target.files) : []
 
         if (selectedFiles.length > 0) {
-            let filesSizeSum = 0
+            const filesSizeSum = selectedFiles.reduce((sum, file) => sum + file.size, 0)
 
-            const formData = new FormData()
-            selectedFiles.forEach((file) => {
-                formData.append(`files`, file)
-                filesSizeSum = filesSizeSum + file.size
-            })
-
-            if (maxUploadFileSizeInBytes) {
-                if (filesSizeSum > maxUploadFileSizeInBytes) {
-                    AtToast.error(localText[`File size exceeds the limit. Please select a smaller file`])
-                    return null;
-                }
+            if (maxUploadFileSizeInBytes && filesSizeSum > maxUploadFileSizeInBytes) {
+                AtToast.error(t('File size exceeds the limit. Please select a smaller file'))
+                return null;
             }
 
             setLoading(true)
             if (onLockdownChange && id)
                 onLockdownChange(id, true)
 
-            if (uploadFilesToServer) {
-                uploadFilesToServer({ files: formData, authToken })
+            if (archive) {
+                archive.uploadFiles({
+                    files: selectedFiles,
+                    options: archiveUploadOptions,
+                })
                     .then(res => {
                         const newValue = [
-                            ...value,
+                            ...filesValue,
                             ...res,
                         ]
 
                         if (onChange)
                             onChange({ target: { value: newValue } })
                     })
-                    .catch((error) => {
-                        console.error(error)
+                    .catch((uploadError) => {
+                        console.error(uploadError)
                     })
                     .finally(() => {
                         setLoading(false)
@@ -82,15 +76,13 @@ const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText
                     })
             }
             else {
-                if (onChange)
-                    onChange({ target: { value: ['No uploadFilesToServer was found, please assign one usnig ATFormConfigProvider!'] } })
+                AtToast.error(t('No archive adapter was configured for AtForm.'))
                 setLoading(false)
                 if (onLockdownChange && id)
                     onLockdownChange(id, false)
             }
         }
     }
-
 
     const onRemoveFilesClick = () => {
         if (onChange)
@@ -100,18 +92,17 @@ const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText
     const onShowFilesClick = () => {
         setDialog(
             <ShowFilesDialog
-                files={value}
+                files={filesValue}
                 readOnly={disabled || !!readOnly}
-                authToken={authToken}
                 onSave={onShowFilesDialogSaveChangesClick}
                 onClose={() => setDialog(null)}
             />
         )
     }
 
-    const onShowFilesDialogSaveChangesClick: AtFormOnClickType = ({ removeIdList }) => {
+    const onShowFilesDialogSaveChangesClick: AtFormOnClickType = ({ removeArchiveIdList }) => {
         if (onChange)
-            onChange({ target: { value: value.filter((item: AtFormButtonFileType) => !removeIdList.includes(item.id)) } })
+            onChange({ target: { value: filesValue.filter((item: AtFormButtonFileType) => !removeArchiveIdList.includes(item.archiveId)) } })
 
         setDialog(null)
     }
@@ -120,13 +111,13 @@ const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText
         {
             uploadButtonViewType === 1 &&
             <Button sx={{ height: '56px', margin: '0px', width: '45%', marginRight: '5px' }} variant="contained" component="label" loading={loading} disabled={disabled || readOnly}>
-                {loading ? localText['Uploading'] : localText['Upload']}
+                {loading ? t('Uploading') : t('Upload')}
                 <input hidden multiple={multiple} type="file" accept={accept} onChange={onInternalChange} />
             </Button>
         }
         <TextBox
             fullWidth={true}
-            value={`${value.length} ${localText['files']}`}
+            value={t('atform.upload.fileCount', { count: filesValue.length })}
             error={error}
             helperText={helperText}
             slotProps={
@@ -138,16 +129,16 @@ const UploadButton = ({ id, onChange, value, disabled, accept, error, helperText
                             <InputAdornment position="end">
                                 <Button variant="text" fullWidth={true} component="label" loading={loading} disabled={disabled || readOnly} sx={{ marginRight: '3px' }}>
                                     <Add fontSize='small' />
-                                    {loading ? localText['Uploading'] : localText['Upload']}
+                                    {loading ? t('Uploading') : t('Upload')}
                                     <input hidden multiple={multiple} type="file" accept={accept} onChange={onInternalChange} />
                                 </Button>
                             </InputAdornment>,
                         endAdornment:
                             <InputAdornment position="end">
-                                <ShowFilesIconButton sx={theme?.atConfig?.uploadButton?.showFilesIcon} files={value} onClick={onShowFilesClick} label={localText['Show Files']} />
-                                <Tooltip title={localText['Delete All']}   >
+                                <ShowFilesIconButton sx={{ color: 'primary.main' }} files={filesValue} onClick={onShowFilesClick} label={t('Show Files')} />
+                                <Tooltip title={t('Delete All')}>
                                     <span>
-                                        <IconButton disabled={value.length === 0 || disabled || readOnly} color={'error'} sx={theme?.atConfig?.uploadButton?.removeIcon} onClick={onRemoveFilesClick}>
+                                        <IconButton disabled={filesValue.length === 0 || disabled || readOnly} color={'error'} onClick={onRemoveFilesClick}>
                                             <DeleteForeverTwoToneIcon />
                                         </IconButton>
                                     </span>

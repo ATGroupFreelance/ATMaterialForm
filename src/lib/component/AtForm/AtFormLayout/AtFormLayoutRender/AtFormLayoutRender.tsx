@@ -19,6 +19,7 @@ interface AtFormLayoutRenderProps {
 interface RenderNodesResult {
     content: React.ReactNode,
     hasBeforeLeafContent: boolean,
+    nextLeafIndex: number,
 }
 
 const hasRenderableContent = (content: React.ReactNode) => {
@@ -33,16 +34,16 @@ const AtFormLayoutRender = ({
     fieldErrorFallback,
     renderBeforeLeaf,
 }: AtFormLayoutRenderProps) => {
-    let leafIndex = 0;
-
-    const renderNodes = (inputChildren: AtFormChildren): RenderNodesResult => {
+    const renderNodes = (inputChildren: AtFormChildren, startLeafIndex: number): RenderNodesResult => {
+        let leafIndex = startLeafIndex;
         const nodes = getFlatChildren(inputChildren);
         let hasBeforeLeafContent = false;
 
         const content = nodes.map((node, nodeIndex) => {
             if (isAtFormLayout(node)) {
                 const firstDescendantLeafIndex = leafIndex;
-                const renderedChildren = renderNodes(node.children);
+                const renderedChildren = renderNodes(node.children, leafIndex);
+                leafIndex = renderedChildren.nextLeafIndex;
                 const descendantProps = childrenProps.slice(firstDescendantLeafIndex, leafIndex);
 
                 hasBeforeLeafContent = hasBeforeLeafContent
@@ -93,10 +94,11 @@ const AtFormLayoutRender = ({
         return {
             content,
             hasBeforeLeafContent,
+            nextLeafIndex: leafIndex,
         };
     };
 
-    return <>{renderNodes(children).content}</>;
+    return <>{renderNodes(children, 0).content}</>;
 };
 
 export default AtFormLayoutRender;

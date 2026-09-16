@@ -9,7 +9,7 @@ import React from 'react';
 const VerticalTable = ({ id, data, columns, rowProps, cellProps, columnsPerRow = 2 }: AtFormVerticalTableProps) => {
     void id;
 
-    const { getLocalText } = useAtFormConfig();
+    const { t } = useAtFormConfig();
 
     const newColumns = [...(columns || [])];
 
@@ -40,7 +40,7 @@ const VerticalTable = ({ id, data, columns, rowProps, cellProps, columnsPerRow =
                     return <React.Fragment key={column}>
                         {/* Column Name */}
                         <TableCell {...(cellProps || {})} sx={{ fontWeight: 'bold', ...(cellProps?.sx || {}) }}>
-                            {getLocalText(column)}
+                            {t(column, column)}
                         </TableCell>
 
                         {/* Column Data (concatenates values from all data rows) */}

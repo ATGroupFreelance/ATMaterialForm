@@ -1,29 +1,34 @@
-import { AtFormImageSelectImageProps } from '../../../../../types/ui/ImageSelect.type';
+import { alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import type { AtFormImageSelectImageProps } from '../../../../../types/ui/ImageSelect.type';
 
-const Image = ({ id, name, src, onClick, width, height, selected }: AtFormImageSelectImageProps) => {
-    const buttonStyle = {
-        display: 'inline-block',
-        textAlign: '-webkit-center',
-        width: `${width + 18}px`,
-        height: `${height + 18}px`,
-        padding: '1px',
-        textTransform: 'none',
-        ...(!selected ? {} : {
-            border: 'double 1px transparent',
-            borderRadius: '20px',
-            backgroundOrigin: 'border-box',
-            backgroundClip: 'content-box, border-box',
-            backgroundImage: 'linear-gradient(white, white), linear-gradient(to right, #46BFAE, #2865B3)'
-            // 'linear-gradient(#46BFAE, #2865B3) 30'
-        })
-    }
-
-    return <Button sx={buttonStyle} onClick={onClick} variant={'text'} color={selected ? 'secondary' : 'primary'}>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <img alt={name || id} src={src} style={{ borderRadius: '10px', width: `${width}px`, height: `${height}px` }} />
-        </div>
-    </Button>
-}
+const Image = ({ archiveId, fileName, src, onClick, width, height, selected }: AtFormImageSelectImageProps) => {
+    return (
+        <Button
+            sx={(theme) => ({
+                display: 'inline-block',
+                textAlign: '-webkit-center',
+                width: `${width + 18}px`,
+                height: `${height + 18}px`,
+                p: '3px',
+                textTransform: 'none',
+                border: selected ? `2px solid ${theme.palette.primary.main}` : '2px solid transparent',
+                borderRadius: 2,
+                backgroundColor: selected ? alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.18 : 0.08) : 'transparent',
+                '&:hover': {
+                    backgroundColor: alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.14 : 0.06),
+                },
+            })}
+            onClick={onClick}
+            variant="text"
+            color={selected ? 'secondary' : 'primary'}
+        >
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Box component="img" alt={fileName || archiveId} src={src} sx={{ borderRadius: 1, width: `${width}px`, height: `${height}px`, objectFit: 'cover' }} />
+            </div>
+        </Button>
+    );
+};
 
 export default Image;

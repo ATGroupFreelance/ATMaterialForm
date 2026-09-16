@@ -43,6 +43,7 @@ import type {
     AtFormLayoutDefInterface,
     AtFormLayoutRenderer,
     AtFormLayoutBaseInterface,
+    AtFormLayoutWrapperConfig,
 } from "../../../types/AtFormLayout.type";
 
 // const splitCapitalBySpace = (input: string) => {
@@ -75,6 +76,7 @@ function createLayout(
     props: AtFormLayoutBaseInterface & {
         renderer: AtFormLayoutRenderer,
         config?: unknown,
+        wrapperRenderer?: AtFormLayoutWrapperConfig<any>,
     },
     children: AtFormChildren,
 ): AtFormLayoutDefInterface {

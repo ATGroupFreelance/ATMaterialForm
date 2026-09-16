@@ -1,13 +1,8 @@
 import EditOutlined from "@mui/icons-material/EditOutlined"
-import { useTheme } from "@mui/material"
 import ColumnDefIconButton from "../ColumnDefIconButton/ColumnDefIconButton"
 import { AtAgGridColumnDefEditProps } from "../../../../types/at-ag-grid/col-def-templates/AtAgGridColumnDefEdit.type"
 
-const EditIcon = () => {
-    const theme = useTheme()
-
-    return <EditOutlined sx={theme?.atConfig?.columnDefTemplates?.editIcon || {}} />
-}
+const EditIcon = () => <EditOutlined sx={{ color: 'primary.main' }} />
 
 const ColumnDefEdit = ({ cellRendererParams, ...restProps }: AtAgGridColumnDefEditProps) =>
     ColumnDefIconButton({

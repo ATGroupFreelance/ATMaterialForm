@@ -17,7 +17,7 @@ const AreYouSure = ({
     onNoClick,
     toastContent,
 }: AreYouSureProps) => {
-    const { getLocalText } = useAtFormConfig();
+    const { t } = useAtFormConfig();
 
     const onInternalNoClick = (props: AtFormOnClickProps) => {
         if (onNoClick) {
@@ -105,7 +105,7 @@ const AreYouSure = ({
                             color: "text.secondary",
                         }}
                     >
-                        {getLocalText("No")}
+                        {t("No")}
                     </Button>
 
                     <Button
@@ -117,7 +117,7 @@ const AreYouSure = ({
                             boxShadow: "none",
                         }}
                     >
-                        {getLocalText("Yes")}
+                        {t("Yes")}
                     </Button>
                 </Box>
             </Grid>

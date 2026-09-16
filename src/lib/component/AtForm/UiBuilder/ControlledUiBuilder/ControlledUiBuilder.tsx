@@ -53,7 +53,7 @@ export const getInitialValue = (typeInfo: AtFormTypeInfoInterface, defaultValue:
 //which is already taken by ATMaterialForm
 const ControlledUiBuilder = ({ childProps }: AtControlledUiBuilderProps) => {
     const mIsInitialized = useRef(childProps.isFormControlled ? true : false)
-    const { customComponents } = useAtFormConfig()
+    const { customComponents, t } = useAtFormConfig()
     const mChangeId = useRef<number>(0)
     const mLastAppliedParentChangeId = useRef<number>(-1)
 
@@ -183,7 +183,7 @@ const ControlledUiBuilder = ({ childProps }: AtControlledUiBuilderProps) => {
 
     const type = childProps.tProps.type
 
-    return <Suspense fallback={<div>Loading...</div>}>
+    return <Suspense fallback={<div>{t('Loading...', 'Loading...')}</div>}>
         {type === 'TextBox' && <TextBox {...commonProps} />}
         {type === 'IntegerTextBox' && <IntegerTextBox {...commonProps} />}
         {type === 'FloatTextBox' && <FloatTextBox {...commonProps} />}

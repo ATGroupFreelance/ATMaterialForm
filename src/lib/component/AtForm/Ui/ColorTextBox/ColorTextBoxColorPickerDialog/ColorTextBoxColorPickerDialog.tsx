@@ -10,7 +10,7 @@ import Sketch from '@uiw/react-color-sketch';
 import { AtFormColorTextBoxColorPickerDialogProps } from '../../../../../types/ui/ColorTextBox.type';
 
 function ColorTextBoxColorPickerDialog({ defaultValue, onSubmitClick, onClose, ...restProps }: AtFormColorTextBoxColorPickerDialogProps) {
-    const { localText } = useAtFormConfig()
+    const { t } = useAtFormConfig()
     const [hex, setHex] = useState(defaultValue)
 
     const onChange = (newColor: any) => {
@@ -23,7 +23,7 @@ function ColorTextBoxColorPickerDialog({ defaultValue, onSubmitClick, onClose, .
 
     return (
         <Dialog maxWidth={false} onClose={onClose} {...restProps} >
-            <DialogTitle >{localText['Choose A Color']}</DialogTitle>
+            <DialogTitle >{t('Choose A Color')}</DialogTitle>
             <DialogContent>
                 <Grid container spacing={2} sx={{ marginTop: '5px', marginBottom: '5px' }}>
                     <Grid size={12}>
@@ -38,7 +38,7 @@ function ColorTextBoxColorPickerDialog({ defaultValue, onSubmitClick, onClose, .
                 <Grid container spacing={2}>
                     <Grid size={12}>
                         <Button fullWidth={true} onClick={onInternalSubmitClick} color={'success'} >
-                            {localText['Submit']}
+                            {t('Submit')}
                         </Button>
                     </Grid>
                     <Grid size={12}>
@@ -52,7 +52,7 @@ function ColorTextBoxColorPickerDialog({ defaultValue, onSubmitClick, onClose, .
                             }
                             color={'error'}
                         >
-                            {localText['Cancel']}
+                            {t('Cancel')}
                         </Button>
                     </Grid>
                 </Grid>

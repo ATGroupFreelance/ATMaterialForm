@@ -1,13 +1,8 @@
 import DeleteForeverOutlined from "@mui/icons-material/DeleteForeverOutlined"
-import { useTheme } from "@mui/material"
 import ColumnDefIconButton from "../ColumnDefIconButton/ColumnDefIconButton"
 import { AtAgGridColumnDefRemoveProps } from "../../../../types/at-ag-grid/col-def-templates/AtAgGridColumnDefRemove.type"
 
-const DeleteIcon = () => {
-    const theme = useTheme()
-
-    return <DeleteForeverOutlined color={'error'} sx={theme?.atConfig?.columnDefTemplates?.removeIcon || {}} />
-}
+const DeleteIcon = () => <DeleteForeverOutlined color="error" />
 
 const ColumnDefRemove = ({ cellRendererParams, ...restProps }: AtAgGridColumnDefRemoveProps) =>
     ColumnDefIconButton({

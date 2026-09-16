@@ -6,8 +6,10 @@ import { AtFormChildResetInterface, AtFormOnChildChangeInterface } from '../../.
 import useAtForm from '../../../../hooks/useAtForm/useAtForm'
 import { getInitialValue } from '../../UiBuilder/ControlledUiBuilder/ControlledUiBuilder'
 import AtFormButtonDialogStyledButton from './AtFormButtonDialogStyledButton/AtFormButtonDialogStyledButton'
+import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig'
 
 const AtFormButtonDialogWrapper = ({ children, childProps, config }: AtFormButtonDialogWrapperProps) => {
+    const { t } = useAtFormConfig()
     const [dialog, setDialog] = useState<any>(null)
     const mLastSavedValue = useRef(childProps.isFormControlled ? childProps.value : childProps.tProps.defaultValue)
     const { getFormData } = useAtForm()
@@ -87,7 +89,7 @@ const AtFormButtonDialogWrapper = ({ children, childProps, config }: AtFormButto
     return (
         <Grid size={size}>
             <AtFormButtonDialogStyledButton onClick={onInternalClick} {...config?.buttonProps}>
-                {label}
+                {t(label)}
             </AtFormButtonDialogStyledButton>
             {dialog}
         </Grid>

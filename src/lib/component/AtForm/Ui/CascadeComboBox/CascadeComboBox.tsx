@@ -4,6 +4,7 @@ import BaseComboBox from './BaseComboBox/BaseComboBox';
 import { AtFormCascadeComboBoxProps, AtFormCascadeComboBoxBaseComboBoxProps, AtFormCascadeComboBoxDesignLayer, AtFormCascadeComboBoxAsyncOptions, AtFormCascadeComboBoxOptionsFilterFunction } from '../../../../types/ui/CascadeComboBox.type';
 import ComboBox from '../ComboBox/ComboBox';
 import { areEnumItemIdsEqual, getEnumItemParentId, isAsyncOptions } from '../../FormUtils/FormUtils';
+import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
 /**
     Cascade Overview:
 
@@ -35,6 +36,7 @@ import { areEnumItemIdsEqual, getEnumItemParentId, isAsyncOptions } from '../../
     You can provide a custom cascade tree through the design prop to define its structure. For more examples and possible combinations, refer to the CascadeComboBoxPlayground.
  */
 const CascadeComboBox = ({ label, design, onChange, value, error, helperText, readOnly }: AtFormCascadeComboBoxProps) => {
+    const { t } = useAtFormConfig();
     const onInternalChange = (id: string, event: React.ChangeEvent<HTMLInputElement>, children: AtFormCascadeComboBoxDesignLayer[] | undefined) => {
         const newValue = {
             ...(value || {}),
@@ -173,7 +175,7 @@ const CascadeComboBox = ({ label, design, onChange, value, error, helperText, re
             })
         }
         {
-            !design && <ComboBox label={'Please provide a design!'} options={[]} />
+            !design && <ComboBox label={t('Please provide a design!', 'Please provide a design!') ?? 'Please provide a design!'} options={[]} />
         }
     </React.Fragment>
 }

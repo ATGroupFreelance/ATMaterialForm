@@ -3,8 +3,10 @@ import Button from '../../Ui/Button/Button'
 import { Grid } from '@mui/material'
 import { useCallback, useState, useMemo } from 'react'
 import { AtFormWrapperProvider } from '../AtFormWrapperContext/AtFormWrapperProvider'
+import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig'
 
 const AtFormButtonWrapper = ({ children, childProps, config }: AtFormButtonWrapperProps) => {
+    const { t } = useAtFormConfig()
     const { size = 12, label = "Open" } = childProps.tProps
     const [listeners] = useState<Set<() => void>>(new Set())
 
@@ -29,7 +31,7 @@ const AtFormButtonWrapper = ({ children, childProps, config }: AtFormButtonWrapp
         <AtFormWrapperProvider value={contextValue}>
             <Grid size={size}>
                 <Button {...config} onClick={onInternalClick} >
-                    {label}
+                    {t(label)}
                 </Button>
                 {children}
             </Grid>

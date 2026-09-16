@@ -17,6 +17,17 @@ export interface AtFormLayoutRendererProps<TConfig = Record<string, unknown>> ex
     config?: TConfig,
 }
 
+/** Props received by an optional layout decorator/wrapper. */
+export interface AtFormLayoutWrapperRendererProps<TConfig = Record<string, unknown>> extends AtFormLayoutBaseInterface {
+    children: React.ReactNode,
+    config?: TConfig,
+}
+
+export interface AtFormLayoutWrapperConfig<TConfig = Record<string, unknown>> {
+    renderer: React.ComponentType<AtFormLayoutWrapperRendererProps<TConfig>>,
+    config?: TConfig,
+}
+
 export interface AtFormBuiltInLayoutConfigsMap {
     Card: AtFormCardLayoutConfig,
     Box: AtFormBoxLayoutConfig,
@@ -35,8 +46,12 @@ export type AtFormLayoutRenderer =
     | AtFormBuiltInLayoutType
     | React.ComponentType<AtFormLayoutRendererProps<any>>;
 
+interface AtFormLayoutInfrastructureProps {
+    wrapperRenderer?: AtFormLayoutWrapperConfig<any>,
+}
+
 /** Interface is deliberate: it is the recursion boundary for children. */
-export interface AtFormLayoutDefInterface extends AtFormLayoutBaseInterface {
+export interface AtFormLayoutDefInterface extends AtFormLayoutBaseInterface, AtFormLayoutInfrastructureProps {
     kind: 'layout',
     renderer: AtFormLayoutRenderer,
     config?: unknown,
@@ -56,13 +71,13 @@ export type AtFormChildren =
     | AtFormChildNode[];
 
 export type AtFormBuiltInLayoutCreateProps<K extends AtFormBuiltInLayoutType> =
-    AtFormLayoutBaseInterface & {
+    AtFormLayoutBaseInterface & AtFormLayoutInfrastructureProps & {
         renderer: K,
         config?: AtFormBuiltInLayoutConfigsMap[K],
     };
 
 export type AtFormCustomLayoutCreateProps<TConfig = Record<string, unknown>> =
-    AtFormLayoutBaseInterface & {
+    AtFormLayoutBaseInterface & AtFormLayoutInfrastructureProps & {
         renderer: React.ComponentType<AtFormLayoutRendererProps<TConfig>>,
         config?: TConfig,
     };

@@ -11,9 +11,11 @@ import {
     useTheme,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import useAtFormConfig from "../../../../../../hooks/useAtFormConfig/useAtFormConfig";
 
 const UiRenderDebugWrapperTable = ({ data }: { data: Record<string, any> }) => {
     const [dialogContent, setDialogContent] = useState<string | null>(null);
+    const { t } = useAtFormConfig();
     const theme = useTheme();
 
     const MAX_LENGTH = 30;
@@ -102,7 +104,7 @@ const UiRenderDebugWrapperTable = ({ data }: { data: Record<string, any> }) => {
                 fullWidth
                 maxWidth="md"
             >
-                <DialogTitle>Full Property View</DialogTitle>
+                <DialogTitle>{t('Full Property View')}</DialogTitle>
                 <DialogContent>
                     <pre
                         style={{

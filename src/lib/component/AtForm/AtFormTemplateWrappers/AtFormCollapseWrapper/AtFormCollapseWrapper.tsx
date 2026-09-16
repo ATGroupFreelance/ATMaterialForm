@@ -14,7 +14,7 @@ import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
 
 const AtFormCollapseWrapper = ({ children, childProps, config }: AtFormCollapseWrapperProps) => {
     const { size = 12, label = 'Details' } = childProps.tProps;
-    const { getLocalText } = useAtFormConfig()
+    const { t } = useAtFormConfig()
 
     const [open, setOpen] = useState<boolean>(config?.defaultOpen || false);
     const theme = useTheme();
@@ -30,7 +30,7 @@ const AtFormCollapseWrapper = ({ children, childProps, config }: AtFormCollapseW
                     border: `1px solid ${theme.palette.divider}`,
                     backgroundColor: theme.palette.background.paper,
                     height: '100%',
-                    borderRadius: '10px',
+                    borderRadius: 1,
                 }}
             >
                 <Box
@@ -46,7 +46,7 @@ const AtFormCollapseWrapper = ({ children, childProps, config }: AtFormCollapseW
                     }}
                 >
                     <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-                        {getLocalText(label)}
+                        {t(label)}
                     </Typography>
                     <IconButton size="small">
                         {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}

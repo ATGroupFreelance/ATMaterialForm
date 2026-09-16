@@ -11,7 +11,7 @@ import { AtFormColorTextBoxProps } from '../../../../types/ui/ColorTextBox.type'
 const ColorTextBox = ({ id, slotProps, value, onChange, ...restProps }: AtFormColorTextBoxProps) => {
     void id;
 
-    const { localText } = useAtFormConfig()
+    const { t } = useAtFormConfig()
     const [dialog, setDialog] = useState<JSX.Element | null>(null)
 
     const onOpenColorPickerClick = () => {
@@ -39,7 +39,7 @@ const ColorTextBox = ({ id, slotProps, value, onChange, ...restProps }: AtFormCo
             slotProps={{
                 input: {
                     endAdornment: <InputAdornment position="start">
-                        <Tooltip title={localText['Open Color Picker']}>
+                        <Tooltip title={t('Open Color Picker')}>
                             <IconButton onClick={onOpenColorPickerClick} >
                                 <PaletteOutlined />
                             </IconButton>

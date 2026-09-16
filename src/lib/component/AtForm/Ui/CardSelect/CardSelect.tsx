@@ -20,8 +20,11 @@ const normalizeEnumItem = (item: AtEnumItemType): AtFormCardSelectItem => {
     return {
         id: item.id,
         title: item.title,
+        languageKey: item.languageKey,
         subTitle: readMetadataString(item, 'subTitle') ?? readMetadataString(item, 'subtitle'),
+        subTitleLanguageKey: readMetadataString(item, 'subTitleLanguageKey'),
         description: readMetadataString(item, 'description'),
+        descriptionLanguageKey: readMetadataString(item, 'descriptionLanguageKey'),
         categoryId: readMetadataString(item, 'categoryId'),
         tags,
     };
@@ -36,7 +39,7 @@ const getTagProps = (tag: AtFormCardSelectTag) => {
 
 const CardSelect = ({ id, value, onChange, readOnly, error, helperText, label, description, options, enumsKey, categories = [], minCardWidth = 260, allowDeselect = true, disabled = false, emptyText = 'No options available' }: AtFormCardSelectProps) => {
     const theme = useTheme();
-    const { enums } = useAtFormConfig();
+    const { enums, t } = useAtFormConfig();
     const [asyncData, setAsyncData] = useState<AtFormCardSelectItem[] | null>(null);
     const [loading, setLoading] = useState(false);
     const [suppressStaleError, setSuppressStaleError] = useState(false);
@@ -75,10 +78,16 @@ const CardSelect = ({ id, value, onChange, readOnly, error, helperText, label, d
 
     const searchId = enumsKey || id;
     const enumData = searchId ? enums?.[searchId] : null;
-    const data = asyncData ?? enumData?.map(normalizeEnumItem) ?? [];
+    const data = useMemo(
+        () => asyncData ?? enumData?.map(normalizeEnumItem) ?? [],
+        [asyncData, enumData]
+    );
     const hasValue = value !== null && value !== undefined && value !== '';
     const selectedItem = hasValue ? data.find(item => String(item.id) === String(value)) : undefined;
     const displayError = Boolean(error && !suppressStaleError);
+    const localizeText = (translationKey: string | undefined, text: string | undefined) =>
+        text ? (t(translationKey ?? text, text) ?? text) : text;
+    const getItemTitle = (item: AtFormCardSelectItem) => localizeText(item.languageKey, item.title) || item.title;
 
     const categoryMap = useMemo(() => new Map(categories.map(category => [category.id, category])), [categories]);
     const groupedData = useMemo(() => {
@@ -121,7 +130,7 @@ const CardSelect = ({ id, value, onChange, readOnly, error, helperText, label, d
                     key={String(item.id)}
                     role="radio"
                     aria-checked={selected}
-                    aria-label={item.title}
+                    aria-label={getItemTitle(item)}
                     disabled={itemDisabled}
                     disableRipple={interactionDisabled}
                     onClick={interactionDisabled ? undefined : () => onItemClick(item)}
@@ -156,15 +165,15 @@ const CardSelect = ({ id, value, onChange, readOnly, error, helperText, label, d
                     >
                         <Stack direction="row" spacing={1.25} sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }}>
                             <Box sx={{ minWidth: 0 }}>
-                                <Typography variant="subtitle1" sx={{ fontWeight: 800, color: selected ? 'primary.main' : 'text.primary', transition: theme.transitions.create('color', { duration: theme.transitions.duration.shorter }) }}>{item.title}</Typography>
-                                {item.subTitle && <Typography variant="body2" sx={{ mt: 0.25, color: 'text.secondary' }}>{item.subTitle}</Typography>}
+                                <Typography variant="subtitle1" sx={{ fontWeight: 800, color: selected ? 'primary.main' : 'text.primary', transition: theme.transitions.create('color', { duration: theme.transitions.duration.shorter }) }}>{getItemTitle(item)}</Typography>
+                                {item.subTitle && <Typography variant="body2" sx={{ mt: 0.25, color: 'text.secondary' }}>{localizeText(item.subTitleLanguageKey, item.subTitle)}</Typography>}
                             </Box>
                             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '0 0 auto', width: 28, height: 28, borderRadius: '50%', bgcolor: selected ? alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.24 : 0.12) : 'action.hover', transition: theme.transitions.create('background-color', { duration: theme.transitions.duration.shorter }) }}>
                                 <CheckCircleRoundedIcon aria-hidden="true" fontSize="small" sx={{ color: selected ? 'primary.main' : 'action.disabled', opacity: selected ? 1 : 0.42 }} />
                             </Box>
                         </Stack>
 
-                        {item.description && <Typography variant="body2" sx={{ mt: 1, lineHeight: 1.65, flexGrow: 1, color: 'text.secondary' }}>{item.description}</Typography>}
+                        {item.description && <Typography variant="body2" sx={{ mt: 1, lineHeight: 1.65, flexGrow: 1, color: 'text.secondary' }}>{localizeText(item.descriptionLanguageKey, item.description)}</Typography>}
 
                         {!!item.tags?.length && <Stack direction="row" spacing={0.75} useFlexGap sx={{ mt: 1.5, flexWrap: 'wrap' }}>
                             {item.tags.map((tag, index) => {
@@ -183,19 +192,19 @@ const CardSelect = ({ id, value, onChange, readOnly, error, helperText, label, d
             {label && <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
                 <Box aria-hidden="true" sx={{ width: 5, height: 26, flex: '0 0 auto', borderRadius: 999, bgcolor: displayError ? 'error.main' : selectedItem ? 'primary.main' : 'divider', transition: theme.transitions.create('background-color', { duration: theme.transitions.duration.shorter }) }} />
                 <Typography variant="h6" sx={{ fontWeight: 800 }}>{label}</Typography>
-                {selectedItem && <Chip size="small" color="success" variant="filled" icon={<CheckCircleRoundedIcon />} label={selectedItem.title} sx={{ marginInlineStart: theme.spacing(0.5), maxWidth: 'min(42vw, 320px)', '& .MuiChip-label': { overflow: 'hidden', textOverflow: 'ellipsis' } }} />}
+                {selectedItem && <Chip size="small" color="success" variant="filled" icon={<CheckCircleRoundedIcon />} label={getItemTitle(selectedItem)} sx={{ marginInlineStart: theme.spacing(0.5), maxWidth: 'min(42vw, 320px)', '& .MuiChip-label': { overflow: 'hidden', textOverflow: 'ellipsis' } }} />}
             </Box>}
             {description && <Typography variant="body2" sx={{ mt: label ? 0.5 : 0, marginInlineStart: label ? theme.spacing(1.625) : 0, color: 'text.secondary' }}>{description}</Typography>}
         </Box>}
 
-        <Box role="radiogroup" aria-label={label || id || 'Card select'} aria-invalid={displayError || undefined} aria-readonly={readOnly || undefined} aria-disabled={disabled || undefined} sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+        <Box role="radiogroup" aria-label={label || id || t('Card select') || 'Card select'} aria-invalid={displayError || undefined} aria-readonly={readOnly || undefined} aria-disabled={disabled || undefined} sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
             {loading && <Stack direction="row" spacing={1} sx={{ py: 2, alignItems: 'center' }}>
                 <CircularProgress size={20} />
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>Loading options...</Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>{t('Loading options...')}</Typography>
             </Stack>}
 
             {!loading && data.length === 0 && <Box sx={{ border: '1px dashed', borderColor: 'divider', borderRadius: 2, px: 2, py: 3, textAlign: 'center', color: 'text.secondary' }}>
-                <Typography variant="body2">{emptyText}</Typography>
+                <Typography variant="body2">{t(emptyText, emptyText)}</Typography>
             </Box>}
 
             {!loading && groupedData.map(group => {
@@ -205,10 +214,10 @@ const CardSelect = ({ id, value, onChange, readOnly, error, helperText, label, d
                 return <Box key={group.categoryId}>
                     {showCategoryHeader && <Stack direction="row" spacing={1} sx={{ mb: 1, alignItems: 'center', justifyContent: 'space-between' }}>
                         <Box sx={{ minWidth: 0 }}>
-                            <Typography variant="subtitle2" sx={{ fontWeight: 900 }}>{category?.title || group.categoryId}</Typography>
-                            {category?.subTitle && <Typography variant="caption" sx={{ color: 'text.secondary' }}>{category.subTitle}</Typography>}
+                            <Typography variant="subtitle2" sx={{ fontWeight: 900 }}>{category ? localizeText(category.languageKey, category.title) : group.categoryId}</Typography>
+                            {category?.subTitle && <Typography variant="caption" sx={{ color: 'text.secondary' }}>{localizeText(category.subTitleLanguageKey, category.subTitle)}</Typography>}
                         </Box>
-                        <Chip size="small" label={`${group.items.length} option${group.items.length === 1 ? '' : 's'}`} />
+                        <Chip size="small" label={t('atform.cardSelect.optionCount', { count: group.items.length })} />
                     </Stack>}
                     {renderCards(group.items)}
                 </Box>;

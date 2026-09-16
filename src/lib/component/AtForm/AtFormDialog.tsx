@@ -35,7 +35,7 @@ const AtFormDialog = ({
     getActions,
     ...restProps
 }: AtFormDialogProps) => {
-    const { localText } = useAtFormConfig()
+    const { t } = useAtFormConfig()
 
     const mFormData = useRef<AtFormOnChangeInterface>({ formData: {}, formDataKeyValue: {}, formDataSemiKeyValue: {} })
 
@@ -70,7 +70,7 @@ const AtFormDialog = ({
         actions.push(
             {
                 id: 'Cancel',
-                label: localText['Cancel'],
+                label: t('Cancel'),
                 onClick: onInternalCancelClick,
                 color: 'secondary',
                 disabled: cancelLoading,
@@ -83,7 +83,7 @@ const AtFormDialog = ({
         actions.push(
             {
                 id: 'Submit',
-                label: localText['Submit'],
+                label: t('Submit'),
                 onClick: onInternalSubmitClick,
                 disabled: submitLoading,
                 ...(submitButtonProps || {})

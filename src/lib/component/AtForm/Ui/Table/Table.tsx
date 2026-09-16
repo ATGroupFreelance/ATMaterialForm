@@ -6,12 +6,12 @@ import MUITable from '@mui/material/Table';
 import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
 
 const Table = ({ tableType = 'Vertical', tableContainerProps, tableProps, label, labelProps, ...restProps }: AtFormTableProps) => {
-    const { getLocalText } = useAtFormConfig();
+    const { t } = useAtFormConfig();
 
     return <TableContainer component={Paper} {...(tableContainerProps || {})}>
         {label && label !== '' && (
             <Typography {...(labelProps || {})} sx={{ fontWeight: 'bold', ...(labelProps?.sx || {}) }}>
-                {getLocalText(label)}
+                {t(label, label)}
             </Typography>
         )}
         <MUITable  {...(tableProps || {})} sx={{ minWidth: 650, ...(tableProps?.sx || {}) }} aria-label={label}>

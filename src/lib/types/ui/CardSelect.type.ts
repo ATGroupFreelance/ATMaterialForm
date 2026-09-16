@@ -1,5 +1,6 @@
 import { ChipProps } from "@mui/material";
 import { AtEnumItemId, AtFormMinimalControlledUiProps } from "../Common.type";
+import type { AtTranslationKey } from "../../localization";
 
 export type AtFormCardSelectTag = string | {
     label: string,
@@ -10,14 +11,19 @@ export type AtFormCardSelectTag = string | {
 export interface AtFormCardSelectCategory {
     id: string,
     title: string,
+    languageKey?: AtTranslationKey,
     subTitle?: string,
+    subTitleLanguageKey?: AtTranslationKey,
 }
 
 export interface AtFormCardSelectItem {
     id: AtEnumItemId,
     title: string,
+    languageKey?: AtTranslationKey,
     subTitle?: string,
+    subTitleLanguageKey?: AtTranslationKey,
     description?: string,
+    descriptionLanguageKey?: AtTranslationKey,
     tags?: AtFormCardSelectTag[],
     categoryId?: string,
     disabled?: boolean,

@@ -4,83 +4,82 @@ import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Button, CircularProgress, Typography } from '@mui/material';
 import { AtFormUploadImageButtonProps } from '../../../../types/ui/UploadImageButton.type';
+import type { ArchiveFileReference } from 'at-shared-types/domain';
 import useAtForm from '../../../../hooks/useAtForm/useAtForm';
 
-const UploadImageButton = ({ id, label, onChange, value, disabled, accept, error, helperText, authToken, width = 128, height = 128, readOnly }: AtFormUploadImageButtonProps) => {
+const UploadImageButton = ({ id, label, onChange, value, disabled, accept, error, helperText, archiveUploadOptions, width = 128, height = 128, readOnly }: AtFormUploadImageButtonProps) => {
     const [loading, setLoading] = useState<boolean>(false)
     const { onLockdownChange } = useAtForm()
-    const { uploadFilesToServer, getFile, localText } = useAtFormConfig()
+    const { archive } = useAtFormConfig()
     const [src, setSrc] = useState<string | null>(null)
 
-    useEffect(() => {
-        if (value) {
-            if (getFile)
-                getFile({ id: value, authToken, width, height })
-                    .then(res => {
-                        const objectUrl = window.URL.createObjectURL(res)
+    const archiveFile = value && typeof value === 'object'
+        ? value as ArchiveFileReference
+        : null
 
-                        setSrc(objectUrl)
-                    })
-            else {
-                console.error('Please provide a getFile to the Form provider')
-            }
+    useEffect(() => {
+        let objectUrl: string | undefined;
+
+        if (archiveFile?.archiveId && archive) {
+            archive.getFileContent({
+                archiveId: archiveFile.archiveId,
+                purpose: 'preview',
+                previewSize: { width, height },
+            })
+                .then(res => {
+                    objectUrl = window.URL.createObjectURL(res)
+                    setSrc(objectUrl)
+                })
+                .catch(console.error)
         }
-        // else {
-        //     setSrc(null)
-        // }
-        // eslint-disable-next-line
-    }, [value])
+        else {
+            setSrc(null)
+        }
+
+        return () => {
+            if (objectUrl)
+                window.URL.revokeObjectURL(objectUrl)
+        }
+    }, [archive, archiveFile?.archiveId, height, width])
 
     const onInternalChange = (event: ChangeEvent<HTMLInputElement>) => {
-        //selectedFiles is an object
-        //the object has keys which start from 0 for each file
-        //This kinda object should be treated like an array so use for (i = 0...) not for i in !! 
-        //the value of each key is an object itself which contains : 
-        // lastModified: 1588580785366
-        // lastModifiedDate: Mon May 04 2020 12:56:25
-        // name: "Marker3.png"
-        // size: 4402
-        // type: "image/png"
-        // webkitRelativePath: ""
-        const selectedFiles = event.target.files ? Array.from(event.target.files) : []
-        if (selectedFiles.length === 1) {
-            const formData = new FormData()
+        const selectedFiles: File[] = event.target.files ? Array.from(event.target.files) : []
 
-            selectedFiles.forEach((file, index) => {
-                formData.append(`${localText['file']}${index}`, file)
+        if (selectedFiles.length !== 1)
+            return;
+
+        setLoading(true)
+        if (onLockdownChange && id)
+            onLockdownChange(id, true)
+
+        if (archive) {
+            archive.uploadFiles({
+                files: selectedFiles,
+                options: archiveUploadOptions,
             })
+                .then(res => {
+                    const file = res[0]
 
-            setLoading(true)
+                    if (onChange && file)
+                        onChange({ target: { value: file } })
+                })
+                .catch(console.error)
+                .finally(() => {
+                    setLoading(false)
+                    if (onLockdownChange && id)
+                        onLockdownChange(id, false)
+                })
+        }
+        else {
+            console.error('No archive adapter was found, please provide one using AtFormConfigProvider')
+            setLoading(false)
             if (onLockdownChange && id)
-                onLockdownChange(id, true)
-
-            if (uploadFilesToServer) {
-                uploadFilesToServer({ files: formData, authToken })
-                    .then(res => {
-                        const newValue = res?.[0]?.id
-
-                        setSrc(URL.createObjectURL(selectedFiles[0]))
-                        if (onChange)
-                            onChange({ target: { value: newValue } })
-                    })
-                    .finally(() => {
-                        setLoading(false)
-                        if (onLockdownChange && id)
-                            onLockdownChange(id, false)
-                    })
-            }
-            else {
-                if (onChange)
-                    onChange({ target: { value: ['No uploadFilesToServer was found, please assign one usnig ATFormConfigProvider!'] } })
-                setLoading(false)
-                if (onLockdownChange && id)
-                    onLockdownChange(id, false)
-            }
+                onLockdownChange(id, false)
         }
     }
 
     return <div style={{ flexDirection: "column", alignItems: "center", textAlign: 'center' }}>
-        <Typography sx={{ fontSize: '14px', "userSelect": "none", "WebkitUserSelect": "none" }} color={error ? "#d32f2f" : "default"}>
+        <Typography sx={{ fontSize: '14px', "userSelect": "none", "WebkitUserSelect": "none" }} color={error ? 'error.main' : 'text.primary'}>
             {label}
         </Typography>
         <Button component="label" sx={{ width: `${width}px`, height: `${height}px` }} variant={"outlined"} disabled={disabled || loading || readOnly} color={error ? 'error' : 'primary'}>
@@ -90,7 +89,7 @@ const UploadImageButton = ({ id, label, onChange, value, disabled, accept, error
         </Button>
         {
             error && helperText &&
-            <Typography sx={{ fontSize: '12px', "userSelect": "none", "WebkitUserSelect": "none", color: '#d32f2f' }}>
+            <Typography sx={{ fontSize: '12px', "userSelect": "none", "WebkitUserSelect": "none", color: 'error.main' }}>
                 {helperText}
             </Typography>
         }

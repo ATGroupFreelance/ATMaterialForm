@@ -11,17 +11,17 @@ import useAtFormConfig from '../../../../../../../hooks/useAtFormConfig/useAtFor
 import { AtFormUploadButtonViewImageDialog } from '../../../../../../../types/ui/UploadButton.type';
 
 const ViewImageDialog = ({ onClose, image, name }: AtFormUploadButtonViewImageDialog) => {
-    const { localText } = useAtFormConfig()
+    const { t } = useAtFormConfig()
 
     return <Dialog open={true} onClose={onClose} maxWidth={'md'}>
-        <DialogTitle>{localText['View Image']}</DialogTitle>
+        <DialogTitle>{t('View Image')}</DialogTitle>
         <DialogContent>
             <img style={{ width: '600px', height: '800px' }} src={image} alt={name} />
         </DialogContent>
         <DialogActions>
             <Grid container spacing={2} sx={{ justifyContent: 'center' }} >
                 <Grid size={{ xs: 12, md: 6 }}>
-                    <Button onClick={onClose} color={'secondary'}>{localText['Cancel']}</Button>
+                    <Button onClick={onClose} color={'secondary'}>{t('Cancel')}</Button>
                 </Grid>
             </Grid>
         </DialogActions>

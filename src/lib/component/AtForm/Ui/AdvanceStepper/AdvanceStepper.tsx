@@ -3,9 +3,11 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { Button } from '@mui/material';
 import { AtFormAdvanceStepperProps } from '../../../../types/ui/AdvanceStepper.type';
+import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
 
 const AdvanceStepper = (props: AtFormAdvanceStepperProps) => {
     void props;
+    const { t } = useAtFormConfig();
 
     const steps = [
     ];
@@ -20,7 +22,7 @@ const AdvanceStepper = (props: AtFormAdvanceStepperProps) => {
 
     return <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Button style={{ width: '40px' }}>Back</Button>
+            <Button style={{ width: '40px' }}>{t('Back')}</Button>
             <div style={{ flex: '1' }}>
                 <Stepper activeStep={1}>
                     {steps.map((item) => (
@@ -30,7 +32,7 @@ const AdvanceStepper = (props: AtFormAdvanceStepperProps) => {
                     ))}
                 </Stepper>
             </div>
-            <Button style={{ width: '40px' }}>Next</Button>
+            <Button style={{ width: '40px' }}>{t('Next')}</Button>
         </div>
     </div>
 }

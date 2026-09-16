@@ -52,7 +52,7 @@ const AtFormFunction = (props: AtFormProps) => {
     const mAjvValidate = useRef<ValidateFunction>(null)
     const mPrevChildren = useRef<any>(null)
     const mPendingValidationCallbacks = useRef<AtFormPendingValidationCallbackInterface[]>([])
-    const { getTypeInfo, enums, rtl, getLocalText } = useAtFormConfig()
+    const { getTypeInfo, enums, rtl, t } = useAtFormConfig()
     const [internalDefaultValue, setInternalDefaultValue] = React.useState<InternalDefaultValueInterface>({ value: null, suppressFormOnChange: false })
     const [isFormOnLockdown, setIsFormOnLockdown] = React.useState(false)
     const [validationErrors, setValidationErrors] = React.useState<Record<string, any> | null>(null)
@@ -339,7 +339,7 @@ const AtFormFunction = (props: AtFormProps) => {
                     result[id] = {
                         error: true,
                         ...item,
-                        message: getLocalText(item.message)
+                        message: t(item.message)
                     }
                 }
             })
@@ -354,7 +354,7 @@ const AtFormFunction = (props: AtFormProps) => {
         })
 
         return result
-    }, [getLocalText, logger])
+    }, [t, logger])
 
     useEffect(() => {
         if (!mPendingValidationCallbacks.current.length)
@@ -423,7 +423,7 @@ const AtFormFunction = (props: AtFormProps) => {
             tProps: {
                 ...childProps.tProps,
                 ...(tPropsRuntimeOverride || {}),
-                label: tPropsRuntimeOverride?.label ?? (childProps.tProps.label !== undefined ? childProps.tProps.label : getLocalText(childProps.tProps.id, childProps.tProps.id)),
+                label: tPropsRuntimeOverride?.label ?? (childProps.tProps.label !== undefined ? childProps.tProps.label : t(childProps.tProps.id, childProps.tProps.id)),
                 defaultValue: tPropsRuntimeOverride?.defaultValue ?? newDefaultValue,
                 ref: (newRef) => {
                     onAssignChildRef(childProps.tProps.id, newRef)
@@ -448,7 +448,7 @@ const AtFormFunction = (props: AtFormProps) => {
             changeId: localValue?.changeId,
             isFormControlled,
         }
-    }, [getLocalText, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps, runtime, runtimePrefix])
+    }, [t, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps, runtime, runtimePrefix])
 
     const [flatChildren, flatChildrenProps] = useMemo(() => {
         const flatChildren = getAtFormLeafChildren(props.children)
