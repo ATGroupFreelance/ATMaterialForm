@@ -89,7 +89,7 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                     }
                 ),
                 formBuilder.createGrid({id: "break" , size: 6}),
-                formBuilder.createComboBox({ id: 'ComboBox1', size: 3 }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
+                formBuilder.createComboBox({ id: 'ComboBox1', size: 3 }, { enumsKey: 'Countries' }),
                 formBuilder.createTextBox({ id: 'MyTextBox1', ref: mTPropsRef }, { ref: mUiPropsRef }),
                 formBuilder.createButton({ id: 'MyButton1', label: 'Click Me to reset MyTextBox1!' }, { onClick: onButton1Click }),
                 formBuilder.createMultiSelectTextBox({ id: 'MultiSelectTextBox', size: 6 }, { valueType: "number" }),                

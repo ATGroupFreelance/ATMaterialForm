@@ -1,18 +1,62 @@
-import ComboBox from "../ComboBox/ComboBox";
+import Autocomplete, { AutocompleteRenderInputParams } from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
 import { AtFormMultiComboBoxProps } from '../../../../types/ui/MultiComboBox.type';
-//Facts about autocomplete:
-//If "multiple" is false, value/initvalue must be string or null
-//If "multiple" is true,  value/initvalue must be an array
-//If "multiple" is false the out of onChange is an string
-//if "multiple" is true the output of onChange is an array
-//Option can be like this: 
-//['uk', 'us']
-//[{label: 'uk'}, {label: 'us'}]
-const MultiComboBox = (props: AtFormMultiComboBoxProps) => {
+import { AtEnumItemType } from '../../../../types/Common.type';
+import { resolveEnumItemDisplayTitle } from '../../../../enum/resolveEnumItemDisplayTitle';
 
-    return <ComboBox
+const MultiComboBox = ({
+    id,
+    onChange,
+    value,
+    readOnly,
+    error,
+    helperText,
+    options,
+    renderInput,
+    label,
+    enumsKey,
+    multiple: _multiple,
+    freeSolo: _freeSolo,
+    getOptionLabel,
+    isOptionEqualToValue,
+    getOptionKey,
+    fullWidth,
+    ...restProps
+}: AtFormMultiComboBoxProps) => {
+    const { enums, t } = useAtFormConfig()
+    const searchId = enumsKey || id
+    const data = options ?? (searchId ? enums?.[searchId] : undefined) ?? []
+
+    const onInternalChange = (_event: React.SyntheticEvent, newValue: AtEnumItemType[]) => {
+        onChange?.({ target: { value: newValue } })
+    }
+
+    const defaultRenderInput = (params: AutocompleteRenderInputParams): React.ReactNode => {
+        return <TextField
+            {...params}
+            error={error}
+            helperText={helperText}
+            label={label}
+        />
+    }
+
+    return <Autocomplete
+        {...restProps}
+        fullWidth={fullWidth ?? true}
         multiple={true}
-        {...props}
+        freeSolo={false}
+        options={data}
+        onChange={onInternalChange}
+        getOptionLabel={getOptionLabel ?? ((option) => {
+            const item = data.find(current => current.id === option.id) ?? option;
+            return resolveEnumItemDisplayTitle({ enumKey: searchId, item, t });
+        })}
+        isOptionEqualToValue={isOptionEqualToValue ?? ((option, selectedValue) => option.id === selectedValue.id)}
+        getOptionKey={getOptionKey ?? ((option) => `${typeof option.id}:${String(option.id)}`)}
+        value={value}
+        renderInput={renderInput ?? defaultRenderInput}
+        readOnly={readOnly}
     />
 }
 

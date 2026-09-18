@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { byFieldId, expectExampleScreenshot, expectFormOutput, openExample } from '../../../testing/playwright/exampleHarness';
+import { byFieldId, expectExampleScreenshot, expectFormOutput, openExample, selectAutocompleteOption } from '../../../testing/playwright/exampleHarness';
 
 const EXAMPLE = 'BasicForm';
 
@@ -16,6 +16,17 @@ test.describe(EXAMPLE, () => {
     await page.getByRole('button', { name: 'Hide some elements' }).click();
     await expect(page.getByText('Slider', { exact: true })).toHaveCount(0);
     await expectFormOutput(page, { A: '2', B: '3' });
+  });
+
+  test('keeps ComboBox string ids and MultiComboBox id arrays in form output', async ({ page }) => {
+    await selectAutocompleteOption(page, 'ComboBoxEnumsless', 'UK');
+    await selectAutocompleteOption(page, 'CountriesIDVALUE', 'UK');
+    await selectAutocompleteOption(page, 'CountriesIDVALUE', 'US');
+
+    await expectFormOutput(page, {
+      ComboBoxEnumsless: 'uk',
+      CountriesIDVALUE: [1, 2],
+    });
   });
 
   test('switches the playground to dark theme without changing the example', async ({ page }) => {

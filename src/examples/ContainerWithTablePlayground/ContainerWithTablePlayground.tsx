@@ -5,13 +5,14 @@ import ComboBox from '@/lib/component/AtForm/Ui/ComboBox/ComboBox';
 import { Grid } from '@mui/material'
 import { ExampleComponentInterface } from '@/App';
 import { AtFormOnChangeInterface, AtFormRefInterface } from '@/lib/types/AtForm.type';
+import type { AtEnumItemType } from '@/lib/types/Common.type';
 
 const ContainerWithTablePlayground = (props: ExampleComponentInterface) => {
     void props
     
     const formRef = useRef<AtFormRefInterface | null>(null)
     const data = useRef<any>({ 1: { ContainerWithTable: [{ Name: '1A' }, { Name: '1B' }] } })
-    const [round, setRound] = useState<{ id: number; title: string } | null>(null)
+    const [round, setRound] = useState<AtEnumItemType | null>(null)
 
     useEffect(() => {
         if (formRef?.current && round) {

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import ServiceManager from '@/serviceManager/serviceManager';
 import { AtForm, formBuilder } from '@/lib';
 import { ExampleComponentInterface } from '@/App';
 
@@ -19,7 +18,7 @@ const HowToUseContainerWithTable = ({ ref, onChange }: ExampleComponentInterface
                     {
                         formChildren: [
                             formBuilder.createTextBox({ id: 'Name' }),
-                            formBuilder.createComboBox({ id: 'Countries' }, { options: ServiceManager.getCountries, enumsKey: 'Countries' }),
+                            formBuilder.createComboBox({ id: 'Countries' }, { enumsKey: 'Countries' }),
                             formBuilder.createTextBox({ id: 'A' }, { onChange: (event) => setA(event.target.value) }),
                             formBuilder.createTextBox({ id: 'B' }, { onChange: (event) => setB(event.target.value) }),
                             formBuilder.createTextBox({ id: 'C' }, { value: A + B }),

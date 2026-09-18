@@ -1,6 +1,5 @@
 import { AtFormChildProps, AtFormFieldDefGenericProps } from "./AtForm.type";
-import { AtEnumsType } from "./Common.type";
-import { AtFormComboBoxAsyncOptions, AtFormComboBoxStaticOptions } from "./ui/ComboBox.type";
+import { AtEnumItemId, AtEnumType, AtEnumsType } from "./Common.type";
 
 export interface AtFormTypeInfoInterface<T extends AtFormFieldDefGenericProps = any> {
     type: string,
@@ -38,9 +37,9 @@ export interface AtReverseConvertInterface<T extends AtFormFieldDefGenericProps 
 export interface AtGetTitleByEnumsInterface {
     id: string;
     enumsKey?: string;
-    options?: AtFormComboBoxStaticOptions | AtFormComboBoxAsyncOptions;
-    enums: any;
-    value: any;
+    options?: AtEnumType | null;
+    enums: AtEnumsType;
+    value: AtEnumItemId | null | undefined;
 }
 
 export interface AtFormCustomComponentInterface {

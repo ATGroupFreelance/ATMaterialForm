@@ -1,6 +1,5 @@
 import { ExampleComponentInterface } from "@/App"
 import { AtForm, formBuilder } from "@/lib"
-import ServiceManager from "@/serviceManager/serviceManager"
 import useCustomRuntimeEngine from "./useCustomRuntimeEngine/useCustomRuntimeEngine"
 import { Button, CircularProgress } from "@mui/material"
 import { useMemo, useState } from "react"
@@ -24,7 +23,10 @@ const HowToUseRuntime = ({ ref, onChange }: ExampleComponentInterface) => {
                     }),
                 }
             }),
-            formBuilder.createComboBox({ id: "Countries" }, { options: () => ServiceManager.getCountries(), enumsKey: "Countries" }),
+            // Simple ComboBox: options come directly from the configured enum.
+            formBuilder.createComboBox({ id: "Countries" }, { enumsKey: "Countries" }),
+            // Data-bound ComboBox: the runtime resolves the API and injects the final option array.
+            // ComboBox itself remains synchronous and data-source agnostic.
             formBuilder.createComboBox({
                 id: "Countries2",
                 runtimeBindings: {

@@ -56,26 +56,43 @@ export const getTypeInfo = (type: string, customTypes?: AtFormTypeInfoInterface[
     return found
 }
 
-export const getTitleByEnums = ({ id, enumsKey, options, enums, value }: AtGetTitleByEnumsInterface) => {
-    if (value === null || value === undefined)
-        return ''
+const getEnumOptions = ({ id, enumsKey, options, enums }: Omit<AtGetTitleByEnumsInterface, 'value'>) => {
+    if (Array.isArray(options))
+        return options
 
     const searchId = enumsKey || id
-    const stringValue = String(value)
-    let result = stringValue
+    return enums?.[searchId] ?? []
+}
 
-    if (options && Array.isArray(options)) {
-        const found = options.find(item => String(item.id) === stringValue)
-        if (found)
-            result = String(found.title)
-    }
-    else if (enums && enums[searchId]) {
-        const found = enums[searchId].find((item: any) => String(item.id) === stringValue)
-        if (found)
-            result = String(found.title)
-    }
+export const getEnumItemByValue = ({ id, enumsKey, options, enums, value }: AtGetTitleByEnumsInterface) => {
+    if (value === null || value === undefined)
+        return undefined
 
-    return result
+    const data = getEnumOptions({ id, enumsKey, options, enums })
+    const exactMatch = data.find(item => item.id === value)
+    if (exactMatch)
+        return exactMatch
+
+    // MultiComboBox's historical KeyValue format is CSV, so numeric ids can
+    // arrive here as strings. Preserve that compatibility only when the
+    // serialized id identifies exactly one canonical option.
+    const legacyMatches = data.filter(item => String(item.id) === String(value))
+    return legacyMatches.length === 1 ? legacyMatches[0] : undefined
+}
+
+export const getTitleByEnums = (props: AtGetTitleByEnumsInterface) => {
+    if (props.value === null || props.value === undefined)
+        return ''
+
+    const found = getEnumItemByValue(props)
+    return found ? String(found.title) : String(props.value)
+}
+
+const reverseComboBoxValue = (props: AtGetTitleByEnumsInterface) => {
+    return getEnumItemByValue(props) ?? {
+        id: props.value,
+        title: String(props.value),
+    }
 }
 
 export const createValidation = ({ errorMessage, ...props }: any) => {
@@ -181,22 +198,22 @@ export const types = [
     createType({
         type: 'ComboBox',
         initialValue: null,
-        validation: createValidation({ type: 'integer' }),
+        validation: createValidation({ anyOf: [{ type: 'number' }, { type: 'string', minLength: 1 }] }),
         convertToKeyValue: ({ event }: AtConvertInterface) => {
-            if (!event.target.value)
-                return event.target.value
-
-            return event.target.value.id
+            const selectedItem = event.target.value
+            return selectedItem === null || selectedItem === undefined ? null : selectedItem.id
         },
-        reverseConvertToKeyValue: ({ value, childProps, enums }: AtReverseConvertInterface<{ uiProps?: AtFormComboBoxProps }>): null | { id: number | string, title: string } => {
+        reverseConvertToKeyValue: ({ value, childProps, enums }: AtReverseConvertInterface<{ uiProps?: AtFormComboBoxProps }>) => {
             if (value === null || value === undefined)
                 return null
-            else {
-                return {
-                    id: value,
-                    title: getTitleByEnums({ id: childProps.tProps.id, enumsKey: childProps.uiProps?.enumsKey, options: childProps?.uiProps?.options, enums, value })
-                }
-            }
+
+            return reverseComboBoxValue({
+                id: childProps.tProps.id,
+                enumsKey: childProps.uiProps?.enumsKey,
+                options: childProps.uiProps?.options,
+                enums,
+                value,
+            })
         },
     }),
     createType({
@@ -204,36 +221,35 @@ export const types = [
         initialValue: [],
         validation: createValidation({ type: 'array', minItems: 1 }),
         convertToKeyValue: ({ event }: AtConvertInterface) => {
-            return event.target.value.map((item: any) => item.id).join(',')
+            return (event.target.value ?? []).map((item: any) => item.id).join(',')
         },
         reverseConvertToKeyValue: ({ value, childProps, enums }: AtReverseConvertInterface<{ uiProps?: AtFormMultiComboBoxProps }>) => {
             if (!value)
                 return []
-            else {
-                const valueArray = value.split(',')
 
-                return valueArray.map((item: any) => {
-                    return {
-                        id: item,
-                        title: getTitleByEnums({ id: childProps.tProps.id, enumsKey: childProps.uiProps?.enumsKey, options: childProps.uiProps?.options, enums, value: item })
-                    }
-                })
-            }
+            const valueArray = Array.isArray(value) ? value : String(value).split(',')
+            return valueArray.map((item: any) => reverseComboBoxValue({
+                id: childProps.tProps.id,
+                enumsKey: childProps.uiProps?.enumsKey,
+                options: childProps.uiProps?.options,
+                enums,
+                value: item,
+            }))
         },
         convertToSemiKeyValue: ({ event }: AtConvertInterface) => {
-            return event.target.value.map((item: any) => item.id)
+            return (event.target.value ?? []).map((item: any) => item.id)
         },
         reverseConvertToSemiKeyValue: ({ value, childProps, enums }: AtReverseConvertInterface<{ uiProps?: AtFormMultiComboBoxProps }>) => {
             if (!value)
                 return []
-            else {
-                return value.map((item: any) => {
-                    return {
-                        id: item,
-                        title: getTitleByEnums({ id: childProps.tProps.id, enumsKey: childProps.uiProps?.enumsKey, options: childProps.uiProps?.options, enums, value: item })
-                    }
-                })
-            }
+
+            return value.map((item: any) => reverseComboBoxValue({
+                id: childProps.tProps.id,
+                enumsKey: childProps.uiProps?.enumsKey,
+                options: childProps.uiProps?.options,
+                enums,
+                value: item,
+            }))
         }
     }),
     createType({

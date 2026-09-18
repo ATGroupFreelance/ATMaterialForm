@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { byFieldId, expectExampleScreenshot, expectFormOutput, openExample } from '../../../testing/playwright/exampleHarness';
+import { byFieldId, expectExampleScreenshot, expectFormOutput, openExample, selectAutocompleteOption } from '../../../testing/playwright/exampleHarness';
 
 const EXAMPLE = 'HowToUseRuntime';
 
@@ -14,6 +14,11 @@ test.describe(EXAMPLE, () => {
     await page.getByRole('button', { name: 'Change runtime val' }).click();
     await expect(name).toHaveValue('2');
     await expect(page.getByText('report test', { exact: true })).toBeVisible();
+  });
+
+  test('accepts asynchronously resolved options through the runtime binding', async ({ page }) => {
+    await selectAutocompleteOption(page, 'Countries2', 'UK');
+    await expectFormOutput(page, { Countries2: 1 });
   });
 
   test('visual regression', async ({ page }) => {
