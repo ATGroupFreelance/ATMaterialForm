@@ -29,12 +29,11 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                         size: 3,
                     },
                     {
-                        design: [
+                        layers: [
                             {
                                 id: 'Layer1',
-                                options: ServiceManager.getCountries,
-                                enumsKey: 'Countries',
-                                size: 12
+                                label: 'Country',
+                                source: { type: 'enum', enumKey: 'Countries' },
                             }
                         ]
                     }
@@ -45,25 +44,37 @@ const BasicForm2 = (props: ExampleComponentInterface) => {
                         size: 6,
                     },
                     {
-                        design: [
+                        layers: [
                             {
                                 id: 'Layer1',
-                                options: ServiceManager.getData_layerA,
-                                enumsKey: 'layerA',
-                                size: 6,
-                                children: [
-                                    {
-                                        id: 'Layer2',
-                                        options: ({ values }) => {
-                                            return ServiceManager.getData_layerAB({ layerA: values?.Layer1 })
-                                        },
-                                        enumsKey: 'layerAB',
-                                        enumsKeyParentIdField: "layerA",
-                                        size: 6
-                                    }
-                                ]
+                                label: 'Layer A',
+                                source: {
+                                    type: 'provider',
+                                    provider: async () => ServiceManager.getData_layerA(),
+                                },
+                            },
+                            {
+                                id: 'Layer2',
+                                label: 'Layer AB',
+                                source: {
+                                    type: 'provider',
+                                    provider: async ({ path }) => ServiceManager.getData_layerAB({ layerA: path.Layer1 }),
+                                },
+                            },
+                        ],
+                        resolver: async ({ value }) => {
+                            const raw = String(value)
+                            const marker = '_AB'
+                            const markerIndex = raw.indexOf(marker)
+                            if (markerIndex < 0)
+                                return null
+
+                            const layerA = raw.slice(0, markerIndex)
+                            return {
+                                Layer1: { id: layerA, title: layerA },
+                                Layer2: { id: value, title: raw },
                             }
-                        ]
+                        }
                     }
                 ),
                  formBuilder.createContainerWithTable(

@@ -24,7 +24,7 @@ Capabilities demonstrated by the current source include:
 
 - configuration/builder-based form creation through `formBuilder`
 - text, integer, float, password, checkbox, slider, date, combo-box, multi-combo-box, upload, image, file-viewer, table, stepper, color, and other field types
-- cascade and multi-value cascade combo boxes
+- scalar `CascadeComboBox` and path-valued `CascadePathComboBox` fields with enum, static, provider, search/paging, and remote hydration support
 - controlled and uncontrolled `AtForm` usage
 - validation and programmatic validation through the form ref
 - reset/load/value APIs through the form ref
@@ -197,7 +197,7 @@ Useful examples include:
 | `BasicValidation` | required-field validation |
 | `ControlledForm` | externally controlled form values |
 | `FormData*ControlledForm` | the supported value representations |
-| `CascadeComboBoxPlayground` | canonical `parentId`, custom metadata relationships, async options, and multi-value cascades |
+| `CascadeComboBoxPlayground` | scalar vs path values, enum/static/provider sources, metadata relationships, shared hierarchical enums, remote hydration, paging/search, and responsive grouping |
 | `ContainerWithTablePlayground` | form/table data and saved round selection |
 | `FormDialog` | standalone and inline form dialogs |
 | `TabsInForm` / `TabInTab` | flat and nested tab paths |

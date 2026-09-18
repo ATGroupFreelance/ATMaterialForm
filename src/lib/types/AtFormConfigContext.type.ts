@@ -3,6 +3,7 @@ import { AtFormCustomComponentInterface, AtFormTypeInfoInterface } from "./UiTyp
 import type { AtFormAgGridTheme } from "./AtAgGridTheme.type";
 import type { AtFormArchiveAdapter } from "./AtFormArchive.type";
 import type { AtLocalizeFunction, AtMessageDefinition, AtMessageTranslationMap } from "../localization";
+import type { AtFormCascadeLeafSearchProvider, AtFormCascadePathResolver, AtFormCascadeProvider } from "./ui/CascadeComboBox.type";
 
 export interface AtFormConfigContextInterface {
     rtl?: boolean;
@@ -17,6 +18,9 @@ export interface AtFormConfigContextInterface {
     agGridTheme?: AtFormAgGridTheme;
     customComponents?: AtFormCustomComponentInterface[];
     t?: AtLocalizeFunction;
+    cascadeProviders?: Record<string, AtFormCascadeProvider>;
+    cascadeResolvers?: Record<string, AtFormCascadePathResolver>;
+    cascadeLeafSearchProviders?: Record<string, AtFormCascadeLeafSearchProvider>;
     getTypeInfo?: GetTypeInfoFunctionType,
 }
 
@@ -33,6 +37,9 @@ export interface AtFormConfigContextGuaranteedInterface {
     agGridTheme?: AtFormAgGridTheme;
     customComponents?: AtFormCustomComponentInterface[];
     t: AtLocalizeFunction;
+    cascadeProviders?: Record<string, AtFormCascadeProvider>;
+    cascadeResolvers?: Record<string, AtFormCascadePathResolver>;
+    cascadeLeafSearchProviders?: Record<string, AtFormCascadeLeafSearchProvider>;
     getTypeInfo: GetTypeInfoFunctionType,
 }
 

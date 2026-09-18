@@ -62,42 +62,52 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                         tabPath: 1
                     },
                     {
-                        design: [
+                        layers: [
                             {
                                 id: 'business_id',
-                                children: [
-                                    {
-                                        id: 'system_id',
-                                        enumsKeyParentIdField: 'business_id',
-                                    },
-                                ]
+                                label: 'Business',
+                                source: { type: 'enum' },
+                            },
+                            {
+                                id: 'system_id',
+                                label: 'System',
+                                source: {
+                                    type: 'enum',
+                                    relation: { type: 'metadata', key: 'business_id' },
+                                },
                             },
                         ]
                     }
                 ),
-                formBuilder.createMultiValueCascadeComboBox(
+                formBuilder.createCascadePathComboBox(
                     {
-                        id: 'MultiValueCascadeComboBox', tabPath: 1
+                        id: 'CascadePathComboBox', tabPath: 1
                     },
                     {
-                        design: [
+                        layers: [
                             {
                                 id: 'layerA',
-                                options: ServiceManager.getData_layerA,
-                                children: [
-                                    {
-                                        id: 'layerAB',
-                                        options: ({ values }) => ServiceManager.getData_layerAB({ layerA: values?.layerA }),
-                                        enumsKeyParentIdField: 'layerA',
-                                        children: [
-                                            {
-                                                id: 'layerABC1',
-                                                options: ({ values }) => ServiceManager.getData_layerABC1({ layerA: values?.layerA, layerAB: values?.layerAB }),
-                                                enumsKeyParentIdField: 'layerAB',
-                                            },
-                                        ]
-                                    },
-                                ]
+                                label: 'Layer A',
+                                source: {
+                                    type: 'provider',
+                                    provider: async () => ServiceManager.getData_layerA(),
+                                },
+                            },
+                            {
+                                id: 'layerAB',
+                                label: 'Layer AB',
+                                source: {
+                                    type: 'provider',
+                                    provider: async ({ path }) => ServiceManager.getData_layerAB({ layerA: path.layerA }),
+                                },
+                            },
+                            {
+                                id: 'layerABC1',
+                                label: 'Layer ABC',
+                                source: {
+                                    type: 'provider',
+                                    provider: async ({ path }) => ServiceManager.getData_layerABC1({ layerA: path.layerA, layerAB: path.layerAB }),
+                                },
                             },
                         ]
                     }
@@ -114,7 +124,7 @@ const BasicForm = ({ ref, onChange }: ExampleComponentInterface) => {
                 formBuilder.createFloatTextBox({ id: 'Textbox_Float', size: 4 }),
             ]
         )
-            // .filter(item => ['MultiValueCascadeComboBox'].includes(item.tProps.id))
+            // .filter(item => ['CascadePathComboBox'].includes(item.tProps.id))
             // .required(['Textbox_Text', 'Textbox_Integer', 'Textbox_Float'])
             .map((item: any) => {
                 return {

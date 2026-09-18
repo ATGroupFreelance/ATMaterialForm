@@ -1,8 +1,8 @@
-import CascadeRenderer from './internal/CascadeRenderer';
-import { useCascadeEngine } from './internal/useCascadeEngine';
-import { AtFormCascadeComboBoxProps } from '../../../../types/ui/CascadeComboBox.type';
+import CascadeRenderer from '../CascadeComboBox/internal/CascadeRenderer';
+import { useCascadeEngine } from '../CascadeComboBox/internal/useCascadeEngine';
+import { AtFormCascadePathComboBoxProps, AtFormCascadePathValue } from '../../../../types/ui/CascadeComboBox.type';
 
-const CascadeComboBox = ({
+const CascadePathComboBox = ({
     id,
     label,
     layers,
@@ -14,16 +14,14 @@ const CascadeComboBox = ({
     helperText,
     readOnly,
     presentation,
-    leafSearch,
-}: AtFormCascadeComboBoxProps) => {
+}: AtFormCascadePathComboBoxProps) => {
     const engine = useCascadeEngine({
-        mode: 'scalar',
+        mode: 'path',
         value,
         layers,
         resolver,
         onPathChange,
-        leafSearch,
-        emitValue: (nextValue) => onChange?.({ target: { value: nextValue as any } }),
+        emitValue: (nextValue) => onChange?.({ target: { value: nextValue as AtFormCascadePathValue | null } }),
     });
 
     return (
@@ -34,13 +32,6 @@ const CascadeComboBox = ({
             selections={engine.selections}
             layerStates={engine.layerStates}
             presentation={presentation}
-            leafSearch={leafSearch}
-            leafSearchState={engine.leafSearchState}
-            leafSearchValue={engine.leafSearchValue}
-            onLeafSearch={engine.searchLeaves}
-            onLeafSearchOpen={engine.openLeafSearch}
-            onLeafSearchRetry={engine.retryLeafSearch}
-            onLeafSearchSelect={engine.selectLeafSearchItem}
             readOnly={readOnly}
             error={error}
             helperText={helperText}
@@ -53,4 +44,4 @@ const CascadeComboBox = ({
     );
 };
 
-export default CascadeComboBox;
+export default CascadePathComboBox;

@@ -392,6 +392,19 @@ function App() {
           value={{
             rtl,
             enums,
+            cascadeProviders: {
+              'demo.countries': ServiceManager.getCascadeCountriesProvider,
+              'demo.states': ServiceManager.getCascadeStatesProvider,
+              'demo.facilities': ServiceManager.getCascadeFacilitiesProvider,
+              'demo.devices': ServiceManager.getCascadeDevicesProvider,
+            },
+            cascadeResolvers: {
+              'demo.statePath': ServiceManager.resolveCascadeStatePath,
+              'demo.devicePath': ServiceManager.resolveCascadeDevicePath,
+            },
+            cascadeLeafSearchProviders: {
+              'demo.deviceLeafSearch': ServiceManager.searchCascadeDeviceLeaves,
+            },
             uploadFilesToServer: ServiceManager.uploadFilesToServer,
             localText: atFormLocalText,
             agGridLocalText,

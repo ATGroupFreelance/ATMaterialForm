@@ -8,8 +8,7 @@ import { AtFormDatePickerProps } from "./ui/DatePicker.type";
 import { AtFormUploadButtonProps } from "./ui/UploadButton.type";
 import { AtFormUploadImageButtonProps } from "./ui/UploadImageButton.type";
 import { AtFormFileViewerProps } from "./ui/FileViewer.type";
-import { AtFormCascadeComboBoxProps } from "./ui/CascadeComboBox.type";
-import { AtFormMultiValueCascadeComboBoxProps } from "./ui/MultiValueCascadeComboBox.type";
+import { AtFormCascadeComboBoxProps, AtFormCascadePathComboBoxProps } from "./ui/CascadeComboBox.type";
 import { AtFormCheckBoxProps } from "./ui/CheckBox.type";
 import { AtFormSliderProps } from "./ui/Slider.type";
 import { AtFormPasswordTextBoxProps } from "./ui/PasswordTextBox.type";
@@ -38,7 +37,7 @@ export interface AtFormUiTypeMap {
     UploadImageButton: AtFormUploadImageButtonProps;
     FileViewer: AtFormFileViewerProps;
     CascadeComboBox: AtFormCascadeComboBoxProps;
-    MultiValueCascadeComboBox: AtFormMultiValueCascadeComboBoxProps;
+    CascadePathComboBox: AtFormCascadePathComboBoxProps;
     CheckBox: AtFormCheckBoxProps;
     Slider: AtFormSliderProps;
     PasswordTextBox: AtFormPasswordTextBoxProps;

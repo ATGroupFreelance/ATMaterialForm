@@ -10,8 +10,7 @@ import { AtFormDatePickerProps } from "../../../types/ui/DatePicker.type";
 import { AtFormUploadButtonProps } from "../../../types/ui/UploadButton.type";
 import { AtFormUploadImageButtonProps } from "../../../types/ui/UploadImageButton.type";
 import { AtFormFileViewerProps } from "../../../types/ui/FileViewer.type";
-import { AtFormCascadeComboBoxProps } from "../../../types/ui/CascadeComboBox.type";
-import { AtFormMultiValueCascadeComboBoxProps } from "../../../types/ui/MultiValueCascadeComboBox.type";
+import { AtFormCascadeComboBoxProps, AtFormCascadePathComboBoxProps } from "../../../types/ui/CascadeComboBox.type";
 import { GridProps } from "@mui/material";
 import { AtFormCheckBoxProps } from "../../../types/ui/CheckBox.type";
 import { AtFormSliderProps } from "../../../types/ui/Slider.type";
@@ -198,40 +197,20 @@ const createFileViewer = (tProps: AtFormFieldTypelessTProps, uiProps?: AtFormFil
     })
 }
 
-const createCascadeComboBox = (tProps: AtFormFieldTypelessTProps, uiProps?: AtFormCascadeComboBoxProps) => {
+const createCascadeComboBox = (tProps: AtFormFieldTypelessTProps, uiProps: AtFormCascadeComboBoxProps) => {
     return create({
         type: 'CascadeComboBox',
         defaultSize: 12,
-        tProps: {
-            ...tProps,
-            wrapperRenderer: {
-                ...(tProps?.wrapperRenderer || {}),
-                config: {
-                    container: true,
-                    spacing: 2,
-                    ...(tProps?.wrapperRenderer?.config) || {},
-                }
-            },
-        },
+        tProps,
         uiProps,
     })
 }
 
-const createMultiValueCascadeComboBox = (tProps: AtFormFieldTypelessTProps, uiProps?: AtFormMultiValueCascadeComboBoxProps) => {
+const createCascadePathComboBox = (tProps: AtFormFieldTypelessTProps, uiProps: AtFormCascadePathComboBoxProps) => {
     return create({
-        type: 'MultiValueCascadeComboBox',
+        type: 'CascadePathComboBox',
         defaultSize: 12,
-        tProps: {
-            ...tProps,
-            wrapperRenderer: {
-                ...(tProps?.wrapperRenderer || {}),
-                config: {
-                    container: true,
-                    spacing: 2,
-                    ...(tProps?.wrapperRenderer?.config) || {},
-                }
-            },
-        },
+        tProps,
         uiProps,
     })
 }
@@ -455,7 +434,7 @@ export const formBuilder = {
     createUploadImageButton,
     createFileViewer,
     createCascadeComboBox,
-    createMultiValueCascadeComboBox,
+    createCascadePathComboBox,
     createGrid,
     createCheckBox,
     createSlider,

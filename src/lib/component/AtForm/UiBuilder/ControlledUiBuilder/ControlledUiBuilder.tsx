@@ -20,7 +20,7 @@ const UploadButton = React.lazy(() => import('../../Ui/UploadButton/UploadButton
 const UploadImageButton = React.lazy(() => import('../../Ui/UploadImageButton/UploadImageButton'));
 const FileViewer = React.lazy(() => import('../../Ui/FileViewer/FileViewer'));
 const CascadeComboBox = React.lazy(() => import('../../Ui/CascadeComboBox/CascadeComboBox'));
-const MultiValueCascadeComboBox = React.lazy(() => import('../../Ui/MultiValueCascadeComboBox/MultiValueCascadeComboBox'));
+const CascadePathComboBox = React.lazy(() => import('../../Ui/CascadePathComboBox/CascadePathComboBox'));
 const CheckBox = React.lazy(() => import('../../Ui/CheckBox/CheckBox'));
 const Slider = React.lazy(() => import('../../Ui/Slider/Slider'));
 const PasswordTextBox = React.lazy(() => import('../../Ui/PasswordTextBox/PasswordTextBox'));
@@ -60,6 +60,7 @@ const ControlledUiBuilder = ({ childProps }: AtControlledUiBuilderProps) => {
 
     /**UI Builder doesn't allow any child with an undefined typeinfo to be rendered which means typeinfo is for sure not empty*/
     const [localValue, setLocalValue] = useState(getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue))
+    const [cascadeResetRevision, setCascadeResetRevision] = useState(0)
 
     useEffect(() => {
         if (!mIsInitialized.current) {
@@ -133,6 +134,11 @@ const ControlledUiBuilder = ({ childProps }: AtControlledUiBuilderProps) => {
 
     const reset = ({ suppressFormOnChange = false }: AtFormChildResetInterface = {} as AtFormChildResetInterface) => {
         internalOnChange({ target: { value: getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue) } }, { suppressFormOnChange })
+
+        // Cascade owns async/search/cache state that is intentionally outside the form value.
+        // A reset must restore that UI state even when the scalar default value is unchanged.
+        if (childProps.tProps.type === 'CascadeComboBox' || childProps.tProps.type === 'CascadePathComboBox')
+            setCascadeResetRevision(current => current + 1)
     }
 
     const getValue = () => {
@@ -199,8 +205,8 @@ const ControlledUiBuilder = ({ childProps }: AtControlledUiBuilderProps) => {
         {type === 'UploadButton' && <UploadButton {...commonProps} />}
         {type === 'UploadImageButton' && <UploadImageButton {...commonProps} />}
         {type === 'FileViewer' && <FileViewer {...commonProps as unknown as AtFormFileViewerProps} />}
-        {type === 'CascadeComboBox' && <CascadeComboBox {...commonProps} />}
-        {type === 'MultiValueCascadeComboBox' && <MultiValueCascadeComboBox {...commonProps} />}
+        {type === 'CascadeComboBox' && <CascadeComboBox key={`cascade-${cascadeResetRevision}`} {...commonProps} />}
+        {type === 'CascadePathComboBox' && <CascadePathComboBox key={`cascade-path-${cascadeResetRevision}`} {...commonProps} />}
         {type === 'CheckBox' && <CheckBox {...commonProps as AtFormCheckBoxProps} />}
         {type === 'Slider' && <Slider {...commonProps} />}
         {type === 'PasswordTextBox' && <PasswordTextBox {...commonProps} />}

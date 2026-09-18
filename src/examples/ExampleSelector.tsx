@@ -49,7 +49,7 @@ const ExampleSelector = ({ examples, value, onChange }: ExampleSelectorProps) =>
         }}
       >
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography variant="body2" fontWeight={state.selected ? 800 : 650} noWrap>
+          <Typography variant="body2" noWrap sx={{ fontWeight: state.selected ? 800 : 650 }}>
             {option.label}
           </Typography>
           <Typography variant="caption" color="text.secondary" noWrap>
@@ -64,9 +64,12 @@ const ExampleSelector = ({ examples, value, onChange }: ExampleSelectorProps) =>
         {...params}
         label="Example"
         placeholder="Search examples…"
-        inputProps={{
-          ...params.inputProps,
-          'aria-label': 'Select playground example',
+        slotProps={{
+          ...params.slotProps,
+          htmlInput: {
+            ...params.slotProps.htmlInput,
+            'aria-label': 'Select playground example',
+          },
         }}
       />
     )}
