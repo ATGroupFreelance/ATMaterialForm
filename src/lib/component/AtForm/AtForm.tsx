@@ -423,7 +423,7 @@ const AtFormFunction = (props: AtFormProps) => {
             tProps: {
                 ...childProps.tProps,
                 ...(tPropsRuntimeOverride || {}),
-                label: tPropsRuntimeOverride?.label ?? (childProps.tProps.label !== undefined ? childProps.tProps.label : t(childProps.tProps.id, childProps.tProps.id)),
+                label: tPropsRuntimeOverride?.label ?? childProps.tProps.label,
                 defaultValue: tPropsRuntimeOverride?.defaultValue ?? newDefaultValue,
                 ref: (newRef) => {
                     onAssignChildRef(childProps.tProps.id, newRef)
@@ -448,7 +448,7 @@ const AtFormFunction = (props: AtFormProps) => {
             changeId: localValue?.changeId,
             isFormControlled,
         }
-    }, [t, internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps, runtime, runtimePrefix])
+    }, [internalDefaultValue, getTypeInfo, onChildChange, validationErrors, onAssignChildRef, localValue, props.value, props.debugProps, runtime, runtimePrefix])
 
     const [flatChildren, flatChildrenProps] = useMemo(() => {
         const flatChildren = getAtFormLeafChildren(props.children)

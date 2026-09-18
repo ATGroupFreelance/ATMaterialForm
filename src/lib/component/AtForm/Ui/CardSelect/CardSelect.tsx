@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
 import { AtEnumItemType } from '../../../../types/Common.type';
+import { resolveEnumItemDisplayTitle } from '../../../../enum/resolveEnumItemDisplayTitle';
 import { AtFormCardSelectItem, AtFormCardSelectProps, AtFormCardSelectTag } from '../../../../types/ui/CardSelect.type';
 
 const UNCATEGORIZED = '__at-form-card-select-uncategorized__';
@@ -87,7 +88,8 @@ const CardSelect = ({ id, value, onChange, readOnly, error, helperText, label, d
     const displayError = Boolean(error && !suppressStaleError);
     const localizeText = (translationKey: string | undefined, text: string | undefined) =>
         text ? (t(translationKey ?? text, text) ?? text) : text;
-    const getItemTitle = (item: AtFormCardSelectItem) => localizeText(item.languageKey, item.title) || item.title;
+    const getItemTitle = (item: AtFormCardSelectItem) =>
+        resolveEnumItemDisplayTitle({ enumKey: searchId, item, t });
 
     const categoryMap = useMemo(() => new Map(categories.map(category => [category.id, category])), [categories]);
     const groupedData = useMemo(() => {

@@ -8,6 +8,7 @@ import { AtFormMultiComboBoxProps } from '../../../../types/ui/MultiComboBox.typ
 import { AtFormFileViewerProps } from '../../../../types/ui/FileViewer.type';
 import { AtFormCheckBoxProps } from '../../../../types/ui/CheckBox.type';
 import { AtFormCustomControlledFieldProps } from '../../../../types/ui/CustomControlledField.type';
+import { resolveAtFormFieldLabel } from '../../FormUtils/resolveAtFormFieldLabel';
 
 const TextBox = React.lazy(() => import('../../Ui/TextBox/TextBox'));
 const IntegerTextBox = React.lazy(() => import('../../Ui/IntegerTextBox/IntegerTextBox'));
@@ -172,7 +173,12 @@ const ControlledUiBuilder = ({ childProps }: AtControlledUiBuilderProps) => {
         onChange: (event: any) => internalOnChange(event),
         error: error,
         helperText: helperText,
-        label: childProps.uiProps?.label !== undefined ? childProps.uiProps.label : childProps.tProps.label
+        label: resolveAtFormFieldLabel({
+            id: childProps.tProps.id,
+            label: childProps.uiProps?.label !== undefined ? childProps.uiProps.label : childProps.tProps.label,
+            disableLabelLocalization: childProps.tProps.disableLabelLocalization,
+            t,
+        })
     }
 
     let CustomComponent = null

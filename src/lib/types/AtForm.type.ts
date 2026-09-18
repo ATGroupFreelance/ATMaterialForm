@@ -211,6 +211,7 @@ export interface AtFormFieldTProps {
     type: string,
     size?: AtFormGridSize,
     label?: string | undefined | null,
+    disableLabelLocalization?: boolean,
     tabPath?: number | number[],
     /**Only works for controlled elements and its used for form initialize */
     defaultValue?: any,

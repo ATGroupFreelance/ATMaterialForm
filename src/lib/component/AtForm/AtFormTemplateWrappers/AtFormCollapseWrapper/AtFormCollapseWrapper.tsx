@@ -11,9 +11,10 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { useState } from 'react';
 import { AtFormCollapseWrapperProps } from '../../../../types/template-wrappers/CollapseWrapper.type';
 import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
+import { resolveAtFormFieldLabel } from '../../FormUtils/resolveAtFormFieldLabel';
 
 const AtFormCollapseWrapper = ({ children, childProps, config }: AtFormCollapseWrapperProps) => {
-    const { size = 12, label = 'Details' } = childProps.tProps;
+    const { size = 12, label = 'Details', id, disableLabelLocalization } = childProps.tProps;
     const { t } = useAtFormConfig()
 
     const [open, setOpen] = useState<boolean>(config?.defaultOpen || false);
@@ -46,7 +47,7 @@ const AtFormCollapseWrapper = ({ children, childProps, config }: AtFormCollapseW
                     }}
                 >
                     <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-                        {t(label)}
+                        {resolveAtFormFieldLabel({ id, label, disableLabelLocalization, t })}
                     </Typography>
                     <IconButton size="small">
                         {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}

@@ -9,6 +9,7 @@ import AtForm from './AtForm';
 import Button from './Ui/Button/Button';
 import { CircularProgress, Grid } from '@mui/material';
 import useAtFormConfig from '../../hooks/useAtFormConfig/useAtFormConfig';
+import { resolveAtFormFieldLabel } from './FormUtils/resolveAtFormFieldLabel';
 import { AtFormDialogProps } from '../../types/AtFormDialog.type';
 import { AtFormOnChangeInterface } from '../../types/AtForm.type';
 import { AtFormOnClickType } from '../../types/Common.type';
@@ -70,7 +71,7 @@ const AtFormDialog = ({
         actions.push(
             {
                 id: 'Cancel',
-                label: t('Cancel'),
+                label: 'Cancel',
                 onClick: onInternalCancelClick,
                 color: 'secondary',
                 disabled: cancelLoading,
@@ -83,7 +84,7 @@ const AtFormDialog = ({
         actions.push(
             {
                 id: 'Submit',
-                label: t('Submit'),
+                label: 'Submit',
                 onClick: onInternalSubmitClick,
                 disabled: submitLoading,
                 ...(submitButtonProps || {})
@@ -120,7 +121,7 @@ const AtFormDialog = ({
                         const { size = { xs: 12, md: maxWidth === "xs" ? 12 : 2 }, id, label, onClick, disabled, ...restItem } = item
                         return <Grid key={id} size={size}>
                             <Button
-                                label={label ? label : id}
+                                label={resolveAtFormFieldLabel({ id, label: label ?? id, t })}
                                 onClick={({ ...buttonProps }) => onClick({
                                     ...buttonProps, formData: mFormData.current.formData,
                                     formDataKeyValue: mFormData.current.formDataKeyValue,

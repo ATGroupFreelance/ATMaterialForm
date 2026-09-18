@@ -1,33 +1,27 @@
-import React, { createContext, ReactNode, useCallback, useMemo } from 'react';
-// Local text
-import LocalText from './LocalText';
+import React, { createContext, ReactNode, useCallback, useMemo, useRef } from 'react';
+import type { AtLocalizeFunction } from '../../../localization';
+import AtFormDefaultMessages from './AtFormDefaultMessages';
 import { AtFormConfigContextInterface } from '../../../types/AtFormConfigContext.type';
-//Utils
 import * as UiTypeUtils from '../UiTypeUtils/UiTypeUtils';
 import { AtFormCustomComponentInterface } from '../../../types/UiTypeUtils.type';
 import { createAtLocalizer, mergeAtMessageDefinitions } from '../../../localization';
 import { AtFormMessageDefinitions } from './AtFormMessageDefinitions';
 
-// Create the context with a default value of undefined
 export const AtFormConfigContext = createContext<AtFormConfigContextInterface | undefined>(undefined);
 
-// Define the type for the provider props
 interface AtFormConfigProviderProps {
   children: ReactNode;
   value: AtFormConfigContextInterface;
 }
 
-// Provider component
 export const AtFormConfigProvider: React.FC<AtFormConfigProviderProps> = ({ children, value }) => {
-  const { localText, messages, messageDefinitions, t, getLocalText, customComponents } = value;
+  const { messages, messageDefinitions, t, customComponents } = value;
   const locale = value.locale ?? 'en-US';
 
-  // Keep the legacy dictionary available for external consumers, while compiling localization once per catalog change.
   const mergedMessages = useMemo(() => ({
-    ...LocalText,
-    ...localText,
+    ...AtFormDefaultMessages,
     ...messages,
-  }), [localText, messages]);
+  }), [messages]);
 
   const mergedDefinitions = useMemo(() => mergeAtMessageDefinitions(
     AtFormMessageDefinitions,
@@ -35,7 +29,7 @@ export const AtFormConfigProvider: React.FC<AtFormConfigProviderProps> = ({ chil
   ), [messageDefinitions]);
 
   const fallbackLocalizer = useMemo(() => {
-    if (t || getLocalText)
+    if (t)
       return null;
 
     return createAtLocalizer({
@@ -44,9 +38,20 @@ export const AtFormConfigProvider: React.FC<AtFormConfigProviderProps> = ({ chil
       messages: mergedMessages,
       definitions: mergedDefinitions,
     });
-  }, [t, getLocalText, locale, value.calendar, mergedMessages, mergedDefinitions]);
+  }, [t, locale, value.calendar, mergedMessages, mergedDefinitions]);
 
-  const localize = t || getLocalText || fallbackLocalizer!.t;
+  const localize = t || fallbackLocalizer!.t;
+
+  const localizationRevisionRef = useRef(value.localizationRevision ?? 0);
+  const previousLocalizeRef = useRef<AtLocalizeFunction | null>(null);
+
+  if (value.localizationRevision !== undefined) {
+    localizationRevisionRef.current = value.localizationRevision;
+  } else if (previousLocalizeRef.current !== null && previousLocalizeRef.current !== localize) {
+    localizationRevisionRef.current += 1;
+  }
+
+  previousLocalizeRef.current = localize;
 
   const getTypeInfo = useCallback((type: string) => {
     const customTypes = customComponents ? customComponents.map((item: AtFormCustomComponentInterface) => item.typeInfo) : null
@@ -61,9 +66,8 @@ export const AtFormConfigProvider: React.FC<AtFormConfigProviderProps> = ({ chil
     locale,
     messages: mergedMessages,
     messageDefinitions: mergedDefinitions,
-    localText: mergedMessages,
     t: localize,
-    getLocalText: localize,
+    localizationRevision: localizationRevisionRef.current,
     enums: value.enums ?? {},
   }), [value, customComponents, getTypeInfo, locale, mergedMessages, mergedDefinitions, localize]);
 

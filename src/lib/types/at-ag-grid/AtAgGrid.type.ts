@@ -13,6 +13,7 @@ export type AtAgGridProps = AgGridReactProps & {
 export interface AtAgGridExtendedColDef extends ColDef {
     enumsKey?: any;
     enumOptions?: any;
+    disableHeaderLocalization?: boolean;
 }
 
 export type AtAgGridCellRendererParamConfig<

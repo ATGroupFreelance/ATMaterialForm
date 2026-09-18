@@ -1,4 +1,4 @@
-import { AtEnumsType, AtFormGetLocalTextFunctionType } from "./Common.type";
+import { AtEnumsType } from "./Common.type";
 import { AtFormCustomComponentInterface, AtFormTypeInfoInterface } from "./UiTypeUtils.type";
 import type { AtFormAgGridTheme } from "./AtAgGridTheme.type";
 import type { AtFormArchiveAdapter } from "./AtFormArchive.type";
@@ -13,12 +13,10 @@ export interface AtFormConfigContextInterface {
     messageDefinitions?: AtMessageDefinition[];
     archive?: AtFormArchiveAdapter;
     maxUploadFileSizeInBytes?: number,
-    localText?: Record<string, string>;
-    agGridLocalText?: Record<string, string>;
+    localizationRevision?: number;
     agGridTheme?: AtFormAgGridTheme;
     customComponents?: AtFormCustomComponentInterface[];
     t?: AtLocalizeFunction;
-    getLocalText?: AtFormGetLocalTextFunctionType;
     getTypeInfo?: GetTypeInfoFunctionType,
 }
 
@@ -31,12 +29,10 @@ export interface AtFormConfigContextGuaranteedInterface {
     messageDefinitions: AtMessageDefinition[];
     archive?: AtFormArchiveAdapter;
     maxUploadFileSizeInBytes?: number,
-    localText: Record<string, string>;
-    agGridLocalText?: Record<string, string>;
+    localizationRevision: number;
     agGridTheme?: AtFormAgGridTheme;
     customComponents?: AtFormCustomComponentInterface[];
     t: AtLocalizeFunction;
-    getLocalText: AtFormGetLocalTextFunctionType;
     getTypeInfo: GetTypeInfoFunctionType,
 }
 

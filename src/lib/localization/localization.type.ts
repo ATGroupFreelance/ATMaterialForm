@@ -1,5 +1,7 @@
 export type AtTranslationKey = string;
 
+export type AtTranslationKeyInput = AtTranslationKey | readonly AtTranslationKey[];
+
 export type AtMessageParameterType =
     | 'string'
     | 'number'
@@ -51,6 +53,8 @@ export type AtLocalizationDiagnosticCode =
     | 'alias-conflict'
     | 'alias-translation-conflict'
     | 'fallback-cycle'
+    | 'unknown-fallback'
+    | 'fallback-parameter-mismatch'
     | 'invalid-message'
     | 'duplicate-translation'
     | 'unknown-parameter'
@@ -66,7 +70,7 @@ export interface AtLocalizationDiagnostic {
 
 export interface AtLocalizeFunction {
     (
-        key: string,
+        key: AtTranslationKeyInput,
         fallbackOrValues?: string | AtMessageValues,
         values?: AtMessageValues,
     ): string;
@@ -81,7 +85,7 @@ export interface AtLocalizeFunction {
         values?: AtMessageValues,
     ): undefined;
     (
-        key: string | null | undefined,
+        key: AtTranslationKeyInput | null | undefined,
         fallbackOrValues?: string | AtMessageValues,
         values?: AtMessageValues,
     ): string | null | undefined;

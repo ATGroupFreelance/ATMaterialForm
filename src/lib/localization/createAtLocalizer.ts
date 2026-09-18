@@ -5,6 +5,7 @@ import type {
     AtMessageDefinition,
     AtMessageValues,
     AtTranslationKey,
+    AtTranslationKeyInput,
     CreateAtLocalizerOptions,
 } from './localization.type';
 import { normalizeTranslationKey } from './normalizeTranslationKey';
@@ -27,6 +28,43 @@ interface RuntimeMessage {
 }
 
 const hasDynamicSyntax = (message: string): boolean => message.indexOf('{') >= 0;
+
+const areFallbackParametersCompatible = (
+    sourceDefinition: AtMessageDefinition,
+    fallbackDefinition: AtMessageDefinition,
+): boolean => {
+    const fallbackParameters = fallbackDefinition.parameters || {};
+    const sourceParameters = sourceDefinition.parameters || {};
+
+    return Object.entries(fallbackParameters).every(([parameter, parameterDefinition]) => {
+        if (!parameterDefinition.required)
+            return true;
+
+        return !!sourceParameters[parameter];
+    });
+};
+
+const fallbackTargetExists = (
+    fallbackCanonical: string,
+    definitions: Map<string, NormalizedDefinition>,
+    translations: Map<string, NormalizedTranslation>,
+): boolean => definitions.has(fallbackCanonical) || translations.has(fallbackCanonical);
+
+const normalizeCandidateKeys = (keys: readonly string[]): string[] => {
+    const seen = new Set<string>();
+    const result: string[] = [];
+
+    keys.forEach((key) => {
+        const normalizedKey = normalizeTranslationKey(key);
+        if (seen.has(normalizedKey))
+            return;
+
+        seen.add(normalizedKey);
+        result.push(normalizedKey);
+    });
+
+    return result;
+};
 
 export const createAtLocalizer = (options: CreateAtLocalizerOptions = {}): AtLocalizer => {
     const locale = options.locale || 'en-US';
@@ -189,6 +227,34 @@ export const createAtLocalizer = (options: CreateAtLocalizerOptions = {}): AtLoc
             resolving.add(canonicalKey);
             const fallbackNormalized = normalizeTranslationKey(definition.fallbackKey);
             const fallbackCanonical = aliasToCanonical.get(fallbackNormalized) || fallbackNormalized;
+
+            if (!fallbackTargetExists(fallbackCanonical, definitions, translations)) {
+                addDiagnostic({
+                    code: 'unknown-fallback',
+                    key: definition.key,
+                    relatedKey: definition.fallbackKey,
+                    message: `Fallback target "${definition.fallbackKey}" for "${definition.key}" does not exist.`,
+                });
+                resolving.delete(canonicalKey);
+                const resolved = { message: definition.defaultMessage, translated: false };
+                resolvedMessageCache.set(canonicalKey, resolved);
+                return resolved;
+            }
+
+            const fallbackDefinition = definitions.get(fallbackCanonical)?.definition;
+            if (fallbackDefinition && !areFallbackParametersCompatible(definition, fallbackDefinition)) {
+                addDiagnostic({
+                    code: 'fallback-parameter-mismatch',
+                    key: definition.key,
+                    relatedKey: definition.fallbackKey,
+                    message: `Fallback "${definition.fallbackKey}" requires parameters that "${definition.key}" cannot supply.`,
+                });
+                resolving.delete(canonicalKey);
+                const resolved = { message: definition.defaultMessage, translated: false };
+                resolvedMessageCache.set(canonicalKey, resolved);
+                return resolved;
+            }
+
             const fallback = definitions.has(fallbackCanonical)
                 ? resolveDefinitionMessage(fallbackCanonical)
                 : (() => {
@@ -343,16 +409,16 @@ export const createAtLocalizer = (options: CreateAtLocalizerOptions = {}): AtLoc
         }
     };
 
-    const translate = (
-        key: string | null | undefined,
+    const resolveRuntimeMessage = (normalizedKey: string): RuntimeMessage | undefined =>
+        runtimeMessages.get(normalizedKey);
+
+    const translateSingleKey = (
+        key: string,
         fallbackOrValues?: string | AtMessageValues,
         values?: AtMessageValues,
-    ): string | null | undefined => {
-        if (key === null || key === undefined)
-            return key;
-
+    ): string => {
         const normalizedKey = normalizeTranslationKey(key);
-        const runtimeMessage = runtimeMessages.get(normalizedKey);
+        const runtimeMessage = resolveRuntimeMessage(normalizedKey);
         const suppliedValues = typeof fallbackOrValues === 'string' ? values : fallbackOrValues;
         if (runtimeMessage)
             return formatRuntimeMessage(runtimeMessage, suppliedValues);
@@ -372,6 +438,45 @@ export const createAtLocalizer = (options: CreateAtLocalizerOptions = {}): AtLoc
         }
 
         return fallback;
+    };
+
+    const translate = (
+        key: AtTranslationKeyInput | null | undefined,
+        fallbackOrValues?: string | AtMessageValues,
+        values?: AtMessageValues,
+    ): string | null | undefined => {
+        if (key === null || key === undefined)
+            return key;
+
+        if (Array.isArray(key)) {
+            const suppliedValues = typeof fallbackOrValues === 'string' ? values : fallbackOrValues;
+            const fallback = typeof fallbackOrValues === 'string'
+                ? fallbackOrValues
+                : (key[0] ?? '');
+
+            for (const candidate of normalizeCandidateKeys(key)) {
+                const runtimeMessage = resolveRuntimeMessage(candidate);
+                if (runtimeMessage)
+                    return formatRuntimeMessage(runtimeMessage, suppliedValues);
+            }
+
+            if (suppliedValues && hasDynamicSyntax(fallback)) {
+                try {
+                    return compileAtMessage(fallback, { locale, calendar }).format(suppliedValues);
+                }
+                catch (error) {
+                    addDiagnostic({
+                        code: 'invalid-message',
+                        key: key[0],
+                        message: `Fallback message formatting failed: ${error instanceof Error ? error.message : String(error)}`,
+                    });
+                }
+            }
+
+            return fallback;
+        }
+
+        return translateSingleKey(key as string, fallbackOrValues, values);
     };
 
     const t = translate as AtLocalizer['t'];

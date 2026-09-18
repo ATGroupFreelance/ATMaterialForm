@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
 import { AtFormComboBoxProps } from '../../../../types/ui/ComboBox.type';
 import { AtEnumType } from '../../../../types/Common.type';
+import { resolveEnumItemDisplayTitle } from '../../../../enum/resolveEnumItemDisplayTitle';
 
 const isMobile = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 //Facts about autocomplete:
@@ -71,7 +72,7 @@ const ComboBox = ({ id, onChange, value, readOnly, error, helperText, options, r
         onChange={onInternalChange}
         getOptionLabel={(option) => {
             const item = data?.find(current => String(current.id) === String(option.id)) ?? option;
-            return t(item.languageKey ?? item.title, item.title) ?? item.title;
+            return resolveEnumItemDisplayTitle({ enumKey: searchId, item, t });
         }}
         isOptionEqualToValue={(option, value) => String(option.id) === String(value.id)}
         value={value}

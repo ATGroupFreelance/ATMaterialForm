@@ -1,9 +1,9 @@
-const localText = {
+const AtFormDefaultMessages = {
     'Add': 'Add',
     'Passwords do not match': 'Passwords do not match',
     'Confirm': 'Confirm',
     'file': 'file',
-    'Uploading': 'Uploading',    
+    'Uploading': 'Uploading',
     'files': 'files',
     'Delete All': 'Delete All',
     'Yes': 'Yes',
@@ -27,7 +27,7 @@ const localText = {
     'View Image': 'View Image',
     'File size exceeds the limit. Please select a smaller file': 'File size exceeds the limit. Please select a smaller file',
     'Choose A Color': 'Choose A Color',
-    'Open Color Picker': 'Open Color Picker'
-}
+    'Open Color Picker': 'Open Color Picker',
+};
 
-export default localText
+export default AtFormDefaultMessages;

@@ -11,6 +11,7 @@ import {
     TextFilterModule,
     NumberFilterModule,
     ColDef,
+    type GetLocaleText,
     PaginationModule,
     CellContextMenuEvent,
     RowSelectionModule,
@@ -28,6 +29,8 @@ import AtAgGridContextMenu from './AtAgGridContextMenu/AtAgGridContextMenu';
 import { AtFormOnClickProps, AtFormOnClickType } from '../../types/Common.type';
 import { atAgGridDarkFallback, atAgGridLightFallback } from './theme/AtAgGridFallbackThemes';
 import { useAtAgGridTheme } from './theme/AtAgGridThemeContext';
+import { resolveAgGridHeaderName } from './resolveAgGridHeaderName';
+import { resolveEnumItemDisplayTitle } from '../../enum/resolveEnumItemDisplayTitle';
 
 const AT_AG_GRID_MODULES = [
     ClientSideRowModelModule,
@@ -45,7 +48,7 @@ const AT_AG_GRID_MODULES = [
 
 const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqueKey, translateUniqueKey, ...restProps }: AtAgGridProps) => {
     const muiTheme = useTheme();
-    const { rtl, enums, agGridLocalText, agGridTheme: legacyAgGridTheme, t } = useAtFormConfig();
+    const { rtl, enums, localizationRevision, agGridTheme: legacyAgGridTheme, t } = useAtFormConfig();
     const injectedAgGridTheme = useAtAgGridTheme();
     const resolvedAgGridTheme = injectedAgGridTheme ?? legacyAgGridTheme ?? (muiTheme.palette.mode === 'dark' ? atAgGridDarkFallback : atAgGridLightFallback)
     const [contextMenu, setContextMenu] = useState<any>(null)
@@ -71,7 +74,12 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
                 const { cellRendererParams, ...restColProps } = currentTColumn.colProps || {}
                 return ColumnDefTemplates.createButton({
                     field: currentTColumn.id,
-                    headerName: ((currentTColumn.colProps?.headerName === undefined) || (currentTColumn.colProps?.headerName === null)) ? t(currentTColumn.id) ?? undefined : currentTColumn.colProps?.headerName,
+                    headerName: resolveAgGridHeaderName({
+                        field: currentTColumn.id,
+                        headerName: currentTColumn.colProps?.headerName,
+                        disableHeaderLocalization: currentTColumn.colProps?.disableHeaderLocalization,
+                        t,
+                    }),
                     cellRendererParams: {
                         onClick: (props: AtFormOnClickProps) => onTColumnFormDialogClick({ ...props, tColumn: currentTColumn }),
                         ...cellRendererParams
@@ -87,11 +95,16 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
 
         if (columnDefs) {
             for (let i = 0; i < columnDefs.length; i++) {
-                const { field, enumsKey, enumOptions, headerName, ...restColumnDefs }: AtAgGridExtendedColDef = columnDefs[i]
+                const { field, enumsKey, enumOptions, headerName, disableHeaderLocalization, ...restColumnDefs }: AtAgGridExtendedColDef = columnDefs[i]
 
                 result.push({
                     field,
-                    headerName: ((headerName === undefined) || (headerName === null)) ? t(field) ?? undefined : headerName,
+                    headerName: resolveAgGridHeaderName({
+                        field,
+                        headerName,
+                        disableHeaderLocalization,
+                        t,
+                    }),
                     /**Do not translate uniqueKey columns unless translateUniqueKey is true*/
                     valueFormatter: (field === uniqueKey && !translateUniqueKey) ?
                         undefined
@@ -100,8 +113,13 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
                             const enumItems = enumOptions || enums?.[enumsKey || params.colDef.field]
                             const enumItem = enumItems?.find((item: any) => String(item.id) === String(params.value))
 
-                            if (enumItem)
-                                return t(enumItem.languageKey ?? enumItem.title, enumItem.title) ?? enumItem.title
+                            if (enumItem) {
+                                return resolveEnumItemDisplayTitle({
+                                    enumKey: enumsKey || field,
+                                    item: enumItem,
+                                    t,
+                                });
+                            }
 
                             return typeof params.value === 'string'
                                 ? t(params.value, params.value) ?? params.value
@@ -204,6 +222,10 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
         setContextMenu(null)
     }
 
+    const getLocaleText = useCallback<GetLocaleText>(({ key, defaultValue }) =>
+        t([`aggrid.${key}`, defaultValue], defaultValue) ?? defaultValue,
+    [t]);
+
     return <div
         style={{
             height: domLayout ? undefined : (height || '75vh'),
@@ -220,11 +242,12 @@ const AtAgGrid = ({ ref, rowData, columnDefs, height, domLayout, tColumns, uniqu
         }}
     >
         <AgGridReact
+            key={`localization-${localizationRevision}`}
             theme={resolvedAgGridTheme}
             ref={ref}
             rowData={rowData}
             columnDefs={basicColumnDefs2}
-            localeText={agGridLocalText}
+            getLocaleText={getLocaleText}
             rowHeight={48}
             enableRtl={rtl}
             domLayout={domLayout}

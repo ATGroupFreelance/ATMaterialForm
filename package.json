@@ -32,13 +32,17 @@
     "test:example": "node scripts/example-test-runner.mjs regression",
     "test-performance": "node scripts/check-example-coverage.mjs && playwright test --config=playwright.config.ts --project=performance --reporter=./scripts/performance-reporter.mjs",
     "test-performance:example": "node scripts/example-test-runner.mjs performance",
-    "test:visual:example": "node scripts/example-test-runner.mjs visual-update"
+    "test:visual:example": "node scripts/example-test-runner.mjs visual-update",
+    "ai:bundle": "ai-bundle bundle",
+    "ai:apply": "ai-bundle apply",
+    "ai:status": "ai-bundle status"
   },
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@ahmadi3d/ai-bundle": "^0.1.5",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@eslint/js": "^10.0.1",

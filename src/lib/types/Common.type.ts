@@ -1,5 +1,5 @@
 import { AtJsonValue } from "at-shared-types/domain";
-import type { AtLocalizeFunction, AtTranslationKey } from "../localization";
+import type { AtTranslationKey } from "../localization";
 
 export type StrictOmit<T, K extends keyof T> = Omit<T, K>;
 export type DeepPartial<T> = {
@@ -26,13 +26,14 @@ export type AtEnumItemType = {
     id: AtEnumItemId;
 
     /**
-     * Canonical English title and fallback display value.
+     * Canonical/default title and fallback display value.
+     * Runtime UI localization must not mutate this value.
      */
     title: string;
 
     /**
-     * Optional stable language key.
-     * Example: "gender.male"
+     * Optional explicit semantic localization override.
+     * Example: "status.active"
      */
     languageKey?: AtTranslationKey;
 
@@ -82,6 +83,3 @@ export interface AtFormOnClickBaseProps {
 export type AtFormOnClickProps<TExtraProps extends object = object> = AtFormOnClickBaseProps & TExtraProps;
 
 export type AtFormOnClickType<TExtraProps extends object = object> = (props: AtFormOnClickProps<TExtraProps>) => void;
-
-/** @deprecated Use AtLocalizeFunction. */
-export type AtFormGetLocalTextFunctionType = AtLocalizeFunction;

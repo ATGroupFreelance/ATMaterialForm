@@ -4,6 +4,7 @@ import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig';
 import { AtUnControlledUiBuilderProps } from '../../../../types/AtForm.type';
 import { AtFormTableProps } from '../../../../types/ui/Table.type';
 import { AtFormCustomUncontrolledFieldProps } from '../../../../types/ui/CustomUncontrolledField.type';
+import { resolveAtFormFieldLabel } from '../../FormUtils/resolveAtFormFieldLabel';
 
 const Button = React.lazy(() => import('../../Ui/Button/Button'));
 const Label = React.lazy(() => import('../../Ui/Label/Label'));
@@ -16,7 +17,12 @@ const UncontrolledUiBuilder = ({ childProps }: AtUnControlledUiBuilderProps) => 
     const commonProps = {
         id: childProps.tProps.id,
         ...childProps.uiProps,
-        label: childProps.uiProps?.label !== undefined ? childProps.uiProps.label : childProps.tProps.label
+        label: resolveAtFormFieldLabel({
+            id: childProps.tProps.id,
+            label: childProps.uiProps?.label !== undefined ? childProps.uiProps.label : childProps.tProps.label,
+            disableLabelLocalization: childProps.tProps.disableLabelLocalization,
+            t,
+        })
     }
 
     let CustomComponent = null

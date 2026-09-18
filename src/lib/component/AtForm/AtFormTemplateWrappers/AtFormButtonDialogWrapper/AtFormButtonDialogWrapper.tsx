@@ -7,6 +7,7 @@ import useAtForm from '../../../../hooks/useAtForm/useAtForm'
 import { getInitialValue } from '../../UiBuilder/ControlledUiBuilder/ControlledUiBuilder'
 import AtFormButtonDialogStyledButton from './AtFormButtonDialogStyledButton/AtFormButtonDialogStyledButton'
 import useAtFormConfig from '../../../../hooks/useAtFormConfig/useAtFormConfig'
+import { resolveAtFormFieldLabel } from '../../FormUtils/resolveAtFormFieldLabel'
 
 const AtFormButtonDialogWrapper = ({ children, childProps, config }: AtFormButtonDialogWrapperProps) => {
     const { t } = useAtFormConfig()
@@ -17,7 +18,7 @@ const AtFormButtonDialogWrapper = ({ children, childProps, config }: AtFormButto
 
     const mChildRef = useRef<{ reset: (props?: AtFormChildResetInterface) => void }>(null)
 
-    const { size = 12, label = "Open" } = childProps.tProps
+    const { size = 12, label = "Open", id, disableLabelLocalization } = childProps.tProps
 
     const internalReset = ({ suppressFormOnChange = false }: AtFormChildResetInterface = {} as AtFormChildResetInterface) => {
         const newValue = getInitialValue(childProps.typeInfo!, childProps.tProps?.defaultValue)
@@ -89,7 +90,7 @@ const AtFormButtonDialogWrapper = ({ children, childProps, config }: AtFormButto
     return (
         <Grid size={size}>
             <AtFormButtonDialogStyledButton onClick={onInternalClick} {...config?.buttonProps}>
-                {t(label)}
+                {resolveAtFormFieldLabel({ id, label, disableLabelLocalization, t })}
             </AtFormButtonDialogStyledButton>
             {dialog}
         </Grid>

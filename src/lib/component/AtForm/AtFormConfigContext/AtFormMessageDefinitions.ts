@@ -2,10 +2,10 @@ import {
     createMessageDefinitionsFromDefaults,
     type AtMessageDefinition,
 } from '../../../localization';
-import LocalText from './LocalText';
+import AtFormDefaultMessages from './AtFormDefaultMessages';
 
 export const AtFormMessageDefinitions: AtMessageDefinition[] = [
-    ...createMessageDefinitionsFromDefaults(LocalText),
+    ...createMessageDefinitionsFromDefaults(AtFormDefaultMessages),
     {
         key: 'atform.upload.fileCount',
         defaultMessage: '{count, plural, =0 {No files} one {# file} other {# files}}',
